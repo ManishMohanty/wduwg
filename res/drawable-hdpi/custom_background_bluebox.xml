@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- background color of the entire rectangle
+    <solid android:color="@android:color/transparent" />  -->
+    <solid android:color="@android:color/white" />
+
+    <!-- color of borders -->
+    <stroke
+        android:width=".5dp"
+        android:color="#2C74B8" />			<!-- dark blue -->
+
+   
+
+</shape>

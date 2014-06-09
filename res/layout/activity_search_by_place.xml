@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SearchByPlaceActivity"
+    android:id="@+id/search_place_LL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+     >
+
+    <!--
+         <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="100dp" 
+                  android:layout_marginTop="30dp"
+                  android:gravity="center">
+    -->
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/wduwg_logo2223" />
+    <!-- </LinearLayout> -->
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:background="#FFFFFF"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/place_name"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/roundededittext"
+            android:hint="Business name"
+            android:lines="1"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textColor="#016AB2"
+            android:textSize="16dp" />
+        <EditText
+            android:id="@+id/place_city"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/roundededittext"
+            android:hint="City"
+            android:lines="1"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textColor="#016AB2"
+            android:textSize="16dp" />
+        
+        <EditText
+            android:id="@+id/place_state"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/roundededittext"
+            android:hint="State"
+            android:lines="1"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textColor="#016AB2"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal"
+        android:paddingRight="45dp" >
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/search1"
+            android:clickable="true"
+            android:onClick="searchByPlace"
+            android:text="" />
+    </RelativeLayout>
+
+</LinearLayout>

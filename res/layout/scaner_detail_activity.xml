@@ -1,0 +1,444 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.wduwg.ScanerDetailActivity"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4F5F5F"
+    android:orientation="vertical"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:id="@+id/detailLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical"
+         >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height=".5dp"
+            android:layout_marginTop="20dp"
+            android:background="#2C74b8" >
+        </LinearLayout>
+
+     <!--     <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Name:  "
+                android:textColor="#2c74B8"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/fullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/nameLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:text="jsgdg"
+                android:textColor="#2C74b8"
+                android:textSize="16sp" />
+        </RelativeLayout> -->
+
+       <!--  <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/addressLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Address:  "
+                android:textColor="#2c74B8"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/addressLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:textSize="16sp" />
+        </RelativeLayout>  -->
+
+     <!--    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/licenceLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Licence No:  "
+                android:textColor="#2c74B8"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/licence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/licenceLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:textSize="16sp" />
+        </RelativeLayout> --> 
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <RelativeLayout
+                android:id="@+id/ageStatuslayout"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:weightSum="1" >
+
+                <LinearLayout
+                    android:id="@+id/age_circle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/green_circle"
+                    android:gravity="right"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/age_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/age_circle"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="#2C74b8"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:layout_alignLeft="@id/ageStatuslayout"
+                android:layout_below="@id/ageStatuslayout"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:weightSum="1" >
+
+                <LinearLayout
+                    android:id="@+id/expiry_circle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/green_circle"
+                    android:gravity="right"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/expiry_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/expiry_circle"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="#2C74b8"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/ageLabel"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Age:"
+                android:textColor="#2c74B8"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/ageLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:paddingLeft="15dp"
+                android:textSize="22sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/genderLabel"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Gender:"
+                android:textColor="#2c74B8"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/genderLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:paddingLeft="15dp"
+                android:textSize="22sp" />
+        </RelativeLayout>
+
+       <!--  <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/DOBLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="DOB:  "
+                android:textColor="#2c74B8"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/DOBLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:textSize="16sp" />
+        </RelativeLayout>  -->
+
+       <!--  <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/issueLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Issued On:  "
+                android:textColor="#2c74B8"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/issue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/issueLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:textSize="16sp" />
+        </RelativeLayout>  -->
+
+      <!--  <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/expiryLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Expires:  "
+                android:textColor="#2c74B8"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/expiry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/expiryLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:textSize="16sp" />
+        </RelativeLayout>  -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="75dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/custom_background_bluebox"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:weightSum="1" >
+
+            <TextView
+                android:id="@+id/zipLabel"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="Zip:"
+                android:textColor="#2c74B8"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/zip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/zipLabel"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#2C74b8"
+                android:paddingLeft="15dp"
+                android:textSize="22sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height=".5dp"
+            android:background="#2C74b8" >
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/done"
+            style="@android:style/Widget.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/gradient"
+            android:onClick="done"
+            android:text="Done"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnScan"
+            style="@android:style/Widget.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/gradient"
+            android:onClick="btnScan_click"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Scan Again"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</LinearLayout>

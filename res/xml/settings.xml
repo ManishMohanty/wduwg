@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    
+    <PreferenceCategory android:title="@string/notification" 
+                       android:layout="@layout/pref_category"
+                       >
+        <com.wduwg.preference.CustomSwitchPreference android:title="@string/message_notification"
+                          android:defaultValue="true"
+                          android:key="prefMessageSwitch"
+                          />
+        <com.wduwg.preference.CustomListPreference android:title="@string/notification_frequency"
+                        android:summary="click here to select frequency"
+                        android:entries="@array/notificationFrequency"
+                        android:entryValues="@array/notificationFrequencyValues"
+                        android:key="prefNotificationFrequency"/>
+        
+        <com.wduwg.preference.CustomEditTextPreference 
+                android:title="@string/phone_number"
+                android:summary="click to enter phone number"
+                android:key="prefPhone"
+                android:inputType="number"/>
+    </PreferenceCategory>
+ 
+    
+     
+   <PreferenceCategory  android:title="@string/facebook"
+                        android:layout="@layout/pref_category" >
+        <com.wduwg.preference.CustomSwitchPreference
+        android:defaultValue="true"
+        android:key="facebookSwitch"
+        android:title="@string/autoupdatefacebook" />
+        <com.wduwg.preference.CustomListPreference android:title="@string/update_frequency"
+                        android:key="prefFb_frequency"
+                        android:summary="click to select update interval"
+                        android:entries="@array/updateFrequency"
+                        android:entryValues="@array/updateFrequencyValues"/>
+    </PreferenceCategory>
+    
+   <PreferenceCategory android:title="@string/scanner"
+                        android:layout="@layout/pref_category" >
+                <com.wduwg.preference.CustomEditTextPreference android:key="prefMinage"
+                                                       android:title="@string/minage"
+                                                       android:summary="enter Age"
+                                                       android:inputType="number"/>
+                
+    </PreferenceCategory>
+</PreferenceScreen>

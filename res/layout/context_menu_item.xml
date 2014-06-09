@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/imageView_menu"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@null"
+        android:scaleType="fitXY" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/miscellaneousRL"
+        android:layout_toRightOf="@+id/imageView_menu"
+        android:onClick="onMenuItemSelected" >
+
+       <TextView
+            android:id="@+id/textView_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text=""
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView_menu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView_menu"
+            android:text=""
+            android:textSize="18sp"
+            android:visibility="gone" /> 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/miscellaneousRL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp" >
+
+        <ImageButton
+            android:id="@+id/logout_IB"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:onClick="onLogout"
+            android:scaleType="fitXY"
+            android:src="@drawable/logout"
+            android:visibility="gone" />
+
+        <Switch 
+            android:id="@+id/switchB"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            />
+    </RelativeLayout> 
+
+</RelativeLayout>
