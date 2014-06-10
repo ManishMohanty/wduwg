@@ -219,77 +219,77 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		setContentView(R.layout.activity_count);
 
 		// Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
-		findThings();
-		initializeThings();
-		registerForContextMenu(maleLayout);
-		registerForContextMenu(femaleLayout);
-
-		// schedule task
-		timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-		for (int i = 0; i < 5; i++)
-			scheduledTask.run();
-		SchedulerCount.event = globalVariable.getSelectedEvent();
-
-		ab.setDisplayShowCustomEnabled(true);
-		ab.setCustomView(customActionBarView);
-
-		child = inflater.inflate(R.layout.listview_context_menu, null);
-		listView = (ListView) child.findViewById(R.id.listView_context_menu);
-		headerTV = (TextView) child.findViewById(R.id.header_TV);
-		headerTV.setTypeface(typeface);
-        headerTV.setText(globalVariable.getSelectedBusiness().getName()+" - "+globalVariable.getSelectedFBPage().getName());
-		contextMenuItems = new ArrayList<ContextMenuItem>();
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.facebook), "Facebook"));
-
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.scanner2), "Scanner"));
-
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.flash2), "Flashlight"));
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.settings), "Settings"));
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.report), "Reports"));
-
-		boolean isLogoutVisisble = false;
-		if (globalVariable.getFb_access_token() != null) {
-			isLogoutVisisble = true;
-			System.out.println(">>>>>>> true");
-		}
-		isFlashCompatible = this.getPackageManager().hasSystemFeature(
-				PackageManager.FEATURE_CAMERA_FLASH);
-
-		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
-				isLogoutVisisble, false);// isFlashCompatible
-
-		listView.setAdapter(adapter);
-
-		customDialog = new Dialog(CountActivity.this);
-		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		customDialog.setContentView(child);
-		customDialog.getWindow().setBackgroundDrawable(
-				new ColorDrawable(Color.WHITE));
-		customDialog.setTitle("Options");
-
-		final GestureDetector gdt1 = new GestureDetector(new GestureListener1());
-		femaleLayout.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(final View view, final MotionEvent event) {
-				gdt1.onTouchEvent(event);
-				return true;
-			}
-		});
-
-		final GestureDetector gdt2 = new GestureDetector(new GestureListener2());
-		maleLayout.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(final View view, final MotionEvent event) {
-				gdt2.onTouchEvent(event);
-				return true;
-			}
-		});
+//		findThings();
+//		initializeThings();
+//		registerForContextMenu(maleLayout);
+//		registerForContextMenu(femaleLayout);
+//
+//		// schedule task
+//		timer = new Timer();
+//		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+//		for (int i = 0; i < 5; i++)
+//			scheduledTask.run();
+//		SchedulerCount.event = globalVariable.getSelectedEvent();
+//
+//		ab.setDisplayShowCustomEnabled(true);
+//		ab.setCustomView(customActionBarView);
+//
+//		child = inflater.inflate(R.layout.listview_context_menu, null);
+//		listView = (ListView) child.findViewById(R.id.listView_context_menu);
+//		headerTV = (TextView) child.findViewById(R.id.header_TV);
+//		headerTV.setTypeface(typeface);
+//        headerTV.setText(globalVariable.getSelectedBusiness().getName()+" - "+globalVariable.getSelectedFBPage().getName());
+//		contextMenuItems = new ArrayList<ContextMenuItem>();
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.facebook), "Facebook"));
+//
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.scanner2), "Scanner"));
+//
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.flash2), "Flashlight"));
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.settings), "Settings"));
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.report), "Reports"));
+//
+//		boolean isLogoutVisisble = false;
+//		if (globalVariable.getFb_access_token() != null) {
+//			isLogoutVisisble = true;
+//			System.out.println(">>>>>>> true");
+//		}
+//		isFlashCompatible = this.getPackageManager().hasSystemFeature(
+//				PackageManager.FEATURE_CAMERA_FLASH);
+//
+//		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
+//				isLogoutVisisble, false);// isFlashCompatible
+//
+//		listView.setAdapter(adapter);
+//
+//		customDialog = new Dialog(CountActivity.this);
+//		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		customDialog.setContentView(child);
+//		customDialog.getWindow().setBackgroundDrawable(
+//				new ColorDrawable(Color.WHITE));
+//		customDialog.setTitle("Options");
+//
+//		final GestureDetector gdt1 = new GestureDetector(new GestureListener1());
+//		femaleLayout.setOnTouchListener(new OnTouchListener() {
+//			@Override
+//			public boolean onTouch(final View view, final MotionEvent event) {
+//				gdt1.onTouchEvent(event);
+//				return true;
+//			}
+//		});
+//
+//		final GestureDetector gdt2 = new GestureDetector(new GestureListener2());
+//		maleLayout.setOnTouchListener(new OnTouchListener() {
+//			@Override
+//			public boolean onTouch(final View view, final MotionEvent event) {
+//				gdt2.onTouchEvent(event);
+//				return true;
+//			}
+//		});
 
 	}
 
