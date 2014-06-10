@@ -167,7 +167,7 @@ public class SchedulerFBPosts extends TimerTask {
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
 					
-					bmp.eraseColor(Color.parseColor("#395277"));// just adding black background
+					bmp.eraseColor(Color.parseColor("#66AfD9"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
 				 
