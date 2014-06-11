@@ -86,10 +86,10 @@ public class SchedulerFBPosts extends TimerTask {
 	}
 
 	public void run() {
-		Log.d("%%%%%%%%%%%%%%%%%", "Scheduler");
+		Log.d(">>>>>>>", "Scheduler");
 		if(preferences.contains("fb_access_token") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
 		{
-			System.out.println(">>>>>>> interval :"+preferences.getString("prefFb_frequency", null));
+			System.out.println(">>>>>>> interval in scheduler :"+preferences.getString("prefFb_frequency", null));
 		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
 		asyncExample.execute(new String[] { "Helllo Worlds" });
 		}
@@ -167,7 +167,7 @@ public class SchedulerFBPosts extends TimerTask {
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
 					
-					bmp.eraseColor(Color.parseColor("#395277"));// just adding black background
+					bmp.eraseColor(Color.parseColor("#66AfD9"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
 				 

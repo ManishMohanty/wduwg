@@ -37,16 +37,15 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
 	private final String[] mAutoSummaryFields = { "prefMinage", "facebookSwitch", "prefFb_frequency","prefMessageSwitch","prefNotificationFrequency","prefPhone","businessSwitch" }; // change here
     private final int mEntryCount = mAutoSummaryFields.length;
     private Preference[] mPreferenceEntries;
-    SchedulerFBPosts scheduleTask;
+    static SchedulerFBPosts scheduleTask;
 	
     private SharedPreferences preferences ;
     
-    private Timer timer=null;
+    static Timer timer;
     
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- 
         setContentView(R.layout.delinkbtn);
         int titleId = getResources().getIdentifier("action_bar_title", "id",
 				"android");
@@ -67,8 +66,39 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
     @Override
     protected void onResume() {
         super.onResume();
+        
+        System.out.println(">>>>>>> onresume mEntryCount:"+mEntryCount);
         for (int i = 0; i < mEntryCount; i++) {
-            updateSummary(mAutoSummaryFields[i]); // initialization
+        	if(mPreferenceEntries[i] instanceof EditTextPreference)
+        	{
+        		EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
+                if(mAutoSummaryFields[i].equals("prefPhone"))
+                {
+                	if(currentPreference.getText() != null)
+                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+"   Click to change");	
+                	else
+                		mPreferenceEntries[i].setSummary("click to enter phone number");
+                }
+                else
+                {
+                	if(currentPreference.getText() != null)
+                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
+                	else
+                		mPreferenceEntries[i].setSummary("click to enter Age");	
+                }
+        	}else if (mPreferenceEntries[i] instanceof ListPreference) {
+                  ListPreference currentPreference = (ListPreference) mPreferenceEntries[i];
+                if(currentPreference.getEntry()!=null)
+                {
+                mPreferenceEntries[i].setSummary(currentPreference.getEntry()+"   Click to change");
+                System.out.println(">>>>>>> drop down value:"+currentPreference.getEntry());
+                }
+                else
+                {
+                	mPreferenceEntries[i].setSummary("Click to select value");
+                	System.out.println(">>>>>>> else of drop down");
+                }
+            }
         }
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this); // register change listener
     }
@@ -86,7 +116,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
         for (int i = 0; i < mEntryCount; i++) {
             if (key.equals(mAutoSummaryFields[i])) {
                 if (mPreferenceEntries[i] instanceof EditTextPreference) {
-                    final EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
+                     EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
                     if(key.equals("prefPhone"))
                     {
                     	if(currentPreference.getText() != null)
@@ -112,15 +142,16 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     if(key.equals("prefFb_frequency") && preferences.getBoolean("facebookSwitch", false) == true && currentPreference.getEntry() != null)
                     {
                     	System.out.println(">>>>>>> AppSettings");
-                    	if(timer != null)
+                    	if(scheduleTask != null)
                     	{
+                    		System.out.println(">>>>>>> timer stop:"+timer.purge());
                     		timer.cancel();
-                   		 scheduleTask = null;
-                   		 timer = null;
+                    		scheduleTask.cancel();
                     	}
                     	timer = new Timer();
-                    	int minutes = Integer.parseInt(preferences.getString("prefFb_frequency", ""));
                     	scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
+                    	int minutes = Integer.parseInt(preferences.getString("prefFb_frequency", ""));
+                    	System.out.println(">>>>>>> interval: in settings:"+minutes);
                     	timer.scheduleAtFixedRate(scheduleTask, 1000, minutes*60*1000);
                     }
                 }
@@ -134,17 +165,16 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
 //                	mPreferenceEntries[i].setSummary(status?"On":"Off");
                 	if(key.equals("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
                     {
-                		if(timer != null)
+                		if(scheduleTask != null)
                 		{
+                			scheduleTask.cancel();
+                		 System.out.println(">>>>>>> timer stop:"+timer.purge());
                 		 timer.cancel();
-                		 scheduleTask = null;
-                		 timer = null;
-                		 
                 		}
-                		timer = new Timer();
                     	int minutes = Integer.parseInt(preferences.getString("prefFb_frequency", "0"));
-                    	scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
-                    	timer.scheduleAtFixedRate(scheduleTask, 1000, minutes*60*1000);
+                    		timer = new Timer();
+                    		scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
+                    		timer.scheduleAtFixedRate(scheduleTask, 1000, minutes*60*1000);
                     }
                 }
                 break;

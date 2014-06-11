@@ -381,7 +381,7 @@ public class LoginFacebookActivity extends Activity {
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
 					
-					bmp.eraseColor(Color.parseColor("#395277"));// just adding black background
+					bmp.eraseColor(Color.parseColor("#3c8383"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
 				 

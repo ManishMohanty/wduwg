@@ -41,7 +41,7 @@ public class SchedulerCount extends TimerTask {
 
 	public void run() {
 		globalVariable = (GlobalVariable) context.getApplicationContext();
-        sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
+        sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
 		if (!(globalVariable.intervalWomenIn == 0
 				&& globalVariable.intervalWomenOut == 0
 				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0)) {
@@ -59,6 +59,7 @@ public class SchedulerCount extends TimerTask {
 			String url = ServerURLs.URL + ServerURLs.COUNTER;
 			System.out.println("url is   : " + url);
 			JSONObject jsonObject2 = null;
+			System.out.println(">>>>>>> time:"+sdf.format(new Date()));
 			try {
 				JSONObject jsonObject;
 				jsonObject = new JSONObject()
