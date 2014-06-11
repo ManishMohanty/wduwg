@@ -131,7 +131,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	private void initializeThings() {
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-	
+
 		typeface = Typeface
 				.createFromAsset(getAssets(), "Fonts/OpenSans-Bold.ttf");
 		inflater = (LayoutInflater) this
