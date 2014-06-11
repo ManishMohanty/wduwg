@@ -165,14 +165,14 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		Event tempEvent = globalVariable.getSelectedEvent();
 		System.out.println(">>>>>>> " + tempEvent.getName());
 		totalHeaderTV.setTypeface(typeface);
-		System.out.println(">>>>>>> istempEventNull:" + (tempEvent == null));
+		System.out.println(">>>>>>> startDate:" + tempEvent.getStartDate());
 		if (tempEvent.getName().equals("defaultEvent"))
 			totalHeaderTV.setText("No event information.\nCount started at: "
 					+ globalVariable.timeFormat(tempEvent
 							.getStartDate()
 							.replace('T', ',')
 							.substring(0,
-									(tempEvent.getStartDate().length() - 13))));
+									(tempEvent.getStartDate().length() - 8))));
 		else {
 			// if we dont use dateFormat it will show time in IST
 
@@ -183,13 +183,13 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 							.getStartDate()
 							.replace('T', ',')
 							.substring(0,
-									(tempEvent.getStartDate().length() - 13)))
+									(tempEvent.getStartDate().length() - 8)))
 					+ "\nEvent ends at:  "
 					+ globalVariable.timeFormat(tempEvent
 							.getEndDate()
 							.replace('T', ',')
 							.substring(0,
-									(tempEvent.getEndDate().length() - 13))));
+									(tempEvent.getEndDate().length() - 8))));
 		}
 		updateCounts();
 	}
