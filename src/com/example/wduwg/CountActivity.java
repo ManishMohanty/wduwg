@@ -166,20 +166,30 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		System.out.println(">>>>>>> " + tempEvent.getName());
 		totalHeaderTV.setTypeface(typeface);
 		System.out.println(">>>>>>> istempEventNull:" + (tempEvent == null));
-		System.out.println(">>>>>>> time:"+tempEvent.getStartDate());
-		System.out.println(">>>>>>> time after change:"+tempEvent.getStartDate().substring(0, tempEvent.getStartDate().length()-8).replace('T', ','));
 		if (tempEvent.getName().equals("defaultEvent"))
 			totalHeaderTV.setText("No event information.\nCount started at: "
-					+ globalVariable.timeFormat(tempEvent.getStartDate().substring(0, tempEvent.getStartDate().length()-8).replace('T', ',')));
+					+ globalVariable.timeFormat(tempEvent
+							.getStartDate()
+							.replace('T', ',')
+							.substring(0,
+									(tempEvent.getStartDate().length() - 13))));
 		else {
 			// if we dont use dateFormat it will show time in IST
 
 			totalHeaderTV.setText("You are counting for "
 					+ tempEvent.getName()
 					+ "\nEvent started at: "
-					+ globalVariable.timeFormat(tempEvent.getStartDate().substring(0, tempEvent.getStartDate().length()-8).replace('T', ','))
+					+ globalVariable.timeFormat(tempEvent
+							.getStartDate()
+							.replace('T', ',')
+							.substring(0,
+									(tempEvent.getStartDate().length() - 13)))
 					+ "\nEvent ends at:  "
-					+ globalVariable.timeFormat(tempEvent.getEndDate().substring(0, tempEvent.getEndDate().length()-8).replace('T', ',')));
+					+ globalVariable.timeFormat(tempEvent
+							.getEndDate()
+							.replace('T', ',')
+							.substring(0,
+									(tempEvent.getEndDate().length() - 13))));
 		}
 		updateCounts();
 	}
@@ -208,7 +218,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_count);
 
-		// Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+		 Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
 		findThings();
 		initializeThings();
 		registerForContextMenu(maleLayout);
@@ -337,7 +347,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	private void menIn() {
 		mPlayerIn.start();
-		System.out.println(">>>>>>> menin");
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
 		globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn()+1);
 		inMaleTV.setText("" + globalVariable.getMenIn());
@@ -364,7 +373,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	}
 
 	private void menOut() {
-		System.out.println(">>>>>>> menout");
 		if ((globalVariable.getMenIn() - globalVariable.getMenOut()) > 0) {
 			mPlayerOut.start();
 			globalVariable.setMenOut(globalVariable.getMenOut() + 1);
@@ -382,7 +390,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	}
 
 	private void womenIn() {
-		System.out.println(">>>>>>> womenin");
 		mPlayerIn.start();
 		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
 		globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn()+1);
@@ -410,7 +417,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	}
 
 	private void womenOut() {
-		System.out.println(">>>>>>> womenout");
 		if ((globalVariable.getWomenIn() - globalVariable.getWomenOut()) > 0) {
 			mPlayerOut.start();
 			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
