@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
@@ -26,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
@@ -36,6 +38,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -172,7 +175,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 							.getStartDate()
 							.replace('T', ',')
 							.substring(0,
-									(tempEvent.getStartDate().length() - 13))));
+									(tempEvent.getStartDate().length() - 8))));
 		else {
 			// if we dont use dateFormat it will show time in IST
 
@@ -183,13 +186,13 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 							.getStartDate()
 							.replace('T', ',')
 							.substring(0,
-									(tempEvent.getStartDate().length() - 13)))
+									(tempEvent.getStartDate().length() - 8)))
 					+ "\nEvent ends at:  "
 					+ globalVariable.timeFormat(tempEvent
 							.getEndDate()
 							.replace('T', ',')
 							.substring(0,
-									(tempEvent.getEndDate().length() - 13))));
+									(tempEvent.getEndDate().length() - 8))));
 		}
 		updateCounts();
 	}
@@ -216,80 +219,104 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_count);
+		globalVariable = (GlobalVariable) getApplicationContext();
+		sharedPreference = PreferenceManager.getDefaultSharedPreferences(this
+				.getApplicationContext());
+		editor = sharedPreference.edit();
+		mPlayerIn = MediaPlayer.create(this, R.raw.in_sound);
+		mPlayerOut = MediaPlayer.create(this, R.raw.out_sound);
+		typeface = Typeface
+				.createFromAsset(getAssets(), "Fonts/OpenSans-Bold.ttf");
+		inMaleTV = (TextView)findViewById(R.id.menInTV);
+		outMaleTV = (TextView)findViewById(R.id.menOutTV);
+		inFemaleTV = (TextView)findViewById(R.id.womenInTV);
+		outFemaleTV = (TextView)findViewById(R.id.womenOutTV);
+		inMaleTV.setTypeface(typeface);
+		outMaleTV.setTypeface(typeface);
+		inFemaleTV.setTypeface(typeface);
+		outFemaleTV.setTypeface(typeface);
+		inMaleTV.setText("" + globalVariable.getMenIn());
+		outMaleTV.setText(""+globalVariable.getMenOut());
+		inFemaleTV.setText(""+globalVariable.getWomenIn());
+		outFemaleTV.setText(""+globalVariable.getWomenOut());
+		inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		RelativeLayout menLayout = (RelativeLayout) findViewById(R.id.menLayout);
+		RelativeLayout womenLayout = (RelativeLayout) findViewById(R.id.womenLayout);
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		int width = size.x;
+		int height = size.y;
+		System.out.println(">>>>>>> Width:"+width);
+		System.out.println(">>>>>>> Height:"+height);
+		
+		scheduledTask = new SchedulerCount(this);
+		timer = new Timer();
+		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+		
+		createDialog = new CreateDialog(this);
+		
+		registerForContextMenu(menLayout);
+		registerForContextMenu(womenLayout);
+		child = inflater.inflate(R.layout.listview_context_menu, null);
+		listView = (ListView) child.findViewById(R.id.listView_context_menu);
+		headerTV = (TextView) child.findViewById(R.id.header_TV);
+		headerTV.setTypeface(typeface);
+        headerTV.setText(globalVariable.getSelectedBusiness().getName()+" - "+globalVariable.getSelectedFBPage().getName());
+		contextMenuItems = new ArrayList<ContextMenuItem>();
+		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+				R.drawable.facebook), "Facebook"));
 
-		// Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
-//		findThings();
-//		initializeThings();
-//		registerForContextMenu(maleLayout);
-//		registerForContextMenu(femaleLayout);
-//
-//		// schedule task
-//		timer = new Timer();
-//		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-//		for (int i = 0; i < 5; i++)
-//			scheduledTask.run();
-//		SchedulerCount.event = globalVariable.getSelectedEvent();
-//
-//		ab.setDisplayShowCustomEnabled(true);
-//		ab.setCustomView(customActionBarView);
-//
-//		child = inflater.inflate(R.layout.listview_context_menu, null);
-//		listView = (ListView) child.findViewById(R.id.listView_context_menu);
-//		headerTV = (TextView) child.findViewById(R.id.header_TV);
-//		headerTV.setTypeface(typeface);
-//        headerTV.setText(globalVariable.getSelectedBusiness().getName()+" - "+globalVariable.getSelectedFBPage().getName());
-//		contextMenuItems = new ArrayList<ContextMenuItem>();
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.facebook), "Facebook"));
-//
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.scanner2), "Scanner"));
-//
+		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+				R.drawable.scanner2), "Scanner"));
+
 //		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 //				R.drawable.flash2), "Flashlight"));
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.settings), "Settings"));
+		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+				R.drawable.settings), "Settings"));
 //		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 //				R.drawable.report), "Reports"));
-//
-//		boolean isLogoutVisisble = false;
-//		if (globalVariable.getFb_access_token() != null) {
-//			isLogoutVisisble = true;
-//			System.out.println(">>>>>>> true");
-//		}
+//     
+		boolean isLogoutVisisble = false;
+		if (globalVariable.getFb_access_token() != null) {
+			isLogoutVisisble = true;
+			System.out.println(">>>>>>> true");
+		}
 //		isFlashCompatible = this.getPackageManager().hasSystemFeature(
 //				PackageManager.FEATURE_CAMERA_FLASH);
 //
-//		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
-//				isLogoutVisisble, false);// isFlashCompatible
+		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
+				isLogoutVisisble, false);// isFlashCompatible
 //
-//		listView.setAdapter(adapter);
+		listView.setAdapter(adapter);
 //
-//		customDialog = new Dialog(CountActivity.this);
-//		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		customDialog.setContentView(child);
-//		customDialog.getWindow().setBackgroundDrawable(
-//				new ColorDrawable(Color.WHITE));
-//		customDialog.setTitle("Options");
+		customDialog = new Dialog(CountActivity.this);
+		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		customDialog.setContentView(child);
+		customDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(Color.WHITE));
+		customDialog.setTitle("Options");
+
+		final GestureDetector gdt1 = new GestureDetector(new GestureListener1());
+		womenLayout.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(final View view, final MotionEvent event) {
+				gdt1.onTouchEvent(event);
+				return true;
+			}
+		});
 //
-//		final GestureDetector gdt1 = new GestureDetector(new GestureListener1());
-//		femaleLayout.setOnTouchListener(new OnTouchListener() {
-//			@Override
-//			public boolean onTouch(final View view, final MotionEvent event) {
-//				gdt1.onTouchEvent(event);
-//				return true;
-//			}
-//		});
-//
-//		final GestureDetector gdt2 = new GestureDetector(new GestureListener2());
-//		maleLayout.setOnTouchListener(new OnTouchListener() {
-//			@Override
-//			public boolean onTouch(final View view, final MotionEvent event) {
-//				gdt2.onTouchEvent(event);
-//				return true;
-//			}
-//		});
+		final GestureDetector gdt2 = new GestureDetector(new GestureListener2());
+		menLayout.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(final View view, final MotionEvent event) {
+				gdt2.onTouchEvent(event);
+				return true;
+			}
+		});
 
 	}
 
@@ -299,11 +326,41 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				float velocityY) {
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				womenIn();
+//				womenIn();
+				System.out.println(">>>>>>> in side swipe");
+				Event tempEvent = (Event) globalVariable.getSelectedEvent();
+				if(!tempEvent.getName().equals("defaultEvent"))
+				{
+				alertDialogBuilder = createDialog
+						.createAlertDialog(
+								"Total : "+((globalVariable.getMenIn() - globalVariable
+										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+												.getWomenOut())),
+								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
+								+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
+								false);
+				}else
+				{
+					alertDialogBuilder = createDialog
+							.createAlertDialog(
+									"Total : "+((globalVariable.getMenIn() - globalVariable
+											.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+													.getWomenOut())),
+									"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
+									false);
+				}
+				alertDialogBuilder.setPositiveButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								alertDialog.dismiss();
+							}
+						});
+				alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
 				return false; // Right to left
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				womenOut();
+//				womenOut();
 				return false; // Left to right
 			}
 			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
@@ -323,11 +380,41 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				float velocityY) {
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				menIn();
+//				menIn();
+				System.out.println(">>>>>>> in side swipe");
+				Event tempEvent = (Event) globalVariable.getSelectedEvent();
+				if(!tempEvent.getName().equals("defaultEvent"))
+				{
+				alertDialogBuilder = createDialog
+						.createAlertDialog(
+								"Total : "+((globalVariable.getMenIn() - globalVariable
+										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+												.getWomenOut())),
+								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
+								+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
+								false);
+				}else
+				{
+					alertDialogBuilder = createDialog
+							.createAlertDialog(
+									"Total : "+((globalVariable.getMenIn() - globalVariable
+											.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+													.getWomenOut())),
+									"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
+									false);
+				}
+				alertDialogBuilder.setPositiveButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								alertDialog.dismiss();
+							}
+						});
+				alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
 				return false; // Right to left
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-				menOut();
+//				menOut();
 				return false; // Left to right
 			}
 			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
@@ -433,6 +520,65 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 									.getWomenOut())));
 		}
 	}
+	
+	// ******************************************
+	public void menIn_watch(View v) {
+		mPlayerIn.start();
+		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
+		globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn()+1);
+		inMaleTV.setText("" + globalVariable.getMenIn());
+		int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
+				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+		if (sharedPreference.contains("prefNotificationFrequency")) {
+			int message_frequency = Integer.parseInt(sharedPreference.getString(
+					"prefNotificationFrequency", ""));
+			if (total > 0
+					&& total % message_frequency == 0
+					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
+				System.out.println(">>>>>>> inside men in");
+				sendNotification();
+			}
+		}
+
+	}
+
+	public void menOut_watch(View v) {
+		if ((globalVariable.getMenIn() - globalVariable.getMenOut()) > 0) {
+			mPlayerOut.start();
+			globalVariable.setMenOut(globalVariable.getMenOut() + 1);
+			globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut()+1);
+			outMaleTV.setText("" + globalVariable.getMenOut());
+		}
+	}
+
+	public void womenIn_watch(View v) {
+		mPlayerIn.start();
+		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
+		globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn()+1);
+		inFemaleTV.setText("" + globalVariable.getWomenIn());
+		if (sharedPreference.contains("prefNotificationFrequency")) {
+			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
+					+ (globalVariable.getWomenIn() - globalVariable
+							.getWomenOut());
+			int message_frequency = Integer.parseInt(sharedPreference.getString(
+					"prefNotificationFrequency", ""));
+			if (total > 0
+					&& total % message_frequency == 0
+					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
+				System.out.println(">>>>>>> inside women in");
+				sendNotification();
+			}
+		}
+	}
+
+	public void womenOut_watch(View v) {
+		if ((globalVariable.getWomenIn() - globalVariable.getWomenOut()) > 0) {
+			mPlayerOut.start();
+			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
+			globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut()+1);
+			outFemaleTV.setText("" + globalVariable.getWomenOut());
+		}
+	}
 
 	boolean ignoreOnRestart = false;
 
@@ -459,8 +605,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		if (requestCode == SCANNER) {
 			if (resultCode == RESULT_OK) {
 				System.out.println(">>>>>>> scaner result ok");
-				updateCounts();
-				restartSaving();
+//				updateCounts();
+//				restartSaving();
 				ignoreOnRestart = true;
 			} else if (resultCode == RESULT_CANCELED) {
 				ignoreOnRestart = true;
@@ -641,35 +787,38 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			nextIntent = new Intent(CountActivity.this, ActivityCapture.class);
 			startActivityForResult(nextIntent, SCANNER);
 		} else if (position == 2) {
-			if (isFlashCompatible) {
-				// Switch dsa = (Switch) view.findViewById(R.id.switchB);
-
-				if (!isFlashOn) {
-					cam = Camera.open();
-					Parameters p = cam.getParameters();
-					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-					cam.setParameters(p);
-					cam.startPreview();
-				} else {
-					cam.stopPreview();
-					cam.release();
-				}
-				isFlashOn = !isFlashOn;
-				// dsa.setChecked(isFlashOn);
-			} else {
-				Toast.makeText(this, "Flash not available", Toast.LENGTH_SHORT)
-						.show();
-			}
-		}// if (position == 2)
-		else if (position == 3) {
 			nextIntent = new Intent(CountActivity.this,
 					AppSettingsActivity.class);
 			startActivityForResult(nextIntent, SETTING);
-		} else if (position == 4) {
-			nextIntent = new Intent(CountActivity.this,
-					ReportActualActvivity.class);
-			startActivityForResult(nextIntent, REPORT);
-		}
+//			if (isFlashCompatible) {
+//				// Switch dsa = (Switch) view.findViewById(R.id.switchB);
+//
+//				if (!isFlashOn) {
+//					cam = Camera.open();
+//					Parameters p = cam.getParameters();
+//					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+//					cam.setParameters(p);
+//					cam.startPreview();
+//				} else {
+//					cam.stopPreview();
+//					cam.release();
+//				}
+//				isFlashOn = !isFlashOn;
+//				// dsa.setChecked(isFlashOn);
+//			} else {
+//				Toast.makeText(this, "Flash not available", Toast.LENGTH_SHORT)
+//						.show();
+//			}
+		}// if (position == 2)
+//		else if (position == 3) {
+//			nextIntent = new Intent(CountActivity.this,
+//					AppSettingsActivity.class);
+//			startActivityForResult(nextIntent, SETTING);
+//		} else if (position == 4) {
+//			nextIntent = new Intent(CountActivity.this,
+//					ReportActualActvivity.class);
+//			startActivityForResult(nextIntent, REPORT);
+//		}
 	}
 
 	@Override

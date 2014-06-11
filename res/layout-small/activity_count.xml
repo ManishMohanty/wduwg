@@ -10,40 +10,52 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="6px"
+        android:layout_marginRight="6px"
+        android:layout_marginTop="1px" 
+        android:clickable="true"
         >
-<!--         android:layout_above="@+id/menLayout"  -->
+
+        <!-- android:layout_above="@+id/menLayout" -->
 
         <LinearLayout
             android:id="@+id/women_in"
-            android:layout_width="120px"
-            android:layout_height="65px"
+            android:layout_width="110px"
+            android:layout_height="110px"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/women_in" >
+            android:background="@drawable/women_in"
+             >
+<!--             android:clickable="true"
+            android:onClick="womenIn_watch" -->
 
-            <TextView
+            <TextView android:id="@+id/womenInTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50px"
-                android:layout_marginTop="35px"
-                android:text="20"
+                android:layout_marginLeft="70px"
+                android:layout_marginTop="70px"
+                android:text="0"
                 android:textColor="#ffffff"
-                android:textSize="80px" />
-
+                android:textSize="25px" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/women_out"
-            android:layout_width="120px"
-            android:layout_height="65px"
+            android:layout_width="110px"
+            android:layout_height="110px"
             android:layout_alignParentRight="true"
-            android:background="@drawable/women_out" >
-            <TextView  android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="20"
-                       android:textSize="80px"
-                       android:layout_marginLeft="25px"
-                       android:layout_marginTop="35px"
-                       android:textColor="#ffffff"/>
+            android:background="@drawable/women_out"
+             >
+<!--             android:clickable="true"
+            android:onClick="womenOut_watch" -->
+
+            <TextView android:id="@+id/womenOutTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                android:layout_marginTop="70px"
+                android:text="0"
+                android:textColor="#ffffff"
+                android:textSize="25px" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -51,36 +63,51 @@
         android:id="@+id/menLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/womenLayout" >
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="6px"
+        android:layout_marginRight="6px"
+        android:clickable="true"
+         >
+
+        <!-- android:layout_below="@+id/womenLayout" -->
 
         <LinearLayout
-            android:id="@+id/women_in"
-            android:layout_width="120px"
-            android:layout_height="65px"
+            android:id="@+id/men_in"
+            android:layout_width="110px"
+            android:layout_height="110px"
             android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:onClick="menIn_watch"
             android:background="@drawable/men_in" >
-            <TextView  android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginLeft="50px"
-                       android:layout_marginTop="35px"
-                       android:text="20"
-                       android:textSize="80px"
-                       android:textColor="#ffffff"/>
+            
+            <TextView android:id="@+id/menInTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70px"
+                android:layout_marginTop="70px"
+                android:text="0"
+                android:textColor="#ffffff"
+                android:textSize="25px" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/men_out"
-            android:layout_width="120px"
-            android:layout_height="65px"
+            android:layout_width="110px"
+            android:layout_height="110px"
             android:layout_alignParentRight="true"
-            android:background="@drawable/men_out" >
-            <TextView  android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginLeft="50px"
-                       android:layout_marginTop="35px"
-                       android:text="20"
-                       android:textSize="80px"
-                       android:textColor="#ffffff"/>
+            android:background="@drawable/men_out"
+            android:clickable="true"
+            android:onClick="menOut_watch"
+             >
+            <TextView
+                android:id="@+id/menOutTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                android:layout_marginTop="70px"
+                android:text="0"
+                android:textColor="#ffffff"
+                android:textSize="25px" />
         </LinearLayout>
     </RelativeLayout>
 

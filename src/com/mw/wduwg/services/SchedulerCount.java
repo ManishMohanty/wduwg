@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -25,6 +26,9 @@ import com.parse.ParseObject;
 
 public class SchedulerCount extends TimerTask {
 
+	Looper looper = Looper.getMainLooper();
+	private Handler mHandler = new Handler(looper);
+    
 	public static Event event;
 	Editor editor;
 	Context context;
@@ -32,24 +36,28 @@ public class SchedulerCount extends TimerTask {
 	JSONObject jsonFromServer;
 	GlobalVariable globalVariable;
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-     
+	
 
 	public SchedulerCount(Context context) {
 		super();
 		this.context = context;
-	}
-
-	public void run() {
 		globalVariable = (GlobalVariable) context.getApplicationContext();
-        sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
-		if (!(globalVariable.intervalWomenIn == 0
-				&& globalVariable.intervalWomenOut == 0
-				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0)) {
-				SaveCountAsync async = new SaveCountAsync();
-				async.execute(new String[] { "dfs" });
-		} else {
-			Log.d("== Count ==", "Everything is ZERO");
-		}
+	}
+	public void run() {
+		
+		mHandler.post(new Runnable() {
+            public void run() {
+            	sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
+        		if (!(globalVariable.intervalWomenIn == 0
+        				&& globalVariable.intervalWomenOut == 0
+        				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0)) {
+        				SaveCountAsync async = new SaveCountAsync();
+        				async.execute(new String[] { "dfs" });
+        		} else {
+        			Log.d("== Count ==", "Everything is ZERO");
+        		}
+            }
+        });
 	}
 
 	private class SaveCountAsync extends AsyncTask<String, Void, Void> {

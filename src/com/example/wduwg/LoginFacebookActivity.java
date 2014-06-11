@@ -98,7 +98,7 @@ import com.parse.entity.mime.content.ContentBody;
 import com.parse.entity.mime.content.StringBody;
 
 public class LoginFacebookActivity extends Activity {
-	
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -119,13 +119,13 @@ public class LoginFacebookActivity extends Activity {
 	boolean fromContext;
 	boolean isCustomer ;
 	GlobalVariable globalVariable;
-	
+
 	// Instance of Facebook Class
 	private Facebook facebook;
-	
+
 	private AsyncFacebookRunner mAsyncRunner;
 	String FILENAME = "AndroidSSO_data";
-	
+
 	String userID , user_access_token,page_access_token;
 	AlertDialog alertDialog;
 	SharedPreferences preferences;
@@ -139,7 +139,7 @@ public class LoginFacebookActivity extends Activity {
 
 	SchedulerFBPosts scheduledTask;
 	public static Timer timer;
-	
+
 	private void findThings() {
 		messageFbEt = (EditText) findViewById(R.id.message_fb_ET);
 
@@ -216,7 +216,7 @@ public class LoginFacebookActivity extends Activity {
 	}
 
 	public void loginToFacebook() {
-		
+
 
 		if (globalVariable.getFb_access_token() != null) {
 			System.out.println(">>>> access token is not null");
@@ -244,19 +244,19 @@ public class LoginFacebookActivity extends Activity {
 
 						@Override
 						public void onComplete(Bundle values) {
-							
-							
+
+
 							System.out.println(">>>>>>> Access expiry:"+facebook.getAccessExpires());
 							globalVariable.setFb_access_expire(facebook.getAccessExpires());
 							globalVariable.setFb_access_token(facebook.getAccessToken());
                              timer = new Timer();
-							
+
 							if(globalVariable.isfacebookOn() == true && globalVariable.facebookFrequency() > 0)
 							{
-								
+
 								int minutes = globalVariable.facebookFrequency();
 								Log.d(">>>>>>> facebook scheduler","freq"+minutes);
-							
+
 							scheduledTask = new SchedulerFBPosts(LoginFacebookActivity.this);
 							timer.scheduleAtFixedRate(scheduledTask, 1000, minutes * 60 * 1000);
 							}else
@@ -300,14 +300,14 @@ public class LoginFacebookActivity extends Activity {
 //						false);
 //		alertDialog = alertDialogBuilder.create();
 //		alertDialog.show();
-	  
+
 		// code for postin to page wall
 		createDialog = new CreateDialog(LoginFacebookActivity.this);
 		progressDialgog = createDialog.createProgressDialog("Posting", "Please wait for a while", true, null);
 		progressDialgog.show();
 		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
 		asyncExample.execute(new String[] { "Helllo Worls" });  
-		
+
 	}
 
 	private boolean validate() {
@@ -341,12 +341,12 @@ public class LoginFacebookActivity extends Activity {
 					+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
 		    }
 			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length()-1;
-			
+
 		postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
 				+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
 				+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
-		
+
 		System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************
 			try {
@@ -354,10 +354,10 @@ public class LoginFacebookActivity extends Activity {
 				 int lower = 0;
 				 int upper = 8;
 				 int r =Integer.valueOf((int) ((Math.random() * (upper - lower)) + lower)) ;
-				 
+
 				 Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), drawableArray[r]);
-				 
-				 
+
+
 				 final Rect bounds = new Rect();
 					TextPaint textPaint = new TextPaint() {
 					    {
@@ -380,20 +380,20 @@ public class LoginFacebookActivity extends Activity {
 					}
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
-					
+
 					bmp.eraseColor(Color.parseColor("#3c8383"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
-				 
-				 
-				 
+
+
+
 				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight(),  Bitmap.Config.ARGB_8888);
 				 Canvas canvasAppend = new Canvas(bmOverlay);
 				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
 				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
 				 OutputStream os = null; 
 				 byte[] data = null;
-				    	
+
 				      ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				      bmp.recycle();
 				      bmOverlay.compress(CompressFormat.JPEG, 100, baos); 
@@ -416,8 +416,8 @@ public class LoginFacebookActivity extends Activity {
 								}
 							});// session open closed
 							System.out.println(">>>>>>> new session open");
-						 
-						 
+
+
 					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
 					HttpPost postRequest = new HttpPost(url);
 					HttpParams http_parameters = new BasicHttpParams();
@@ -439,7 +439,7 @@ public class LoginFacebookActivity extends Activity {
 					}
 					 }catch(Exception e)
 					 {
-						 
+
 					 }
 				LoginFacebookActivity.this.setResult(RESULT_OK);
 				finish();
@@ -449,7 +449,7 @@ public class LoginFacebookActivity extends Activity {
 				LoginFacebookActivity.this.setResult(RESULT_OK);
 				finish();
 			}
-			
+
 			return returnBool;
 		}
 
@@ -460,7 +460,7 @@ public class LoginFacebookActivity extends Activity {
 				Toast.makeText(LoginFacebookActivity.this,
 						"Posted on your selected page.", Toast.LENGTH_SHORT).show();
 		}
-		
+
 		public String convertDate(String datestr)
 		{
 			String formatedDate="";
@@ -478,7 +478,7 @@ public class LoginFacebookActivity extends Activity {
 			}catch(Exception e)
 			{
 				e.printStackTrace();
-				
+
 			}
 			return formatedDate;
 		}
@@ -530,35 +530,35 @@ public class LoginFacebookActivity extends Activity {
                     	
                     	// ************ pages
                     	mAsyncRunner.request("me/accounts", new RequestListener() {
-							
+
 							@Override
 							public void onMalformedURLException(MalformedURLException e, Object state) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void onIOException(IOException e, Object state) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void onFileNotFoundException(FileNotFoundException e, Object state) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void onFacebookError(FacebookError e, Object state) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void onComplete(String response, Object state) {
 								// TODO Auto-generated method stub
-								
+
 								try{
 								JSONObject jsonForPage = new JSONObject(response);
 								JSONArray data = jsonForPage.getJSONArray("data");
@@ -589,7 +589,7 @@ public class LoginFacebookActivity extends Activity {
 
 						@Override
 						public void run() {
-							 
+
 							progressDialgog.dismiss();
 							if(isCustomer)
 							{
@@ -671,6 +671,6 @@ public class LoginFacebookActivity extends Activity {
 		finish();
 	}
 
-	
-	
+
+
 }

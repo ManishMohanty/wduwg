@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+   android:paddingTop="20px" >
+
+    <TextView
+        android:id="@+id/header_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20px"
+        android:text="Options"
+        android:textColor="#016AB2"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_marginTop="20px"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/header_TV"
+        android:background="#2C74B8" />
+
+    <ListView
+        android:id="@+id/listView_context_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:background="@drawable/custom_background_bluebox" />
+
+</RelativeLayout>
