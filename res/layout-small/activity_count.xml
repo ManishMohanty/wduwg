@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical" >
-
+    android:orientation="vertical"
+    android:id="@+id/parent">
     <RelativeLayout
         android:id="@+id/womenLayout"
         android:layout_width="fill_parent"
@@ -13,7 +13,6 @@
         android:layout_marginLeft="6px"
         android:layout_marginRight="6px"
         android:layout_marginTop="1px" 
-        android:clickable="true"
         >
 
         <!-- android:layout_above="@+id/menLayout" -->
@@ -24,9 +23,10 @@
             android:layout_height="110px"
             android:layout_alignParentLeft="true"
             android:background="@drawable/women_in"
+            android:clickable="true"
+            android:onClick="womenIn_watch"
              >
-<!--             android:clickable="true"
-            android:onClick="womenIn_watch" -->
+<!--               -->
 
             <TextView android:id="@+id/womenInTV"
                 android:layout_width="wrap_content"
@@ -44,9 +44,9 @@
             android:layout_height="110px"
             android:layout_alignParentRight="true"
             android:background="@drawable/women_out"
+            android:clickable="true"
+            android:onClick="womenOut_watch"
              >
-<!--             android:clickable="true"
-            android:onClick="womenOut_watch" -->
 
             <TextView android:id="@+id/womenOutTV"
                 android:layout_width="wrap_content"

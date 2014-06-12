@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -53,7 +54,7 @@ import com.mw.wduwg.services.SchedulerCount;
 
 public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
-	private static final int SWIPE_MIN_DISTANCE = 120;
+	private static final int SWIPE_MIN_DISTANCE = 20;
 	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 	private static final int FACEBOOK = 69;
 	private static final int SCANNER = 96;
@@ -233,6 +234,12 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		outMaleTV = (TextView)findViewById(R.id.menOutTV);
 		inFemaleTV = (TextView)findViewById(R.id.womenInTV);
 		outFemaleTV = (TextView)findViewById(R.id.womenOutTV);
+		
+		LinearLayout womenOut = (LinearLayout)findViewById(R.id.women_out);
+		LinearLayout womenIn = (LinearLayout)findViewById(R.id.women_in);
+		LinearLayout menOut = (LinearLayout)findViewById(R.id.men_out);
+		LinearLayout menIn = (LinearLayout)findViewById(R.id.men_in);
+		
 		inMaleTV.setTypeface(typeface);
 		outMaleTV.setTypeface(typeface);
 		inFemaleTV.setTypeface(typeface);
@@ -259,8 +266,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		
 		createDialog = new CreateDialog(this);
 		
-		registerForContextMenu(menLayout);
-		registerForContextMenu(womenLayout);
+//		registerForContextMenu(menLayout);
+//		registerForContextMenu(womenLayout);
 		child = inflater.inflate(R.layout.listview_context_menu, null);
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
 		headerTV = (TextView) child.findViewById(R.id.header_TV);
@@ -279,6 +286,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				R.drawable.settings), "Settings"));
 //		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 //				R.drawable.report), "Reports"));
+		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+				R.drawable.event), "Event Detail"));
 //     
 		boolean isLogoutVisisble = false;
 		if (globalVariable.getFb_access_token() != null) {
@@ -317,17 +326,62 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				return true;
 			}
 		});
+		
+		womenIn.setOnLongClickListener(new OnLongClickListener() {
+			
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				
+				customDialog.show();
+				return false;
+			}
+		});
+		womenOut.setOnLongClickListener(new OnLongClickListener() {
+			
+			   @Override
+			
+			   public boolean onLongClick(View v) {
+			
+			    // TODO Auto-generated method stub
+				   customDialog.show();
+					return false;
+			
+			   }
+			
+			  });
+		
+				menIn.setOnLongClickListener(new OnLongClickListener() {
+							
+							public boolean onLongClick(View v) {
+								// TODO Auto-generated method stub
+								
+								customDialog.show();
+								return false;
+							}
+						});
+				menOut.setOnLongClickListener(new OnLongClickListener() {
+					
+					public boolean onLongClick(View v) {
+						// TODO Auto-generated method stub
+						
+						customDialog.show();
+						return false;
+					}
+				});
 
 	}
+	
+	
 
 	private class GestureListener1 extends SimpleOnGestureListener {
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 				float velocityY) {
+			System.out.println(">>>>>>> inside swipe");
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 //				womenIn();
-				System.out.println(">>>>>>> in side swipe");
+				
 				Event tempEvent = (Event) globalVariable.getSelectedEvent();
 				if(!tempEvent.getName().equals("defaultEvent"))
 				{
@@ -355,20 +409,40 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 								alertDialog.dismiss();
 							}
 						});
+				System.out.println(">>>>>>> Right to left swipe");
+				
+				System.out.println(">>>>>>> e1.x:"+e1.getX());
+				System.out.println(">>>>>>> e2.x:"+e2.getX());
+				System.out.println(">>>>>>> e1.y:"+e2.getY());
+				System.out.println(">>>>>>> e2.y:"+e2.getY());
 				alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
 				return false; // Right to left
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 //				womenOut();
+				System.out.println(">>>>>>> left to right swipe");
+				System.out.println(">>>>>>> inside swipe");
+				System.out.println(">>>>>>> e1.x:"+e1.getX());
+				System.out.println(">>>>>>> e2.x:"+e2.getX());
+				System.out.println(">>>>>>> e1.y:"+e2.getY());
+				System.out.println(">>>>>>> e2.y:"+e2.getY());
 				return false; // Left to right
 			}
-			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
+			if (e2.getY() - e1.getY() > 50 && Math.abs(velocityY) > 80) {
+				System.out.println(">>>>>>> in side swipe");
 				System.out.println(">>>>>>> swipe down");
 				// openContextMenu(femaleLayout);
+				System.out.println(">>>>>>> inside swipe");
+				System.out.println(">>>>>>> e1.x:"+e1.getX());
+				System.out.println(">>>>>>> e2.x:"+e2.getX());
+				System.out.println(">>>>>>> e1.y:"+e1.getY());
+				System.out.println(">>>>>>> e2.y:"+e2.getY());
+				System.out.println(">>>>>>> dist:"+(e2.getY() - e1.getY()));
 				customDialog.show();
 				return false;
 			}
+			
 
 			return false;
 		}
@@ -382,6 +456,26 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 //				menIn();
 				System.out.println(">>>>>>> in side swipe");
+				
+				return false; // Right to left
+			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+//				menOut();
+				return false; // Left to right
+			}
+			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
+				System.out.println(">>>>>>> swipe down");
+				// openContextMenu(maleLayout);
+				customDialog.show();
+				return false;
+			}else if (e1.getY() - e2.getY() > 50 && Math.abs(velocityY) > 80) {
+				System.out.println(">>>>>>> in side swipe");
+				System.out.println(">>>>>>> swipe up");
+				System.out.println(">>>>>>> e1.x:"+e1.getX());
+				System.out.println(">>>>>>> e2.x:"+e2.getX());
+				System.out.println(">>>>>>> e1.y:"+e1.getY());
+				System.out.println(">>>>>>> e2.y:"+e2.getY());
+				// openContextMenu(femaleLayout);
 				Event tempEvent = (Event) globalVariable.getSelectedEvent();
 				if(!tempEvent.getName().equals("defaultEvent"))
 				{
@@ -403,7 +497,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 									"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
 									false);
 				}
-				alertDialogBuilder.setPositiveButton("Cancel",
+				alertDialogBuilder.setPositiveButton("Ok",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								alertDialog.dismiss();
@@ -411,16 +505,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 						});
 				alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
-				return false; // Right to left
-			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//				menOut();
-				return false; // Left to right
-			}
-			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
-				System.out.println(">>>>>>> swipe down");
-				// openContextMenu(maleLayout);
-				customDialog.show();
 				return false;
 			}
 			return false;
@@ -810,11 +894,38 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //						.show();
 //			}
 		}// if (position == 2)
-//		else if (position == 3) {
-//			nextIntent = new Intent(CountActivity.this,
-//					AppSettingsActivity.class);
-//			startActivityForResult(nextIntent, SETTING);
-//		} else if (position == 4) {
+		else if (position == 3) {
+			Event tempEvent = (Event) globalVariable.getSelectedEvent();
+			if(!tempEvent.getName().equals("defaultEvent"))
+			{
+			alertDialogBuilder = createDialog
+					.createAlertDialog(
+							"Total : "+((globalVariable.getMenIn() - globalVariable
+									.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+											.getWomenOut())),
+							"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
+							+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
+							false);
+			}else
+			{
+				alertDialogBuilder = createDialog
+						.createAlertDialog(
+								"Total : "+((globalVariable.getMenIn() - globalVariable
+										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+												.getWomenOut())),
+								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
+								false);
+			}
+			alertDialogBuilder.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							alertDialog.dismiss();
+						}
+					});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		} 
+//		else if (position == 4) {
 //			nextIntent = new Intent(CountActivity.this,
 //					ReportActualActvivity.class);
 //			startActivityForResult(nextIntent, REPORT);

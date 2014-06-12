@@ -34,8 +34,8 @@ public class ContextMenuAdapter extends BaseAdapter {
 		this.listContextMenuItems = listContextMenuItems;
 		this.isLogoutVisisble = isLogoutVisisble;
 		this.isFlashCompatible = isFlashCompatible;
-//		typeface = Typeface.createFromAsset(context.getAssets(),
-//				"Fonts/ufonts.com_segoe_ui_semibold.ttf");
+		// typeface = Typeface.createFromAsset(context.getAssets(),
+		// "Fonts/ufonts.com_segoe_ui_semibold.ttf");
 		typeface = Typeface.createFromAsset(context.getAssets(),
 				"Fonts/OpenSans-Light.ttf");
 
@@ -49,13 +49,14 @@ public class ContextMenuAdapter extends BaseAdapter {
 		protected Switch toggleButton;
 	}
 
-	public void swapData(List<ContextMenuItem> listContextMenuItems, boolean isLogoutVisisble) {
+	public void swapData(List<ContextMenuItem> listContextMenuItems,
+			boolean isLogoutVisisble) {
 		this.listContextMenuItems = listContextMenuItems;
-		
+
 		this.isLogoutVisisble = isLogoutVisisble;
 
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder;
@@ -85,16 +86,17 @@ public class ContextMenuAdapter extends BaseAdapter {
 		viewHolder.textView.setText(listContextMenuItems.get(position)
 				.getText());
 		viewHolder.textView.setTypeface(typeface);
-		if (position == 0 && isLogoutVisisble)
+		if (position == 0 && isLogoutVisisble) {
 			viewHolder.imageButton.setVisibility(View.VISIBLE);
+		} else {
+			viewHolder.imageButton.setVisibility(View.GONE);
+		}
 		if (position == 2) {
 			if (!isFlashCompatible)
 				viewHolder.textView2.setVisibility(View.VISIBLE);
 			else
 				viewHolder.toggleButton.setVisibility(View.VISIBLE);
-		}
-		else
-		{
+		} else {
 			viewHolder.textView2.setVisibility(View.GONE);
 			viewHolder.toggleButton.setVisibility(View.GONE);
 		}

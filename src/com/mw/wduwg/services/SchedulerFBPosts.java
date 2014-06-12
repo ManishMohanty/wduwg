@@ -118,19 +118,19 @@ public class SchedulerFBPosts extends TimerTask {
 			Event tempEvent = globalVariable.getSelectedEvent();
 			System.out.println(">>>>>>> gloabalVariable selected event:"+globalVariable.getSelectedEvent().getName());
 			if (!tempEvent.getName().equals("defaultEvent")) {
-				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName()
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
+				postMessage = postMessage + "\n  Event:\t"+ tempEvent.getName()
+						+ "\n  Start Time:\t"+ globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-8))) + "\n  End Time:\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-8)));
 			}else
 			{
 				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
 				postMessage = postMessage 
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
+						+ "\n  Start Time:\t"+ globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-8))) + "\n  End Time:\t" + "daily";
 			}
 			
 			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length() -1;
-			postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
-					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
-					+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
+			postMessage = postMessage		+ "\n  Number of Patrons:\t"
+					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men:\t"
+					+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\tWomen:\t"
 					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
 			
 			System.out.println(">>>>>>> Message"+postMessage);
@@ -151,7 +151,7 @@ public class SchedulerFBPosts extends TimerTask {
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(context.getAssets(),
 					    			"Fonts/OpenSans-Light.ttf"));
-					        setTextSize(35f);
+					        setTextSize(15f);
 					        setAntiAlias(true);
 					    }
 					};
@@ -167,7 +167,7 @@ public class SchedulerFBPosts extends TimerTask {
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
 					
-					bmp.eraseColor(Color.parseColor("#66AfD9"));// just adding black background
+					bmp.eraseColor(Color.parseColor("#3c8383"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
 				 

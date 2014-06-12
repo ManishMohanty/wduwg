@@ -331,20 +331,20 @@ public class LoginFacebookActivity extends Activity {
 			Event tempEvent = globalVariable.getSelectedEvent();
 			System.out.println(">>>>>>> while post inside login facebook global slected event"+tempEvent.getName());
 			System.out.println(tempEvent.getName());
-			postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
+			postMessage = postMessage + "\n  Event:\t"+ tempEvent.getName();
 			if (!tempEvent.getName().equals("defaultEvent")) {
 			postMessage = postMessage 
-					+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
+					+ "\n  Start Time:\t"+ globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-8))) + "\n  End Time:\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-8)));
 		    }else
 		    {
 			postMessage = postMessage 
-					+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
+					+ "\n  Start Time:\t"+ globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-8))) + "\n  End Time:\t" + "daily";
 		    }
 			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length()-1;
 
-		postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
-				+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
-				+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
+		postMessage = postMessage		+ "\n  Number of Patrons:\t"+
+				+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men:\t"
+				+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\tWomen:\t"
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
 
 		System.out.println(">>>>>>> Message"+postMessage);
@@ -365,7 +365,7 @@ public class LoginFacebookActivity extends Activity {
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(LoginFacebookActivity.this.getAssets(),
 					    			"Fonts/OpenSans-Light.ttf"));
-					        setTextSize(35f);
+					        setTextSize(15f);
 					        setAntiAlias(true);
 					    }
 					};
