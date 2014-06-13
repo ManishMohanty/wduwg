@@ -524,6 +524,7 @@ public class LoginFacebookActivity extends Activity {
                     	customer.setBusinesses(businessList);
                     	System.out.println("customer business"+customer.getBusinesses().size());
                     	List<Business> bnessList = customer.getBusinesses();
+                    	System.out.println(">>>>>>> Businesses :"+bnessList.size());
                     	isCustomer = true;
                     	globalVariable.setCustomer(customer);
                     	System.out.println("global customer's id:"+globalVariable.getCustomer().getId().get$oid());
@@ -591,16 +592,16 @@ public class LoginFacebookActivity extends Activity {
 						public void run() {
 							 
 							progressDialgog.dismiss();
-							if(isCustomer)
+							if(isCustomer )
 							{
 								Intent intent = new Intent(LoginFacebookActivity.this,MainActivity.class);
 								startActivity(intent);
 							}else
 							{
-							Toast.makeText(getApplicationContext(),
-									 "\nEmail: " + email + "Does not exist",
-									Toast.LENGTH_LONG).show();
-							LoginFacebookActivity.this.finish();
+								Toast.makeText(getApplicationContext(),
+										 "\nEmail: " + email + "Does not exist",
+										Toast.LENGTH_LONG).show();
+								LoginFacebookActivity.this.finish();
 							}
 						}
 

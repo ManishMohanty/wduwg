@@ -275,7 +275,7 @@ public class AddEventActivity extends Activity {
 	}
 
 	private void checkPreferences() {
-		if (globalVariable.getSelectedEvent() != null) {
+		if (globalVariable.getSelectedEvent() != null && !getIntent().hasExtra("from_event") ) {
 			System.out.println(">>>>>>> selected event"+globalVariable.getSelectedEvent().getName());
 			alertDialogBuilder = createDialog
 					.createAlertDialog(

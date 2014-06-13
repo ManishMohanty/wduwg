@@ -127,7 +127,7 @@ public class ReportActualActvivity extends FragmentActivity implements
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		this.setResult(RESULT_OK);
+//		this.setResult(RESULT_OK);
 		finish();
 	}
 }

@@ -309,7 +309,6 @@ public class IdentifyingBusinessActivity extends Activity {
 							nextIntent = new Intent(
 									IdentifyingBusinessActivity.this,
 									BusinessHomePageActivity.class);
-
 							nextIntent.putExtra("business_name",
 									selectedPlace.getName());
 							nextIntent.putExtra("business_id",
@@ -344,7 +343,6 @@ public class IdentifyingBusinessActivity extends Activity {
 										startActivity(intent);
 										overridePendingTransition(
 												R.anim.anim_out, R.anim.anim_in);
-
 									}
 								});
 

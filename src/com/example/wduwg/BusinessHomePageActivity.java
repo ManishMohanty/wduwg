@@ -245,7 +245,12 @@ public class BusinessHomePageActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-
+		int titleId = getResources().getIdentifier("action_bar_title", "id",
+				"android");
+		TextView yourTextView = (TextView) findViewById(titleId);
+		yourTextView.setTextSize(19);
+		yourTextView.setTextColor(Color.parseColor("#016AB2"));
+		yourTextView.setTypeface(Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Light.ttf"));
 	}
 
 	@Override
