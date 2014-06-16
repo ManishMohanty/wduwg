@@ -262,7 +262,7 @@ public class BusinessHomePageActivity extends Activity {
 		businessAddressET = (EditText) findViewById(R.id.customer_address);
 		addressLabel = (TextView) findViewById(R.id.addressLabel);
 		buttonLayout1 = (RelativeLayout) findViewById(R.id.buttonLayout1);
-		buttonLayout2 = (RelativeLayout) findViewById(R.id.buttonLayout2);
+//		buttonLayout2 = (RelativeLayout) findViewById(R.id.buttonLayout2);
 		link = (TextView) findViewById(R.id.link);
 	}
 

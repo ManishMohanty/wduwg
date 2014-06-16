@@ -70,10 +70,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textLayout"
         android:layout_centerInParent="false"
-        android:layout_marginTop="25sp"
-        android:gravity="center"
+        android:layout_marginTop="15sp"
         android:orientation="horizontal"
         android:visibility="invisible"
+        android:background="#ffffff"
+        android:gravity="center"
          >
 
 
@@ -87,7 +88,7 @@
             android:textColor="@color/text_color"
             android:textSize="21sp"
             android:visibility="gone" 
-            android:layout_marginRight="80dp"/>
+            android:layout_marginRight="70dp"/>
 
 
         <TextView

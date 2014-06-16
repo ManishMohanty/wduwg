@@ -3,14 +3,14 @@
     tools:context=".BusinessHomePageActivity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-<LinearLayout 
+
+<LinearLayout
     android:id="@+id/add_event_and_gateway_LL"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="434dp"
     android:layout_gravity="center_horizontal"
     android:background="#FFFFFF"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -93,23 +93,19 @@
         
     </LinearLayout>
 
-    
-
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="53dp"
-        android:layout_marginRight="53dp"
         android:id="@+id/buttonLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
          >
+
   <ImageButton
             android:id="@+id/count_IB"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:background="@null"
             android:onClick="onCount"
             android:scaleType="fitXY"
@@ -125,7 +121,7 @@
          android:clickable="true"
          android:onClick="onSpecial"
          android:scaleType="fitXY"
-         android:src="@drawable/specials_1205" /> -->
+         android:src="@drawable/specials_1205" /> 
 
         <ImageButton
             android:id="@+id/reportBtn"
@@ -137,11 +133,11 @@
             android:scaleType="fitXY"
             android:src="@drawable/charts_tile"
             android:layout_alignParentRight="true"
-             />
+             /> -->
 
         
     </RelativeLayout>
-    <RelativeLayout
+    <!-- <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -178,6 +174,6 @@
              />
 
         
-    </RelativeLayout>
+    </RelativeLayout>  -->
 </LinearLayout>
 </ScrollView>
