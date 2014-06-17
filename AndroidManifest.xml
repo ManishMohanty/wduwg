@@ -142,6 +142,10 @@
             android:label="Specials" >
         </activity>
         <activity
+            android:name="com.example.wduwg.BusinessOfUserActivity"
+            android:label="Businesses" >
+        </activity>
+        <activity
             android:name="com.example.wduwg.AddSpecialActivity"
             android:label="Add Specials" >
         </activity>

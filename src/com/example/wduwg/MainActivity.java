@@ -347,8 +347,9 @@ public class MainActivity extends Activity
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
-						Intent nextIntent = new Intent(MainActivity.this,
-								IdentifyingBusinessActivity.class);
+//						Intent nextIntent = new Intent(MainActivity.this,
+//								IdentifyingBusinessActivity.class);
+						Intent nextIntent = new Intent(MainActivity.this,BusinessOfUserActivity.class);
 						startActivity(nextIntent);
 						overridePendingTransition(R.anim.anim_out,
 								R.anim.anim_in);

@@ -589,13 +589,23 @@ public class LoginFacebookActivity extends Activity {
 
 						@Override
 						public void run() {
-
+                            try{
+                            	Thread.sleep(500);
+                            }catch(Exception e)
+                            {
+                            	e.printStackTrace();
+                            }
 							progressDialgog.dismiss();
-							if(isCustomer)
+							if(isCustomer && globalVariable.getCustomer().getBusinesses().size() >  0 && globalVariable.getSelectedBusiness()== null)
+							{
+								Intent intent = new Intent(LoginFacebookActivity.this,BusinessOfUserActivity.class);
+							     startActivity(intent);
+							}else if(isCustomer)
 							{
 								Intent intent = new Intent(LoginFacebookActivity.this,MainActivity.class);
 								startActivity(intent);
-							}else
+							}
+								else
 							{
 							Toast.makeText(getApplicationContext(),
 									 "\nEmail: " + email + "Does not exist",
