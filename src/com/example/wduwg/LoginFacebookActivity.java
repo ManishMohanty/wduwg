@@ -572,7 +572,6 @@ public class LoginFacebookActivity extends Activity {
 								}
 								globalVariable.getCustomer().setPages(pages);
 								System.out.println(">>>>>>> get pageAccessToken complete");
-								System.out.println(">>>>>>> page access_token:"+globalVariable.getCustomer().getPages().get(0).getAccess_token());
 								page_access_token = globalVariable.getCustomer().getPages().get(0).getAccess_token();
 								}catch(Exception e)
 								{
@@ -590,9 +589,19 @@ public class LoginFacebookActivity extends Activity {
 
 						@Override
 						public void run() {
-							 
+							try{
+							 Thread.sleep(500);
+							}catch(Exception e)
+							{
+								e.printStackTrace();
+							}
 							progressDialgog.dismiss();
-							if(isCustomer )
+							System.out.println(">>>>>>> page size:"+globalVariable.getCustomer().getPages().size());
+							if(isCustomer && globalVariable.getCustomer().getBusinesses().size() >  0 && globalVariable.getSelectedBusiness()== null)
+							{
+							     Intent intent = new Intent(LoginFacebookActivity.this,BusinessOfUserActivity.class);
+							     startActivity(intent);
+							}else if (isCustomer)
 							{
 								Intent intent = new Intent(LoginFacebookActivity.this,MainActivity.class);
 								startActivity(intent);

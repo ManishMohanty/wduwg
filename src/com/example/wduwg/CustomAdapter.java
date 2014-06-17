@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -71,6 +73,16 @@ public class CustomAdapter extends BaseAdapter {
 
 		viewHolder.address.setTypeface(typeface);
 		viewHolder.address.setText(tempPlace.getAddress());
+		try{
+		String googleApiResults = tempPlace.getGoogleAPIResult();
+		JSONObject json = new JSONObject(googleApiResults);
+
+		JSONObject photoJsonObject  = new JSONObject(json.getString("photos").substring(1, json.getString("photos").length()-1).toString());
+		tempPlace.setImageUrl(photoJsonObject.getString("photo_reference"));
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 
 		String temp = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
 				+ tempPlace.getImageUrl()
@@ -82,7 +94,6 @@ public class CustomAdapter extends BaseAdapter {
 		
 		return convertView;
 	}
-
 
 
 	@Override

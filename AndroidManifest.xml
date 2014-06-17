@@ -128,7 +128,7 @@
             android:label="Events" >
         </activity>
         <activity
-            android:name="com.example.wduwg.BusinessesOfUserActivity"
+            android:name="com.example.wduwg.BusinessOfUserActivity"
             android:label="Your Businesses" >
         </activity>
         <activity
