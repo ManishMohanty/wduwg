@@ -96,26 +96,17 @@ public class BusinessOfUserActivity extends Activity{
 										.get(pos);
 								globalVariable.setSelectedFBPage(fbPage);
 								alertDialog.dismiss();
+								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
+								if(globalVariable.getSelectedBusiness() != null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
+								{
+									globalVariable.setMenIn(0);
+									globalVariable.setMenOut(0);
+									globalVariable.setWomenIn(0);
+									globalVariable.setWomenOut(0);
+								}
 								globalVariable.setSelectedBusiness(null);
+								globalVariable.setSelectedBusiness(business);
 								globalVariable.saveSharedPreferences();
-								List<Business> businessList = globalVariable
-										.getCustomer().getBusinesses();
-								System.out.println(">>>>>>> business list size:"
-										+ businessList.size());
-								boolean isExist = false;
-								for (int i = 0; i < businessList.size(); i++) {
-									if (businessList
-											.get(i)
-											.getName()
-											.equalsIgnoreCase(
-													businessList.get(positionFinal).getName())
-											&& businessList
-													.get(i)
-													.getAddress()
-													.equalsIgnoreCase(
-															businessList.get(positionFinal).getAddress())) {
-										Business business = businessList.get(i);
-
 										Gson gson = new Gson();
 										String json = gson.toJson(business);
 										System.out.println(">>>>>>> business existing"
@@ -127,14 +118,7 @@ public class BusinessOfUserActivity extends Activity{
 										 bitmap = bitmapDrawable.getBitmap();
 										ByteArrayOutputStream bs = new ByteArrayOutputStream();
 										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-										globalVariable.setSelectedBusiness(business);
-										System.out
-												.println(">>>>>>> before navigation to addEvent");
-										System.out
-												.println(">>>>>>> selectedBusinessId:"
-														+ globalVariable
-																.getSelectedBusiness()
-																.getId().get$oid());
+										
 //										isExist = true;
 //										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessHomePageActivity.class);
 //										nextIntent.putExtra("business_name",
@@ -151,8 +135,6 @@ public class BusinessOfUserActivity extends Activity{
 										overridePendingTransition(R.anim.anim_out,
 												R.anim.anim_in);
 									}
-								}
-							}
 						});
 				alertDialogBuilder.setPositiveButton("Cancel",
 						new DialogInterface.OnClickListener() {
