@@ -167,9 +167,9 @@ public class BusinessHomePageActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		getMenuInflater().inflate(R.menu.overflow_options_menu, menu);
-		SpannableString delinkstr = new SpannableString(menu.findItem(R.id.menu_delink).getTitle());
-		delinkstr.setSpan(typeface, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
+//		SpannableString delinkstr = new SpannableString(menu.findItem(R.id.menu_delink).getTitle());
+//		delinkstr.setSpan(typeface, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
 		SpannableString logoutstr = new SpannableString(menu.findItem(R.id.menu_logout).getTitle());
 		logoutstr.setSpan(typeface, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
@@ -179,14 +179,14 @@ public class BusinessHomePageActivity extends Activity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		MenuItem item = menu.findItem(R.id.menu_delink);
+//		MenuItem item = menu.findItem(R.id.menu_delink);
 		MenuItem logouItem = menu.findItem(R.id.menu_logout);
-		if (globalVariable.getSelectedBusiness() != null) {
-			item.setEnabled(true);
-
-		} else {
-			item.setEnabled(false);
-		}
+//		if (globalVariable.getSelectedBusiness() != null) {
+//			item.setEnabled(true);
+//
+//		} else {
+//			item.setEnabled(false);
+//		}
 		if(globalVariable.getFb_access_token() !=null)
 		{
 			logouItem.setEnabled(true);
@@ -201,30 +201,30 @@ public class BusinessHomePageActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
-		case R.id.menu_delink:
-			SchedulerCount scheduledTask = new SchedulerCount(this);
-			Timer timer = new Timer();
-			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-			scheduledTask.run();
-			SchedulerCount.event = globalVariable.getSelectedEvent();
-			timer.cancel();
-			globalVariable.setSelectedBusiness(null);
-			globalVariable.setSelectedEvent(null);
-			globalVariable.setMenIn(0);
-			globalVariable.setMenOut(0);
-			globalVariable.setWomenIn(0);
-			globalVariable.setWomenOut(0);
-			globalVariable.saveSharedPreferences();
-
-			alertDialogBuilder = createDialog
-					.createAlertDialog(
-							"Delink Successful",
-							"Your device has been delinked. Redirecting search as per current location.",
-							false);
-			singleOKButton(alertDialogBuilder);
-			alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-			return true;
+//		case R.id.menu_delink:
+//			SchedulerCount scheduledTask = new SchedulerCount(this);
+//			Timer timer = new Timer();
+//			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+//			scheduledTask.run();
+//			SchedulerCount.event = globalVariable.getSelectedEvent();
+//			timer.cancel();
+//			globalVariable.setSelectedBusiness(null);
+//			globalVariable.setSelectedEvent(null);
+//			globalVariable.setMenIn(0);
+//			globalVariable.setMenOut(0);
+//			globalVariable.setWomenIn(0);
+//			globalVariable.setWomenOut(0);
+//			globalVariable.saveSharedPreferences();
+//
+//			alertDialogBuilder = createDialog
+//					.createAlertDialog(
+//							"Delink Successful",
+//							"Your device has been delinked. Redirecting search as per current location.",
+//							false);
+//			singleOKButton(alertDialogBuilder);
+//			alertDialog = alertDialogBuilder.create();
+//			alertDialog.show();
+//			return true;
 		case R.id.menu_logout:
 			if (LoginFacebookActivity.timer != null)
 				LoginFacebookActivity.timer.cancel();

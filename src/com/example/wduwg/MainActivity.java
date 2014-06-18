@@ -307,10 +307,12 @@ public class MainActivity extends Activity
 	public void oncontinue(View v) {
 		Intent nextIntent = null;
 		if (globalVariable.getSelectedBusiness()!= null) {
-			nextIntent = new Intent(this, BusinessHomePageActivity.class);
+//			nextIntent = new Intent(this, BusinessHomePageActivity.class);
+			nextIntent = new Intent(this, CountActivity.class);
 			nextIntent.putExtra("isFromMain", true);
 		} else {
-			nextIntent = new Intent(this, IdentifyingBusinessActivity.class);
+//			nextIntent = new Intent(this, IdentifyingBusinessActivity.class);
+			nextIntent = new Intent(this, BusinessOfUserActivity.class);
 		}
 		startActivity(nextIntent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
@@ -347,8 +349,10 @@ public class MainActivity extends Activity
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
+//						Intent nextIntent = new Intent(MainActivity.this,
+//								IdentifyingBusinessActivity.class);
 						Intent nextIntent = new Intent(MainActivity.this,
-								IdentifyingBusinessActivity.class);
+								BusinessOfUserActivity.class);
 						startActivity(nextIntent);
 						overridePendingTransition(R.anim.anim_out,
 								R.anim.anim_in);
