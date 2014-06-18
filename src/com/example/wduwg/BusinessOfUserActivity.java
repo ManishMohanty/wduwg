@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -87,28 +88,19 @@ public class BusinessOfUserActivity extends Activity{
 								// TODO Auto-generated method stub
 								fbPage = globalVariable.getCustomer().getPages()
 										.get(pos);
+								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
 								globalVariable.setSelectedFBPage(fbPage);
 								alertDialog.dismiss();
+								if(globalVariable.getSelectedBusiness()!=null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
+								{
+									globalVariable.setMenIn(0);
+									globalVariable.setMenOut(0);
+									globalVariable.setWomenIn(0);
+									globalVariable.setWomenOut(0);
+								}
 								globalVariable.setSelectedBusiness(null);
+								globalVariable.setSelectedBusiness(business);
 								globalVariable.saveSharedPreferences();
-								List<Business> businessList = globalVariable
-										.getCustomer().getBusinesses();
-								System.out.println(">>>>>>> business list size:"
-										+ businessList.size());
-								boolean isExist = false;
-								for (int i = 0; i < businessList.size(); i++) {
-									if (businessList
-											.get(i)
-											.getName()
-											.equalsIgnoreCase(
-													businessList.get(positionFinal).getName())
-											&& businessList
-													.get(i)
-													.getAddress()
-													.equalsIgnoreCase(
-															businessList.get(positionFinal).getAddress())) {
-										Business business = businessList.get(i);
-
 										Gson gson = new Gson();
 										String json = gson.toJson(business);
 										System.out.println(">>>>>>> business existing"
@@ -120,32 +112,12 @@ public class BusinessOfUserActivity extends Activity{
 										 bitmap = bitmapDrawable.getBitmap();
 										ByteArrayOutputStream bs = new ByteArrayOutputStream();
 										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-										globalVariable.setSelectedBusiness(business);
-										System.out
-												.println(">>>>>>> before navigation to addEvent");
-										System.out
-												.println(">>>>>>> selectedBusinessId:"
-														+ globalVariable
-																.getSelectedBusiness()
-																.getId().get$oid());
-//										isExist = true;
-//										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessHomePageActivity.class);
-//										nextIntent.putExtra("business_name",
-//												businessList.get(positionFinal).getName());
-//										nextIntent.putExtra("business_id",
-//												businessList.get(positionFinal).getGooglePlaceID());
-//										nextIntent.putExtra("complete_address",
-//												businessList.get(positionFinal).getAddress()); // new
-//										nextIntent.putExtra("complete_result",
-//												businessList.get(positionFinal).getGoogleAPIResult());
-//										nextIntent.putExtra("byteArray", bs.toByteArray());
+										
 										Intent nextIntent = new Intent(BusinessOfUserActivity.this,CountActivity.class);
 										startActivity(nextIntent);
 										overridePendingTransition(R.anim.anim_out,
 												R.anim.anim_in);
 									}
-								}
-							}
 						});
 				alertDialogBuilder.setPositiveButton("Cancel",
 						new DialogInterface.OnClickListener() {
@@ -157,6 +129,52 @@ public class BusinessOfUserActivity extends Activity{
 				alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
 				
+			}
+		});
+	     
+	     
+	     listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				System.out.println(">>>>>>> long click");
+				// TODO Auto-generated method stub
+				alertDialogBuilder = createDialog.createAlertDialog(
+						"Logout", "Do you wish to logout", false);
+				alertDialogBuilder.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								if (LoginFacebookActivity.timer != null)
+									LoginFacebookActivity.timer.cancel();
+								globalVariable.getCustomer().setPages(null);
+								globalVariable.setFb_access_expire(0);
+								globalVariable.setFb_access_token(null);
+								globalVariable.setSelectedBusiness(null);
+								globalVariable.setSelectedEvent(null);
+								globalVariable.setMenIn(0);
+								globalVariable.setMenOut(0);
+								globalVariable.setWomenIn(0);
+								globalVariable.setWomenOut(0);
+								globalVariable.saveSharedPreferences();
+								globalVariable.saveSharedPreferences();
+								dialog.dismiss();
+								Intent nextIntent = new Intent(BusinessOfUserActivity.this,SpalshFirstActivity.class);
+								nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+								startActivity(nextIntent);
+							}
+						});
+				alertDialogBuilder.setNegativeButton("Cancel",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								alertDialog.dismiss();
+							}
+						});
+				alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+				return false;
 			}
 		});
 	}
