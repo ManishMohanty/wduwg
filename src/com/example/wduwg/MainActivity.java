@@ -158,7 +158,7 @@ public class MainActivity extends Activity
 			@Override
 			public void run() {
 				TranslateAnimation animation = new TranslateAnimation(0, 0, 0,
-						-165);
+						-200);
 				animation.setDuration(800);
 				animation.setFillAfter(true);
 				// animation.setFillEnabled(true);
@@ -180,7 +180,8 @@ public class MainActivity extends Activity
 						LayoutParams lp = new LayoutParams(logo
 								.getLayoutParams());
 						lp.leftMargin = location[0];
-						lp.topMargin = 60;
+//						lp.topMargin = 60;
+						lp.topMargin = 20;
 						logo.setLayoutParams(lp);
 						textLayout.setVisibility(View.VISIBLE);
                         messageText.setText("Please wait while we determine if the device is already registered");
@@ -319,26 +320,45 @@ public class MainActivity extends Activity
 	}
 
 	public void onDelink(View v) {
-		SchedulerCount scheduledTask = new SchedulerCount(this);
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-		scheduledTask.run();
-		SchedulerCount.event = globalVariable.getSelectedEvent();
-		timer.cancel();
-		globalVariable.setSelectedBusiness(null);
-		globalVariable.setSelectedEvent(null);
-		globalVariable.setMenIn(0);
-		globalVariable.setMenOut(0);
-		globalVariable.setWomenIn(0);
-		globalVariable.setWomenOut(0);
-		globalVariable.saveSharedPreferences();
+		
 
 		alertDialogBuilder = createDialog
 				.createAlertDialog(
-						"Delink Successful",
-						"Your device has been delinked. Redirecting search as per current location.",
+						"Delink",
+						"Do you wish to delink business with device ?",
 						false);
-		singleOKButton(alertDialogBuilder);
+		alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				alertDialog.dismiss();
+				SchedulerCount scheduledTask = new SchedulerCount(MainActivity.this);
+				Timer timer = new Timer();
+				timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+				scheduledTask.run();
+				SchedulerCount.event = globalVariable.getSelectedEvent();
+				timer.cancel();
+				globalVariable.setSelectedBusiness(null);
+				globalVariable.setSelectedEvent(null);
+				globalVariable.setMenIn(0);
+				globalVariable.setMenOut(0);
+				globalVariable.setWomenIn(0);
+				globalVariable.setWomenOut(0);
+				globalVariable.saveSharedPreferences();
+				Intent nextIntent = new Intent(MainActivity.this, BusinessOfUserActivity.class);
+				startActivity(nextIntent);
+				overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+			}
+		});
+		alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				alertDialog.dismiss();
+			}
+		});
 		alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
 
