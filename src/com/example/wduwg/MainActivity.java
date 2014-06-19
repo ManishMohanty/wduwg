@@ -318,27 +318,46 @@ public class MainActivity extends Activity
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
 
-	public void onDelink(View v) {
-		SchedulerCount scheduledTask = new SchedulerCount(this);
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-		scheduledTask.run();
-		SchedulerCount.event = globalVariable.getSelectedEvent();
-		timer.cancel();
-		globalVariable.setSelectedBusiness(null);
-		globalVariable.setSelectedEvent(null);
-		globalVariable.setMenIn(0);
-		globalVariable.setMenOut(0);
-		globalVariable.setWomenIn(0);
-		globalVariable.setWomenOut(0);
-		globalVariable.saveSharedPreferences();
+public void onDelink(View v) {
+		
 
 		alertDialogBuilder = createDialog
 				.createAlertDialog(
-						"Delink Successful",
-						"Your device has been delinked. Redirecting search as per current location.",
+						"Delink",
+						"Do you wish to delink business with device ?",
 						false);
-		singleOKButton(alertDialogBuilder);
+		alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				alertDialog.dismiss();
+				SchedulerCount scheduledTask = new SchedulerCount(MainActivity.this);
+				Timer timer = new Timer();
+				timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+				scheduledTask.run();
+				SchedulerCount.event = globalVariable.getSelectedEvent();
+				timer.cancel();
+				globalVariable.setSelectedBusiness(null);
+				globalVariable.setSelectedEvent(null);
+				globalVariable.setMenIn(0);
+				globalVariable.setMenOut(0);
+				globalVariable.setWomenIn(0);
+				globalVariable.setWomenOut(0);
+				globalVariable.saveSharedPreferences();
+				Intent nextIntent = new Intent(MainActivity.this, BusinessOfUserActivity.class);
+				startActivity(nextIntent);
+				overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+			}
+		});
+		alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				alertDialog.dismiss();
+			}
+		});
 		alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
 
