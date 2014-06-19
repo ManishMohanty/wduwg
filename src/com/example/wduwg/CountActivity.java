@@ -286,8 +286,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				R.drawable.settings), "Settings"));
 //		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 //				R.drawable.report), "Reports"));
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.event), "Event Detail"));
 //     
 		boolean isLogoutVisisble = false;
 		if (globalVariable.getFb_access_token() != null) {
@@ -894,37 +892,37 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //						.show();
 //			}
 		}// if (position == 2)
-		else if (position == 3) {
-			Event tempEvent = (Event) globalVariable.getSelectedEvent();
-			if(!tempEvent.getName().equals("defaultEvent"))
-			{
-			alertDialogBuilder = createDialog
-					.createAlertDialog(
-							"Total : "+((globalVariable.getMenIn() - globalVariable
-									.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-											.getWomenOut())),
-							"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
-							+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
-							false);
-			}else
-			{
-				alertDialogBuilder = createDialog
-						.createAlertDialog(
-								"Total : "+((globalVariable.getMenIn() - globalVariable
-										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-												.getWomenOut())),
-								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
-								false);
-			}
-			alertDialogBuilder.setPositiveButton("Ok",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							alertDialog.dismiss();
-						}
-					});
-			alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-		} 
+//		else if (position == 3) {
+//			Event tempEvent = (Event) globalVariable.getSelectedEvent();
+//			if(!tempEvent.getName().equals("defaultEvent"))
+//			{
+//			alertDialogBuilder = createDialog
+//					.createAlertDialog(
+//							"Total : "+((globalVariable.getMenIn() - globalVariable
+//									.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+//											.getWomenOut())),
+//							"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
+//							+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
+//							false);
+//			}else
+//			{
+//				alertDialogBuilder = createDialog
+//						.createAlertDialog(
+//								"Total : "+((globalVariable.getMenIn() - globalVariable
+//										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+//												.getWomenOut())),
+//								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
+//								false);
+//			}
+//			alertDialogBuilder.setPositiveButton("Ok",
+//					new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int id) {
+//							alertDialog.dismiss();
+//						}
+//					});
+//			alertDialog = alertDialogBuilder.create();
+//			alertDialog.show();
+//		} 
 //		else if (position == 4) {
 //			nextIntent = new Intent(CountActivity.this,
 //					ReportActualActvivity.class);
