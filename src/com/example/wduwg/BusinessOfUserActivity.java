@@ -81,21 +81,6 @@ public class BusinessOfUserActivity extends Activity{
 				// TODO Auto-generated method stub
 				final int positionFinal = position;
 				final View viewFinal = (View)view;
-
-
-				String[] items = Pagelist.toArray(new String[Pagelist.size()]);
-				alertDialogBuilder = createDialog.createAlertDialog(
-						"Select Facebook Page", null, false);
-				alertDialogBuilder.setItems(items,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog, int pos) {
-								// TODO Auto-generated method stub
-								fbPage = globalVariable.getCustomer().getPages()
-										.get(pos);
-								globalVariable.setSelectedFBPage(fbPage);
-								alertDialog.dismiss();
 								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
 								if(globalVariable.getSelectedBusiness() != null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
 								{
@@ -118,37 +103,14 @@ public class BusinessOfUserActivity extends Activity{
 										 bitmap = bitmapDrawable.getBitmap();
 										ByteArrayOutputStream bs = new ByteArrayOutputStream();
 										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-										
-//										isExist = true;
-//										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessHomePageActivity.class);
-//										nextIntent.putExtra("business_name",
-//												businessList.get(positionFinal).getName());
-//										nextIntent.putExtra("business_id",
-//												businessList.get(positionFinal).getGooglePlaceID());
-//										nextIntent.putExtra("complete_address",
-//												businessList.get(positionFinal).getAddress()); // new
-//										nextIntent.putExtra("complete_result",
-//												businessList.get(positionFinal).getGoogleAPIResult());
-//										nextIntent.putExtra("byteArray", bs.toByteArray());
-										Intent nextIntent = new Intent(BusinessOfUserActivity.this,CountActivity.class);
+										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessDashboardActivity.class);
 										startActivity(nextIntent);
 										overridePendingTransition(R.anim.anim_out,
 												R.anim.anim_in);
 									}
 						});
-				alertDialogBuilder.setPositiveButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								alertDialog.dismiss();
-							}
-						});
-				alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
 
 			}
-		});
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

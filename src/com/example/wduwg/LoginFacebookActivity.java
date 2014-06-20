@@ -596,21 +596,26 @@ public class LoginFacebookActivity extends Activity {
 								e.printStackTrace();
 							}
 							progressDialgog.dismiss();
-							System.out.println(">>>>>>> page size:"+globalVariable.getCustomer().getPages().size());
-							if(isCustomer && globalVariable.getCustomer().getBusinesses().size() >  0 && globalVariable.getSelectedBusiness()== null)
+							if(isCustomer)
 							{
 							     Intent intent = new Intent(LoginFacebookActivity.this,BusinessOfUserActivity.class);
 							     startActivity(intent);
-							}else if (isCustomer)
-							{
-								Intent intent = new Intent(LoginFacebookActivity.this,MainActivity.class);
-								startActivity(intent);
-							}else
+							}
+//							     else if (isCustomer)
+//							{
+//								Intent intent = new Intent(LoginFacebookActivity.this,MainActivity.class);
+//								startActivity(intent);
+//							}
+							else
 							{
 								Toast.makeText(getApplicationContext(),
 										 "\nEmail: " + email + "Does not exist",
 										Toast.LENGTH_LONG).show();
+								globalVariable.setFb_access_token(null);
+								globalVariable.setFb_access_expire(0);
 								LoginFacebookActivity.this.finish();
+//								Intent intent = new Intent(LoginFacebookActivity.this,SpalshFirstActivity.class);
+//							     startActivity(intent);
 							}
 						}
 
