@@ -191,7 +191,7 @@ public class IdentifyingBusinessActivity extends Activity {
 							+ lat
 							+ ","
 							+ lon
-							+ "&radius=500&sensor=false&key=AIzaSyB7yyHP-E00gXJOH6erfU6Acg8yMpSoZV4";
+							+ "&radius=500&sensor=false&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
 
 					Log.d("url==", new_url);
 				} else {
@@ -199,7 +199,7 @@ public class IdentifyingBusinessActivity extends Activity {
 					place = place.replace(" ", "+");
 					new_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
 							+ place
-							+ "+&sensor=false&key=AIzaSyB7yyHP-E00gXJOH6erfU6Acg8yMpSoZV4";
+							+ "+&sensor=false&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
 
 					Log.d("url==", new_url);
 				}
@@ -416,7 +416,7 @@ public class IdentifyingBusinessActivity extends Activity {
 			URL url = new URL(
 					"https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
 							+ src1
-							+ "&sensor=true&key=AIzaSyB7yyHP-E00gXJOH6erfU6Acg8yMpSoZV4");
+							+ "&sensor=true&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI");
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
 			connection.setDoInput(true);

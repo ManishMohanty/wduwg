@@ -40,7 +40,7 @@ public class CustomAdapter extends BaseAdapter {
 	}
 
 	private class ViewHolder {
-		protected TextView sno;
+//		protected TextView sno;
 		protected SmartImageView image;
 		protected TextView name;
 		protected TextView address;
@@ -54,7 +54,7 @@ public class CustomAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.place_item, parent, false);
 			viewHolder = new ViewHolder();
-			viewHolder.sno = (TextView) convertView.findViewById(R.id.sno);
+//			viewHolder.sno = (TextView) convertView.findViewById(R.id.sno);
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 			viewHolder.address = (TextView) convertView.findViewById(R.id.desc);
 			viewHolder.image = (SmartImageView) convertView
@@ -65,8 +65,8 @@ public class CustomAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.sno.setTypeface(typefaceBold);
-		viewHolder.sno.setText("" + (pos + 1) + ".");
+//		viewHolder.sno.setTypeface(typefaceBold);
+//		viewHolder.sno.setText("" + (pos + 1) + ".");
 
 		viewHolder.name.setTypeface(typefaceBold);
 		viewHolder.name.setText(tempPlace.getName());
@@ -79,6 +79,7 @@ public class CustomAdapter extends BaseAdapter {
 
 		JSONObject photoJsonObject  = new JSONObject(json.getString("photos").substring(1, json.getString("photos").length()-1).toString());
 		tempPlace.setImageUrl(photoJsonObject.getString("photo_reference"));
+		System.out.println(">>>>>>> ImageUrl->"+tempPlace.getImageUrl());
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -86,11 +87,12 @@ public class CustomAdapter extends BaseAdapter {
 
 		String temp = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
 				+ tempPlace.getImageUrl()
-				+ "&sensor=true&key=AIzaSyB7yyHP-E00gXJOH6erfU6Acg8yMpSoZV4";
+				+ "&sensor=true&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
 
-		System.out.println(temp);
+		System.out.println(">>>>>>> ImageUrl->"+temp);
 
 		viewHolder.image.setImageUrl(temp);
+//		viewHolder.image.setImageUrl("http://74211.com/wallpaper/picture_big/free_wallpaper_of_natural_scenery_green_grass_waving_with_the_wind.jpg");
 		
 		return convertView;
 	}
@@ -122,7 +124,7 @@ public class CustomAdapter extends BaseAdapter {
 		protected Bitmap doInBackground(String... urls) {
 			String urldisplay = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
 					+ urls[0]
-					+ "&sensor=true&key=AIzaSyB7yyHP-E00gXJOH6erfU6Acg8yMpSoZV4";
+					+ "&sensor=true&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
 			Bitmap mIcon11 = null;
 			try {
 				InputStream in = new java.net.URL(urldisplay).openStream();
