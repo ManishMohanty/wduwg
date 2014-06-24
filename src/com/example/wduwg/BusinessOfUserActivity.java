@@ -96,14 +96,15 @@ public class BusinessOfUserActivity extends Activity{
 										String json = gson.toJson(business);
 										System.out.println(">>>>>>> business existing"
 												+ json);
-										final ImageView image_view = (ImageView) viewFinal
-												.findViewById(R.id.icon);
-										final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
-												.getDrawable();
-										 bitmap = bitmapDrawable.getBitmap();
-										ByteArrayOutputStream bs = new ByteArrayOutputStream();
-										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+//										final ImageView image_view = (ImageView) viewFinal
+//												.findViewById(R.id.icon);
+//										final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
+//												.getDrawable();
+//										 bitmap = bitmapDrawable.getBitmap();
+//										ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
 										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessDashboardActivity.class);
+										System.out.println(">>>>>>> start new Activity");
 										startActivity(nextIntent);
 										overridePendingTransition(R.anim.anim_out,
 												R.anim.anim_in);

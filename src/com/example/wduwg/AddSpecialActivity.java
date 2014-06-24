@@ -21,10 +21,12 @@ import com.mw.wduwg.services.ServerURLs;
 import com.parse.Parse;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -48,6 +50,8 @@ public class AddSpecialActivity extends Activity {
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 	GlobalVariable globalVariable;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 	EditText nameET, startDateET, endDateET, startTimeET, endTimeET;
 
 	Typeface typeface2;
@@ -388,11 +392,33 @@ public class AddSpecialActivity extends Activity {
 			endDateTime = createDate(endDate, endTimeET.getText().toString());
 			System.out.println(endDateTime);
 		}
+		Date d = new Date();
+		String time = d.getHours() + ":"+d.getMinutes()+":"+d.getSeconds();
+		if (startDateTime.compareTo(createDate(d, time)) >= 0) {
 
-		if (endDateTime != null && startDateTime.compareTo(endDateTime) >= 0) {
-			endDateET.setError("");
-			Toast.makeText(this, "End date must be greater than start date.",
-					Toast.LENGTH_LONG).show();
+			if (endDateTime != null
+					&& startDateTime.compareTo(endDateTime) >= 0) {
+				endDateET.setError("");
+				Toast.makeText(this,
+						"End date must be greater than start date.",
+						Toast.LENGTH_LONG).show();
+				bool = false;
+			}
+		}else
+		{
+			alertDialogBuilder = createDialog
+					.createAlertDialog(
+							"Error",
+							"start Datetime must be after current Date and Time",
+							false);
+			alertDialogBuilder.setPositiveButton("Cancel",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							alertDialog.dismiss();
+						}
+			});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
 			bool = false;
 		}
 		return bool;

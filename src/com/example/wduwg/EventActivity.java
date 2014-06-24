@@ -85,12 +85,12 @@ ListView eventLV;
 	
 	public void onDone(View v)
 	{
-		Intent intent = new Intent(this,BusinessHomePageActivity.class);
+		Intent intent = new Intent(this,BusinessDashboardActivity.class);
 		intent.putExtra("isFromMain", true);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
-		LoadStringsAsync asyncTask = new LoadStringsAsync();
-		asyncTask.execute();
+//		LoadStringsAsync asyncTask = new LoadStringsAsync();
+//		asyncTask.execute();
 	}
 	
 	public class LoadStringsAsync extends AsyncTask<Void, Void, List<Event>> {
@@ -122,10 +122,11 @@ ListView eventLV;
 						Event event = new Event();
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
 						event.setName(jsonobject.getString("name"));
-						String startTime = jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-13));
+						String startTime = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
 						if(!event.getName().equalsIgnoreCase("defaultEvent"))
 						{
-						    String endTime =  jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-13);
+							
+						    String endTime =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
 							event.setDescription("Start Time "+startTime + "\nEnd Time " + endTime);
 						}else
 						{

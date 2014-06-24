@@ -127,8 +127,8 @@ public class SpecialActivity extends Activity {
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
 	//					specialList.add(jsonobject.getString("name"));
 						special.setName(jsonobject.getString("name"));
-						String starts_from = jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-13));
-						String valid_upto =  jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-13);
+						String starts_from = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
+						String valid_upto =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
 						special.setDescription("Starts from- "+starts_from + "\nValid upto- " + valid_upto);
 						special.setImageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg92ThBRn7ux2rLEWxZUIKLK-rmMbBBgr6x9ugUZsYUocytf4z");
 						specialList.add(special);
@@ -167,7 +167,7 @@ public class SpecialActivity extends Activity {
 	
 	public void onDone(View v)
 	{
-		Intent intent = new Intent(this,BusinessHomePageActivity.class);
+		Intent intent = new Intent(this,BusinessDashboardActivity.class);
 		intent.putExtra("isFromMain", true);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);

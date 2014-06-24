@@ -477,11 +477,33 @@ public class AddEventActivity extends Activity {
 			endDateTime = createDate(endDate, endTimeET.getText().toString());
 			System.out.println(">>>>>>> end date after"+endDateTime);
 		}
+		
+		Date d = new Date();
+		String time = d.getHours() + ":"+d.getMinutes()+":"+d.getSeconds();
+		if(startDateTime.compareTo(createDate(d,time))>=0)
+		{
 
-		if (endDateTime != null && startDateTime.compareTo(endDateTime) >= 0) {
-			endDateET.setError("");
-			Toast.makeText(this, "End date or time must be After start date and time",
-					Toast.LENGTH_LONG).show();
+			if (endDateTime != null && startDateTime.compareTo(endDateTime) >= 0 ) {
+				endDateET.setError("");
+				Toast.makeText(this, "End date or time must be After start date and time",
+						Toast.LENGTH_LONG).show();
+				bool = false;
+			}
+		}else
+		{
+			alertDialogBuilder = createDialog
+					.createAlertDialog(
+							"Error",
+							"start Datetime must be after current Date and Time",
+							false);
+			alertDialogBuilder.setPositiveButton("Cancel",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							alertDialog.dismiss();
+						}
+			});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
 			bool = false;
 		}
 		return bool;
@@ -533,7 +555,6 @@ public class AddEventActivity extends Activity {
 					
 					jsonObject = new JSONObject()
 							.put("name", "defaultEvent")
-//							.put("start_date_time", sdf.format(new Date(startTimeET.getText().toString())))
 							.put("start_date_time", startDateTime)
 							.put("business_id",
 									globalVariable.getSelectedBusiness()

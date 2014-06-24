@@ -5,13 +5,13 @@
     android:gravity="center"
     android:orientation="horizontal" >
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/sno"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:textColor="#016AB2"
-        android:textSize="15sp" />
+        android:textSize="15sp" /> -->
 
     <com.loopj.android.image.SmartImageView
         android:id="@+id/icon"
@@ -33,7 +33,7 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#016AB2"
+            android:textColor="#686B69"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:id="@+id/desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#016AB2"
+            android:textColor="#686B69"
             android:textSize="12sp" />
     </LinearLayout>
 

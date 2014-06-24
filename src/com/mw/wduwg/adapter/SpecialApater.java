@@ -57,9 +57,8 @@ public class SpecialApater extends BaseAdapter {
 		if (convertView == null) {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.place_item, parent, false);
+			convertView = inflater.inflate(R.layout.event_item, parent, false);
 			viewHolder = new ViewHolder();
-			viewHolder.sno = (TextView) convertView.findViewById(R.id.sno);
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 			viewHolder.description = (TextView) convertView
 					.findViewById(R.id.desc);
@@ -71,8 +70,6 @@ public class SpecialApater extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.sno.setTypeface(typeface);
-		viewHolder.sno.setText("" + (position + 1) + ".");
 
 		viewHolder.name.setTypeface(typeface);
 		viewHolder.name.setText(special.getName());
@@ -86,7 +83,6 @@ public class SpecialApater extends BaseAdapter {
 	}
 
 	private class ViewHolder {
-		protected TextView sno;
 		protected SmartImageView image;
 		protected TextView name;
 		protected TextView description;

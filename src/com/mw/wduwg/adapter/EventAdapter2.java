@@ -33,7 +33,6 @@ public class EventAdapter2 extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		protected TextView snoTV;
 		protected TextView nameTV;
 		protected TextView descTV;
 		protected SmartImageView iconIV;
@@ -49,7 +48,6 @@ public class EventAdapter2 extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.event_item, parent, false);
-			viewHolder.snoTV = (TextView) convertView.findViewById(R.id.sno);
 			viewHolder.nameTV = (TextView) convertView.findViewById(R.id.name);
 			viewHolder.descTV = (TextView) convertView.findViewById(R.id.desc);
 			viewHolder.iconIV = (SmartImageView) convertView.findViewById(R.id.icon);
@@ -58,8 +56,6 @@ public class EventAdapter2 extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.snoTV.setTypeface(typeface);
-		viewHolder.snoTV.setText(Integer.toString(position + 1));
 
 		Event tempEvent = listEvents.get(position);
 		viewHolder.nameTV.setTypeface(typeface);

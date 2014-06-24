@@ -308,7 +308,7 @@ public class MainActivity extends Activity
 		Intent nextIntent = null;
 		if (globalVariable.getSelectedBusiness()!= null) {
 //			nextIntent = new Intent(this, BusinessHomePageActivity.class);
-			nextIntent = new Intent(this, CountActivity.class);
+			nextIntent = new Intent(this, BusinessDashboardActivity.class);
 			nextIntent.putExtra("isFromMain", true);
 		} else {
 //			nextIntent = new Intent(this, IdentifyingBusinessActivity.class);
