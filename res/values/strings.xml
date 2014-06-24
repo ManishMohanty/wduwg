@@ -62,6 +62,7 @@
   <string name="allEvents"><b><u>All Events</u> \u0020 \u0020></b></string>
   <string name="allSpecials"><b><u>All Specials</u> \u0020 \u0020></b></string>
   <string name="view"><b><u>View</u> \u0020 \u0020></b></string>
+  <string name="messageForUser">WelCome to <b>WDUWG</b>. You have following businesses listed under your login. Please select a business from the list below to continue.</string>
     
     
     <style name="ButtonText">

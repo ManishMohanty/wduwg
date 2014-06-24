@@ -17,11 +17,16 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apphance.android.Log;
 import com.example.wduwg.SpecialActivity.LoadStringsAsync;
@@ -270,19 +275,75 @@ public class BusinessDashboardActivity extends Activity {
 			if(globalVariable.getSelectedBusiness().getSpecials().size()>1)
 			{
 		     specials = globalVariable.getSelectedBusiness().getSpecials().subList(0, 2);
-			}
+			}else
+			specials = globalVariable.getSelectedBusiness().getSpecials();
             SpecialApater adapter = new SpecialApater(BusinessDashboardActivity.this, specials);
             SpecialListView.setAdapter(adapter);
             if(globalVariable.getSelectedBusiness().getEventList().size() >1)
             {
              events = globalVariable.getSelectedBusiness().getEventList().subList(0, 2);
-            }
+            }else
+            	events = globalVariable.getSelectedBusiness().getEventList();
             EventAdapter2 adapter1 = new EventAdapter2(BusinessDashboardActivity.this, events);
             eventListView.setAdapter(adapter1);
 			totalCount.setText("Total :"+((men_in+women_in)-(men_out+women_out)));
 			menCount.setText("Men :"+(men_in-men_out));
 			womenCount.setText("Women :"+(women_in-women_out));
 			totalVisitors.setText("Total Visitors Today :"+(men_in+women_in));
+		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		getMenuInflater().inflate(R.menu.overflow_options_menu, menu);
+		CharSequence rawTitle = "Logout";
+		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
+
+		SpannableString logoutstr = new SpannableString(rawTitle);
+		logoutstr.setSpan(typefaceBold, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
+		return true;
+	}
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		MenuItem logouItem = menu.findItem(R.id.menu_logout);
+		if(globalVariable.getFb_access_token() !=null)
+		{
+			logouItem.setEnabled(true);
+		}else
+		{
+			logouItem.setEnabled(false);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.menu_logout:
+			if (LoginFacebookActivity.timer != null)
+				LoginFacebookActivity.timer.cancel();
+			globalVariable.getCustomer().setPages(null);
+			globalVariable.setFb_access_expire(0);
+			globalVariable.setFb_access_token(null);
+			globalVariable.setSelectedBusiness(null);
+			globalVariable.setSelectedEvent(null);
+			globalVariable.setMenIn(0);
+			globalVariable.setMenOut(0);
+			globalVariable.setWomenIn(0);
+			globalVariable.setWomenOut(0);
+			globalVariable.saveSharedPreferences();
+			globalVariable.saveSharedPreferences();
+			Toast.makeText(this, "Logged out from FB.", Toast.LENGTH_SHORT).show();
+			Intent nextIntent = new Intent(BusinessDashboardActivity.this,SpalshFirstActivity.class);
+			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+			startActivity(nextIntent);
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 	

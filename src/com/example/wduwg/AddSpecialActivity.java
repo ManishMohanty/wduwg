@@ -409,7 +409,7 @@ public class AddSpecialActivity extends Activity {
 			alertDialogBuilder = createDialog
 					.createAlertDialog(
 							"Error",
-							"start Datetime must be after current Date and Time",
+							"Start date and time must be after Current date and time",
 							false);
 			alertDialogBuilder.setPositiveButton("Cancel",
 					new DialogInterface.OnClickListener() {

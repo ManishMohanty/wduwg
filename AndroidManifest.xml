@@ -129,7 +129,7 @@
         </activity>
         <activity
             android:name="com.example.wduwg.BusinessOfUserActivity"
-            android:label="Your Businesses" >
+            android:label="" >
         </activity>
         <activity
             android:name="com.example.wduwg.BusinessDashboardActivity"
