@@ -25,7 +25,17 @@ public class GlobalVariable extends Application {
 	// FIXME: shared preferences should be read from here ONLY
 	
 	SharedPreferences sharedPreferences;
+	
+	String startDate;
+    
+	public String getStartDate() {
+		return startDate;
+	}
 
+	public void setStartDate(String startDate) {
+		System.out.println(">>>>>>> set start Date:"+startDate);
+		this.startDate = startDate;
+	}
 	Gson gson;
 	int menIn,menOut,womenIn,womenOut;
 	int intervalMenIn,intervalWomenIn,intervalMenOut,intervalWomenOut;
@@ -142,6 +152,7 @@ public class GlobalVariable extends Application {
 		this.menOut=sharedPreferences.getInt("menOut", 0);
 		this.womenIn=sharedPreferences.getInt("womenIn", 0);
 		this.womenOut=sharedPreferences.getInt("womenOut", 0);
+		this.startDate = sharedPreferences.getString("startDate", null);
 	}	
 	
 	public void saveSharedPreferences(){
@@ -201,6 +212,11 @@ public class GlobalVariable extends Application {
 			editor.putBoolean("isEventThere", true);
 			String eventgsonToJSON = gson.toJson(this.selectedEvent);
 			editor.putString("event", eventgsonToJSON);
+		}
+		
+		if(startDate != null)
+		{
+			editor.putString("startDate", startDate);
 		}
 		
 			editor.putInt("menIn", menIn);

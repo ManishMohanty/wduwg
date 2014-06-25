@@ -1,8 +1,11 @@
 package com.example.wduwg;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.json.JSONObject;
 
@@ -62,12 +65,6 @@ public class BusinessOfUserActivity extends Activity{
 		typeface = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Bold.ttf");
 		messageForuser = (TextView)findViewById(R.id.messageForuser);
 		messageForuser.setTypeface(Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Light.ttf"));
-//		int titleId = getResources().getIdentifier("action_bar_title", "id",
-//				"android");
-//		TextView yourTextView = (TextView) findViewById(titleId);
-//		yourTextView.setTextSize(19);
-//		yourTextView.setTextColor(Color.parseColor("#016AB2"));
-//		yourTextView.setTypeface(typeface);
 		globalVariable = (GlobalVariable)getApplicationContext();
 		
 		LayoutInflater inflater = (LayoutInflater) this
@@ -127,6 +124,14 @@ public class BusinessOfUserActivity extends Activity{
 								}
 								globalVariable.setSelectedBusiness(null);
 								globalVariable.setSelectedBusiness(business);
+								SimpleDateFormat uscFormat = new SimpleDateFormat("HH:mm EEE, MMM d");
+								uscFormat.setTimeZone(TimeZone.getTimeZone("US/Central"));
+								try{
+								globalVariable.setStartDate(uscFormat.format(new Date()));
+								}catch(Exception e)
+								{
+									e.printStackTrace();
+								}
 								globalVariable.saveSharedPreferences();
 										Gson gson = new Gson();
 										String json = gson.toJson(business);
@@ -140,17 +145,6 @@ public class BusinessOfUserActivity extends Activity{
 										ByteArrayOutputStream bs = new ByteArrayOutputStream();
 										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
 										
-//										isExist = true;
-//										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessHomePageActivity.class);
-//										nextIntent.putExtra("business_name",
-//												businessList.get(positionFinal).getName());
-//										nextIntent.putExtra("business_id",
-//												businessList.get(positionFinal).getGooglePlaceID());
-//										nextIntent.putExtra("complete_address",
-//												businessList.get(positionFinal).getAddress()); // new
-//										nextIntent.putExtra("complete_result",
-//												businessList.get(positionFinal).getGoogleAPIResult());
-//										nextIntent.putExtra("byteArray", bs.toByteArray());
 										Intent nextIntent = new Intent(BusinessOfUserActivity.this,CountActivity.class);
 										startActivity(nextIntent);
 										overridePendingTransition(R.anim.anim_out,

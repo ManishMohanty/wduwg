@@ -167,12 +167,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //		totalHeaderTV.setTypeface(typeface);
 //		System.out.println(">>>>>>> startDate:" + tempEvent.getStartDate());
 //		if (tempEvent.getName().equals("defaultEvent"))
-//			totalHeaderTV.setText("No event information.\nCount started at: "
-//					+ globalVariable.timeFormat(tempEvent
-//							.getStartDate()
-//							.replace('T', ',')
-//							.substring(0,
-//									(tempEvent.getStartDate().length() - 8))));
+			totalHeaderTV.setText("Count started at: "
+					+ globalVariable.getStartDate());
 //		else {
 			// if we dont use dateFormat it will show time in IST
 
