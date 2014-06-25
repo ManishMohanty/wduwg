@@ -17,6 +17,7 @@ android:paddingBottom="5dp"
         android:textSize="19sp" />
 
     <ImageButton
+        android:id="@+id/doneButton"
         android:layout_width="70dp"
         android:layout_height="80dp"
         android:layout_alignParentRight="true"

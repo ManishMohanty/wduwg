@@ -143,7 +143,7 @@
         </activity>
         <activity
             android:name="com.wduwg.watch.app.BusinessOfUserActivity"
-            android:label="Businesses" >
+            android:label="" >
         </activity>
         <activity
             android:name="com.wduwg.watch.app.AddSpecialActivity"

@@ -58,6 +58,7 @@
   <string name="notification_frequency">How Often?</string>
   <string name="phone_number">Where? </string>
   <string name="page_prompt">Select Facebook Page</string>  
+  <string name="messageForUser">WelCome to <b>WDUWG</b>. You have following businesses listed under your login. Please select a business from the list below to continue.</string>
     
     
     <style name="ButtonText">
