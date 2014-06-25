@@ -19,8 +19,8 @@
 
 package com.manateeworks.cameraDemo;
 
-import com.example.wduwg.R;
 import com.manateeworks.camera.CameraManager;
+import com.wduwg.owner.app.R;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

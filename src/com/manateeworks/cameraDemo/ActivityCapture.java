@@ -19,12 +19,12 @@
 
 package com.manateeworks.cameraDemo;
 
-import com.example.wduwg.R;
-import com.example.wduwg.ScanerDetailActivity;
 import com.manateeworks.BarcodeScanner;
 import com.manateeworks.camera.CameraManager;
 import com.manateeworks.cameraDemo.Intents.Scan;
 import com.mw.wduwg.services.GlobalVariable;
+import com.wduwg.owner.app.R;
+import com.wduwg.owner.app.ScanerDetailActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
