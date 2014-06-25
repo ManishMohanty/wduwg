@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.apphance.android.Log;
+import com.wduwg.counter.R;
 import com.google.gson.JsonArray;
 import com.mw.wduwg.adapter.SpecialApater;
 import com.mw.wduwg.model.Business;

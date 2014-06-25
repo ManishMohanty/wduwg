@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -65,6 +65,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wduwg.counter.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenSource;
 import com.facebook.FacebookRequestError;

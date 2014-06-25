@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.apphance.android.Log;
-import com.example.wduwg.SpecialActivity.LoadStringsAsync;
+import com.wduwg.counter.R;
 import com.mw.wduwg.adapter.EventAdapter2;
 import com.mw.wduwg.adapter.SpecialApater;
 import com.mw.wduwg.model.Event;
@@ -17,6 +17,7 @@ import com.mw.wduwg.model.Special;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
+import com.wduwg.counter.SpecialActivity.LoadStringsAsync;
 
 import android.app.ActionBar;
 import android.app.Activity;

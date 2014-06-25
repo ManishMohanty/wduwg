@@ -1,9 +1,10 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.wduwg.counter.R;
 import com.manateeworks.cameraDemo.ActivityCapture;
 
 import android.app.Activity;

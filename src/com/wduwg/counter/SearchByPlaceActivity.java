@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apphance.android.activity.ApphanceActivity;
+import com.wduwg.counter.R;
 
 public class SearchByPlaceActivity extends ApphanceActivity {
 	EditText placeNameET;

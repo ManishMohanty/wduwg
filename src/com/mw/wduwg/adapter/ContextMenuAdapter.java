@@ -14,7 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.example.wduwg.R;
+import com.wduwg.counter.R;
 import com.mw.wduwg.model.ContextMenuItem;
 
 public class ContextMenuAdapter extends BaseAdapter {

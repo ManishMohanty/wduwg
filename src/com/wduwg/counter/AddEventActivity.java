@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,6 +42,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.wduwg.counter.R;
 import com.google.gson.Gson;
 import com.mw.wduwg.adapter.AutoCompleteAdapter;
 import com.mw.wduwg.model.Event;

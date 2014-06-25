@@ -12,7 +12,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.wduwg.R;
+import com.wduwg.counter.R;
 import com.parse.ParseObject;
 
 public class AutoCompleteAdapter extends BaseAdapter implements Filterable {

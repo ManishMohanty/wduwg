@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.wduwg.R;
+import com.wduwg.counter.R;
 import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Event;
 import com.mw.wduwg.services.GlobalVariable;

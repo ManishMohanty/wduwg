@@ -1,8 +1,9 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 
 import java.util.Timer;
 
+import com.wduwg.counter.R;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.SchedulerCount;
 import com.mw.wduwg.services.SchedulerFBPosts;

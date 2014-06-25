@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import java.util.Timer;
 
@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.apphance.android.Apphance;
 import com.apphance.android.Apphance.Mode;
 import com.apphance.android.common.Configuration;
+import com.wduwg.counter.R;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.SchedulerCount;

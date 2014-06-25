@@ -6,11 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.apphance.android.Log;
 
-import com.example.wduwg.ReportActualActvivity;
 import com.mw.wduwg.fragments.ReportFragment1;
 import com.mw.wduwg.fragments.ReportFragment2;
 import com.mw.wduwg.fragments.ReportFragment3;
 import com.mw.wduwg.fragments.ReportFragment4;
+import com.wduwg.counter.ReportActualActvivity;
  
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 	public TabsPagerAdapter(FragmentManager fm) {

@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.counter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apphance.android.activity.ApphanceActivity;
+import com.wduwg.counter.R;
 import com.manateeworks.cameraDemo.ActivityCapture;
 import com.mw.wduwg.adapter.ContextMenuAdapter;
 import com.mw.wduwg.model.ContextMenuItem;
