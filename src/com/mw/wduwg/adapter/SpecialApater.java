@@ -3,10 +3,10 @@ package com.mw.wduwg.adapter;
 import java.util.List;
 
 import com.apphance.android.Log;
-import com.example.wduwg.R;
 import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.Special;
+import com.wduwg.counter.app.R;
 
 import android.content.Context;
 import android.graphics.Typeface;

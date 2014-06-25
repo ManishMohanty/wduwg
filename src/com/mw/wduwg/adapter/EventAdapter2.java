@@ -13,11 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.wduwg.R;
 import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Event;
 import com.mw.wduwg.services.GlobalVariable;
 import com.parse.ParseObject;
+import com.wduwg.counter.app.R;
 
 public class EventAdapter2 extends BaseAdapter {
 	Context context;

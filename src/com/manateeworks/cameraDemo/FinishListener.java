@@ -19,7 +19,7 @@
 
 package com.manateeworks.cameraDemo;
 
-import com.example.wduwg.ScanerDetailActivity;
+import com.wduwg.counter.app.ScanerDetailActivity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
