@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.watchapp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.apphance.android.Log;
-import com.example.wduwg.SpecialActivity.LoadStringsAsync;
 import com.mw.wduwg.model.Special;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
@@ -19,6 +18,7 @@ import com.mw.wduwg.services.JSONParser;
 import com.mw.wduwg.services.MyAutoCompleteTextView;
 import com.mw.wduwg.services.ServerURLs;
 import com.parse.Parse;
+import com.wduwg.watch.app.SpecialActivity.LoadStringsAsync;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

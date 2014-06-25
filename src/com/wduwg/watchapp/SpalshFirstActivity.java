@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.watchapp;
 
 import android.app.Activity;
 import android.content.Intent;

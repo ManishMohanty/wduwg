@@ -15,8 +15,8 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.wduwg.R;
 import com.mw.wduwg.services.GlobalVariable;
+import com.wduwg.watch.app.R;
 
 @SuppressLint("ValidFragment")
 public class ReportFragment2 extends Fragment {

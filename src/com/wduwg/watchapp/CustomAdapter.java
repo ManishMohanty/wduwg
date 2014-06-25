@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.watchapp;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;

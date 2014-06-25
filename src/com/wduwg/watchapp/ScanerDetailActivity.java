@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.watchapp;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

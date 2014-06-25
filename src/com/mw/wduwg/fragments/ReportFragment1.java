@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.example.wduwg.R;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
+import com.wduwg.watch.app.R;
 
 public class ReportFragment1 extends Fragment {
 

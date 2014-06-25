@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.watch.app;
 
 import android.content.Intent;
 import android.graphics.Color;

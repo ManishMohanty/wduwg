@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.wduwg.watch.app;
 
 import java.util.List;
 import java.util.Random;
