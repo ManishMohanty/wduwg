@@ -36,6 +36,9 @@ import android.text.Layout.Alignment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.wduwg.CountActivity;
+import com.example.wduwg.LoginFacebookActivity;
+import com.example.wduwg.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenSource;
 import com.facebook.Session;
@@ -46,9 +49,6 @@ import com.parse.entity.mime.HttpMultipartMode;
 import com.parse.entity.mime.MultipartEntity;
 import com.parse.entity.mime.content.ByteArrayBody;
 import com.parse.entity.mime.content.StringBody;
-import com.wduwg.counter.app.CountActivity;
-import com.wduwg.counter.app.LoginFacebookActivity;
-import com.wduwg.counter.app.R;
 
 public class SchedulerFBPosts extends TimerTask {
 

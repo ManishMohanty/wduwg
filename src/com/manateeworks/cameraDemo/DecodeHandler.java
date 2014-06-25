@@ -29,9 +29,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.example.wduwg.R;
 import com.manateeworks.BarcodeScanner;
 import com.manateeworks.camera.CameraManager;
-import com.wduwg.counter.app.R;
 
 final class DecodeHandler extends Handler
 {

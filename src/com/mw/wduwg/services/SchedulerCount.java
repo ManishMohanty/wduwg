@@ -19,9 +19,9 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.wduwg.CountActivity;
 import com.mw.wduwg.model.Event;
 import com.parse.ParseObject;
-import com.wduwg.counter.app.CountActivity;
 
 public class SchedulerCount extends TimerTask {
 
