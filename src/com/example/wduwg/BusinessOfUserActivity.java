@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,11 +20,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +52,7 @@ public class BusinessOfUserActivity extends Activity{
 	JSONObject jsonFromServer;
 	Business selectedBusiness;
 	Typeface typeface;
+	TextView messageForuser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +60,29 @@ public class BusinessOfUserActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_businesses_of_user);
 		typeface = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Bold.ttf");
-		int titleId = getResources().getIdentifier("action_bar_title", "id",
-				"android");
-		TextView yourTextView = (TextView) findViewById(titleId);
-		yourTextView.setTextSize(19);
-		yourTextView.setTextColor(Color.parseColor("#016AB2"));
-		yourTextView.setTypeface(typeface);
+		messageForuser = (TextView)findViewById(R.id.messageForuser);
+		messageForuser.setTypeface(Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Light.ttf"));
+//		int titleId = getResources().getIdentifier("action_bar_title", "id",
+//				"android");
+//		TextView yourTextView = (TextView) findViewById(titleId);
+//		yourTextView.setTextSize(19);
+//		yourTextView.setTextColor(Color.parseColor("#016AB2"));
+//		yourTextView.setTypeface(typeface);
 		globalVariable = (GlobalVariable)getApplicationContext();
+		
+		LayoutInflater inflater = (LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+       View v= (View) inflater.inflate(R.layout.custom_action_bar, null);
+       TextView title = (TextView)v.findViewById(R.id.action_bar_TV);
+       title.setTypeface(typeface);
+       title.setTextSize(19);
+       title.setText("Welcome "+globalVariable.getCustomer().getName());
+       ImageButton ib =(ImageButton) v.findViewById(R.id.doneButton);
+       ib.setVisibility(View.GONE);
+       ActionBar ab = getActionBar();
+       ab.setDisplayShowCustomEnabled(true);
+       ab.setCustomView(v);
+		
 		createDialog = new CreateDialog(this);
 		ListView listView = (ListView) findViewById(R.id.listView);
 		CustomAdapter adapter = new CustomAdapter(

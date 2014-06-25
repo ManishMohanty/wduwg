@@ -5,12 +5,18 @@
     android:background="#E7E7E7"
     android:orientation="vertical" >
     
-    <View android:background="@drawable/splash_image"
+    <TextView android:background="#ffffff"
         android:layout_width="340dp"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#686B69"
+        android:text="@string/messageForuser"
+        android:id="@+id/messageForuser"
         />
     
     <ListView android:layout_width="340dp"

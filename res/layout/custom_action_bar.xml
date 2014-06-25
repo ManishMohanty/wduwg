@@ -23,6 +23,7 @@ android:paddingBottom="5dp"
         android:scaleType="fitXY"
         android:background="@null"
         android:onClick="onDone"
+        android:id="@+id/doneButton"
         android:src="@drawable/done" />
 
 </RelativeLayout>
