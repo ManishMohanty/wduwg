@@ -182,28 +182,11 @@ public class AddSpecialActivity extends Activity {
 
 		if (!validate())
 			return;
-		List<Special> specials = globalVariable.getSelectedBusiness()
-				.getSpecials();
-		boolean isExist = false;
-		if (specials.size() > 0) {
-			for (int i = 0; i < specials.size(); i++) {
-				if (specials.get(i).getName()
-						.equalsIgnoreCase(nameET.getText().toString())) {
-					Toast.makeText(
-							this,
-							"'" + nameET.getText().toString()
-									+ "' specials already exists",
-							Toast.LENGTH_SHORT).show();
-					isExist = true;
-					break;
-				}
-			}
-		}
-		if (isExist == false) {
+		
 			progressDialog.show();
 			LoadStringsAsync asyncTask = new LoadStringsAsync();
 			asyncTask.execute();
-		}
+		
 	}
 
 	private void onTouchListeners() {
