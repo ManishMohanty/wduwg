@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wduwg.owner.app"
+    package="com.example.wduwg"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -37,48 +37,48 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.wduwg.owner.app.MainActivity"
+            android:name="com.example.wduwg.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.BusinessHomePageActivity"
+            android:name="com.example.wduwg.BusinessHomePageActivity"
             android:label="@string/title_activity_add_event_and_gateway"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.SearchByPlaceActivity"
+            android:name="com.example.wduwg.SearchByPlaceActivity"
             android:label="@string/title_activity_search_by_place" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.CountActivity"
+            android:name="com.example.wduwg.CountActivity"
             android:screenOrientation="portrait" >
 
             <!-- android:label="@string/title_activity_count" -->
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.IdentifyingBusinessActivity"
+            android:name="com.example.wduwg.IdentifyingBusinessActivity"
             android:label="@string/title_activity_identifying_business"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.ReportActualActvivity"
+            android:name="com.example.wduwg.ReportActualActvivity"
             android:label="@string/title_activity_reports"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.AddEventActivity"
+            android:name="com.example.wduwg.AddEventActivity"
             android:label="@string/title_activity_events"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.ReportEventActivity"
+            android:name="com.example.wduwg.ReportEventActivity"
             android:label="Select Event"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.ScanPDF417fromActivity"
+            android:name="com.example.wduwg.ScanPDF417fromActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
@@ -92,7 +92,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.LoginFacebookActivity"
+            android:name="com.example.wduwg.LoginFacebookActivity"
             android:label="Facebook"
             android:screenOrientation="portrait" >
         </activity>
@@ -107,36 +107,36 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
-        <activity android:name="com.wduwg.owner.app.ScanerDetailActivity" >
+        <activity android:name="com.example.wduwg.ScanerDetailActivity" >
         </activity>
-        <activity android:name="com.wduwg.owner.app.SettingsActivity" >
+        <activity android:name="com.example.wduwg.SettingsActivity" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.AppSettingsActivity"
+            android:name="com.example.wduwg.AppSettingsActivity"
             android:label="Setttings" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.SpecialActivity"
+            android:name="com.example.wduwg.SpecialActivity"
             android:label="Specials" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.AddSpecialActivity"
+            android:name="com.example.wduwg.AddSpecialActivity"
             android:label="Add Specials" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.EventActivity"
+            android:name="com.example.wduwg.EventActivity"
             android:label="Events" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.BusinessOfUserActivity"
+            android:name="com.example.wduwg.BusinessOfUserActivity"
             android:label="" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.BusinessDashboardActivity"
+            android:name="com.example.wduwg.BusinessDashboardActivity"
             android:label="" >
         </activity>
         <activity
-            android:name="com.wduwg.owner.app.SpalshFirstActivity"
+            android:name="com.example.wduwg.SpalshFirstActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

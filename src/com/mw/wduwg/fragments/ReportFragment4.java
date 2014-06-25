@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import com.example.wduwg.R;
 import com.mw.wduwg.services.GlobalVariable;
-import com.wduwg.owner.app.R;
 
 public class ReportFragment4 extends Fragment {
 
