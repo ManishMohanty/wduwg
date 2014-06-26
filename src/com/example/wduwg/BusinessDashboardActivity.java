@@ -206,7 +206,7 @@ public class BusinessDashboardActivity extends Activity {
 						special.setName(jsonobject.getString("name"));
 						String starts_from = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
 						String valid_upto =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
-						special.setDescription("Starts from- "+starts_from + "\nValid upto- " + valid_upto);
+						special.setDescription("Start Time "+starts_from + "\nEnd Time " + valid_upto);
 						special.setImageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg92ThBRn7ux2rLEWxZUIKLK-rmMbBBgr6x9ugUZsYUocytf4z");
 						specialList.add(special);
 						
