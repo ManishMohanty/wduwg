@@ -124,7 +124,7 @@ public class LoginFacebookActivity extends Activity {
 	private Facebook facebook;
 
 	private AsyncFacebookRunner mAsyncRunner;
-	String FILENAME = "AndroidSSO_data";
+//	String FILENAME = "AndroidSSO_data";
 
 	String userID , user_access_token,page_access_token;
 	AlertDialog alertDialog;
@@ -194,6 +194,7 @@ public class LoginFacebookActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.facebook_login);
+		
         fromContext = getIntent().getBooleanExtra("fromContext", false);
 		findThings();
 		if(fromContext == false)
@@ -211,6 +212,7 @@ public class LoginFacebookActivity extends Activity {
 
 		globalVariable = (GlobalVariable) getApplicationContext();
 
+		
 		loginToFacebook();
 
 	}
@@ -230,6 +232,7 @@ public class LoginFacebookActivity extends Activity {
 
 		if (!facebook.isSessionValid()) {
 			System.out.println("if3");
+			System.out.println(">>>>>>> insde login");
 			facebook.authorize(this,
 					new String[] { "email", "publish_stream" ,"manage_pages","publish_actions","status_update","photo_upload","offline_access"},Facebook.FORCE_DIALOG_AUTH,
 					new DialogListener() {
@@ -238,6 +241,7 @@ public class LoginFacebookActivity extends Activity {
 						public void onCancel() {
 
 							// Function to handle cancel event
+							System.out.println(">>>>>>> inside login cancel");
 							LoginFacebookActivity.this.setResult(RESULT_OK);
 							finish();
 						}
