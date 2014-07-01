@@ -233,8 +233,9 @@ public class LoginFacebookActivity extends Activity {
 		if (!facebook.isSessionValid()) {
 			System.out.println("if3");
 			System.out.println(">>>>>>> insde login");
+//			new String[] { "email", "publish_stream" ,"manage_pages","publish_actions","status_update"
 			facebook.authorize(this,
-					new String[] { "email", "publish_stream" ,"manage_pages","publish_actions","status_update","photo_upload","offline_access"},Facebook.FORCE_DIALOG_AUTH,
+					new String[] { "email"},Facebook.FORCE_DIALOG_AUTH,
 					new DialogListener() {
 
 						@Override
