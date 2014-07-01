@@ -338,40 +338,35 @@ public class LoginFacebookActivity extends Activity {
 			// System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage = "";
-			Event tempEvent = globalVariable.getSelectedEvent();
-			System.out
-					.println(">>>>>>> while post inside login facebook global slected event"
-							+ tempEvent.getName());
-			System.out.println(tempEvent.getName());
+//			Event tempEvent = globalVariable.getSelectedEvent();
+//			System.out
+//					.println(">>>>>>> while post inside login facebook global slected event"
+//							+ tempEvent.getName());
+//			System.out.println(tempEvent.getName());
 			postMessage = postMessage
 					+ "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
-					+ tempEvent.getName();
-			if (!tempEvent.getName().equals("defaultEvent")) {
+					+ "Ab koi Event nahi hai";
+//			if (!tempEvent.getName().equals("defaultEvent")) {
+//				postMessage = postMessage
+//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"
+//						+ convertDate(tempEvent
+//								.getStartDate()
+//								.replace('T', ',')
+//								.substring(
+//										0,
+//										(tempEvent.getStartDate().length() - 13)))
+//						+ "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t"
+//						+ convertDate(tempEvent
+//								.getEndDate()
+//								.replace('T', ',')
+//								.substring(0,
+//										(tempEvent.getEndDate().length() - 13)));
+//			} else {
 				postMessage = postMessage
 						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"
-						+ convertDate(tempEvent
-								.getStartDate()
-								.replace('T', ',')
-								.substring(
-										0,
-										(tempEvent.getStartDate().length() - 13)))
-						+ "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t"
-						+ convertDate(tempEvent
-								.getEndDate()
-								.replace('T', ',')
-								.substring(0,
-										(tempEvent.getEndDate().length() - 13)));
-			} else {
-				postMessage = postMessage
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"
-						+ convertDate(tempEvent
-								.getStartDate()
-								.replace('T', ',')
-								.substring(
-										0,
-										(tempEvent.getStartDate().length() - 13)))
+						+ globalVariable.getStartDate()
 						+ "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
-			}
+//			}
 			int length = ((globalVariable.getMenIn() - globalVariable
 					.getMenOut()) + "").length() - 1;
 
