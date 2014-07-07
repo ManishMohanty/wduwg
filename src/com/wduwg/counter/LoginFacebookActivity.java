@@ -343,9 +343,9 @@ public class LoginFacebookActivity extends Activity {
 //					.println(">>>>>>> while post inside login facebook global slected event"
 //							+ tempEvent.getName());
 //			System.out.println(tempEvent.getName());
-			postMessage = postMessage
-					+ "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
-					+ "Ab koi Event nahi hai";
+//			postMessage = postMessage
+//					+ "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+//					+ "Ab koi Event nahi hai";
 //			if (!tempEvent.getName().equals("defaultEvent")) {
 //				postMessage = postMessage
 //						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"
@@ -362,16 +362,16 @@ public class LoginFacebookActivity extends Activity {
 //								.substring(0,
 //										(tempEvent.getEndDate().length() - 13)));
 //			} else {
-				postMessage = postMessage
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"
-						+ globalVariable.getStartDate()
-						+ "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
+//				postMessage = postMessage
+//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"
+//						+ globalVariable.getStartDate()
+//						+ "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
 //			}
 			int length = ((globalVariable.getMenIn() - globalVariable
 					.getMenOut()) + "").length() - 1;
 
 			postMessage = postMessage
-					+ "\n  Number of Patrons:\t\t\t"
+					+ "\n  Current Attendance:\t\t\t"
 					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable
 							.getWomenIn() - globalVariable.getWomenOut()))
 					+ "\n  Men: "
@@ -396,12 +396,13 @@ public class LoginFacebookActivity extends Activity {
 				final Rect bounds = new Rect();
 				TextPaint textPaint = new TextPaint() {
 					{
-						setColor(Color.parseColor("#ffffff"));
+						setColor(Color.parseColor("#686b69"));
 						setTextAlign(Paint.Align.LEFT);
-						setTypeface(Typeface.createFromAsset(
-								LoginFacebookActivity.this.getAssets(),
-								"Fonts/OpenSans-Light.ttf"));
-						setTextSize(35f);
+//						setTypeface(Typeface.createFromAsset(
+//								LoginFacebookActivity.this.getAssets(),
+//								"Fonts/OpenSans-Light.ttf"));
+						setTypeface(Typeface.DEFAULT_BOLD);
+						setTextSize(35f); // 35f
 						setAntiAlias(true);
 					}
 				};
@@ -419,7 +420,7 @@ public class LoginFacebookActivity extends Activity {
 				final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth(),
 						mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
 
-				bmp.eraseColor(Color.parseColor("#3c8383"));// just adding black
+				bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black #3c8383
 															// background
 				final Canvas canvas = new Canvas(bmp);
 				mTextLayout.draw(canvas);

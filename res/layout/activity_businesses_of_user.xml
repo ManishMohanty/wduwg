@@ -6,26 +6,57 @@
     android:orientation="vertical" >
     
     <TextView android:background="#ffffff"
-        android:layout_width="340dp"
-        android:layout_height="100dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:textSize="18sp"
         android:textColor="#686B69"
         android:text="@string/messageForuser"
         android:id="@+id/messageForuser"
         />
     
-    <ListView android:layout_width="340dp"
+    <!-- <ListView android:layout_width="340dp"
               android:layout_height="match_parent"
               android:layout_gravity="center_horizontal"
               android:background="#ffffff"
               android:divider="#E7E7E7"
               android:dividerHeight="10.0dp"
               android:id="@+id/listView">    
-    </ListView>
+    </ListView> -->
+    
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="12dp"
+                    >
+             <!--       android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                     android:layout_marginTop="10dp" -->
+    <GridView 
+    android:id="@+id/gridView1"
+    android:numColumns="2"
+    android:gravity="center"
+    android:verticalSpacing="12dp"
+    android:horizontalSpacing="12dp"
+    android:columnWidth="100dp"
+    android:stretchMode="columnWidth"
+    android:layout_width="fill_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp" 
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_height="match_parent" >
+    
+    </GridView>
+    </RelativeLayout>
+    
 
 </LinearLayout>

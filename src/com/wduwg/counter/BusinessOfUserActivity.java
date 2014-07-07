@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -82,17 +83,19 @@ public class BusinessOfUserActivity extends Activity{
        ab.setCustomView(v);
 		
 		createDialog = new CreateDialog(this);
-		ListView listView = (ListView) findViewById(R.id.listView);
-		CustomAdapter adapter = new CustomAdapter(
-				BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
-		listView.setAdapter(adapter);
+//		ListView listView = (ListView) findViewById(R.id.listView);
+		GridView gridView = (GridView)findViewById(R.id.gridView1);
+//		CustomAdapter adapter = new CustomAdapter(
+//				BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
+		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
+		gridView.setAdapter(adapter);
 		Pagelist = new ArrayList<String>();
 
 		for (int i = 0; i < globalVariable.getCustomer().getPages().size(); i++) {
 			Pagelist.add(globalVariable.getCustomer().getPages().get(i)
 					.getName());
 		}
-	     listView.setOnItemClickListener(new OnItemClickListener() {
+		gridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -138,13 +141,13 @@ public class BusinessOfUserActivity extends Activity{
 										String json = gson.toJson(business);
 										System.out.println(">>>>>>> business existing"
 												+ json);
-										final ImageView image_view = (ImageView) viewFinal
-												.findViewById(R.id.icon);
-										final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
-												.getDrawable();
-										 bitmap = bitmapDrawable.getBitmap();
-										ByteArrayOutputStream bs = new ByteArrayOutputStream();
-										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+//										final ImageView image_view = (ImageView) viewFinal
+//												.findViewById(R.id.icon);
+//										final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
+//												.getDrawable();
+//										 bitmap = bitmapDrawable.getBitmap();
+//										ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
 										
 										Intent nextIntent = new Intent(BusinessOfUserActivity.this,CountActivity.class);
 										startActivity(nextIntent);
