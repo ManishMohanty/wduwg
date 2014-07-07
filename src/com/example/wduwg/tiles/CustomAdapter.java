@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apphance.android.Log;
+import com.example.wduwg.tiles.R;
 import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.services.GlobalVariable;

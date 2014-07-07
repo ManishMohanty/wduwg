@@ -19,7 +19,7 @@ import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.example.wduwg.CountActivity;
+import com.example.wduwg.tiles.CountActivity;
 import com.mw.wduwg.model.Event;
 import com.parse.ParseObject;
 

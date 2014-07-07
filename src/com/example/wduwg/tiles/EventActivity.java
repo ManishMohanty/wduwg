@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.apphance.android.Log;
-import com.example.wduwg.SpecialActivity.LoadStringsAsync;
+import com.example.wduwg.tiles.R;
+import com.example.wduwg.tiles.SpecialActivity.LoadStringsAsync;
 import com.mw.wduwg.adapter.EventAdapter2;
 import com.mw.wduwg.adapter.SpecialApater;
 import com.mw.wduwg.model.Event;
@@ -29,11 +30,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class EventActivity extends Activity {
 ListView eventLV;
+GridView eventsGV;
 	
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -52,7 +57,8 @@ ListView eventLV;
 		actionBar = getActionBar();
 		
 		globalVariable = (GlobalVariable)getApplicationContext();
-		eventLV = (ListView)findViewById(R.id.eventList);
+//		eventLV = (ListView)findViewById(R.id.eventList);
+		eventsGV = (GridView)findViewById(R.id.eventsGV);
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "wait for a while", true, null);
 		progressDialog.show();
@@ -127,11 +133,11 @@ ListView eventLV;
 						{
 							
 						    String endTime =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
-							event.setDescription("Start Time "+startTime + "\nEnd Time " + endTime);
+							event.setDescription("Start @ "+startTime + "\nEnd @ " + endTime);
 						}else
 						{
 							String endTime =  "daily";
-							event.setDescription("Start Time "+startTime + "\nEnd Time " + endTime);
+							event.setDescription("Start @ "+startTime + "\nEnd @ " + endTime);
 						}
 						event.setImageUrl("http://fifthgroup.com/boldamericancatering/wp-content/uploads/sites/10/2014/02/boldamerican-053.jpg");
 						eventList.add(event);
@@ -153,9 +159,28 @@ ListView eventLV;
             System.out.print(">>>>>>> list-size:"+events.size()+ "===========data"+events.get(0).getName());
             for(int i=0;i<events.size();i++)
             	System.out.println(">>>>>>> "+events.get(i).getName());
+            Event newEvent = new Event();
+            newEvent.setName("Add new Event");
+            newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
+            events.add(newEvent);
 			globalVariable.getSelectedBusiness().setEventList(events);
             EventAdapter2 adapter = new EventAdapter2(EventActivity.this, events);
-            eventLV.setAdapter(adapter);
+//            eventLV.setAdapter(adapter);
+            eventsGV.setAdapter(adapter);
+            eventsGV.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Event selectedEvent = events.get(position);
+					if(selectedEvent.getName().equalsIgnoreCase("Add new Event"))
+					{
+						newEvent(null);
+					}
+					
+				}
+			});
 			}
 		}
 	}

@@ -1,7 +1,8 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -10,8 +11,10 @@ import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -23,13 +26,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.apphance.android.Log;
-import com.example.wduwg.SpecialActivity.LoadStringsAsync;
+import com.google.gson.Gson;
 import com.mw.wduwg.adapter.EventAdapter2;
 import com.mw.wduwg.adapter.SpecialApater;
 import com.mw.wduwg.model.Event;
@@ -37,34 +42,60 @@ import com.mw.wduwg.model.Special;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
+import com.mw.wduwg.services.SchedulerCount;
 
 
 public class BusinessDashboardActivity extends Activity {
 
 	
-	Typeface typefaceBold;
+	Typeface typefaceBold,typefaceLight;
 	GlobalVariable globalVariable;
 	List<Event> eventList ;
 	List<Special> specialList;
 	ListView eventListView, SpecialListView;
-	CreateDialog createDialog;
+	TextView eventLabel ,specialLabel , visitorLabel;
+	GridView eventgridView,specialgridView;
+	CreateDialog createDialog ;
+	AlertDialog.Builder alertDialogBuilder;
+	AlertDialog alertDialog;
 	ProgressDialog progressDialog;
 	int men_in=0,women_in=0,men_out=0,women_out=0;
 	
 	TextView totalCount,menCount,womenCount,totalVisitors;
+	Gson gson;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_business_dashboard);
+		
+		gson = new Gson();
+		
 		typefaceBold = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Bold.ttf");
+		typefaceLight = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Light.ttf");
 		 totalCount = (TextView)findViewById(R.id.totalCount);
 		 menCount = (TextView)findViewById(R.id.menCount);
 		 womenCount = (TextView) findViewById(R.id.womenCount);
 		 totalVisitors = (TextView)findViewById(R.id.totalVisitor);
-		eventListView = (ListView) findViewById(R.id.evntlistView);
-		SpecialListView = (ListView)findViewById(R.id.speciallistView);
+		 
+		 totalCount.setTypeface(typefaceLight);
+		 menCount.setTypeface(typefaceLight);
+		 womenCount.setTypeface(typefaceLight);
+		 totalVisitors.setTypeface(typefaceLight);
+		 
+		 
+		 eventLabel = (TextView)findViewById(R.id.events_label);
+		 eventLabel.setTypeface(typefaceBold);
+		 specialLabel = (TextView)findViewById(R.id.special_labels);
+		 specialLabel.setTypeface(typefaceBold);
+		 visitorLabel = (TextView)findViewById(R.id.visitorLabel);
+		 visitorLabel.setTypeface(typefaceBold);
+		 
+//		eventListView = (ListView) findViewById(R.id.evntlistView);
+		 eventgridView = (GridView)findViewById(R.id.eventGV);
+//		SpecialListView = (ListView)findViewById(R.id.speciallistView);
+		 specialgridView = (GridView)findViewById(R.id.specialGV);
 		globalVariable = (GlobalVariable)getApplicationContext();
         LayoutInflater inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
@@ -132,29 +163,36 @@ public class BusinessDashboardActivity extends Activity {
 				System.out.println(">>>>>>> response length:"+specialsjsonarr.length());
 				if(specialsjsonarr.length()>0)
 				{
+					
 					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
-						Event event = new Event();
+						Event event ;
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
-						event.setName(jsonobject.getString("name"));
+							System.out.println(">>>>>>> json:"+jsonobject.toString());
+						 event = gson.fromJson(jsonobject.toString(), Event.class);
+		     			event.setName(jsonobject.getString("name"));
+		     			System.out.println(">>>>>>> event id:"+event.getId().get$oid());
 						String startTime = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
+						event.setStartDate(startTime);
 						if(!event.getName().equalsIgnoreCase("defaultEvent"))
 						{
 							System.out.println(">>>>>>> endDate"+jsonobject.getString("end_date_time"));
 						    String endTime =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
-							event.setDescription("Start Time "+startTime + "\nEnd Time " + endTime);
+							event.setDescription("Start @ "+startTime+"\nEnd @ "+ endTime);
+							event.setEndDate(endTime);
 						}else
 						{
 							String endTime =  "daily";
-							event.setDescription("Start Time "+startTime + "\nEnd Time " + endTime);
+							event.setDescription("Start @ "+startTime + "\nEnd @ " + endTime);
+							event.setEndDate(endTime);
 						}
+						
 						event.setImageUrl("http://fifthgroup.com/boldamericancatering/wp-content/uploads/sites/10/2014/02/boldamerican-053.jpg");
 						eventList.add(event);
 					} // end of for
 				} // end of if
 				
 			} catch (Exception e) {
-				Log.d("Response========", "inside catch");
 				e.printStackTrace();
 			}
 			return eventList;
@@ -199,22 +237,23 @@ public class BusinessDashboardActivity extends Activity {
 				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/specials.json",params);
 				if(specialsjsonarr.length()>0)
 				{
+					
 					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
-						Special special = new Special();
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
+						Special special = gson.fromJson(jsonobject.toString(), Special.class);
 						special.setName(jsonobject.getString("name"));
 						String starts_from = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
 						String valid_upto =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
-						special.setDescription("Start Time "+starts_from + "\nEnd Time " + valid_upto);
+						special.setStartDate(starts_from);
+						special.setEndDate(valid_upto);
+						special.setDescription("Start @ "+starts_from + "\nEnd @ " + valid_upto);
 						special.setImageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg92ThBRn7ux2rLEWxZUIKLK-rmMbBBgr6x9ugUZsYUocytf4z");
 						specialList.add(special);
-						
 					}
 				}
 				
 			} catch (Exception e) {
-				Log.d("Response========", "inside catch");
 				e.printStackTrace();
 			}
 			return specialList;
@@ -259,7 +298,6 @@ public class BusinessDashboardActivity extends Activity {
 				}
 				
 			} catch (Exception e) {
-				Log.d("Response========", "inside catch");
 				e.printStackTrace();
 			}
 			return null;
@@ -276,16 +314,66 @@ public class BusinessDashboardActivity extends Activity {
 			{
 		     specials = globalVariable.getSelectedBusiness().getSpecials().subList(0, 2);
 			}else
+			{
 			specials = globalVariable.getSelectedBusiness().getSpecials();
+			Special newSpecial = new Special();
+			newSpecial.setName("Add New Special");
+			newSpecial.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
+			specials.add(newSpecial);
+			}
             SpecialApater adapter = new SpecialApater(BusinessDashboardActivity.this, specials);
-            SpecialListView.setAdapter(adapter);
+//            SpecialListView.setAdapter(adapter);
+            specialgridView.setAdapter(adapter);
+            specialgridView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Special special = globalVariable.getSelectedBusiness().getSpecials().get(position);
+					Intent intent = new Intent(BusinessDashboardActivity.this,AddSpecialActivity.class);
+					if(special.getName().equalsIgnoreCase("Add new Special"))
+					{
+						intent.putExtra("newAdd", true);
+					}
+					intent.putExtra("special", special);
+					startActivity(intent);
+				}
+			
+            
+            });
             if(globalVariable.getSelectedBusiness().getEventList().size() >1)
             {
              events = globalVariable.getSelectedBusiness().getEventList().subList(0, 2);
             }else
+            {
             	events = globalVariable.getSelectedBusiness().getEventList();
+            Event newEvent = new Event();
+            newEvent.setName("Add new Event");
+            newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
+            events.add(newEvent);
+            }
             EventAdapter2 adapter1 = new EventAdapter2(BusinessDashboardActivity.this, events);
-            eventListView.setAdapter(adapter1);
+//            eventListView.setAdapter(adapter1);
+            eventgridView.setAdapter(adapter1);
+            eventgridView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Event event1 = globalVariable.getSelectedBusiness().getEventList().get(position);
+					Intent intent = new Intent(BusinessDashboardActivity.this,AddEventActivity.class);
+					if(event1.getName().equalsIgnoreCase("Add new Event"))
+					{
+						intent.putExtra("addNew", true);
+					}
+					intent.putExtra("event",event1);
+					startActivity(intent);
+				}
+			
+            });
+            
 			totalCount.setText("Total :"+((men_in+women_in)-(men_out+women_out)));
 			menCount.setText("Men :"+(men_in-men_out));
 			womenCount.setText("Women :"+(women_in-women_out));
@@ -298,9 +386,14 @@ public class BusinessDashboardActivity extends Activity {
 		// TODO Auto-generated method stub
 		getMenuInflater().inflate(R.menu.overflow_options_menu, menu);
 		CharSequence rawTitle = "Logout";
+		CharSequence delink = "Delink";
 		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
+		menu.findItem(R.id.menu_delink).setTitleCondensed(delink);
 
 		SpannableString logoutstr = new SpannableString(rawTitle);
+		SpannableString delinkstr = new SpannableString(delink);
+		delinkstr.setSpan(typefaceBold, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
 		logoutstr.setSpan(typefaceBold, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
 		return true;
@@ -309,13 +402,21 @@ public class BusinessDashboardActivity extends Activity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		MenuItem logouItem = menu.findItem(R.id.menu_logout);
+		MenuItem logoutItem = menu.findItem(R.id.menu_logout);
 		if(globalVariable.getFb_access_token() !=null)
 		{
-			logouItem.setEnabled(true);
+			logoutItem.setEnabled(true);
 		}else
 		{
-			logouItem.setEnabled(false);
+			logoutItem.setEnabled(false);
+		}
+		MenuItem delinkItem = menu.findItem(R.id.menu_delink);
+		if(globalVariable.getSelectedBusiness()!=null)
+		{
+			delinkItem.setEnabled(true);
+		}else
+		{
+			delinkItem.setEnabled(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -342,6 +443,47 @@ public class BusinessDashboardActivity extends Activity {
 			Intent nextIntent = new Intent(BusinessDashboardActivity.this,SpalshFirstActivity.class);
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(nextIntent);
+		case R.id.menu_delink:
+			
+			alertDialogBuilder = createDialog
+			.createAlertDialog(
+					"Delink",
+					"Do you wish to delink business with device ?",
+					false);
+	alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			alertDialog.dismiss();
+			SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
+			Timer timer = new Timer();
+			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+			scheduledTask.run();
+			SchedulerCount.event = globalVariable.getSelectedEvent();
+			timer.cancel();
+			globalVariable.setSelectedBusiness(null);
+			globalVariable.setSelectedEvent(null);
+			globalVariable.setMenIn(0);
+			globalVariable.setMenOut(0);
+			globalVariable.setWomenIn(0);
+			globalVariable.setWomenOut(0);
+			globalVariable.saveSharedPreferences();
+			Intent nextIntent = new Intent(BusinessDashboardActivity.this, BusinessOfUserActivity.class);
+			startActivity(nextIntent);
+			overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+		}
+	});
+	alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			alertDialog.dismiss();
+		}
+	});
+	alertDialog = alertDialogBuilder.create();
+	alertDialog.show();
 		default:
 			return super.onOptionsItemSelected(item);
 		}

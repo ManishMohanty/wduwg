@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -47,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apphance.android.Log;
+import com.example.wduwg.tiles.R;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.Customer;
 import com.mw.wduwg.services.CreateDialog;

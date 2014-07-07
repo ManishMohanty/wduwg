@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <string name="app_name">WDUWG Owner</string>
+    <string name="app_name">WDUWG Owner Tiles</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_google_api">GoogleApiActivity</string>
@@ -17,6 +17,7 @@
     <string name="title_activity_events">Add Event Details	</string>
     <string name="title_activity_reports">Reports</string>
     <string name="continueText"><u><b>Continue</b></u></string>
+    <string name="delete"><u><b>Delete</b></u></string>
     <string name="delink"><u><b>Delink Device</b></u></string>
     <string name="delink2"><u><b>Delink\nDevice</b></u></string>
     <string name="skip"><u><b>Skip</b></u></string>
@@ -62,7 +63,7 @@
   <string name="allEvents"><b><u>All Events</u> \u0020 \u0020></b></string>
   <string name="allSpecials"><b><u>All Specials</u> \u0020 \u0020></b></string>
   <string name="view"><b><u>View</u> \u0020 \u0020></b></string>
-  <string name="messageForUser">WelCome to <b>WDUWG</b>. You have following businesses listed under your login. Please select a business from the list below to continue.</string>
+  <string name="messageForUser">The following businesses are listed under your login. Please select a business to continue.</string>
     
     
     <style name="ButtonText">

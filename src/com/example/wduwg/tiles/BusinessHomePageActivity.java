@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wduwg.tiles.R;
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.BusinessFBPage;

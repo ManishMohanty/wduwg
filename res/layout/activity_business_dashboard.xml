@@ -8,24 +8,27 @@
     
     <RelativeLayout android:layout_width="fill_parent"
                     android:layout_height="0dip"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight=".37"
                     android:background="#ffffff"
                     >
     
-    <TextView android:layout_width="wrap_content"
+    <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:text="Current/Upcoming Events"
+              android:text="Events"
               android:id="@+id/events_label"
+              android:clickable="true"
+              android:onClick="allEvents"
               android:textSize="20sp"
-              android:textColor="#0669b1"
+              android:textColor="#686B69"
+              android:paddingLeft="10dp"
               android:layout_alignParentTop="true"
-              android:layout_centerHorizontal="true"
-              android:layout_marginTop="5dp"/>
+              android:background="@drawable/one_side_border"/>
+<!--               android:layout_centerHorizontal="true" -->
     
-   <ListView android:layout_width="340dp"
+   <!-- <ListView android:layout_width="340dp"
               android:layout_height="wrap_content"
               android:layout_below="@+id/events_label"
               android:layout_gravity="center_horizontal"
@@ -33,17 +36,36 @@
               android:divider="#E7E7E7"
               android:id="@+id/evntlistView" >
        
-   </ListView> 
+   </ListView>  -->
+   <GridView 
+    android:id="@+id/eventGV"
+    android:layout_below="@+id/events_label"
+    android:numColumns="2"
+    android:gravity="center"
+    android:verticalSpacing="12dp"
+    android:horizontalSpacing="12dp"
+    android:columnWidth="100dp"
+    android:stretchMode="columnWidth"
+    android:layout_width="fill_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp" 
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_height="match_parent" >
+    </GridView>
    
-   <TextView  android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="@string/allEvents"
-              android:layout_alignParentBottom="true"
+   <View  android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:background="@drawable/gt"
               android:layout_alignParentRight="true"
-              android:textSize="20dp"
+              android:layout_alignParentTop="true"
+              android:layout_marginTop="7dp"
+              android:layout_marginRight="5dp"
               android:clickable="true"
               android:onClick="allEvents"
-              android:textColor="#ff0000"/>
+              />
+<!--               android:layout_alignParentBottom="true" -->
    
    </RelativeLayout>
   <View 
@@ -57,41 +79,64 @@
   <RelativeLayout android:layout_width="fill_parent"
                   android:layout_height="0dip"
                   android:background="#ffffff"
-                  android:layout_marginLeft="10dp"
+                  android:layout_marginLeft="15dp"
                   android:layout_weight=".37"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="15dp"
                   >
-   <TextView  android:layout_width="wrap_content"
+   <TextView  android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:id="@+id/special_labels"
-              android:text="Current/Upcoming Specials"
+              android:text="Specials"
               android:textSize="20sp"
-              android:textColor="#0669b1"
-              android:layout_centerHorizontal="true"
+              android:clickable="true"
+              android:onClick="allSpecials"
+              android:textColor="#686B69"
+              android:paddingLeft="10dp"
               android:layout_alignParentTop="true"
+              android:background="@drawable/one_side_border"
               />
+              <!-- android:layout_centerHorizontal="true" -->
       
     
-   <ListView android:layout_width="340dp"
+   <!-- <ListView android:layout_width="340dp"
               android:layout_height="wrap_content"
               android:layout_below="@+id/special_labels"
               android:layout_gravity="center_horizontal"
               android:dividerHeight="1.0dp"
               android:divider="#E7E7E7"
-              android:id="@+id/speciallistView" >
-              
-       
-       
-   </ListView> 
-   <TextView  android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentBottom="true"
+              android:id="@+id/speciallistView" > -->
+  <!--  </ListView> --> 
+  
+  <GridView 
+    android:id="@+id/specialGV"
+    android:layout_below="@+id/special_labels"
+    android:numColumns="2"
+    android:gravity="center"
+    android:verticalSpacing="12dp"
+    android:horizontalSpacing="12dp"
+    android:columnWidth="100dp"
+    android:stretchMode="columnWidth"
+    android:layout_width="fill_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp" 
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_height="match_parent" >
+    </GridView>
+  
+  
+   <View  android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:background="@drawable/gt"
               android:layout_alignParentRight="true"
-              android:text="@string/allSpecials"
+              android:layout_alignParentTop="true"
+              android:layout_marginRight="5dp"
+              android:layout_marginTop="7dp"
               android:clickable="true"
               android:onClick="allSpecials"
-              android:textSize="20dp"
-              android:textColor="#ff0000"/>
+              />
+<!--               android:layout_alignParentBottom="true" -->
    
    </RelativeLayout>
    
@@ -106,62 +151,69 @@
    <RelativeLayout  android:layout_width="fill_parent"
                     android:layout_height="0dip"
                     android:background="#ffffff"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_weight=".24"
-                    android:layout_marginRight="10dp" >
-   <TextView  android:layout_width="wrap_content"
+                    android:layout_marginRight="15dp" >
+   <TextView  android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:id="@+id/visitorLabel"
-              android:layout_centerHorizontal="true"
-              android:text="Current Visitors"
+              android:text="Attendance"
               android:textSize="20sp"
-              android:textColor="#0669b1"
-              android:layout_alignParentTop="true"/>
+              android:textColor="#686B69"
+              android:paddingLeft="10dp"
+              android:clickable="true"
+              android:onClick="viewDetail"
+              android:layout_alignParentTop="true"
+              android:background="@drawable/one_side_border"/>
+              <!-- android:layout_centerHorizontal="true" -->
    
-   <TextView android:layout_width="wrap_content"
+   <TextView android:layout_width="fill_parent"
              android:layout_height="wrap_content"
              android:id="@+id/totalCount"
              android:layout_below="@+id/visitorLabel"
              android:text="Total Count:"
+             android:paddingLeft="10dp"
              android:textStyle="bold"
-             android:layout_marginLeft="10dp"
+             android:background="@drawable/one_side_border"
              android:textSize="16sp"
              android:textColor="#686B69"/>
-   <TextView  android:layout_width="wrap_content"
+   <TextView  android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:layout_marginLeft="10dp"
+              android:background="@drawable/one_side_border"
               android:id="@+id/menCount"
               android:layout_below="@+id/totalCount"
               android:text="Men Count:"
+              android:paddingLeft="10dp"
               android:textStyle="bold"
               android:textSize="16sp"
               android:textColor="#686B69"  /> 
-   <TextView android:layout_width="wrap_content"
+   <TextView android:layout_width="fill_parent"
              android:layout_height="wrap_content"
-             android:layout_marginLeft="10dp"
+             android:background="@drawable/one_side_border"
              android:id="@+id/womenCount"
              android:layout_below="@+id/menCount"
              android:text="Women Count:"
+             android:paddingLeft="10dp"
              android:textStyle="bold"
              android:textColor="#686B69"
              android:textSize="16sp"
              />   
-    <TextView android:layout_width="wrap_content"
+    <TextView android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:layout_below="@+id/womenCount"
               android:id="@+id/totalVisitor"
               android:text="Total Visitors Today:"
               android:textStyle="bold"
-              android:layout_marginLeft="10dp"
+              android:paddingLeft="10dp"
               android:textColor="#686B69"
               android:textSize="16sp"/>
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_below="@+id/womenCount"
+    <View android:layout_width="12dp"
+              android:layout_height="12dp"
+              android:background="@drawable/gt"
               android:layout_alignParentRight="true"
-              android:text="@string/view"
-              android:textColor="#ff0000"
-              android:textSize="20sp"
+              android:layout_alignParentTop="true"
+              android:layout_marginTop="7dp"
+              android:layout_marginRight="5dp"
               android:clickable="true"
               android:onClick="viewDetail"/>
    </RelativeLayout>

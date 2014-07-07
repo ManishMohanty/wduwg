@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apphance.android.activity.ApphanceActivity;
+import com.example.wduwg.tiles.R;
 
 public class SearchByPlaceActivity extends ApphanceActivity {
 	EditText placeNameET;

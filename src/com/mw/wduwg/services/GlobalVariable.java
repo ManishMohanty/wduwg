@@ -301,7 +301,7 @@ public class GlobalVariable extends Application {
 	{
 		System.out.println(">>>>>>>current time:"+datetime);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat df = new SimpleDateFormat("MMMM dd, yyyy");
+		DateFormat df = new SimpleDateFormat("MMMM dd,yyyy");
 		String date = datetime.split(",")[0];
 		int day =Integer.parseInt( date.split("-")[2]);
 		String time = datetime.split(",")[1];

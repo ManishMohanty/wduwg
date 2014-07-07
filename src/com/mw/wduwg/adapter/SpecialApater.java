@@ -3,7 +3,7 @@ package com.mw.wduwg.adapter;
 import java.util.List;
 
 import com.apphance.android.Log;
-import com.example.wduwg.R;
+import com.example.wduwg.tiles.R;
 import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.Special;
@@ -57,13 +57,13 @@ public class SpecialApater extends BaseAdapter {
 		if (convertView == null) {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.event_item, parent, false);
+			convertView = inflater.inflate(R.layout.griditem, null);
 			viewHolder = new ViewHolder();
-			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
-			viewHolder.description = (TextView) convertView
-					.findViewById(R.id.desc);
+			viewHolder.name = (TextView) convertView.findViewById(R.id.businessName);
+//			viewHolder.description = (TextView) convertView
+//					.findViewById(R.id.address);
 			viewHolder.image = (SmartImageView) convertView
-					.findViewById(R.id.icon);
+					.findViewById(R.id.image);
 
 			convertView.setTag(viewHolder);
 
@@ -74,9 +74,9 @@ public class SpecialApater extends BaseAdapter {
 		viewHolder.name.setTypeface(typeface);
 		viewHolder.name.setText(special.getName());
 
-		viewHolder.description.setTypeface(Typeface.createFromAsset(
-				context.getAssets(), "Fonts/OpenSans-Light.ttf"));
-		viewHolder.description.setText(special.getDescription());
+//		viewHolder.description.setTypeface(Typeface.createFromAsset(
+//				context.getAssets(), "Fonts/OpenSans-Light.ttf"));
+//		viewHolder.description.setText(special.getDescription());
 		viewHolder.image.setImageUrl(special.getImageUrl());
 
 		return convertView;
@@ -85,7 +85,7 @@ public class SpecialApater extends BaseAdapter {
 	private class ViewHolder {
 		protected SmartImageView image;
 		protected TextView name;
-		protected TextView description;
+		/*protected TextView description;*/
 	}
 
 }

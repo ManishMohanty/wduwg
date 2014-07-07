@@ -19,8 +19,8 @@
 
 package com.manateeworks.cameraDemo;
 
-import com.example.wduwg.R;
-import com.example.wduwg.ScanerDetailActivity;
+import com.example.wduwg.tiles.R;
+import com.example.wduwg.tiles.ScanerDetailActivity;
 import com.manateeworks.BarcodeScanner;
 import com.manateeworks.camera.CameraManager;
 import com.manateeworks.cameraDemo.Intents.Scan;

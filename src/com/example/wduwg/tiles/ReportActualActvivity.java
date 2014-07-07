@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.util.List;
 import java.util.Random;
@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apphance.android.Apphance;
+import com.example.wduwg.tiles.R;
 import com.mw.wduwg.adapter.TabsPagerAdapter;
 import com.parse.ParseException;
 import com.parse.ParseObject;

@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,43 +7,39 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.apphance.android.Log;
-import com.example.wduwg.SpecialActivity.LoadStringsAsync;
-import com.mw.wduwg.model.Special;
-import com.mw.wduwg.services.CreateDialog;
-import com.mw.wduwg.services.GlobalVariable;
-import com.mw.wduwg.services.JSONParser;
-import com.mw.wduwg.services.MyAutoCompleteTextView;
-import com.mw.wduwg.services.ServerURLs;
-import com.parse.Parse;
-
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.apphance.android.Log;
+import com.mw.wduwg.model.Special;
+import com.mw.wduwg.services.CreateDialog;
+import com.mw.wduwg.services.GlobalVariable;
+import com.mw.wduwg.services.JSONParser;
+import com.mw.wduwg.services.ServerURLs;
+import com.parse.Parse;
 
 public class AddSpecialActivity extends Activity {
 
@@ -53,6 +49,7 @@ public class AddSpecialActivity extends Activity {
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
 	EditText nameET, startDateET, endDateET, startTimeET, endTimeET;
+	TextView continueTV,deleteSpecial,headerTV;
 
 	Typeface typeface2;
 
@@ -75,6 +72,8 @@ public class AddSpecialActivity extends Activity {
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
 	SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm");
+	
+	Special selectedSpecial;
 
 	private void findThings() {
 		nameET = (EditText) findViewById(R.id.nameET);
@@ -82,6 +81,9 @@ public class AddSpecialActivity extends Activity {
 		endDateET = (EditText) findViewById(R.id.endsLabel);
 		startTimeET = (EditText) findViewById(R.id.startstime);
 		endTimeET = (EditText) findViewById(R.id.endstime);
+		continueTV = (TextView)findViewById(R.id.continueTV);
+		headerTV = (TextView)findViewById(R.id.header_TV);
+		deleteSpecial = (TextView)findViewById(R.id.deleteSpecial);
 	}
 
 	private void initializeThings() {
@@ -111,7 +113,55 @@ public class AddSpecialActivity extends Activity {
 
 		findThings();
 		initializeThings();
-
+		
+		if(getIntent().hasExtra("special")&& ! getIntent().hasExtra("newAdd"))
+		{
+			selectedSpecial = (Special)getIntent().getSerializableExtra("special");
+			nameET.setText(selectedSpecial.getName());
+			nameET.setKeyListener(null);
+			nameET.setFocusable(false);
+			nameET.setFocusableInTouchMode(false);
+			nameET.setClickable(false);
+			startDateET.setText(selectedSpecial.getStartDate().substring(7, selectedSpecial.getStartDate().length()));
+			startDateET.setKeyListener(null);
+			startDateET.setFocusable(false);
+			startDateET.setFocusableInTouchMode(false);
+			startDateET.setClickable(false);
+			System.out.println(">>>>>>> satrt date:"+selectedSpecial.getStartDate());
+			endDateET.setText(selectedSpecial.getEndDate().substring(7, selectedSpecial.getEndDate().length()));
+			endDateET.setKeyListener(null);
+			endDateET.setFocusable(false);
+			endDateET.setFocusableInTouchMode(false);
+			endDateET.setClickable(false);
+			System.out.println(">>>>>>> end date:"+selectedSpecial.getEndDate());
+			startTimeET.setText(selectedSpecial.getStartDate().substring(0, 6));
+			startTimeET.setKeyListener(null);
+			startTimeET.setFocusable(false);
+			startTimeET.setFocusableInTouchMode(false);
+			startTimeET.setClickable(false);
+			endTimeET.setText(selectedSpecial.getEndDate().substring(0, 6));
+			endTimeET.setKeyListener(null);
+			endTimeET.setFocusable(false);
+			endTimeET.setFocusableInTouchMode(false);
+			endTimeET.setClickable(false);
+			
+			ActionBar actionbar = getActionBar();
+			LayoutInflater inflater =(LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View customActionBar = inflater.inflate(R.layout.custom_action_bar, null);
+			TextView title = (TextView)customActionBar.findViewById(R.id.action_bar_TV);
+			title.setText("Special Details");
+			title.setTextSize(19);
+			Typeface font = Typeface.createFromAsset(getAssets(),
+					"Fonts/OpenSans-Bold.ttf");
+			title.setTypeface(font);
+			actionbar.setDisplayShowCustomEnabled(true);
+			actionbar.setCustomView(customActionBar);
+			continueTV.setVisibility(View.GONE);
+			headerTV.setVisibility(View.GONE);
+		}else
+		{
+		deleteSpecial.setVisibility(View.GONE);
 		Calendar calendar = Calendar.getInstance();
 		year = calendar.get(Calendar.YEAR);
 		// year = Calendar.YEAR;
@@ -122,8 +172,51 @@ public class AddSpecialActivity extends Activity {
 		minute = calendar.get(Calendar.MINUTE);
 
 		onTouchListeners();
+		}
 	}
 
+	public void onDelete(View v)
+	{
+		progressDialog = createDialog.createProgressDialog("Saving",
+				"Please wait for a while.", true, null);
+		progressDialog.show();
+		DeleteAsyncTask asyncTask = new DeleteAsyncTask();
+		asyncTask.execute();
+	}
+	
+	
+	private class DeleteAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			JSONParser jParser = new JSONParser();
+			jParser.deleteObject("http://dcounter.herokuapp.com/specials/", selectedSpecial.getId().get$oid() );
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			progressDialog.dismiss();
+			Toast.makeText(AddSpecialActivity.this, "selected event deleted", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(AddSpecialActivity.this,BusinessDashboardActivity.class);
+			startActivity(intent);
+		}
+		
+		
+	}
+	
+	public void onDone(View v)
+	{
+		Intent intent = new Intent(this,BusinessDashboardActivity.class);
+		intent.putExtra("isFromMain", true);
+		startActivity(intent);
+		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+	}
+	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub

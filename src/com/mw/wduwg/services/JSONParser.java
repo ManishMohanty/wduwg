@@ -14,6 +14,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -21,6 +22,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -297,6 +299,23 @@ System.out.println("hello");
 		}
 
 		return jsonObj;
+	}
+	
+	public void deleteObject(String url,String objectId)
+	{
+		url = url + objectId ;
+		try{
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpDelete httpdelete = new HttpDelete(url);
+		HttpResponse httpResponse = httpClient.execute(httpdelete);
+        HttpEntity entity = httpResponse.getEntity();
+        final String response = EntityUtils.toString(entity);
+        System.out.println(">>>>>>> response"+response);
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 	}
 
 	

@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -6,17 +6,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
+import java.util.zip.Inflater;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -42,6 +46,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.wduwg.tiles.R;
 import com.google.gson.Gson;
 import com.mw.wduwg.adapter.AutoCompleteAdapter;
 import com.mw.wduwg.model.Event;
@@ -66,7 +71,7 @@ public class AddEventActivity extends Activity {
 	GlobalVariable globalVariable;
 	EditText startDateET, endDateET, startTimeET, endTimeET;
 	MyAutoCompleteTextView nameACTV;
-	TextView headerTV,skipTV,continueTV;
+	TextView headerTV,skipTV,continueTV,deleteEvent;
 
 
 	static final int DATE_PICKER_ID_Start = 1111;
@@ -85,6 +90,8 @@ public class AddEventActivity extends Activity {
 
 	Date endDate;
 	Date endDateTime;
+	
+	Event selectedEvent;
 
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -118,6 +125,54 @@ public class AddEventActivity extends Activity {
 		{
 			skipTV.setVisibility(View.VISIBLE);
 		}
+		
+		if(getIntent().hasExtra("event")&& !getIntent().hasExtra("addNew"))
+		{
+			selectedEvent = (Event)getIntent().getSerializableExtra("event");
+			nameACTV.setText(selectedEvent.getName());
+			nameACTV.setKeyListener(null);
+			nameACTV.setFocusable(false);
+			nameACTV.setFocusableInTouchMode(false);
+			nameACTV.setClickable(false);
+			startDateET.setText(selectedEvent.getStartDate().substring(7, selectedEvent.getStartDate().length()));
+			startDateET.setKeyListener(null);
+			startDateET.setFocusable(false);
+			startDateET.setFocusableInTouchMode(false);
+			startDateET.setClickable(false);
+			System.out.println(">>>>>>> satrt date:"+selectedEvent.getStartDate());
+			endDateET.setText(selectedEvent.getEndDate().substring(7, selectedEvent.getEndDate().length()));
+			endDateET.setKeyListener(null);
+			endDateET.setFocusable(false);
+			endDateET.setFocusableInTouchMode(false);
+			endDateET.setClickable(false);
+			System.out.println(">>>>>>> end date:"+selectedEvent.getEndDate());
+			startTimeET.setText(selectedEvent.getStartDate().substring(0, 6));
+			startTimeET.setKeyListener(null);
+			startTimeET.setFocusable(false);
+			startTimeET.setFocusableInTouchMode(false);
+			startTimeET.setClickable(false);
+			endTimeET.setText(selectedEvent.getEndDate().substring(0, 6));
+			endTimeET.setKeyListener(null);
+			endTimeET.setFocusable(false);
+			endTimeET.setFocusableInTouchMode(false);
+			endTimeET.setClickable(false);
+			ActionBar actionbar = getActionBar();
+			LayoutInflater inflater =(LayoutInflater) this
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View customActionBar = inflater.inflate(R.layout.custom_action_bar, null);
+			TextView title = (TextView)customActionBar.findViewById(R.id.action_bar_TV);
+			title.setText("Event Details");
+			title.setTextSize(19);
+			Typeface font = Typeface.createFromAsset(getAssets(),
+					"Fonts/OpenSans-Bold.ttf");
+			title.setTypeface(font);
+			actionbar.setDisplayShowCustomEnabled(true);
+			actionbar.setCustomView(customActionBar);
+			skipTV.setVisibility(View.GONE);
+			continueTV.setVisibility(View.GONE);
+			headerTV.setVisibility(View.GONE);
+		}else{
+			deleteEvent.setVisibility(View.GONE);
 		actionBarAndKeyboardAndListener();
         checkPreferences();
 		Calendar calendar = Calendar.getInstance();
@@ -129,6 +184,15 @@ public class AddEventActivity extends Activity {
 		minute = calendar.get(Calendar.MINUTE);
         
 		onTouchListeners();
+		}
+	}
+	
+	public void onDone(View v)
+	{
+		Intent intent = new Intent(this,BusinessDashboardActivity.class);
+		intent.putExtra("isFromMain", true);
+		startActivity(intent);
+		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
 	
 	@Override
@@ -172,6 +236,7 @@ public class AddEventActivity extends Activity {
 		headerTV = (TextView) findViewById(R.id.header_TV);
 		skipTV = (TextView)findViewById(R.id.skipTV);
 		continueTV = (TextView)findViewById(R.id.next_page_continueTV);
+		deleteEvent = (TextView)findViewById(R.id.deleteEvent);
 	}
 
 	private void initializeThings() {
@@ -316,16 +381,16 @@ public class AddEventActivity extends Activity {
 	}
 
 	private void nextActivity() {
-		if(getIntent().hasExtra("from_event"))
-		{
+//		if(getIntent().hasExtra("from_event"))
+//		{
 			nextIntent = new Intent(AddEventActivity.this, EventActivity.class);
 			startActivityForResult(nextIntent, 100);
-		}
-		else
-		{
-		nextIntent = new Intent(AddEventActivity.this, CountActivity.class);
-		startActivityForResult(nextIntent, RANDOM_NUMBER);
-		}
+//		}
+//		else
+//		{
+//		nextIntent = new Intent(AddEventActivity.this, CountActivity.class);
+//		startActivityForResult(nextIntent, RANDOM_NUMBER);
+//		}
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
 
@@ -427,6 +492,16 @@ public class AddEventActivity extends Activity {
 		SaveEventToParseAndPreferencesAsync asyncTask = new SaveEventToParseAndPreferencesAsync();
 		asyncTask.execute(new String[] { "Hello World" });
 	}
+	
+	public void onDelete(View v)
+	{
+		progressDialog = createDialog.createProgressDialog("Saving",
+				"Please wait for a while.", true, null);
+		progressDialog.show();
+		DeleteAsyncTask asyncTask = new DeleteAsyncTask();
+		asyncTask.execute();
+	}
+	
 
 	public void onContinue(View v) {
 		if (!validate())
@@ -619,7 +694,33 @@ public class AddEventActivity extends Activity {
 			isDefaultEvent = false;
 		}// onPostExecute
 
-	}// Async Task
+	}//end Async Task for add record
+	
+	private class DeleteAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			jParser = new JSONParser();
+			jParser.deleteObject("http://dcounter.herokuapp.com/events/", selectedEvent.getId().get$oid() );
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			progressDialog.dismiss();
+			Toast.makeText(AddEventActivity.this, "selected event deleted", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(AddEventActivity.this,BusinessDashboardActivity.class);
+			startActivity(intent);
+		}
+		
+		
+	}
+	
+	
 
 	
 

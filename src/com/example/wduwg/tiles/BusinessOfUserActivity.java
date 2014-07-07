@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -26,12 +26,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wduwg.tiles.R;
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.BusinessFBPage;
@@ -82,20 +84,28 @@ public class BusinessOfUserActivity extends Activity{
 	       ab.setDisplayShowCustomEnabled(true);
 	       ab.setCustomView(v);
 	       messageForUser = (TextView)findViewById(R.id.messageForUser);
-	       messageForUser.setTypeface(typefaceLight);
+//	       messageForUser.setTypeface(typefaceLight);
 		
 		createDialog = new CreateDialog(this);
-		ListView listView = (ListView) findViewById(R.id.listView);
-		CustomAdapter adapter = new CustomAdapter(
-				BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
-		listView.setAdapter(adapter);
+//		ListView listView = (ListView) findViewById(R.id.listView);
+//		CustomAdapter adapter = new CustomAdapter(
+//				BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
+//		listView.setAdapter(adapter);
+		
+		GridView gridView = (GridView)findViewById(R.id.gridView1);
+		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
+		gridView.setAdapter(adapter);
+		
+		
 		Pagelist = new ArrayList<String>();
 
 		for (int i = 0; i < globalVariable.getCustomer().getPages().size(); i++) {
 			Pagelist.add(globalVariable.getCustomer().getPages().get(i)
 					.getName());
 		}
-	     listView.setOnItemClickListener(new OnItemClickListener() {
+		
+		// listener for gridView
+		gridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -123,8 +133,42 @@ public class BusinessOfUserActivity extends Activity{
 										startActivity(nextIntent);
 										overridePendingTransition(R.anim.anim_out,
 												R.anim.anim_in);
-									}
-						});
+			}
+			
+		});
+		
+		
+		
+//	     listView.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				// TODO Auto-generated method stub
+//				final int positionFinal = position;
+//				final View viewFinal = (View)view;
+//								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
+//								if(globalVariable.getSelectedBusiness() != null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
+//								{
+//									globalVariable.setMenIn(0);
+//									globalVariable.setMenOut(0);
+//									globalVariable.setWomenIn(0);
+//									globalVariable.setWomenOut(0);
+//								}
+//								globalVariable.setSelectedBusiness(null);
+//								globalVariable.setSelectedBusiness(business);
+//								globalVariable.saveSharedPreferences();
+//										Gson gson = new Gson();
+//										String json = gson.toJson(business);
+//										System.out.println(">>>>>>> business existing"
+//												+ json);
+//										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessDashboardActivity.class);
+//										System.out.println(">>>>>>> start new Activity");
+//										startActivity(nextIntent);
+//										overridePendingTransition(R.anim.anim_out,
+//												R.anim.anim_in);
+//									}
+//						});
 
 			}
 	

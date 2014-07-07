@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.wduwg.R;
+import com.example.wduwg.tiles.R;
 import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Event;
 import com.mw.wduwg.services.GlobalVariable;
@@ -34,7 +34,7 @@ public class EventAdapter2 extends BaseAdapter {
 
 	static class ViewHolder {
 		protected TextView nameTV;
-		protected TextView descTV;
+//		protected TextView descTV;
 		protected SmartImageView iconIV;
 
 	}
@@ -47,10 +47,10 @@ public class EventAdapter2 extends BaseAdapter {
 			inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(R.layout.event_item, parent, false);
-			viewHolder.nameTV = (TextView) convertView.findViewById(R.id.name);
-			viewHolder.descTV = (TextView) convertView.findViewById(R.id.desc);
-			viewHolder.iconIV = (SmartImageView) convertView.findViewById(R.id.icon);
+			convertView = inflater.inflate(R.layout.griditem,null);
+			viewHolder.nameTV = (TextView) convertView.findViewById(R.id.businessName);
+//			viewHolder.descTV = (TextView) convertView.findViewById(R.id.address);
+			viewHolder.iconIV = (SmartImageView) convertView.findViewById(R.id.image);
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -60,8 +60,8 @@ public class EventAdapter2 extends BaseAdapter {
 		Event tempEvent = listEvents.get(position);
 		viewHolder.nameTV.setTypeface(typeface);
 		viewHolder.nameTV.setText(tempEvent.getName());
-		viewHolder.descTV.setTypeface(Typeface.createFromAsset(context.getAssets(), "Fonts/OpenSans-Light.ttf"));
-		viewHolder.descTV.setText(tempEvent.getDescription());
+//		viewHolder.descTV.setTypeface(Typeface.createFromAsset(context.getAssets(), "Fonts/OpenSans-Light.ttf"));
+//		viewHolder.descTV.setText(tempEvent.getDescription());
 		viewHolder.iconIV.setImageUrl(tempEvent.getImageUrl());
 
 		return convertView;

@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.apphance.android.Apphance;
 import com.apphance.android.Apphance.Mode;
 import com.apphance.android.common.Configuration;
+import com.example.wduwg.tiles.R;
 import com.mw.wduwg.services.GlobalVariable;
 import com.parse.Parse;
 

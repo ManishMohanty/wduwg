@@ -1,4 +1,4 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.apphance.android.Log;
+import com.example.wduwg.tiles.R;
 import com.google.gson.JsonArray;
 import com.mw.wduwg.adapter.SpecialApater;
 import com.mw.wduwg.model.Business;
@@ -46,6 +47,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -53,6 +55,8 @@ import android.widget.TextView;
 
 public class SpecialActivity extends Activity {
 	ListView specialLV;
+	
+	GridView specialGV;
 	
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -70,7 +74,8 @@ public class SpecialActivity extends Activity {
 		actionBar = getActionBar();
 		
 		globalVariable = (GlobalVariable)getApplicationContext();
-		specialLV = (ListView)findViewById(R.id.specialList);
+//		specialLV = (ListView)findViewById(R.id.specialList);
+		specialGV = (GridView)findViewById(R.id.specialsGV);
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "wait for a while", true, null);
 		progressDialog.show();
@@ -129,11 +134,12 @@ public class SpecialActivity extends Activity {
 						special.setName(jsonobject.getString("name"));
 						String starts_from = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
 						String valid_upto =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
-						special.setDescription("Start Time "+starts_from + "\nEnd Time " + valid_upto);
+						special.setDescription("Start @ "+starts_from + "\nEnd @ " + valid_upto);
 						special.setImageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg92ThBRn7ux2rLEWxZUIKLK-rmMbBBgr6x9ugUZsYUocytf4z");
 						specialList.add(special);
 					}
 				}
+				
 				
 			} catch (Exception e) {
 				Log.d("Response========", "inside catch");
@@ -150,9 +156,28 @@ public class SpecialActivity extends Activity {
             System.out.print(">>>>>>> list-size:"+specials.size()+ "===========data"+specials.get(0).getName());
             for(int i=0;i<specials.size();i++)
             	System.out.println(">>>>>>> "+specials.get(i).getName());
+            Special special = new Special();
+            special.setName("Add new Special");
+            special.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
+            specials.add(special);
 			globalVariable.getSelectedBusiness().setSpecials(specials);
             SpecialApater adapter = new SpecialApater(SpecialActivity.this, specials);
-            specialLV.setAdapter(adapter);
+//            specialLV.setAdapter(adapter);
+            specialGV.setAdapter(adapter);
+            specialGV.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Special selectedSpecial = specials.get(position);
+					if(selectedSpecial.getName().equalsIgnoreCase("Add New Special"))
+					{
+						newSpecial(null);
+					}
+				}
+            });
+            
 			}
 		}
 	}

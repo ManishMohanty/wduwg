@@ -1,9 +1,10 @@
-package com.example.wduwg;
+package com.example.wduwg.tiles;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.example.wduwg.tiles.R;
 import com.manateeworks.cameraDemo.ActivityCapture;
 
 import android.app.Activity;

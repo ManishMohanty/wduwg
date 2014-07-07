@@ -3,10 +3,10 @@
 
     <item>
         <shape android:shape="rectangle" >
-            <solid android:color="#0669b1" />
+            <solid android:color="#EEEEEE"  />
         </shape>
     </item>
-    <item android:bottom="1dp">
+    <item android:bottom=".5dp">
         <shape android:shape="rectangle" >
             <solid android:color="#FFFFFF" />
         </shape>

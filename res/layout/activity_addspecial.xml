@@ -41,7 +41,7 @@
         android:layout_below="@+id/header_TV"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:hint="Add a title for your event"
+        android:hint="Add a title for your Special"
         android:paddingLeft="5dp"
         android:singleLine="true"
         android:textColor="#0669b1" />
@@ -115,6 +115,7 @@
 
 
        <TextView  android:layout_width="wrap_content"
+         android:id="@+id/continueTV"
          android:layout_height="wrap_content"
          android:text="@string/continueText"
          android:textSize="21sp"
@@ -125,6 +126,20 @@
          android:layout_alignParentRight="true"
          android:layout_marginRight="10dp"
          android:layout_marginTop="20dp"/>
+       
+       <TextView  android:layout_width="wrap_content"
+         android:id="@+id/deleteSpecial"
+         android:layout_height="wrap_content"
+         android:text="@string/delete"
+         android:textSize="21sp"
+         android:textColor="#0669b1"
+         android:layout_below="@id/ll2"
+         android:clickable="true"
+         android:onClick="onDelete"
+         android:layout_alignParentRight="true"
+         android:layout_marginRight="10dp"
+         android:layout_marginTop="20dp"/>
+       
     </RelativeLayout>
 
 </RelativeLayout>

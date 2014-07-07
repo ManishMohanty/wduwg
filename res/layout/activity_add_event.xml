@@ -136,6 +136,18 @@
                  android:textSize="21sp"
                  android:text="@string/continueText"
                   />
+       
+       <TextView android:id="@+id/deleteEvent"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentRight="true"
+                 android:layout_centerVertical="true"
+                 android:onClick="onDelete"
+                 android:clickable="true"
+                 android:textColor="@color/text_color"
+                 android:textSize="21sp"
+                 android:text="@string/delete"
+                  />
     </RelativeLayout>
 
 </RelativeLayout>
