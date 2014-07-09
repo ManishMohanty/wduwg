@@ -51,6 +51,13 @@ public class BusinessDashboardActivity extends Activity {
 	Typeface typefaceBold,typefaceLight;
 	GlobalVariable globalVariable;
 	List<Event> eventList ;
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		commonMethod();
+		super.onResume();
+	}
+
 	List<Special> specialList;
 	ListView eventListView, SpecialListView;
 	TextView eventLabel ,specialLabel , visitorLabel;
@@ -109,11 +116,88 @@ public class BusinessDashboardActivity extends Activity {
        ActionBar ab = getActionBar();
        ab.setDisplayShowCustomEnabled(true);
        ab.setCustomView(v);
-       createDialog = new CreateDialog(this);
+//       commomMethod();
+        createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "wait for a while", true, null);
 		progressDialog.show();
 		LoadStringsAsync asyncTask = new LoadStringsAsync();
 		asyncTask.execute();
+	}
+	
+	private void commonMethod()
+	{
+		List<Special> specials = new ArrayList<Special>();
+		List<Event> events = new ArrayList<Event>();
+		if(globalVariable.getSelectedBusiness().getSpecials().size()>1)
+		    {
+		      specials = globalVariable.getSelectedBusiness().getSpecials().subList(0, 2);
+			}else
+			{
+			    specials = globalVariable.getSelectedBusiness().getSpecials();
+				if(specials.size()==0 || !specials.get(specials.size() - 1).getName().equalsIgnoreCase("Add Special"))
+				{
+				Special newSpecial = new Special();
+				newSpecial.setName("Add Special");
+				newSpecial.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
+				specials.add(newSpecial);
+				}
+			}
+           SpecialApater adapter = new SpecialApater(BusinessDashboardActivity.this, specials);
+           specialgridView.setAdapter(adapter);
+           System.out.println(">>>>>>> specials size:"+globalVariable.getSelectedBusiness().getSpecials().size());
+           specialgridView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Special special = globalVariable.getSelectedBusiness().getSpecials().get(position);
+					Intent intent = new Intent(BusinessDashboardActivity.this,AddSpecialActivity.class);
+					if(special.getName().equalsIgnoreCase("Add Special"))
+					{
+						intent.putExtra("newAdd", true);
+						globalVariable.getSelectedBusiness().getSpecials().remove(position);
+					}
+					intent.putExtra("special", special);
+					startActivity(intent);
+				}
+			
+           
+           });
+           if(globalVariable.getSelectedBusiness().getEventList().size() >1)
+           {
+             events = globalVariable.getSelectedBusiness().getEventList().subList(0, 2);
+           }else
+           {
+        	   events = globalVariable.getSelectedBusiness().getEventList();
+        	   if(events.size() == 0 || !events.get(events.size()-1).getName().equalsIgnoreCase("Add Event"))
+        	   {
+        		   Event newEvent = new Event();
+        		   newEvent.setName("Add Event");
+        		   newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
+        		   events.add(newEvent);
+        	   }
+           }
+           EventAdapter2 adapter1 = new EventAdapter2(BusinessDashboardActivity.this, events);
+           eventgridView.setAdapter(adapter1);
+           eventgridView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					// TODO Auto-generated method stub
+					Event event1 = globalVariable.getSelectedBusiness().getEventList().get(position);
+					Intent intent = new Intent(BusinessDashboardActivity.this,AddEventActivity.class);
+					if(event1.getName().equalsIgnoreCase("Add Event"))
+					{
+						intent.putExtra("addNew", true);
+						globalVariable.getSelectedBusiness().getEventList().remove(position);
+					}
+					intent.putExtra("event",event1);
+					startActivity(intent);
+				}
+			
+           });
 	}
 	
 	public void allEvents(View v)
@@ -263,6 +347,7 @@ public class BusinessDashboardActivity extends Activity {
 		protected void onPostExecute(final List<Special> specials) {
 			System.out.println(">>>>>>> inside special postexecute");
 			globalVariable.getSelectedBusiness().setSpecials(specials);
+			globalVariable.saveSharedPreferences();
 			LoadStringsAsync2 asyncTask = new LoadStringsAsync2();
 			asyncTask.execute();
 		}
@@ -308,76 +393,11 @@ public class BusinessDashboardActivity extends Activity {
 			System.out.println(">>>>>>> inside counter postexecute");
 			progressDialog.dismiss();
 			System.out.println(">>>>>>> progress dialog dismiss");
-			List<Special> specials = new ArrayList<Special>();
-			List<Event> events = new ArrayList<Event>();
-			if(globalVariable.getSelectedBusiness().getSpecials().size()>1)
-			{
-		     specials = globalVariable.getSelectedBusiness().getSpecials().subList(0, 2);
-			}else
-			{
-			specials = globalVariable.getSelectedBusiness().getSpecials();
-			Special newSpecial = new Special();
-			newSpecial.setName("Add New Special");
-			newSpecial.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
-			specials.add(newSpecial);
-			}
-            SpecialApater adapter = new SpecialApater(BusinessDashboardActivity.this, specials);
-//            SpecialListView.setAdapter(adapter);
-            specialgridView.setAdapter(adapter);
-            specialgridView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					Special special = globalVariable.getSelectedBusiness().getSpecials().get(position);
-					Intent intent = new Intent(BusinessDashboardActivity.this,AddSpecialActivity.class);
-					if(special.getName().equalsIgnoreCase("Add new Special"))
-					{
-						intent.putExtra("newAdd", true);
-					}
-					intent.putExtra("special", special);
-					startActivity(intent);
-				}
-			
-            
-            });
-            if(globalVariable.getSelectedBusiness().getEventList().size() >1)
-            {
-             events = globalVariable.getSelectedBusiness().getEventList().subList(0, 2);
-            }else
-            {
-            	events = globalVariable.getSelectedBusiness().getEventList();
-            Event newEvent = new Event();
-            newEvent.setName("Add new Event");
-            newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
-            events.add(newEvent);
-            }
-            EventAdapter2 adapter1 = new EventAdapter2(BusinessDashboardActivity.this, events);
-//            eventListView.setAdapter(adapter1);
-            eventgridView.setAdapter(adapter1);
-            eventgridView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					// TODO Auto-generated method stub
-					Event event1 = globalVariable.getSelectedBusiness().getEventList().get(position);
-					Intent intent = new Intent(BusinessDashboardActivity.this,AddEventActivity.class);
-					if(event1.getName().equalsIgnoreCase("Add new Event"))
-					{
-						intent.putExtra("addNew", true);
-					}
-					intent.putExtra("event",event1);
-					startActivity(intent);
-				}
-			
-            });
-            
 			totalCount.setText("Total :"+((men_in+women_in)-(men_out+women_out)));
 			menCount.setText("Men :"+(men_in-men_out));
 			womenCount.setText("Women :"+(women_in-women_out));
 			totalVisitors.setText("Total Visitors Today :"+(men_in+women_in));
+			commonMethod();
 		}
 	}
 	

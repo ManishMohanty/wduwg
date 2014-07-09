@@ -112,17 +112,6 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp" >
 
-        <TextView
-            android:id="@+id/skipTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:onClick="onSkip"
-            android:text="@string/skip"
-            android:textColor="@color/text_color"
-            android:textSize="21sp" />
 
         <!-- android:layout_marginRight="50dp" -->
        <TextView android:id="@+id/next_page_continueTV"

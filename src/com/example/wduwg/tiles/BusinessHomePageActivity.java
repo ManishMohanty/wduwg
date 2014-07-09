@@ -78,7 +78,6 @@ public class BusinessHomePageActivity extends Activity {
 	AlertDialog alertDialog;
 	ProgressDialog progressDialog;
 
-	RelativeLayout buttonLayout1,buttonLayout2;
 	TextView link, selectedPageFB;
 	GlobalVariable globalVariable;
 	JSONParser jParser;
@@ -99,68 +98,33 @@ public class BusinessHomePageActivity extends Activity {
 		yourTextView.setTextColor(Color.parseColor("#016AB2"));
 		yourTextView.setTypeface(typeface);
 		final BitmapFactory.Options options = new BitmapFactory.Options();
-		if (globalVariable.getSelectedBusiness() != null
-				&& previousIntent.hasExtra("isFromMain")) {
-			Gson gson = new Gson();
-			selectedBusiness = globalVariable.getSelectedBusiness();
-			 String json = globalVariable.getSelectedBusiness()
-			 .getImageEncoded();
-			 if (json != null && json.length() > 0) {
-			 byte[] b = Base64.decode(json, Base64.DEFAULT);
-			 roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeByteArray(b, 0, b.length)));
-			 b=null;
-			 Runtime.getRuntime().gc();
-			 }
-			businessNameET.setText(selectedBusiness.getName());
-			businessAddressET.setText(selectedBusiness.getAddress());
-			businessNameET.setFocusable(false);
-			businessAddressET.setFocusable(false);
-			businessNameET.setFocusableInTouchMode(false);
-			businessAddressET.setFocusableInTouchMode(false);
-		} else {
+//		if (globalVariable.getSelectedBusiness() != null
+//				&& previousIntent.hasExtra("isFromMain")) {
+//			Gson gson = new Gson();
+//			selectedBusiness = globalVariable.getSelectedBusiness();
+//			 String json = globalVariable.getSelectedBusiness()
+//			 .getImageEncoded();
+//			 if (json != null && json.length() > 0) {
+//			 byte[] b = Base64.decode(json, Base64.DEFAULT);
+//			 roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeByteArray(b, 0, b.length)));
+//			 b=null;
+//			 Runtime.getRuntime().gc();
+//			 }
+//			businessNameET.setText(previousIntent.getStringExtra("business_name"));
+//			businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
+//		} else {
 			if (previousIntent.getBooleanExtra("defaultImage", false)) {
 				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeResource(getResources(), R.drawable.wduwg_logo2223)));
+				businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
 			} else {
 				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape( BitmapFactory.decodeByteArray(
 						previousIntent.getByteArrayExtra("byteArray"),
 						0,
 						previousIntent.getByteArrayExtra("byteArray").length)));
+				     businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
+				     businessNameET.setText(previousIntent.getStringExtra("business_name"));
 			}
-			if (previousIntent.hasExtra("business_name")) {
-				businessNameET.setText(""
-						+ previousIntent.getStringExtra("business_name"));
-				businessAddressET.setKeyListener(null);
-			}
-			businessAddressET.setText(previousIntent
-					.getStringExtra("complete_address"));
-			if (!previousIntent.hasExtra("isFromMain")) {
-				buttonLayout1.setVisibility(View.GONE);
-				buttonLayout2.setVisibility(View.GONE);
-				link.setVisibility(View.VISIBLE);
-
-			}
-			
-			if (link.getVisibility() != View.VISIBLE) {
-				businessNameET.setFocusable(false);
-				businessAddressET.setFocusable(false);
-				businessNameET.setFocusableInTouchMode(false);
-				businessAddressET.setFocusableInTouchMode(false);
-			}
-			if (businessNameET.isFocusable() && businessAddressET.isFocusable())
-				((LinearLayout) findViewById(R.id.add_event_and_gateway_LL))
-						.setOnTouchListener(new OnTouchListener() {
-							@Override
-							public boolean onTouch(View v, MotionEvent event) {
-								InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-								if (imm != null && businessNameET.isFocusable())
-									imm.hideSoftInputFromWindow(
-											getCurrentFocus().getWindowToken(),
-											0);
-								return false;
-							}
-						});
-
-		}
+//		}
 		
 	}
 
@@ -171,9 +135,9 @@ public class BusinessHomePageActivity extends Activity {
 //		SpannableString delinkstr = new SpannableString(menu.findItem(R.id.menu_delink).getTitle());
 //		delinkstr.setSpan(typeface, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 //		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
-		SpannableString logoutstr = new SpannableString(menu.findItem(R.id.menu_logout).getTitle());
-		logoutstr.setSpan(typeface, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
+//		SpannableString logoutstr = new SpannableString(menu.findItem(R.id.menu_logout).getTitle());
+//		logoutstr.setSpan(typeface, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
 		return true;
 	}
 
@@ -267,8 +231,6 @@ public class BusinessHomePageActivity extends Activity {
 		businessNameET = (EditText) findViewById(R.id.customer_name);
 		businessAddressET = (EditText) findViewById(R.id.customer_address);
 		addressLabel = (TextView) findViewById(R.id.addressLabel);
-		buttonLayout1 = (RelativeLayout) findViewById(R.id.buttonLayout1);
-		buttonLayout2 = (RelativeLayout) findViewById(R.id.buttonLayout2);
 		link = (TextView) findViewById(R.id.link);
 	}
 
@@ -370,7 +332,7 @@ public class BusinessHomePageActivity extends Activity {
 					 selectedBusiness.setImageEncoded(encodedImage);
 					globalVariable.getCustomer().getBusinesses()
 							.add(selectedBusiness);
-					globalVariable.setSelectedBusiness(selectedBusiness);
+					globalVariable.setSelectedBusiness(null);
 				}
 
 			} catch (Exception e) {
@@ -382,13 +344,13 @@ public class BusinessHomePageActivity extends Activity {
 		@Override
 		protected void onPostExecute(Business selectedBusiness) {
 			progressDialog.dismiss();
-			businessNameET.setFocusable(false);
-			businessNameET.setFocusableInTouchMode(false);
-			businessAddressET.setFocusable(false);
-			businessAddressET.setFocusableInTouchMode(false);
-			link.setVisibility(View.GONE);
-			buttonLayout1.setVisibility(View.VISIBLE);
-			buttonLayout2.setVisibility(View.VISIBLE);
+//			businessNameET.setFocusable(false);
+//			businessNameET.setFocusableInTouchMode(false);
+//			businessAddressET.setFocusable(false);
+//			businessAddressET.setFocusableInTouchMode(false);
+//			link.setVisibility(View.GONE);
+			Intent intent = new Intent(BusinessHomePageActivity.this,BusinessOfUserActivity.class);
+			startActivity(intent);
 		}
 	}
 
@@ -557,16 +519,14 @@ public class BusinessHomePageActivity extends Activity {
 														.getSelectedBusiness()
 														.getId().get$oid());
 								isExist = true;
-								link.setVisibility(View.GONE);
-								buttonLayout1.setVisibility(View.VISIBLE);
-								buttonLayout2.setVisibility(View.VISIBLE);
-								businessNameET.setFocusable(false);
-								alertDialog.dismiss();
-								businessNameET.setFocusable(false);
-								businessAddressET.setFocusable(false);
-								businessNameET.setFocusableInTouchMode(false);
-								businessAddressET
-										.setFocusableInTouchMode(false);
+//								link.setVisibility(View.GONE);
+//								businessNameET.setFocusable(false);
+//								alertDialog.dismiss();
+//								businessNameET.setFocusable(false);
+//								businessAddressET.setFocusable(false);
+//								businessNameET.setFocusableInTouchMode(false);
+//								businessAddressET
+//										.setFocusableInTouchMode(false);
 								break;
 							}
 						}
@@ -578,6 +538,33 @@ public class BusinessHomePageActivity extends Activity {
 							progressDialog.show();
 							SaveToParseAndPreferencesAsync async = new SaveToParseAndPreferencesAsync();
 							async.execute(new String[] { "Hello World" });
+						}else
+						{
+							alertDialogBuilder = createDialog.createAlertDialog(
+									"Warning", null, false);
+							alertDialogBuilder.setMessage("This Business Already exist. Do You wish to create New Business?");
+							alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									// TODO Auto-generated method stub
+									alertDialog.dismiss();
+									businessNameET.setText("");
+									businessAddressET.setText("");
+								}
+							});
+							alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									// TODO Auto-generated method stub
+									alertDialog.dismiss();
+									Intent intent = new Intent(BusinessHomePageActivity.this,BusinessOfUserActivity.class);
+									startActivity(intent);
+								}
+							});
+							alertDialog = alertDialogBuilder.create();
+							alertDialog.show();
 						}
 					}
 				});

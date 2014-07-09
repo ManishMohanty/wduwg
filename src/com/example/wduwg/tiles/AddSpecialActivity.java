@@ -201,7 +201,7 @@ public class AddSpecialActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			progressDialog.dismiss();
-			Toast.makeText(AddSpecialActivity.this, "selected event deleted", Toast.LENGTH_SHORT).show();
+			Toast.makeText(AddSpecialActivity.this, "selected Special deleted", Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(AddSpecialActivity.this,BusinessDashboardActivity.class);
 			startActivity(intent);
 		}

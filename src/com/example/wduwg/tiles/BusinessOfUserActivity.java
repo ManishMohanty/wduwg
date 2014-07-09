@@ -44,6 +44,7 @@ public class BusinessOfUserActivity extends Activity{
     Bitmap bitmap;
     byte[] b;
 	ListView listView;
+	GridView gridView ;
 	List<String> Pagelist;
 	GlobalVariable globalVariable;
 	AlertDialog.Builder alertDialogBuilder;
@@ -84,93 +85,16 @@ public class BusinessOfUserActivity extends Activity{
 	       ab.setDisplayShowCustomEnabled(true);
 	       ab.setCustomView(v);
 	       messageForUser = (TextView)findViewById(R.id.messageForUser);
-//	       messageForUser.setTypeface(typefaceLight);
 		
 		createDialog = new CreateDialog(this);
-//		ListView listView = (ListView) findViewById(R.id.listView);
-//		CustomAdapter adapter = new CustomAdapter(
-//				BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
-//		listView.setAdapter(adapter);
-		
-		GridView gridView = (GridView)findViewById(R.id.gridView1);
-		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
-		gridView.setAdapter(adapter);
-		
-		
+		gridView = (GridView)findViewById(R.id.gridView1);
 		Pagelist = new ArrayList<String>();
-
 		for (int i = 0; i < globalVariable.getCustomer().getPages().size(); i++) {
 			Pagelist.add(globalVariable.getCustomer().getPages().get(i)
 					.getName());
 		}
-		
-		// listener for gridView
-		gridView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				final int positionFinal = position;
-				final View viewFinal = (View)view;
-								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
-								if(globalVariable.getSelectedBusiness() != null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
-								{
-									globalVariable.setMenIn(0);
-									globalVariable.setMenOut(0);
-									globalVariable.setWomenIn(0);
-									globalVariable.setWomenOut(0);
-								}
-								globalVariable.setSelectedBusiness(null);
-								globalVariable.setSelectedBusiness(business);
-								globalVariable.saveSharedPreferences();
-										Gson gson = new Gson();
-										String json = gson.toJson(business);
-										System.out.println(">>>>>>> business existing"
-												+ json);
-										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessDashboardActivity.class);
-										System.out.println(">>>>>>> start new Activity");
-										startActivity(nextIntent);
-										overridePendingTransition(R.anim.anim_out,
-												R.anim.anim_in);
-			}
-			
-		});
-		
-		
-		
-//	     listView.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				// TODO Auto-generated method stub
-//				final int positionFinal = position;
-//				final View viewFinal = (View)view;
-//								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
-//								if(globalVariable.getSelectedBusiness() != null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
-//								{
-//									globalVariable.setMenIn(0);
-//									globalVariable.setMenOut(0);
-//									globalVariable.setWomenIn(0);
-//									globalVariable.setWomenOut(0);
-//								}
-//								globalVariable.setSelectedBusiness(null);
-//								globalVariable.setSelectedBusiness(business);
-//								globalVariable.saveSharedPreferences();
-//										Gson gson = new Gson();
-//										String json = gson.toJson(business);
-//										System.out.println(">>>>>>> business existing"
-//												+ json);
-//										Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessDashboardActivity.class);
-//										System.out.println(">>>>>>> start new Activity");
-//										startActivity(nextIntent);
-//										overridePendingTransition(R.anim.anim_out,
-//												R.anim.anim_in);
-//									}
-//						});
-
-			}
+		eventListener();
+}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -189,12 +113,20 @@ public class BusinessOfUserActivity extends Activity{
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		MenuItem logouItem = menu.findItem(R.id.menu_logout);
+		MenuItem delinkItem = menu.findItem(R.id.menu_delink);
 		if(globalVariable.getFb_access_token() !=null)
 		{
 			logouItem.setEnabled(true);
 		}else
 		{
 			logouItem.setEnabled(false);
+		}
+		if(globalVariable.getSelectedBusiness() != null)
+		{
+			delinkItem.setEnabled(true);
+		}else
+		{
+			delinkItem.setEnabled(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -224,6 +156,88 @@ public class BusinessOfUserActivity extends Activity{
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	
+	private void eventListener()
+	{
+		
+		List<Business> businessList= new ArrayList<Business>();
+		if(globalVariable.getCustomer().getBusinesses().size()>0 && !globalVariable.getCustomer().getBusinesses().get(globalVariable.getCustomer().getBusinesses().size()-1).getName().equalsIgnoreCase("Add Business"))
+		{
+		businessList = globalVariable.getCustomer().getBusinesses();
+		System.out.println(">>>>>>>before new business list size :"+businessList.size());
+		Business newBusiness = new Business();
+		newBusiness.setName("Add Business");
+		newBusiness.setImageUrl("http://us.123rf.com/400wm/400/400/nicemonkey/nicemonkey0703/nicemonkey070300014/782266-8-silhouette-business-people-in-line-in-black-and-white.jpg");
+		newBusiness.setAddress("");
+		businessList.add(newBusiness);
+		}else if(globalVariable.getCustomer().getBusinesses().size() < 1)
+		{
+			 Business business = new Business();
+			 business.setName("Add Business");
+			 business.setAddress("");
+			 business.setImageUrl("http://us.123rf.com/400wm/400/400/nicemonkey/nicemonkey0703/nicemonkey070300014/782266-8-silhouette-business-people-in-line-in-black-and-white.jpg");
+		     businessList.add(business);
+		}else
+		{
+			businessList = globalVariable.getCustomer().getBusinesses();
+		}
+		System.out.println(">>>>>>>After new business list size :"+businessList.size());
+		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, businessList);
+		gridView.setAdapter(adapter);
+		
+		
+		// listener for gridView
+				gridView.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						// TODO Auto-generated method stub
+						final int positionFinal = position;
+						if(globalVariable.getCustomer().getBusinesses().size() == 0 || position == globalVariable.getCustomer().getBusinesses().size() - 1)
+						{
+							System.out.println(">>>>>>> sending to ident");
+					        if(globalVariable.getCustomer().getBusinesses().size() > 0)
+							globalVariable.getCustomer().getBusinesses().remove(position);
+							Intent intent = new Intent(BusinessOfUserActivity.this,IdentifyingBusinessActivity.class);
+							startActivity(intent);
+						}else{
+						final View viewFinal = (View)view;
+										Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
+										if(globalVariable.getSelectedBusiness() != null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
+										{
+											globalVariable.setMenIn(0);
+											globalVariable.setMenOut(0);
+											globalVariable.setWomenIn(0);
+											globalVariable.setWomenOut(0);
+										}
+										globalVariable.getCustomer().getBusinesses().remove(globalVariable.getCustomer().getBusinesses().size()-1);
+										globalVariable.setSelectedBusiness(null);
+										globalVariable.setSelectedBusiness(business);
+										globalVariable.saveSharedPreferences();
+												Gson gson = new Gson();
+												String json = gson.toJson(business);
+												System.out.println(">>>>>>> business existing"
+														+ json);
+												Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessDashboardActivity.class);
+												System.out.println(">>>>>>> start new Activity");
+												startActivity(nextIntent);
+												overridePendingTransition(R.anim.anim_out,
+														R.anim.anim_in);
+												
+					} 
+						}// end else
+					
+				});
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		eventListener();
+		super.onResume();
 	}
 
 

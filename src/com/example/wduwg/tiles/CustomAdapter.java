@@ -88,7 +88,7 @@ public class CustomAdapter extends BaseAdapter {
 
 		String temp = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
 				+ tempPlace.getImageUrl()
-				+ "&sensor=true&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
+				+ "&sensor=true&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
 
 		System.out.println(">>>>>>> ImageUrl->"+temp);
 
@@ -125,7 +125,7 @@ public class CustomAdapter extends BaseAdapter {
 		protected Bitmap doInBackground(String... urls) {
 			String urldisplay = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
 					+ urls[0]
-					+ "&sensor=true&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
+					+ "&sensor=true&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
 			Bitmap mIcon11 = null;
 			try {
 				InputStream in = new java.net.URL(urldisplay).openStream();

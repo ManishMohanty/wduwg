@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import com.apphance.android.Log;
 import com.example.wduwg.tiles.R;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.mw.wduwg.adapter.SpecialApater;
 import com.mw.wduwg.model.Business;
@@ -58,17 +59,21 @@ public class SpecialActivity extends Activity {
 	
 	GridView specialGV;
 	
+	Special selectedSpecial;
+	
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
 	GlobalVariable globalVariable;
 	View customActionBar;
 	LayoutInflater inflater;
 	ActionBar actionBar;
+	Gson gson;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_special);
+		gson = new Gson();
 		inflater =(LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		actionBar = getActionBar();
@@ -128,12 +133,14 @@ public class SpecialActivity extends Activity {
 				{
 					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
-						Special special = new Special();
+//						Special special = new Special();
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
-	//					specialList.add(jsonobject.getString("name"));
+						Special special = gson.fromJson(jsonobject.toString(), Special.class);
 						special.setName(jsonobject.getString("name"));
 						String starts_from = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
 						String valid_upto =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
+						special.setStartDate(starts_from);
+						special.setEndDate(valid_upto);
 						special.setDescription("Start @ "+starts_from + "\nEnd @ " + valid_upto);
 						special.setImageUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg92ThBRn7ux2rLEWxZUIKLK-rmMbBBgr6x9ugUZsYUocytf4z");
 						specialList.add(special);
@@ -145,22 +152,19 @@ public class SpecialActivity extends Activity {
 				Log.d("Response========", "inside catch");
 				e.printStackTrace();
 			}
+			globalVariable.getSelectedBusiness().setSpecials(specialList);
 			return specialList;
 		}
 
 		@Override
 		protected void onPostExecute(final List<Special> specials) {
 			progressDialog.dismiss();
-			if(specials != null && specials.size() > 0)
-			{
-            System.out.print(">>>>>>> list-size:"+specials.size()+ "===========data"+specials.get(0).getName());
-            for(int i=0;i<specials.size();i++)
-            	System.out.println(">>>>>>> "+specials.get(i).getName());
+			globalVariable.getSelectedBusiness().setSpecials(specials);
+			globalVariable.saveSharedPreferences();
             Special special = new Special();
-            special.setName("Add new Special");
+            special.setName("Add Special");
             special.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
             specials.add(special);
-			globalVariable.getSelectedBusiness().setSpecials(specials);
             SpecialApater adapter = new SpecialApater(SpecialActivity.this, specials);
 //            specialLV.setAdapter(adapter);
             specialGV.setAdapter(adapter);
@@ -170,22 +174,25 @@ public class SpecialActivity extends Activity {
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 					// TODO Auto-generated method stub
-					Special selectedSpecial = specials.get(position);
-					if(selectedSpecial.getName().equalsIgnoreCase("Add New Special"))
-					{
+					 selectedSpecial = specials.get(position);
 						newSpecial(null);
-					}
 				}
             });
-            
 			}
-		}
 	}
 
 	
 	public void newSpecial(View v)
 	{
+		
 		Intent intent = new Intent(this,AddSpecialActivity.class);
+		if(selectedSpecial.getName().equalsIgnoreCase("Add Special"))
+		{
+			intent.putExtra("newAdd", true);
+		}else
+		{
+			intent.putExtra("special", selectedSpecial);
+		}
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}

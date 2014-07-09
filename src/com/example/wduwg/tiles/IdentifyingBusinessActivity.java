@@ -125,7 +125,7 @@ public class IdentifyingBusinessActivity extends Activity {
 
 		findThings();
 		initializeThings();
-
+        System.out.println(">>>>>>>> insdie identi");
 		// action bar font
 		int titleId = getResources().getIdentifier("action_bar_title", "id",
 				"android");
@@ -192,15 +192,15 @@ public class IdentifyingBusinessActivity extends Activity {
 							+ lat
 							+ ","
 							+ lon
-							+ "&radius=500&sensor=false&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
+							+ "&radius=500&sensor=false&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
 
-					Log.d("url==", new_url);
+					System.out.println(">>>>>>>> Url:"+new_url);
 				} else {
 
 					place = place.replace(" ", "+");
 					new_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
 							+ place
-							+ "+&sensor=false&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI";
+							+ "+&sensor=false&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
 
 					Log.d("url==", new_url);
 				}
@@ -211,6 +211,7 @@ public class IdentifyingBusinessActivity extends Activity {
 				String data = EntityUtils.toString(response.getEntity());
 				JSONObject json = new JSONObject(data);
 				array = json.getJSONArray("results");
+				System.out.println(">>>>>>> reponse length:"+array.length());
 				Log.d("results length:===", "^^^^^^^^^^^^^^^^^^^length:"
 						+ array.length());
 
@@ -218,11 +219,18 @@ public class IdentifyingBusinessActivity extends Activity {
 					Business tempBusiness = null;
 					JSONObject result = (JSONObject) array.get(i);
 					// name = result.getString("name");
+					tempBusiness = new Business();
 					try {
-						photos = result.getJSONArray("photos");
-						photo = (JSONObject) photos.get(0);
+						if(result.has("photos"))
+						{
+							photos = result.getJSONArray("photos");
+							photo = (JSONObject) photos.get(0);
+							if (photo.has("photo_reference"))
+								tempBusiness.setImageUrl(photo
+										.getString("photo_reference"));
+						}
 
-						tempBusiness = new Business();
+						
 						tempBusiness.setGoogleAPIResult(result.toString());
 						if (result.has("name"))
 							tempBusiness.setName(result.getString("name"));
@@ -235,9 +243,8 @@ public class IdentifyingBusinessActivity extends Activity {
 						else if (result.has("formatted_address"))
 							tempBusiness.setAddress(result
 									.getString("formatted_address"));
-						if (photo.has("photo_reference"))
-							tempBusiness.setImageUrl(photo
-									.getString("photo_reference"));
+						
+						
 
 					} catch (JSONException ex) {
 						Log.d("exception no photos:==", ex.getMessage());
@@ -260,6 +267,7 @@ public class IdentifyingBusinessActivity extends Activity {
 		protected void onPostExecute(final List<Business> businesses) {
 
 			showProgress(false, "");
+			System.out.println(">>>>>>> post business Size:"+businesses.size());
 
 			if (businesses.size() == 0) {
 				if (place == null)
@@ -277,8 +285,8 @@ public class IdentifyingBusinessActivity extends Activity {
 								lat1 = tracker.getLatitude();
 								lon1 = tracker.getLongitude();
 								latLongAddress = getAddress(lat1, lon1);
-								showProgress(true, "You are at \n" + latLongAddress);
-								new LoadStringsAsync(lat1, lon1, IdentifyingBusinessActivity.this, null).execute();
+//								showProgress(true, "You are at \n" + latLongAddress);
+//								new LoadStringsAsync(lat1, lon1, IdentifyingBusinessActivity.this, null).execute();
 							}
 						});
 
@@ -292,7 +300,6 @@ public class IdentifyingBusinessActivity extends Activity {
 				CustomAdapter adapter = new CustomAdapter(
 						IdentifyingBusinessActivity.this, businesses);
 				listview.setAdapter(adapter);
-				System.out.println(">>>>>>> before on click business");
 				listview.setOnItemClickListener(new OnItemClickListener() {
 
 					public void onItemClick(AdapterView<?> parent, View view,
@@ -306,7 +313,7 @@ public class IdentifyingBusinessActivity extends Activity {
 						final Bitmap bitmap = bitmapDrawable.getBitmap();
 						ByteArrayOutputStream bs = new ByteArrayOutputStream();
 						bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-						Customer customer = globalVariable.getCustomer();
+//						Customer customer = globalVariable.getCustomer();
 							nextIntent = new Intent(
 									IdentifyingBusinessActivity.this,
 									BusinessHomePageActivity.class);
@@ -417,7 +424,7 @@ public class IdentifyingBusinessActivity extends Activity {
 			URL url = new URL(
 					"https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
 							+ src1
-							+ "&sensor=true&key=AIzaSyBG7NMHOOu50N3C96ZRmR2hgwAmx0KhddI");
+							+ "&sensor=true&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q");
 			HttpURLConnection connection = (HttpURLConnection) url
 					.openConnection();
 			connection.setDoInput(true);
@@ -454,6 +461,7 @@ public class IdentifyingBusinessActivity extends Activity {
 				BusinessHomePageActivity.class);
 
 		nextIntent.putExtra("complete_address", latLongAddress);
+		System.out.println(">>>>>>> address:"+latLongAddress);
 		// nextIntent.putExtra("business_name", "");
 		nextIntent.putExtra("defaultImage", true);
         nextIntent.putExtra("business_id", "custom Id");

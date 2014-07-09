@@ -21,7 +21,7 @@
         android:gravity="center_horizontal"
         android:text="Adiga"
         android:textColor="#686B69"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView

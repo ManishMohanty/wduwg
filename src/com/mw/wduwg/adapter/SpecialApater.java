@@ -51,7 +51,7 @@ public class SpecialApater extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 
-		System.out.println("=======================insise special adapter");
+		System.out.println(">>>>>>> position:"+position);
 		Special special = specialList.get(position);
 		ViewHolder viewHolder;
 		if (convertView == null) {
@@ -73,7 +73,7 @@ public class SpecialApater extends BaseAdapter {
 
 		viewHolder.name.setTypeface(typeface);
 		viewHolder.name.setText(special.getName());
-
+         System.out.println(">>>>>>> Sp name:"+special.getName());
 //		viewHolder.description.setTypeface(Typeface.createFromAsset(
 //				context.getAssets(), "Fonts/OpenSans-Light.ttf"));
 //		viewHolder.description.setText(special.getDescription());

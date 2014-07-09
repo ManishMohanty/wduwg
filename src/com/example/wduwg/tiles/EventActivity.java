@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.apphance.android.Log;
 import com.example.wduwg.tiles.R;
 import com.example.wduwg.tiles.SpecialActivity.LoadStringsAsync;
+import com.google.gson.Gson;
 import com.mw.wduwg.adapter.EventAdapter2;
 import com.mw.wduwg.adapter.SpecialApater;
 import com.mw.wduwg.model.Event;
@@ -39,6 +40,7 @@ import android.widget.TextView;
 public class EventActivity extends Activity {
 ListView eventLV;
 GridView eventsGV;
+Event selectedEvent;
 	
 	CreateDialog createDialog;
 	ProgressDialog progressDialog;
@@ -46,12 +48,15 @@ GridView eventsGV;
 	View customActionBar;
 	LayoutInflater inflater;
 	ActionBar actionBar;
+	Gson gson;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_event);
+		
+		gson = new Gson();
 		inflater =(LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		actionBar = getActionBar();
@@ -85,6 +90,13 @@ GridView eventsGV;
 	{
 		Intent intent = new Intent(this,AddEventActivity.class);
 		intent.putExtra("from_event", true);
+		if(selectedEvent.getName().equalsIgnoreCase("Add New Event"))
+		{
+			intent.putExtra("addNew", true);
+		}else
+		{
+		intent.putExtra("event", selectedEvent);
+		}
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
@@ -125,8 +137,9 @@ GridView eventsGV;
 				{
 					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
-						Event event = new Event();
+						
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
+						Event event = gson.fromJson(jsonobject.toString(), Event.class);
 						event.setName(jsonobject.getString("name"));
 						String startTime = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
 						if(!event.getName().equalsIgnoreCase("defaultEvent"))
@@ -134,6 +147,8 @@ GridView eventsGV;
 							
 						    String endTime =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
 							event.setDescription("Start @ "+startTime + "\nEnd @ " + endTime);
+							event.setStartDate(startTime);
+							event.setEndDate(endTime);
 						}else
 						{
 							String endTime =  "daily";
@@ -148,22 +163,20 @@ GridView eventsGV;
 				Log.d("Response========", "inside catch");
 				e.printStackTrace();
 			}
+			globalVariable.getSelectedBusiness().setEventList(eventList);
 			return eventList;
 		}
 
 		@Override
 		protected void onPostExecute(final List<Event> events) {
 			progressDialog.dismiss();
-			if(events != null && events.size() > 0)
-			{
-            System.out.print(">>>>>>> list-size:"+events.size()+ "===========data"+events.get(0).getName());
-            for(int i=0;i<events.size();i++)
-            	System.out.println(">>>>>>> "+events.get(i).getName());
+			globalVariable.getSelectedBusiness().setEventList(events);
+			globalVariable.saveSharedPreferences();
             Event newEvent = new Event();
-            newEvent.setName("Add new Event");
+            newEvent.setName("Add Event");
             newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
             events.add(newEvent);
-			globalVariable.getSelectedBusiness().setEventList(events);
+			
             EventAdapter2 adapter = new EventAdapter2(EventActivity.this, events);
 //            eventLV.setAdapter(adapter);
             eventsGV.setAdapter(adapter);
@@ -174,15 +187,21 @@ GridView eventsGV;
 						int position, long id) {
 					// TODO Auto-generated method stub
 					Event selectedEvent = events.get(position);
-					if(selectedEvent.getName().equalsIgnoreCase("Add new Event"))
+//						newEvent(null);
+					Intent intent = new Intent(EventActivity.this,AddEventActivity.class);
+					if(selectedEvent.getName().equalsIgnoreCase("Add Event"))
 					{
-						newEvent(null);
+						intent.putExtra("addNew", true);
+					}else
+					{
+						intent.putExtra("event", selectedEvent);
+						
 					}
-					
+					startActivity(intent);
+					overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 				}
 			});
 			}
-		}
 	}
 	
 	

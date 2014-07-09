@@ -71,7 +71,7 @@ public class AddEventActivity extends Activity {
 	GlobalVariable globalVariable;
 	EditText startDateET, endDateET, startTimeET, endTimeET;
 	MyAutoCompleteTextView nameACTV;
-	TextView headerTV,skipTV,continueTV,deleteEvent;
+	TextView headerTV,continueTV,deleteEvent;
 
 
 	static final int DATE_PICKER_ID_Start = 1111;
@@ -117,14 +117,6 @@ public class AddEventActivity extends Activity {
         System.out.println(">>>>>>> AddEvent:: onCreate");
 		findThings();
 		initializeThings();
-		if(getIntent().hasExtra("from_event"))
-		{
-			skipTV.setVisibility(View.INVISIBLE);
-		}
-		else
-		{
-			skipTV.setVisibility(View.VISIBLE);
-		}
 		
 		if(getIntent().hasExtra("event")&& !getIntent().hasExtra("addNew"))
 		{
@@ -146,12 +138,12 @@ public class AddEventActivity extends Activity {
 			endDateET.setFocusableInTouchMode(false);
 			endDateET.setClickable(false);
 			System.out.println(">>>>>>> end date:"+selectedEvent.getEndDate());
-			startTimeET.setText(selectedEvent.getStartDate().substring(0, 6));
+			startTimeET.setText(selectedEvent.getStartDate().substring(0, 8));
 			startTimeET.setKeyListener(null);
 			startTimeET.setFocusable(false);
 			startTimeET.setFocusableInTouchMode(false);
 			startTimeET.setClickable(false);
-			endTimeET.setText(selectedEvent.getEndDate().substring(0, 6));
+			endTimeET.setText(selectedEvent.getEndDate().substring(0, 8));
 			endTimeET.setKeyListener(null);
 			endTimeET.setFocusable(false);
 			endTimeET.setFocusableInTouchMode(false);
@@ -168,13 +160,12 @@ public class AddEventActivity extends Activity {
 			title.setTypeface(font);
 			actionbar.setDisplayShowCustomEnabled(true);
 			actionbar.setCustomView(customActionBar);
-			skipTV.setVisibility(View.GONE);
 			continueTV.setVisibility(View.GONE);
 			headerTV.setVisibility(View.GONE);
 		}else{
 			deleteEvent.setVisibility(View.GONE);
 		actionBarAndKeyboardAndListener();
-        checkPreferences();
+//        checkPreferences();
 		Calendar calendar = Calendar.getInstance();
 		year = calendar.get(Calendar.YEAR);
 
@@ -234,7 +225,6 @@ public class AddEventActivity extends Activity {
 		startTimeET = (EditText) findViewById(R.id.startstime);
 		endTimeET = (EditText) findViewById(R.id.endstime);
 		headerTV = (TextView) findViewById(R.id.header_TV);
-		skipTV = (TextView)findViewById(R.id.skipTV);
 		continueTV = (TextView)findViewById(R.id.next_page_continueTV);
 		deleteEvent = (TextView)findViewById(R.id.deleteEvent);
 	}
@@ -249,7 +239,6 @@ public class AddEventActivity extends Activity {
 		endDateET.setTypeface(typeface2);
 		startDateET.setTypeface(typeface2);
 		headerTV.setTypeface(typeface);
-		skipTV.setTypeface(typeface);
 		continueTV.setTypeface(typeface);
 		globalVariable = (GlobalVariable) getApplicationContext();
 		createDialog = new CreateDialog(this);
