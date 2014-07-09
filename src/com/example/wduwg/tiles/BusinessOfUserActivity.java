@@ -85,6 +85,7 @@ public class BusinessOfUserActivity extends Activity{
 	       ab.setDisplayShowCustomEnabled(true);
 	       ab.setCustomView(v);
 	       messageForUser = (TextView)findViewById(R.id.messageForUser);
+	       messageForUser.setTypeface(typefaceLight);
 		
 		createDialog = new CreateDialog(this);
 		gridView = (GridView)findViewById(R.id.gridView1);

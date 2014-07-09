@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class GridAdapter extends BaseAdapter {
 	private Context context;
 	List<Business> businessList;
 	LayoutInflater inflater;
+	Typeface typefaceBold,typefaceLight;
 	
 	public Integer[] mThumbIds = {
             R.drawable.lights_color, R.drawable.lights_colors,
@@ -32,6 +34,8 @@ public class GridAdapter extends BaseAdapter {
 	{
 		this.context = context;
 		this.businessList = businessList;
+		typefaceBold = Typeface.createFromAsset(this.context.getAssets(), "Fonts/OpenSans-Bold.ttf");
+		typefaceLight = Typeface.createFromAsset(this.context.getAssets(), "Fonts/OpenSans-Light.ttf");
 	}
 	
 	@Override
@@ -84,6 +88,8 @@ public class GridAdapter extends BaseAdapter {
 				viewHolder.address = (TextView)convertView.findViewById(R.id.address);
 				viewHolder.imageView = (SmartImageView) convertView
 						.findViewById(R.id.image);
+				viewHolder.businessName.setTypeface(typefaceBold);
+				viewHolder.address.setTypeface(typefaceLight);
 				
 				convertView.setTag(viewHolder);
 				
