@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E7E7E7"
+    android:background="#ffffff"
     android:orientation="vertical" >
     
     <TextView 
@@ -12,7 +12,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="0dp"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:text="@string/messageForUser"
         android:id="@+id/messageForUser"
         android:textColor="#686B69"

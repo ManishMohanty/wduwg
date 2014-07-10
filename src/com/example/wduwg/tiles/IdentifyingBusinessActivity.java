@@ -41,6 +41,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ import android.widget.Toast;
 
 import com.apphance.android.Log;
 import com.example.wduwg.tiles.R;
+import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.Customer;
 import com.mw.wduwg.services.CreateDialog;
@@ -55,6 +57,9 @@ import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
 
 public class IdentifyingBusinessActivity extends Activity {
+	
+	String city,state;
+	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -63,10 +68,8 @@ public class IdentifyingBusinessActivity extends Activity {
 	}
 
 	HttpResponse response;
-	ListView listview;
+	GridView gridview;
 	private View mLoadingStatusView;
-	// private TextView mLoadingStatusMessageTV;
-	private ListView mListView;
 	String place, latLongAddress;
 	double lat1 = 0.0, lon1 = 0.0;
 	Typeface typeface;
@@ -95,8 +98,7 @@ public class IdentifyingBusinessActivity extends Activity {
 		header2TV = (TextView) findViewById(R.id.header2TV);
 		header3TV = (TextView) findViewById(R.id.header3TV);
 		mLoadingStatusView = findViewById(R.id.loading_status);
-		mListView = (ListView) findViewById(R.id.list);
- 
+		gridview = (GridView)findViewById(R.id.gridview);
 	}
 
 	private void initializeThings() {
@@ -154,8 +156,6 @@ public class IdentifyingBusinessActivity extends Activity {
 			Toast.makeText(IdentifyingBusinessActivity.this, "gps not working",
 					Toast.LENGTH_SHORT).show();
 		}
-
-		listview = (ListView) findViewById(R.id.list);
 
 	}
 
@@ -275,6 +275,8 @@ public class IdentifyingBusinessActivity extends Activity {
 							"Oops!!",
 							"No business found for current location.", false);
 				else
+				{
+					place = place.replace('+', ',');
 					alertDialogBuilder = createDialog.createAlertDialog(
 							"Oops!!", "No business found for keyword \""
 									+ place + "\".", false);
@@ -289,6 +291,7 @@ public class IdentifyingBusinessActivity extends Activity {
 //								new LoadStringsAsync(lat1, lon1, IdentifyingBusinessActivity.this, null).execute();
 							}
 						});
+				}
 
 				alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
@@ -297,22 +300,23 @@ public class IdentifyingBusinessActivity extends Activity {
 			findViewById(R.id.skip_layout).setVisibility(View.VISIBLE);
 
 			if (businesses.size() > 0) {
-				CustomAdapter adapter = new CustomAdapter(
-						IdentifyingBusinessActivity.this, businesses);
-				listview.setAdapter(adapter);
-				listview.setOnItemClickListener(new OnItemClickListener() {
+				GridAdapter adapter = new GridAdapter(IdentifyingBusinessActivity.this,businesses);
+				gridview.setAdapter(adapter);
+				gridview.setOnItemClickListener(new OnItemClickListener() {
 
+					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
+						// TODO Auto-generated method stub
 						Business selectedPlace = businesses.get(position);
                         System.out.println(">>>>>>> on click business");
-						final ImageView image_view = (ImageView) view
-								.findViewById(R.id.icon);
-						final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
-								.getDrawable();
-						final Bitmap bitmap = bitmapDrawable.getBitmap();
-						ByteArrayOutputStream bs = new ByteArrayOutputStream();
-						bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+//						final SmartImageView image_view = (SmartImageView) view
+//								.findViewById(R.id.icon);
+//						final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
+//								.getDrawable();
+//						final Bitmap bitmap = bitmapDrawable.getBitmap();
+//						ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//						bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
 //						Customer customer = globalVariable.getCustomer();
 							nextIntent = new Intent(
 									IdentifyingBusinessActivity.this,
@@ -325,13 +329,46 @@ public class IdentifyingBusinessActivity extends Activity {
 									selectedPlace.getAddress()); // new
 							nextIntent.putExtra("complete_result",
 									selectedPlace.getGoogleAPIResult());
-							nextIntent.putExtra("byteArray", bs.toByteArray());
+							nextIntent.putExtra("imageUrl", selectedPlace.getImageUrl());
 							startActivity(nextIntent);
 							overridePendingTransition(R.anim.anim_out,
 									R.anim.anim_in);
-
 					}
+				
+				
 				});
+//				listview.setOnItemClickListener(new OnItemClickListener() {
+//
+//					public void onItemClick(AdapterView<?> parent, View view,
+//							int position, long id) {
+//						Business selectedPlace = businesses.get(position);
+//                        System.out.println(">>>>>>> on click business");
+//						final ImageView image_view = (ImageView) view
+//								.findViewById(R.id.icon);
+//						final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
+//								.getDrawable();
+//						final Bitmap bitmap = bitmapDrawable.getBitmap();
+//						ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//						bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+////						Customer customer = globalVariable.getCustomer();
+//							nextIntent = new Intent(
+//									IdentifyingBusinessActivity.this,
+//									BusinessHomePageActivity.class);
+//							nextIntent.putExtra("business_name",
+//									selectedPlace.getName());
+//							nextIntent.putExtra("business_id",
+//									selectedPlace.getGooglePlaceID());
+//							nextIntent.putExtra("complete_address",
+//									selectedPlace.getAddress()); // new
+//							nextIntent.putExtra("complete_result",
+//									selectedPlace.getGoogleAPIResult());
+//							nextIntent.putExtra("byteArray", bs.toByteArray());
+//							startActivity(nextIntent);
+//							overridePendingTransition(R.anim.anim_out,
+//									R.anim.anim_in);
+//
+//					}
+//				});
 			} else {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						activity);
@@ -380,8 +417,6 @@ public class IdentifyingBusinessActivity extends Activity {
 			mLoadingStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 			TextView statusMsg = (TextView) mLoadingStatusView
 					.findViewById(R.id.loading_status_message);
-//			statusMsg.setTypeface(Typeface.createFromAsset(getAssets(),
-//					"Fonts/SEGOEUIL.ttf"));
 			statusMsg.setTypeface(Typeface.createFromAsset(getAssets(),
 					"Fonts/OpenSans-Light.ttf"));
 			statusMsg.setText(msg);
@@ -399,15 +434,6 @@ public class IdentifyingBusinessActivity extends Activity {
 						}
 					});
 
-			mListView.setVisibility(View.VISIBLE);
-			mListView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mListView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
-						}
-					});
 		} else {
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
@@ -444,10 +470,12 @@ public class IdentifyingBusinessActivity extends Activity {
 			Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 			List<Address> addresses = geocoder.getFromLocation(latitude,
 					longitude, 1);
+			System.out.println(">>>>>>> Complte Address:"+addresses.toString());
 			String str = addresses.get(0).getAddressLine(0)
 					+ addresses.get(0).getAddressLine(1);
 			String address = str.split(",")[0] + str.split(",")[1];
-			Log.d("address====", address);
+			 city = addresses.get(0).getAddressLine(1).split(",")[0];
+			 state = addresses.get(0).getAddressLine(1).split(",")[1].replaceAll("[^a-zA-Z]", "");
 			return address;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -462,7 +490,6 @@ public class IdentifyingBusinessActivity extends Activity {
 
 		nextIntent.putExtra("complete_address", latLongAddress);
 		System.out.println(">>>>>>> address:"+latLongAddress);
-		// nextIntent.putExtra("business_name", "");
 		nextIntent.putExtra("defaultImage", true);
         nextIntent.putExtra("business_id", "custom Id");
         nextIntent.putExtra("complete_result", "custom business");
@@ -473,6 +500,8 @@ public class IdentifyingBusinessActivity extends Activity {
 
 	public void onSearch(View view) {
 		Intent intent = new Intent(this, SearchByPlaceActivity.class);
+		intent.putExtra("city", city);
+		intent.putExtra("state", state);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}

@@ -11,7 +11,9 @@
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:scaleType="fitXY"
-        android:src="@drawable/city_lights" />
+        android:src="@drawable/city_lights"
+        />
+   
 
     <TextView
         android:id="@+id/businessName"

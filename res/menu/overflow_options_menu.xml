@@ -8,6 +8,7 @@
         android:id="@+id/menu_logout"
         android:orderInCategory="1"
         android:showAsAction="never"
+        android:title="Logout"
         />
     
 </menu>

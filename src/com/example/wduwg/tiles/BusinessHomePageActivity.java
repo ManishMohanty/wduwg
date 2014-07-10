@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import com.example.wduwg.tiles.R;
 import com.google.gson.Gson;
+import com.loopj.android.image.SmartImageView;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.BusinessFBPage;
 import com.mw.wduwg.services.CreateDialog;
@@ -55,12 +56,11 @@ import com.mw.wduwg.services.ServerURLs;
 
 public class BusinessHomePageActivity extends Activity {
 
-	TextView addressLabel;
 	// TextView specialTv;
 	EditText businessNameET;
 	EditText businessAddressET;
     Bitmap bitmap;
-	ImageView roundPhotoIV;
+	SmartImageView roundPhotoIV;
 	Typeface typeface;
 	Typeface typeface2;
 
@@ -98,32 +98,15 @@ public class BusinessHomePageActivity extends Activity {
 		yourTextView.setTextColor(Color.parseColor("#016AB2"));
 		yourTextView.setTypeface(typeface);
 		final BitmapFactory.Options options = new BitmapFactory.Options();
-//		if (globalVariable.getSelectedBusiness() != null
-//				&& previousIntent.hasExtra("isFromMain")) {
-//			Gson gson = new Gson();
-//			selectedBusiness = globalVariable.getSelectedBusiness();
-//			 String json = globalVariable.getSelectedBusiness()
-//			 .getImageEncoded();
-//			 if (json != null && json.length() > 0) {
-//			 byte[] b = Base64.decode(json, Base64.DEFAULT);
-//			 roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeByteArray(b, 0, b.length)));
-//			 b=null;
-//			 Runtime.getRuntime().gc();
-//			 }
-//			businessNameET.setText(previousIntent.getStringExtra("business_name"));
-//			businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
-//		} else {
-			if (previousIntent.getBooleanExtra("defaultImage", false)) {
-				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeResource(getResources(), R.drawable.wduwg_logo2223)));
-				businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
-			} else {
-				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape( BitmapFactory.decodeByteArray(
-						previousIntent.getByteArrayExtra("byteArray"),
-						0,
-						previousIntent.getByteArrayExtra("byteArray").length)));
+//			if (previousIntent.getBooleanExtra("defaultImage", false)) {
+//				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeResource(getResources(), R.drawable.wduwg_logo2223)));
+//				businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
+//			} else {
+		             if(previousIntent.getStringExtra("imageUrl") != null)
+				     roundPhotoIV.setImageUrl(previousIntent.getStringExtra("imageUrl"));
 				     businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
 				     businessNameET.setText(previousIntent.getStringExtra("business_name"));
-			}
+//			}
 //		}
 		
 	}
@@ -132,26 +115,26 @@ public class BusinessHomePageActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		getMenuInflater().inflate(R.menu.overflow_options_menu, menu);
-//		SpannableString delinkstr = new SpannableString(menu.findItem(R.id.menu_delink).getTitle());
-//		delinkstr.setSpan(typeface, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
-//		SpannableString logoutstr = new SpannableString(menu.findItem(R.id.menu_logout).getTitle());
-//		logoutstr.setSpan(typeface, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
+		SpannableString delinkstr = new SpannableString(menu.findItem(R.id.menu_delink).getTitle());
+		delinkstr.setSpan(typeface, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
+		SpannableString logoutstr = new SpannableString(menu.findItem(R.id.menu_logout).getTitle());
+		logoutstr.setSpan(typeface, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
 		return true;
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-//		MenuItem item = menu.findItem(R.id.menu_delink);
+		MenuItem item = menu.findItem(R.id.menu_delink);
 		MenuItem logouItem = menu.findItem(R.id.menu_logout);
-//		if (globalVariable.getSelectedBusiness() != null) {
-//			item.setEnabled(true);
-//
-//		} else {
-//			item.setEnabled(false);
-//		}
+		if (globalVariable.getSelectedBusiness() != null) {
+			item.setEnabled(true);
+
+		} else {
+			item.setEnabled(false);
+		}
 		if(globalVariable.getFb_access_token() !=null)
 		{
 			logouItem.setEnabled(true);
@@ -227,10 +210,9 @@ public class BusinessHomePageActivity extends Activity {
 	}
 
 	private void findThings() {
-		roundPhotoIV = (ImageView) findViewById(R.id.photo);
+		roundPhotoIV = (SmartImageView) findViewById(R.id.photo);
 		businessNameET = (EditText) findViewById(R.id.customer_name);
 		businessAddressET = (EditText) findViewById(R.id.customer_address);
-		addressLabel = (TextView) findViewById(R.id.addressLabel);
 		link = (TextView) findViewById(R.id.link);
 	}
 
@@ -251,7 +233,6 @@ public class BusinessHomePageActivity extends Activity {
 		deviceId = Secure.getString(this.getContentResolver(),
 				Secure.ANDROID_ID);
 		businessNameET.setTypeface(typeface);
-		addressLabel.setTypeface(typeface);
 		businessAddressET.setTypeface(typeface2);
 		link.setTypeface(typeface);
 		createDialog = new CreateDialog(this);

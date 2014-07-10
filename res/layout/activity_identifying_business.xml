@@ -3,6 +3,7 @@
     tools:context=".GoogleApiActivity"
     android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffffff"
     >
 
     <LinearLayout
@@ -115,13 +116,22 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/skip_layout"
-        >
-<!--         android:layout_marginTop="160dp"  -->
-    </ListView>
+    <GridView android:id="@+id/gridview"
+              android:layout_below="@+id/skip_layout"
+              android:numColumns="2"
+    android:gravity="center"
+    android:verticalSpacing="12dp"
+    android:horizontalSpacing="12dp"
+    android:columnWidth="100dp"
+    android:stretchMode="columnWidth"
+    android:layout_width="fill_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp" 
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_height="match_parent">
+        
+    </GridView>
 
 </RelativeLayout>

@@ -109,7 +109,7 @@ public class Business implements Serializable {
 	}
 
 	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+		this.imageUrl ="https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="+imageUrl+"&sensor=true&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
 	}
 	
 	

@@ -9,11 +9,10 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apphance.android.activity.ApphanceActivity;
-import com.example.wduwg.tiles.R;
 
 public class SearchByPlaceActivity extends ApphanceActivity {
 	EditText placeNameET;
@@ -39,6 +38,15 @@ public class SearchByPlaceActivity extends ApphanceActivity {
 		placeNameET.setTypeface(typeface2);
 		placeCityET.setTypeface(typeface2);
 		placeStateET.setTypeface(typeface2);
+		Intent preveIntent = getIntent();
+		if(preveIntent.hasExtra("city"))
+		{
+			placeCityET.setText(preveIntent.getStringExtra("city"));
+		}
+		if(preveIntent.hasExtra("state"))
+		{
+			placeStateET.setText(preveIntent.getStringExtra("state"));
+		}
 	}
 
 	@Override
@@ -49,7 +57,7 @@ public class SearchByPlaceActivity extends ApphanceActivity {
 		findThings();
 		initializeThings();
 
-		((LinearLayout) findViewById(R.id.search_place_LL))
+		((RelativeLayout) findViewById(R.id.search_place_LL))
 				.setOnTouchListener(new OnTouchListener() {
 					@Override
 					public boolean onTouch(View v, MotionEvent event) {
