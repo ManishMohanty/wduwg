@@ -111,7 +111,8 @@ public class GridAdapter extends BaseAdapter {
 			}
 			if(businessList.get(position).getName().equalsIgnoreCase("Add Business"))
 			{
-				viewHolder.imageView.setImageUrl(businessList.get(position).getImageUrl());
+				viewHolder.imageView.setImageUrl("http://us.123rf.com/400wm/400/400/nicemonkey/nicemonkey0703/nicemonkey070300014/782266-8-silhouette-business-people-in-line-in-black-and-white.jpg");
+//				viewHolder.imageView.setImageUrl(businessList.get(position).getImageUrl());
 			}else
 			{
 				try{

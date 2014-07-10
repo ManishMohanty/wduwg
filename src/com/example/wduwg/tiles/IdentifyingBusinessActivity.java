@@ -280,6 +280,7 @@ public class IdentifyingBusinessActivity extends Activity {
 					alertDialogBuilder = createDialog.createAlertDialog(
 							"Oops!!", "No business found for keyword \""
 									+ place + "\".", false);
+				}
 				alertDialogBuilder.setPositiveButton("OK",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
@@ -291,7 +292,7 @@ public class IdentifyingBusinessActivity extends Activity {
 //								new LoadStringsAsync(lat1, lon1, IdentifyingBusinessActivity.this, null).execute();
 							}
 						});
-				}
+				
 
 				alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
