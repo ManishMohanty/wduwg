@@ -127,7 +127,6 @@ public class IdentifyingBusinessActivity extends Activity {
 
 		findThings();
 		initializeThings();
-        System.out.println(">>>>>>>> insdie identi");
 		// action bar font
 		int titleId = getResources().getIdentifier("action_bar_title", "id",
 				"android");
@@ -135,20 +134,18 @@ public class IdentifyingBusinessActivity extends Activity {
 		actionBarTextView.setTextColor(Color.parseColor("#016AB2"));
 		actionBarTextView.setTextSize(19);
 		actionBarTextView.setTypeface(typefaceBold);
-
-		
 		if (previousIntent.hasExtra("place")) {
 			// search by keyword
 			place = previousIntent.getStringExtra("place");
 			Toast.makeText(this, "Searching for: " + place, Toast.LENGTH_SHORT)
-					.show();
+			.show();
 			showProgress(true, "Loading ...");
 			new LoadStringsAsync(lat1, lon1, this, place).execute();
-
+			
 		} else if (tracker.isGPSEnabled) {
 			lat1 = tracker.getLatitude();
 			lon1 = tracker.getLongitude();
-
+			
 			latLongAddress = getAddress(lat1, lon1);
 			showProgress(true, "You are at \n" + latLongAddress);
 			new LoadStringsAsync(lat1, lon1, this, null).execute();
@@ -156,8 +153,8 @@ public class IdentifyingBusinessActivity extends Activity {
 			Toast.makeText(IdentifyingBusinessActivity.this, "gps not working",
 					Toast.LENGTH_SHORT).show();
 		}
-
 	}
+
 
 	// async task
 	public class LoadStringsAsync extends AsyncTask<Void, Void, List<Business>> {
@@ -276,9 +273,9 @@ public class IdentifyingBusinessActivity extends Activity {
 							"No business found for current location.", false);
 				else
 				{
-					place = place.replace('+', ',');
+					place = place.replace("+", ", ");
 					alertDialogBuilder = createDialog.createAlertDialog(
-							"Oops!!", "No business found for keyword \""
+							"Oops!!", "No business found for \""
 									+ place + "\".", false);
 				}
 				alertDialogBuilder.setPositiveButton("OK",

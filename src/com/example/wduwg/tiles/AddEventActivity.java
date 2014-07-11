@@ -240,6 +240,7 @@ public class AddEventActivity extends Activity {
 		startDateET.setTypeface(typeface2);
 		headerTV.setTypeface(typeface);
 		continueTV.setTypeface(typeface);
+		deleteEvent.setTypeface(typeface);
 		globalVariable = (GlobalVariable) getApplicationContext();
 		createDialog = new CreateDialog(this);
 		startDateET.setText(dateFormat.format(startDateTime));

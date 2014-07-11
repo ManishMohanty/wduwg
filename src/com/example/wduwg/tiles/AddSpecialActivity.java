@@ -69,6 +69,8 @@ public class AddSpecialActivity extends Activity {
 
 	Date endDate;
 	Date endDateTime;
+	
+	Typeface typefaceBold;
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
 	SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm");
@@ -91,7 +93,10 @@ public class AddSpecialActivity extends Activity {
 				"6H7bzx0gZL7I2Zz9MQ1u5ZPYaOhlHAkqeyooexCS");
 		typeface2 = Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Light.ttf");
-
+	    typefaceBold = Typeface.createFromAsset(getAssets(),
+				"Fonts/OpenSans-Bold.ttf");
+	    continueTV.setTypeface(typefaceBold);
+	    deleteSpecial.setTypeface(typefaceBold);
 		nameET.setTypeface(typeface2);
 		endDateET.setTypeface(typeface2);
 		startDateET.setTypeface(typeface2);
@@ -152,9 +157,8 @@ public class AddSpecialActivity extends Activity {
 			TextView title = (TextView)customActionBar.findViewById(R.id.action_bar_TV);
 			title.setText("Special Details");
 			title.setTextSize(19);
-			Typeface font = Typeface.createFromAsset(getAssets(),
-					"Fonts/OpenSans-Bold.ttf");
-			title.setTypeface(font);
+			
+			title.setTypeface(typefaceBold);
 			actionbar.setDisplayShowCustomEnabled(true);
 			actionbar.setCustomView(customActionBar);
 			continueTV.setVisibility(View.GONE);

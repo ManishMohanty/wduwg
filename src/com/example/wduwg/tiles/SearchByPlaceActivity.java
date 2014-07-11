@@ -80,6 +80,7 @@ public class SearchByPlaceActivity extends ApphanceActivity {
 
 	private boolean validate() {
 		boolean temp = true;
+		place = "";
 		if (placeNameET.getText().toString().trim().length() == 0) {
 			placeNameET.setError("You must enter a business name.");
 			temp = false;
