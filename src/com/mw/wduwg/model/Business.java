@@ -31,7 +31,16 @@ public class Business implements Serializable {
 	String imageUrl;
 	String imageEncoded;
 	Bitmap image;
+	String face_book_page;
 	
+	public String getFace_book_page() {
+		return face_book_page;
+	}
+
+	public void setFace_book_page(String face_book_page) {
+		this.face_book_page = face_book_page;
+	}
+
 	public Bitmap getImage() {
 		return image;
 	}

@@ -83,18 +83,9 @@ public class BusinessOfUserActivity extends Activity{
        ab.setCustomView(v);
 		
 		createDialog = new CreateDialog(this);
-//		ListView listView = (ListView) findViewById(R.id.listView);
 		GridView gridView = (GridView)findViewById(R.id.gridView1);
-//		CustomAdapter adapter = new CustomAdapter(
-//				BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
 		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
 		gridView.setAdapter(adapter);
-		Pagelist = new ArrayList<String>();
-
-		for (int i = 0; i < globalVariable.getCustomer().getPages().size(); i++) {
-			Pagelist.add(globalVariable.getCustomer().getPages().get(i)
-					.getName());
-		}
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -103,22 +94,17 @@ public class BusinessOfUserActivity extends Activity{
 				// TODO Auto-generated method stub
 				final int positionFinal = position;
 				final View viewFinal = (View)view;
-
-
-				String[] items = Pagelist.toArray(new String[Pagelist.size()]);
-				alertDialogBuilder = createDialog.createAlertDialog(
-						"Select Facebook Page", null, false);
-				alertDialogBuilder.setItems(items,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog, int pos) {
-								// TODO Auto-generated method stub
-								fbPage = globalVariable.getCustomer().getPages()
-										.get(pos);
-								globalVariable.setSelectedFBPage(fbPage);
-								alertDialog.dismiss();
 								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
+								int fbpageSize = globalVariable.getCustomer().getPages().size();
+								
+								for(int i=0;i<fbpageSize;i++)
+								{
+									if(globalVariable.getCustomer().getPages().get(i).getId().equals(business.getFace_book_page()))
+									{
+										globalVariable.setSelectedFBPage(globalVariable.getCustomer().getPages().get(i));
+									}
+								}
+							  
 								if(globalVariable.getSelectedBusiness() != null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
 								{
 									globalVariable.setMenIn(0);
@@ -141,31 +127,11 @@ public class BusinessOfUserActivity extends Activity{
 										String json = gson.toJson(business);
 										System.out.println(">>>>>>> business existing"
 												+ json);
-//										final ImageView image_view = (ImageView) viewFinal
-//												.findViewById(R.id.icon);
-//										final BitmapDrawable bitmapDrawable = (BitmapDrawable) image_view
-//												.getDrawable();
-//										 bitmap = bitmapDrawable.getBitmap();
-//										ByteArrayOutputStream bs = new ByteArrayOutputStream();
-//										bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-										
 										Intent nextIntent = new Intent(BusinessOfUserActivity.this,CountActivity.class);
 										startActivity(nextIntent);
 										overridePendingTransition(R.anim.anim_out,
 												R.anim.anim_in);
 									}
-						});
-				alertDialogBuilder.setPositiveButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								alertDialog.dismiss();
-							}
-						});
-				alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-
-			}
 		});
 	}
 	

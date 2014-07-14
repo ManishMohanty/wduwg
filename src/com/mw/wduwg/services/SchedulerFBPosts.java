@@ -115,23 +115,18 @@ public class SchedulerFBPosts extends TimerTask {
 		protected Boolean doInBackground(String... params) {
 			boolean returnBool = false;
 			String postMessage = "";
-			Event tempEvent = globalVariable.getSelectedEvent();
-			System.out.println(">>>>>>> gloabalVariable selected event:"+globalVariable.getSelectedEvent().getName());
-			if (!tempEvent.getName().equals("defaultEvent")) {
-				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName()
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
-			}else
-			{
-				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
-				postMessage = postMessage 
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
-			}
-			
-			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length() -1;
-			postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
-					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
-					+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
-					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
+			int length = ((globalVariable.getMenIn() - globalVariable
+					.getMenOut()) + "").length() - 1;
+
+			postMessage = postMessage
+					+ "\n  Current Attendance:\t\t\t"
+					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable
+							.getWomenIn() - globalVariable.getWomenOut()))
+					+ "\n  Men: "
+					+ (globalVariable.getMenIn() - globalVariable.getMenOut())
+					+ "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
+					+ (globalVariable.getWomenIn() - globalVariable
+							.getWomenOut()) + "\n";
 			
 			System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************
