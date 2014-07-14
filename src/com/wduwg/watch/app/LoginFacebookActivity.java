@@ -330,19 +330,18 @@ public class LoginFacebookActivity extends Activity {
 		@SuppressWarnings("deprecation")
 		@Override
 		protected Boolean doInBackground(String... params) {
-//			System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage="";
 			int length = ((globalVariable.getMenIn() - globalVariable
 					.getMenOut()) + "").length() - 1;
 
 			postMessage = postMessage
-					+ "\n  Current Attendance:\t\t\t"
+					+ "\n  Current Attendance:\t\t"
 					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable
 							.getWomenIn() - globalVariable.getWomenOut()))
 					+ "\n  Men: "
 					+ (globalVariable.getMenIn() - globalVariable.getMenOut())
-					+ "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
+					+ "\t\t\t\t\t\t\t\tWomen: ".substring(1, 14)
 					+ (globalVariable.getWomenIn() - globalVariable
 							.getWomenOut()) + "\n";
 		System.out.println(">>>>>>> Message"+postMessage);
@@ -359,12 +358,11 @@ public class LoginFacebookActivity extends Activity {
 				 final Rect bounds = new Rect();
 					TextPaint textPaint = new TextPaint() {
 					    {
-					        setColor(Color.parseColor("#ffffff"));
+					        setColor(Color.parseColor("#686b69"));
 					        setTextAlign(Paint.Align.LEFT);
-					        setTypeface(Typeface.createFromAsset(LoginFacebookActivity.this.getAssets(),
-					    			"Fonts/OpenSans-Light.ttf"));
-					        setTextSize(15f);
-					        setAntiAlias(true);
+					        setTypeface(Typeface.DEFAULT_BOLD);
+							setTextSize(17f); // 35f
+							setAntiAlias(true);
 					    }
 					};
 					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
@@ -379,7 +377,7 @@ public class LoginFacebookActivity extends Activity {
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
 
-					bmp.eraseColor(Color.parseColor("#3c8383"));// just adding black background
+					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
 
@@ -414,9 +412,6 @@ public class LoginFacebookActivity extends Activity {
 								}
 							});// session open closed
 							System.out.println(">>>>>>> new session open");
-
-
-//					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
 					String url = "https://graph.facebook.com/"+globalVariable.getSelectedBusiness().getFace_book_page()+"/photos";
 					System.out.println(">>>>>>> post url"+url);
 					HttpPost postRequest = new HttpPost(url);

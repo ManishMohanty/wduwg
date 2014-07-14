@@ -272,7 +272,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
 		headerTV = (TextView) child.findViewById(R.id.header_TV);
 		headerTV.setTypeface(typeface);
-        headerTV.setText(globalVariable.getSelectedBusiness().getName());
+        headerTV.setText(globalVariable.getSelectedBusiness().getName()+"-"+globalVariable.getSelectedFBPage().getName());
 		contextMenuItems = new ArrayList<ContextMenuItem>();
 		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 				R.drawable.facebook), "Facebook"));
