@@ -268,9 +268,22 @@ public class AddSpecialActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void arg0) {
 			progressDialog.dismiss();
-			Intent intent = new Intent(AddSpecialActivity.this,
-					SpecialActivity.class);
-			startActivity(intent);
+			alertDialogBuilder = createDialog.createAlertDialog(
+					"Special added successfully", null, false);
+			alertDialogBuilder.setCancelable(false);
+			alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					alertDialog.dismiss();
+					Intent intent = new Intent(AddSpecialActivity.this,
+							SpecialActivity.class);
+					startActivity(intent);
+				}
+			});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
 		}
 
 	}

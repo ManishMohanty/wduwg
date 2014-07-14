@@ -116,19 +116,20 @@ public class GridAdapter extends BaseAdapter {
 			}else
 			{
 				try{
-					System.out.println(">>>>>>> position: "+position);
-					String googleApiResults = tempPlace.getGoogleAPIResult();
-					JSONObject json = new JSONObject(googleApiResults);
-					JSONObject photoJsonObject  = new JSONObject(json.getString("photos").substring(1, json.getString("photos").length()-1).toString());
-					tempPlace.setImageUrl(photoJsonObject.getString("photo_reference"));
+//					System.out.println(">>>>>>> position: "+position);
+//					String googleApiResults = tempPlace.getGoogleAPIResult();
+//					JSONObject json = new JSONObject(googleApiResults);
+//					JSONObject photoJsonObject  = new JSONObject(json.getString("photos").substring(1, json.getString("photos").length()-1).toString());
+//					tempPlace.setImageUrl(photoJsonObject.getString("photo_reference"));
+					viewHolder.imageView.setImageUrl(businessList.get(position).getImageUrl());
 				}catch(Exception e)
 				{
 					e.printStackTrace();
 				}
-				String temp = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
-						+ tempPlace.getImageUrl()
-						+ "&sensor=true&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
-				viewHolder.imageView.setImageUrl(temp);
+//				String temp = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
+//						+ tempPlace.getImageUrl()
+//						+ "&sensor=true&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
+				viewHolder.imageView.setImageUrl(businessList.get(position).getImageUrl());
 			}
 			return convertView;
 	}

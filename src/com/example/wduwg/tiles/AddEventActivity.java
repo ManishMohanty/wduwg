@@ -668,19 +668,40 @@ public class AddEventActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			progressDialog.dismiss();
+			
 			if(isAdded)
 			{
 				globalVariable.setMenIn(0);
 				globalVariable.setMenOut(0);
 				globalVariable.setWomenIn(0);
 				globalVariable.setWomenOut(0);
-				nextActivity();	
+				alertDialogBuilder = createDialog.createAlertDialog(
+						"Event added successfully", null, false);
+				alertDialogBuilder.setCancelable(false);
+				alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						alertDialog.dismiss();
+						nextActivity();
+					}
+				});
 			}
 			else{
-				Toast.makeText(getApplicationContext(), "This Event already exists at same time", Toast.LENGTH_SHORT).show();
-//				finish();
+				alertDialogBuilder = createDialog.createAlertDialog(
+						"This Event already exists at same time", null, false);
+				alertDialogBuilder.setCancelable(false);
+				alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						alertDialog.dismiss();
+					}
+				});
 			}
-		
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
 			isDefaultEvent = false;
 		}// onPostExecute
 

@@ -17,10 +17,10 @@
 
     <ImageView
         android:id="@+id/business_profile_imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/wduwg_logo2223" />
+        android:src="@drawable/wduwg" />
 
     <TextView
         android:id="@+id/header_TV"

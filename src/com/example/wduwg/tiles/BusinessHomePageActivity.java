@@ -330,8 +330,21 @@ public class BusinessHomePageActivity extends Activity {
 //			businessAddressET.setFocusable(false);
 //			businessAddressET.setFocusableInTouchMode(false);
 //			link.setVisibility(View.GONE);
-			Intent intent = new Intent(BusinessHomePageActivity.this,BusinessOfUserActivity.class);
-			startActivity(intent);
+			alertDialogBuilder = createDialog.createAlertDialog(
+					"Business added successfully", null, false);
+			alertDialogBuilder.setCancelable(false);
+			alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					alertDialog.dismiss();
+					Intent intent = new Intent(BusinessHomePageActivity.this,BusinessOfUserActivity.class);
+					startActivity(intent);
+				}
+			});
+			alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
 		}
 	}
 
