@@ -38,12 +38,10 @@ public class BusinessOfUserActivity extends Activity{
     Bitmap bitmap;
     byte[] b;
 	ListView listView;
-	List<String> Pagelist;
 	GlobalVariable globalVariable;
 	AlertDialog.Builder alertDialogBuilder;
 	CreateDialog createDialog;
 	AlertDialog alertDialog;
-	BusinessFBPage fbPage;
 	ProgressDialog progressDialog;
 	JSONObject jsonFromServer;
 	Business selectedBusiness;
@@ -80,12 +78,6 @@ public class BusinessOfUserActivity extends Activity{
 		CustomAdapter adapter = new CustomAdapter(
 				BusinessOfUserActivity.this, globalVariable.getCustomer().getBusinesses());
 		listView.setAdapter(adapter);
-		Pagelist = new ArrayList<String>();
-		
-		for (int i = 0; i < globalVariable.getCustomer().getPages().size(); i++) {
-			Pagelist.add(globalVariable.getCustomer().getPages().get(i)
-					.getName());
-		}
 	     listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -94,22 +86,15 @@ public class BusinessOfUserActivity extends Activity{
 				// TODO Auto-generated method stub
 				final int positionFinal = position;
 				final View viewFinal = (View)view;
-				
-				
-				String[] items = Pagelist.toArray(new String[Pagelist.size()]);
-				alertDialogBuilder = createDialog.createAlertDialog(
-						"Select Facebook Page", null, false);
-				alertDialogBuilder.setItems(items,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog, int pos) {
-								// TODO Auto-generated method stub
-								fbPage = globalVariable.getCustomer().getPages()
-										.get(pos);
 								Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
-								globalVariable.setSelectedFBPage(fbPage);
-								alertDialog.dismiss();
+								int fbpagesize = globalVariable.getCustomer().getPages().size();
+								for(int i=0;i<fbpagesize;i++)
+								{
+									if(globalVariable.getCustomer().getPages().get(i).getId().equals(business.getFace_book_page()))
+									{
+										globalVariable.setSelectedFBPage(globalVariable.getCustomer().getPages().get(i));
+									}
+								}
 								if(globalVariable.getSelectedBusiness()!=null && globalVariable.getSelectedBusiness().getId().get$oid() != business.getId().get$oid())
 								{
 									globalVariable.setMenIn(0);
@@ -119,6 +104,7 @@ public class BusinessOfUserActivity extends Activity{
 								}
 								globalVariable.setSelectedBusiness(null);
 								globalVariable.setSelectedBusiness(business);
+								System.out.println(">>>>>>> Selected business's facebook page id:"+business.getFace_book_page());
 								globalVariable.saveSharedPreferences();
 										Gson gson = new Gson();
 										String json = gson.toJson(business);
@@ -137,18 +123,6 @@ public class BusinessOfUserActivity extends Activity{
 										overridePendingTransition(R.anim.anim_out,
 												R.anim.anim_in);
 									}
-						});
-				alertDialogBuilder.setPositiveButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								alertDialog.dismiss();
-							}
-						});
-				alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-				
-			}
 		});
 	     
 	     

@@ -333,25 +333,18 @@ public class LoginFacebookActivity extends Activity {
 //			System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage="";
-			Event tempEvent = globalVariable.getSelectedEvent();
-			System.out.println(">>>>>>> while post inside login facebook global slected event"+tempEvent.getName());
-			System.out.println(tempEvent.getName());
-			postMessage = postMessage + "\n  Event:\t"+ tempEvent.getName();
-			if (!tempEvent.getName().equals("defaultEvent")) {
-			postMessage = postMessage 
-					+ "\n  Start Time:\t"+ globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-8))) + "\n  End Time:\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-8)));
-		    }else
-		    {
-			postMessage = postMessage 
-					+ "\n  Start Time:\t"+ globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-8))) + "\n  End Time:\t" + "daily";
-		    }
-			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length()-1;
+			int length = ((globalVariable.getMenIn() - globalVariable
+					.getMenOut()) + "").length() - 1;
 
-		postMessage = postMessage		+ "\n  Number of Patrons:\t"+
-				+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men:\t"
-				+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\tWomen:\t"
-				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
-
+			postMessage = postMessage
+					+ "\n  Current Attendance:\t\t\t"
+					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable
+							.getWomenIn() - globalVariable.getWomenOut()))
+					+ "\n  Men: "
+					+ (globalVariable.getMenIn() - globalVariable.getMenOut())
+					+ "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
+					+ (globalVariable.getWomenIn() - globalVariable
+							.getWomenOut()) + "\n";
 		System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************
 			try {
@@ -423,7 +416,9 @@ public class LoginFacebookActivity extends Activity {
 							System.out.println(">>>>>>> new session open");
 
 
-					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+//					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+					String url = "https://graph.facebook.com/"+globalVariable.getSelectedBusiness().getFace_book_page()+"/photos";
+					System.out.println(">>>>>>> post url"+url);
 					HttpPost postRequest = new HttpPost(url);
 					HttpParams http_parameters = new BasicHttpParams();
 				    HttpConnectionParams.setConnectionTimeout(http_parameters, 3000);

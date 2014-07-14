@@ -31,7 +31,5 @@ public class BusinessFBPage {
 		this.access_token = access_token;
 	}
 	
-	
-	
 
 }
