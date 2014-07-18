@@ -53,9 +53,9 @@
     <application
         android:name="com.mw.wduwg.services.GlobalVariable"
         android:allowBackup="true"
-        android:icon="@drawable/wduwg_logo2223"
+        android:icon="@drawable/wduwg_no_text_small"
         android:label="@string/app_name"
-        android:logo="@drawable/wduwg_no_text"
+        android:logo="@drawable/wduwg_no_text_small"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
         <activity
@@ -155,7 +155,8 @@
         </activity>
         <activity
             android:name="com.wduwg.watch.app.SpalshFirstActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            clearTaskOnLaunch = "true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

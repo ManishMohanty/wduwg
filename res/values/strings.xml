@@ -16,8 +16,8 @@
     <string name="title_activity_identifying_business">Select Your Venue</string>
     <string name="title_activity_events">Add Event Details	</string>
     <string name="title_activity_reports">Reports</string>
-    <string name="continueText"><u><b>Continue</b></u></string>
-    <string name="delink"><u><b>Delink Device</b></u></string>
+    <string name="continueText"><b>Continue</b></string>
+    <string name="delink"><b>Delink Device</b></string>
     <string name="delink2"><u><b>Delink\nDevice</b></u></string>
     <string name="skip"><u><b>Skip</b></u></string>
     <string name="link"><u>Link Device</u></string>

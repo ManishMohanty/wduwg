@@ -65,7 +65,7 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/buttonLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -74,34 +74,33 @@
             android:layout_marginTop="15sp"
             android:paddingBottom="20dp"
             android:background="#ffffff"
-            android:gravity="center"
             android:orientation="horizontal"
+            android:gravity="center"
             android:visibility="invisible" >
-<!--             android:layout_marginBottom="150sp" -->
 
-            <TextView
-                android:id="@+id/delinkTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="70dp"
-                android:clickable="true"
-                android:onClick="onDelink"
-                android:text="@string/delink"
-                android:textColor="@color/text_color"
-                android:textSize="21sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/continuetext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="oncontinue"
-                android:text="@string/continueText"
-                android:textColor="@color/text_color"
-                android:textSize="21sp"
-                android:visibility="invisible" />
-        </LinearLayout>
+                <Button android:id="@+id/delinkBTN"
+                        android:background="@drawable/round"
+                        android:layout_width="140dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="5dp"
+                        android:onClick="onDelink"
+                        android:text="@string/delink"
+                        android:textColor="#ffffff"
+                        android:visibility="gone"
+                    />
+                <Button android:id="@+id/continueBTN"
+                        android:background="@drawable/round"
+                        android:layout_width="140dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="5dp"
+                        android:onClick="oncontinue"
+                        android:text="@string/continueText"
+                        android:textColor="#ffffff"
+                        android:visibility="invisible"
+                    />
+        </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

@@ -594,10 +594,12 @@ public class LoginFacebookActivity extends Activity {
 							if(isCustomer && globalVariable.getCustomer().getBusinesses().size() >  0 && globalVariable.getSelectedBusiness()== null)
 							{
 								Intent intent = new Intent(LoginFacebookActivity.this,BusinessOfUserActivity.class);
+								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 							     startActivity(intent);
 							}else if(isCustomer)
 							{
 								Intent intent = new Intent(LoginFacebookActivity.this,MainActivity.class);
+								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
 							}
 								else
@@ -672,8 +674,10 @@ public class LoginFacebookActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		this.setResult(RESULT_OK);
-		finish();
+//		this.setResult(RESULT_OK);
+		System.out.println(">>>> facebook back");
+		super.onBackPressed();
+//		finish();
 	}
 
 

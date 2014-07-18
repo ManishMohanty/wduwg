@@ -54,6 +54,7 @@ public class SpalshFirstActivity extends Activity {
 //		setContentView(R.layout.splash_first);
 		globalVariable = (GlobalVariable) getApplicationContext();
 		if (globalVariable.getFb_access_token() != null) {
+			System.out.println(">>>>>>> inside splash ");
 			Intent intent = new Intent(SpalshFirstActivity.this,
 					MainActivity.class);
 			startActivity(intent);
@@ -151,13 +152,20 @@ public class SpalshFirstActivity extends Activity {
 	}
 
 	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+	}
+
+	@Override
 	protected void onRestart() {
 		super.onRestart();
-		if (globalVariable.getFb_access_token() != null) {
-			Intent intent = new Intent(SpalshFirstActivity.this,
-					MainActivity.class);
-			startActivity(intent);
-		}
+//		if (globalVariable.getFb_access_token() != null) {
+//			Intent intent = new Intent(SpalshFirstActivity.this,
+//					MainActivity.class);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//			startActivity(intent);
+//		}
 
 	}
 
@@ -170,6 +178,7 @@ public class SpalshFirstActivity extends Activity {
 	public void connectFacebook(View v) {
 		Intent intent = new Intent(SpalshFirstActivity.this,
 				LoginFacebookActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.putExtra("fromContext", false);
 		startActivity(intent);
 	}

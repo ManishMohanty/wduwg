@@ -277,8 +277,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 				R.drawable.facebook), "Facebook"));
 
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.scanner2), "Scanner"));
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.scanner2), "Scanner"));
 
 //		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 //				R.drawable.flash2), "Flashlight"));
@@ -691,33 +691,33 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //				restartSaving();
 				ignoreOnRestart = true;
 			} else if (resultCode == RESULT_CANCELED) {
-				ignoreOnRestart = true;
-				alertDialogBuilder = createDialog.createAlertDialog(
-						"Scanner Error", "Unable to Scan", false);
-				alertDialogBuilder.setPositiveButton("Try Again",
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								nextIntent = new Intent(CountActivity.this,
-										ActivityCapture.class);
-								startActivityForResult(nextIntent, SCANNER);
-								alertDialog.dismiss();
-							}
-						});
-				alertDialogBuilder.setNegativeButton("Cancel",
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								restartSaving();
-								alertDialog.dismiss();
-							}
-						});
-				alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
+//				ignoreOnRestart = true;
+//				alertDialogBuilder = createDialog.createAlertDialog(
+//						"Scanner Error", "Unable to Scan", false);
+//				alertDialogBuilder.setPositiveButton("Try Again",
+//						new DialogInterface.OnClickListener() {
+//
+//							@Override
+//							public void onClick(DialogInterface dialog,
+//									int which) {
+//								nextIntent = new Intent(CountActivity.this,
+//										ActivityCapture.class);
+//								startActivityForResult(nextIntent, SCANNER);
+//								alertDialog.dismiss();
+//							}
+//						});
+//				alertDialogBuilder.setNegativeButton("Cancel",
+//						new DialogInterface.OnClickListener() {
+//
+//							@Override
+//							public void onClick(DialogInterface dialog,
+//									int which) {
+//								restartSaving();
+//								alertDialog.dismiss();
+//							}
+//						});
+//				alertDialog = alertDialogBuilder.create();
+//				alertDialog.show();
 			}
 		}
 	}
@@ -865,10 +865,12 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					LoginFacebookActivity.class);
 			nextIntent.putExtra("fromContext", true);
 			startActivityForResult(nextIntent, FACEBOOK);
-		} else if (position == 1) {
-			nextIntent = new Intent(CountActivity.this, ActivityCapture.class);
-			startActivityForResult(nextIntent, SCANNER);
-		} else if (position == 2) {
+		} 
+//		else if (position == 1) {
+//			nextIntent = new Intent(CountActivity.this, ActivityCapture.class);
+//			startActivityForResult(nextIntent, SCANNER);
+//		} 
+	else if (position == 1) {
 			nextIntent = new Intent(CountActivity.this,
 					AppSettingsActivity.class);
 			startActivityForResult(nextIntent, SETTING);

@@ -20,8 +20,10 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,9 +45,18 @@ public class MainActivity extends Activity
 		globalVariable.saveSharedPreferences();
 	}
 
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		System.out.println(">>>>>>> on back");
+//		Intent intent = new Intent(MainActivity.this,SpalshFirstActivity.class);
+//		startActivity(intent);
+	}
+
 	Typeface typeface;
-	TextView delinkTV;
-	TextView continueText;
+	Button delinkBTN;
+	Button continueBTN;
 	CreateDialog createDialog;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
@@ -59,10 +70,10 @@ public class MainActivity extends Activity
 	TextView messageText;
 
 	private void findThings() {
-		delinkTV = (TextView) findViewById(R.id.delinkTV);
+		delinkBTN = (Button) findViewById(R.id.delinkBTN);
 		appNameTextView = (TextView) findViewById(R.id.app_name_text);
 		welcomeTextView = (TextView) findViewById(R.id.welcome_text);
-		continueText = (TextView) findViewById(R.id.continuetext);
+		continueBTN = (Button) findViewById(R.id.continueBTN);
 
 	}
 
@@ -72,9 +83,9 @@ public class MainActivity extends Activity
 				"Fonts/OpenSans-Light.ttf");
 		appNameTextView.setTypeface(Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Bold.ttf"));
-		delinkTV.setTypeface(Typeface.createFromAsset(getAssets(),
+		delinkBTN.setTypeface(Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Bold.ttf"));
-		continueText.setTypeface(Typeface.createFromAsset(getAssets(),
+		continueBTN.setTypeface(Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Bold.ttf"));
 		welcomeTextView.setTypeface(typeface);
 		globalVariable =(GlobalVariable) getApplicationContext();
@@ -120,7 +131,7 @@ public class MainActivity extends Activity
 			@Override
 			public void onAnimationStart(Animation animation) {
 				if(globalVariable.getSelectedBusiness()!=null)
-				delinkTV.setVisibility(View.VISIBLE);
+				delinkBTN.setVisibility(View.VISIBLE);
 			}
 
 			@Override
@@ -146,7 +157,7 @@ public class MainActivity extends Activity
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				delinkTV.setVisibility(View.GONE);
+				delinkBTN.setVisibility(View.GONE);
 			}
 		});
 		
@@ -185,7 +196,8 @@ public class MainActivity extends Activity
 						logo.setLayoutParams(lp);
 						textLayout.setVisibility(View.VISIBLE);
                         messageText.setText("Please wait while we determine if the device is already registered");
-						LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.buttonLayout);
+//						LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.buttonLayout);
+                        RelativeLayout buttonLayout = (RelativeLayout) findViewById(R.id.buttonLayout);
 						buttonLayout.setVisibility(View.VISIBLE);
 
 						AlphaAnimation fadeInForMessage = new AlphaAnimation(0.0f, 1.0f);
@@ -269,22 +281,22 @@ public class MainActivity extends Activity
 													messageText.setText(msg);
 													messageText
 															.startAnimation(fadeInMessageAgain);
-													continueText
+													continueBTN
 															.setVisibility(View.VISIBLE);
-													continueText
+													continueBTN
 															.startAnimation(fadeIn);
-													delinkTV.setVisibility(View.VISIBLE);
-													delinkTV.startAnimation(fadeIn);
+													delinkBTN.setVisibility(View.VISIBLE);
+													delinkBTN.startAnimation(fadeIn);
 												} else {
 													messageText
 															.setText("This device is not linked to any business. Please hit continue to register the device with a business.");
 													messageText
 															.startAnimation(fadeInMessageAgain);
-													delinkTV.startAnimation(fadeOut1);
+													delinkBTN.startAnimation(fadeOut1);
 													
-													continueText
+													continueBTN
 															.setVisibility(View.VISIBLE);
-													continueText
+													continueBTN
 															.startAnimation(fadeIn);
 												}
 
@@ -310,10 +322,12 @@ public class MainActivity extends Activity
 		if (globalVariable.getSelectedBusiness()!= null) {
 //			nextIntent = new Intent(this, BusinessHomePageActivity.class);
 			nextIntent = new Intent(this, CountActivity.class);
+			nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			nextIntent.putExtra("isFromMain", true);
 		} else {
 //			nextIntent = new Intent(this, IdentifyingBusinessActivity.class);
 			nextIntent = new Intent(this, BusinessOfUserActivity.class);
+			nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		}
 		startActivity(nextIntent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
@@ -347,6 +361,7 @@ public class MainActivity extends Activity
 				globalVariable.setWomenOut(0);
 				globalVariable.saveSharedPreferences();
 				Intent nextIntent = new Intent(MainActivity.this, BusinessOfUserActivity.class);
+				nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(nextIntent);
 				overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 			}
@@ -372,6 +387,7 @@ public class MainActivity extends Activity
 //						Intent nextIntent = new Intent(MainActivity.this,
 //								IdentifyingBusinessActivity.class);
 						Intent nextIntent = new Intent(MainActivity.this,BusinessOfUserActivity.class);
+						nextIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(nextIntent);
 						overridePendingTransition(R.anim.anim_out,
 								R.anim.anim_in);

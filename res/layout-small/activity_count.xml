@@ -10,23 +10,21 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="6px"
-        android:layout_marginRight="6px"
+        android:layout_marginLeft="3px"
+        android:layout_marginRight="3px"
         android:layout_marginTop="1px" 
         >
 
-        <!-- android:layout_above="@+id/menLayout" -->
 
         <LinearLayout
             android:id="@+id/women_in"
-            android:layout_width="110px"
+            android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentLeft="true"
             android:background="@drawable/women_in"
             android:clickable="true"
             android:onClick="womenIn_watch"
              >
-<!--               -->
 
             <TextView android:id="@+id/womenInTV"
                 android:layout_width="wrap_content"
@@ -40,7 +38,7 @@
 
         <LinearLayout
             android:id="@+id/women_out"
-            android:layout_width="110px"
+            android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentRight="true"
             android:background="@drawable/women_out"
@@ -64,16 +62,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="6px"
-        android:layout_marginRight="6px"
+        android:layout_marginLeft="3px"
+        android:layout_marginRight="3px"
         android:clickable="true"
          >
 
-        <!-- android:layout_below="@+id/womenLayout" -->
 
         <LinearLayout
             android:id="@+id/men_in"
-            android:layout_width="110px"
+            android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentLeft="true"
             android:clickable="true"
@@ -92,7 +89,7 @@
 
         <LinearLayout
             android:id="@+id/men_out"
-            android:layout_width="110px"
+            android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentRight="true"
             android:background="@drawable/men_out"
