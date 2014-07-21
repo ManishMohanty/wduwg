@@ -3,6 +3,7 @@ package com.example.wduwg.tiles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -51,11 +52,25 @@ public class BusinessDashboardActivity extends Activity {
 	Typeface typefaceBold,typefaceLight;
 	GlobalVariable globalVariable;
 	List<Event> eventList ;
+	private Timer autoUpdate;
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		commonMethod();
 		super.onResume();
+		autoUpdate = new Timer();
+		  autoUpdate.schedule(new TimerTask() {
+		   @Override
+		   public void run() {
+		    runOnUiThread(new Runnable() {
+		     public void run() {
+		    	 LoadStringsAsync2 asyncTask = new LoadStringsAsync2();
+					asyncTask.execute();
+		     }
+		    });
+		   }
+		  }, 0, 300000);
+		
 	}
 
 	List<Special> specialList;
@@ -99,9 +114,7 @@ public class BusinessDashboardActivity extends Activity {
 		 visitorLabel = (TextView)findViewById(R.id.visitorLabel);
 		 visitorLabel.setTypeface(typefaceBold);
 		 
-//		eventListView = (ListView) findViewById(R.id.evntlistView);
 		 eventgridView = (GridView)findViewById(R.id.eventGV);
-//		SpecialListView = (ListView)findViewById(R.id.speciallistView);
 		 specialgridView = (GridView)findViewById(R.id.specialGV);
 		globalVariable = (GlobalVariable)getApplicationContext();
         LayoutInflater inflater = (LayoutInflater) this
@@ -397,6 +410,10 @@ public class BusinessDashboardActivity extends Activity {
 			menCount.setText("Men :"+(men_in-men_out));
 			womenCount.setText("Women :"+(women_in-women_out));
 			totalVisitors.setText("Total Visitors Today :"+(men_in+women_in));
+			 men_in =0;
+	    	 men_out =0;
+	    	 women_in = 0;
+	    	 women_out = 0;
 			commonMethod();
 		}
 	}
