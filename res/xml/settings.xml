@@ -37,12 +37,12 @@
                         android:entryValues="@array/updateFrequencyValues"/>
     </PreferenceCategory>
     
-   <PreferenceCategory android:title="@string/scanner"
+   <!-- <PreferenceCategory android:title="@string/scanner"
                         android:layout="@layout/pref_category" >
                 <com.wduwg.preference.CustomEditTextPreference android:key="prefMinage"
                                                        android:title="@string/minage"
                                                        android:summary="enter Age"
                                                        android:inputType="number"/>
                 
-    </PreferenceCategory>
+    </PreferenceCategory> -->
 </PreferenceScreen>

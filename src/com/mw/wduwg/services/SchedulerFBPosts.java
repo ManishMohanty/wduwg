@@ -29,6 +29,8 @@ import android.graphics.Typeface;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -54,6 +56,10 @@ public class SchedulerFBPosts extends TimerTask {
 
 	Context context;
 	GlobalVariable globalVariable;
+	
+	
+	Looper looper = Looper.getMainLooper();
+	Handler mHandler = new Handler(looper);
 
 	SharedPreferences preferences;
 	SharedPreferences.Editor editor;
@@ -87,20 +93,27 @@ public class SchedulerFBPosts extends TimerTask {
 
 	public void run() {
 		Log.d(">>>>>>>", "Scheduler");
-		if(preferences.contains("fb_access_token") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
-		{
-			System.out.println(">>>>>>> interval in scheduler :"+preferences.getString("prefFb_frequency", null));
-		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-		asyncExample.execute(new String[] { "Helllo Worlds" });
-		}
-		else
-		{
-			if(LoginFacebookActivity.timer != null)
-			{
-				LoginFacebookActivity.timer.cancel();
-			    SchedulerFBPosts.this.cancel();
+		mHandler.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(preferences.contains("fb_access_token") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
+				{
+					System.out.println(">>>>>>> interval in scheduler :"+preferences.getString("prefFb_frequency", null));
+				FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
+				asyncExample.execute(new String[] { "Helllo Worlds" });
+				}
+				else
+				{
+					if(LoginFacebookActivity.timer != null)
+					{
+						LoginFacebookActivity.timer.cancel();
+					    SchedulerFBPosts.this.cancel();
+					}
+				}
 			}
-		}
+		});
 	}
 
 	public void postToWall() {
@@ -119,7 +132,7 @@ public class SchedulerFBPosts extends TimerTask {
 					.getMenOut()) + "").length() - 1;
 
 			postMessage = postMessage
-					+ "\n  Current Attendance:\t\t\t"
+					+ "\n  Current Attendance:\t\t"
 					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable
 							.getWomenIn() - globalVariable.getWomenOut()))
 					+ "\n  Men: "

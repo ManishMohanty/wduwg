@@ -79,13 +79,13 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 	else
                 		mPreferenceEntries[i].setSummary("click to enter phone number");
                 }
-                else
-                {
-                	if(currentPreference.getText() != null)
-                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
-                	else
-                		mPreferenceEntries[i].setSummary("click to enter Age");	
-                }
+//                else
+//                {
+//                	if(currentPreference.getText() != null)
+//                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
+//                	else
+//                		mPreferenceEntries[i].setSummary("click to enter Age");	
+//                }
         	}else if (mPreferenceEntries[i] instanceof ListPreference) {
                   ListPreference currentPreference = (ListPreference) mPreferenceEntries[i];
                 if(currentPreference.getEntry()!=null)
@@ -126,10 +126,10 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     }
                     else
                     {
-                    	if(currentPreference.getText() != null)
-                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
-                    	else
-                    		mPreferenceEntries[i].setSummary("click to enter Age");	
+//                    	if(currentPreference.getText() != null)
+//                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
+//                    	else
+//                    		mPreferenceEntries[i].setSummary("click to enter Age");	
                     }
                 }
                 else if (mPreferenceEntries[i] instanceof ListPreference) {

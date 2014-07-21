@@ -2,7 +2,9 @@ package com.wduwg.watch.app;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.prefs.Preferences;
 
@@ -74,6 +76,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	String businessName;
 	Event selectedEvent;
+	
 
 	Handler handler = new Handler();
 	MediaPlayer mPlayerIn;
@@ -262,74 +265,17 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		
 		scheduledTask = new SchedulerCount(this);
 		timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+		timer.scheduleAtFixedRate(scheduledTask, 1000, 300000);
 		
 		createDialog = new CreateDialog(this);
 		
-//		registerForContextMenu(menLayout);
-//		registerForContextMenu(womenLayout);
-		child = inflater.inflate(R.layout.listview_context_menu, null);
-		listView = (ListView) child.findViewById(R.id.listView_context_menu);
-		headerTV = (TextView) child.findViewById(R.id.header_TV);
-		headerTV.setTypeface(typeface);
-        headerTV.setText(globalVariable.getSelectedBusiness().getName()+"-"+globalVariable.getSelectedFBPage().getName());
-		contextMenuItems = new ArrayList<ContextMenuItem>();
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.facebook), "Facebook"));
-
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.scanner2), "Scanner"));
-
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.flash2), "Flashlight"));
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.settings), "Settings"));
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.report), "Reports"));
-//     
-		boolean isLogoutVisisble = false;
-		if (globalVariable.getFb_access_token() != null) {
-			isLogoutVisisble = true;
-			System.out.println(">>>>>>> true");
-		}
-//		isFlashCompatible = this.getPackageManager().hasSystemFeature(
-//				PackageManager.FEATURE_CAMERA_FLASH);
-//
-		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
-				isLogoutVisisble, false);// isFlashCompatible
-//
-		listView.setAdapter(adapter);
-//
-		customDialog = new Dialog(CountActivity.this);
-		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		customDialog.setContentView(child);
-		customDialog.getWindow().setBackgroundDrawable(
-				new ColorDrawable(Color.WHITE));
-		customDialog.setTitle("Options");
-
-		final GestureDetector gdt1 = new GestureDetector(new GestureListener1());
-		womenLayout.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(final View view, final MotionEvent event) {
-				gdt1.onTouchEvent(event);
-				return true;
-			}
-		});
-//
-		final GestureDetector gdt2 = new GestureDetector(new GestureListener2());
-		menLayout.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(final View view, final MotionEvent event) {
-				gdt2.onTouchEvent(event);
-				return true;
-			}
-		});
 		
 		womenIn.setOnLongClickListener(new OnLongClickListener() {
 			
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
-				
+				headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+		        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 				customDialog.show();
 				return false;
 			}
@@ -341,6 +287,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			   public boolean onLongClick(View v) {
 			
 			    // TODO Auto-generated method stub
+				   headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+			        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 				   customDialog.show();
 					return false;
 			
@@ -352,7 +300,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 							
 							public boolean onLongClick(View v) {
 								// TODO Auto-generated method stub
-								
+								headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+						        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 								customDialog.show();
 								return false;
 							}
@@ -361,246 +310,17 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					
 					public boolean onLongClick(View v) {
 						// TODO Auto-generated method stub
-						
+						headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+				        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 						customDialog.show();
 						return false;
 					}
 				});
-
 	}
 	
-	
-
-	private class GestureListener1 extends SimpleOnGestureListener {
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-			System.out.println(">>>>>>> inside swipe");
-			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//				womenIn();
-				
-				Event tempEvent = (Event) globalVariable.getSelectedEvent();
-				if(!tempEvent.getName().equals("defaultEvent"))
-				{
-				alertDialogBuilder = createDialog
-						.createAlertDialog(
-								"Total : "+((globalVariable.getMenIn() - globalVariable
-										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-												.getWomenOut())),
-								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
-								+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
-								false);
-				}else
-				{
-					alertDialogBuilder = createDialog
-							.createAlertDialog(
-									"Total : "+((globalVariable.getMenIn() - globalVariable
-											.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-													.getWomenOut())),
-									"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
-									false);
-				}
-				alertDialogBuilder.setPositiveButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								alertDialog.dismiss();
-							}
-						});
-				System.out.println(">>>>>>> Right to left swipe");
-				
-				System.out.println(">>>>>>> e1.x:"+e1.getX());
-				System.out.println(">>>>>>> e2.x:"+e2.getX());
-				System.out.println(">>>>>>> e1.y:"+e2.getY());
-				System.out.println(">>>>>>> e2.y:"+e2.getY());
-				alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-				return false; // Right to left
-			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//				womenOut();
-				System.out.println(">>>>>>> left to right swipe");
-				System.out.println(">>>>>>> inside swipe");
-				System.out.println(">>>>>>> e1.x:"+e1.getX());
-				System.out.println(">>>>>>> e2.x:"+e2.getX());
-				System.out.println(">>>>>>> e1.y:"+e2.getY());
-				System.out.println(">>>>>>> e2.y:"+e2.getY());
-				return false; // Left to right
-			}
-			if (e2.getY() - e1.getY() > 50 && Math.abs(velocityY) > 80) {
-				System.out.println(">>>>>>> in side swipe");
-				System.out.println(">>>>>>> swipe down");
-				// openContextMenu(femaleLayout);
-				System.out.println(">>>>>>> inside swipe");
-				System.out.println(">>>>>>> e1.x:"+e1.getX());
-				System.out.println(">>>>>>> e2.x:"+e2.getX());
-				System.out.println(">>>>>>> e1.y:"+e1.getY());
-				System.out.println(">>>>>>> e2.y:"+e2.getY());
-				System.out.println(">>>>>>> dist:"+(e2.getY() - e1.getY()));
-				customDialog.show();
-				return false;
-			}
-			
-
-			return false;
-		}
-	}
-
-	private class GestureListener2 extends SimpleOnGestureListener {
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//				menIn();
-				System.out.println(">>>>>>> in side swipe");
-				
-				return false; // Right to left
-			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-//				menOut();
-				return false; // Left to right
-			}
-			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
-				System.out.println(">>>>>>> swipe down");
-				// openContextMenu(maleLayout);
-				customDialog.show();
-				return false;
-			}else if (e1.getY() - e2.getY() > 50 && Math.abs(velocityY) > 80) {
-				System.out.println(">>>>>>> in side swipe");
-				System.out.println(">>>>>>> swipe up");
-				System.out.println(">>>>>>> e1.x:"+e1.getX());
-				System.out.println(">>>>>>> e2.x:"+e2.getX());
-				System.out.println(">>>>>>> e1.y:"+e1.getY());
-				System.out.println(">>>>>>> e2.y:"+e2.getY());
-				// openContextMenu(femaleLayout);
-				Event tempEvent = (Event) globalVariable.getSelectedEvent();
-				if(!tempEvent.getName().equals("defaultEvent"))
-				{
-				alertDialogBuilder = createDialog
-						.createAlertDialog(
-								"Total : "+((globalVariable.getMenIn() - globalVariable
-										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-												.getWomenOut())),
-								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
-								+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
-								false);
-				}else
-				{
-					alertDialogBuilder = createDialog
-							.createAlertDialog(
-									"Total : "+((globalVariable.getMenIn() - globalVariable
-											.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-													.getWomenOut())),
-									"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
-									false);
-				}
-				alertDialogBuilder.setPositiveButton("Ok",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								alertDialog.dismiss();
-							}
-						});
-				alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-				return false;
-			}
-			return false;
-		}
-	}
-
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		return false;
-	}
-
-	private void menIn() {
-		mPlayerIn.start();
-		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
-		globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn()+1);
-		inMaleTV.setText("" + globalVariable.getMenIn());
-		currentMaleTV.setText(""
-				+ (globalVariable.getMenIn() - globalVariable.getMenOut()));
-		actionBarTextView
-				.setText("Total Count : "
-						+ ((globalVariable.getMenIn() - globalVariable
-								.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-								.getWomenOut())));
-		int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
-				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
-		if (sharedPref.contains("prefNotificationFrequency")) {
-			int message_frequency = Integer.parseInt(sharedPref.getString(
-					"prefNotificationFrequency", ""));
-			if (total > 0
-					&& total % message_frequency == 0
-					&& sharedPref.getBoolean("prefMessageSwitch", false) == true) {
-				System.out.println(">>>>>>> inside men in");
-				sendNotification();
-			}
-		}
-
-	}
-
-	private void menOut() {
-		if ((globalVariable.getMenIn() - globalVariable.getMenOut()) > 0) {
-			mPlayerOut.start();
-			globalVariable.setMenOut(globalVariable.getMenOut() + 1);
-			globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut()+1);
-			outMaleTV.setText("" + globalVariable.getMenOut());
-			currentMaleTV.setText(""
-					+ (globalVariable.getMenIn() - globalVariable.getMenOut()));
-			actionBarTextView
-					.setText("Total Count : "
-							+ ((globalVariable.getMenIn() - globalVariable
-									.getMenOut()) + (globalVariable
-									.getWomenIn() - globalVariable
-									.getWomenOut())));
-		}
-	}
-
-	private void womenIn() {
-		mPlayerIn.start();
-		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
-		globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn()+1);
-		inFemaleTV.setText("" + globalVariable.getWomenIn());
-		currentFemaleTV.setText(""
-				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut()));
-		actionBarTextView
-				.setText("Total Count : "
-						+ ((globalVariable.getMenIn() - globalVariable
-								.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-								.getWomenOut())));
-		if (sharedPref.contains("prefNotificationFrequency")) {
-			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
-					+ (globalVariable.getWomenIn() - globalVariable
-							.getWomenOut());
-			int message_frequency = Integer.parseInt(sharedPref.getString(
-					"prefNotificationFrequency", ""));
-			if (total > 0
-					&& total % message_frequency == 0
-					&& sharedPref.getBoolean("prefMessageSwitch", false) == true) {
-				System.out.println(">>>>>>> inside women in");
-				sendNotification();
-			}
-		}
-	}
-
-	private void womenOut() {
-		if ((globalVariable.getWomenIn() - globalVariable.getWomenOut()) > 0) {
-			mPlayerOut.start();
-			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
-			globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut()+1);
-			outFemaleTV.setText("" + globalVariable.getWomenOut());
-			currentFemaleTV.setText(""
-					+ (globalVariable.getWomenIn() - globalVariable
-							.getWomenOut()));
-			actionBarTextView
-					.setText("Total Count : "
-							+ ((globalVariable.getMenIn() - globalVariable
-									.getMenOut()) + (globalVariable
-									.getWomenIn() - globalVariable
-									.getWomenOut())));
-		}
 	}
 	
 	// ******************************************
@@ -618,6 +338,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					&& total % message_frequency == 0
 					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
 				System.out.println(">>>>>>> inside men in");
+				System.out.println(">>>>>>> message frequency:"+message_frequency);
 				sendNotification();
 			}
 		}
@@ -648,6 +369,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					&& total % message_frequency == 0
 					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
 				System.out.println(">>>>>>> inside women in");
+				System.out.println(">>>>>>> message frequency:"+message_frequency);
 				sendNotification();
 			}
 		}
@@ -687,37 +409,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		if (requestCode == SCANNER) {
 			if (resultCode == RESULT_OK) {
 				System.out.println(">>>>>>> scaner result ok");
-//				updateCounts();
-//				restartSaving();
 				ignoreOnRestart = true;
 			} else if (resultCode == RESULT_CANCELED) {
-//				ignoreOnRestart = true;
-//				alertDialogBuilder = createDialog.createAlertDialog(
-//						"Scanner Error", "Unable to Scan", false);
-//				alertDialogBuilder.setPositiveButton("Try Again",
-//						new DialogInterface.OnClickListener() {
-//
-//							@Override
-//							public void onClick(DialogInterface dialog,
-//									int which) {
-//								nextIntent = new Intent(CountActivity.this,
-//										ActivityCapture.class);
-//								startActivityForResult(nextIntent, SCANNER);
-//								alertDialog.dismiss();
-//							}
-//						});
-//				alertDialogBuilder.setNegativeButton("Cancel",
-//						new DialogInterface.OnClickListener() {
-//
-//							@Override
-//							public void onClick(DialogInterface dialog,
-//									int which) {
-//								restartSaving();
-//								alertDialog.dismiss();
-//							}
-//						});
-//				alertDialog = alertDialogBuilder.create();
-//				alertDialog.show();
 			}
 		}
 	}
@@ -725,7 +418,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		// Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
 
 		if (!ignoreOnRestart) {
 			alertDialogBuilder = createDialog
@@ -765,38 +457,43 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		child = inflater.inflate(R.layout.listview_context_menu, null);
+		listView = (ListView) child.findViewById(R.id.listView_context_menu);
+		headerTV = (TextView) child.findViewById(R.id.header_TV);
+		headerTV.setTypeface(typeface);
+        headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
+		contextMenuItems = new ArrayList<ContextMenuItem>();
+		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+				R.drawable.done), "Stop Counting"));
+		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+				R.drawable.settings), "Settings"));
+		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+				R.drawable.facebook), "Logout"));
+		boolean isLogoutVisisble = false;
+		if (globalVariable.getFb_access_token() != null) {
+			isLogoutVisisble = true;
+			System.out.println(">>>>>>> true");
+		}
+//		isFlashCompatible = this.getPackageManager().hasSystemFeature(
+//				PackageManager.FEATURE_CAMERA_FLASH);
+//
+		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
+				isLogoutVisisble, false);// isFlashCompatible
+//
+		listView.setAdapter(adapter);
+//
+		customDialog = new Dialog(CountActivity.this);
+		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		customDialog.setContentView(child);
+		customDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(Color.WHITE));
+		customDialog.setTitle("Options");
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-//		alertDialogBuilder = createDialog.createAlertDialog("Alert",
-//				"Stop counting for this event?", false);
-//
-//		alertDialogBuilder.setPositiveButton("Yes",
-//				new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int id) {
-//						dialog.dismiss();
-//						CountActivity.this.setResult(MOVE_ANOTHER_STEP_BACK,
-//								previousIntent);
-//						saveLastCount();
-//						CountActivity.this.setResult(MOVE_BACK, previousIntent);
-//						saveLastCount();
-//						finish();
-//					}
-//
-//				});
-//
-//		alertDialogBuilder.setNegativeButton("No",
-//				new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int id) {
-//						dialog.dismiss();
-//					}
-//				});
-//
-//		alertDialog = alertDialogBuilder.create();
-//		alertDialog.show();
-
 	}
 
 	public void onDone(View view) {
@@ -862,75 +559,16 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		int position = listView.getPositionForView(view);
 		customDialog.dismiss();
 		if (position == 0) {
-			nextIntent = new Intent(CountActivity.this,
-					LoginFacebookActivity.class);
-			nextIntent.putExtra("fromContext", true);
-			startActivityForResult(nextIntent, FACEBOOK);
+			onDone(null);
 		} 
-//		else if (position == 1) {
-//			nextIntent = new Intent(CountActivity.this, ActivityCapture.class);
-//			startActivityForResult(nextIntent, SCANNER);
-//		} 
 	else if (position == 1) {
 			nextIntent = new Intent(CountActivity.this,
 					AppSettingsActivity.class);
 			startActivityForResult(nextIntent, SETTING);
-//			if (isFlashCompatible) {
-//				// Switch dsa = (Switch) view.findViewById(R.id.switchB);
-//
-//				if (!isFlashOn) {
-//					cam = Camera.open();
-//					Parameters p = cam.getParameters();
-//					p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-//					cam.setParameters(p);
-//					cam.startPreview();
-//				} else {
-//					cam.stopPreview();
-//					cam.release();
-//				}
-//				isFlashOn = !isFlashOn;
-//				// dsa.setChecked(isFlashOn);
-//			} else {
-//				Toast.makeText(this, "Flash not available", Toast.LENGTH_SHORT)
-//						.show();
-//			}
-		}// if (position == 2)
-//		else if (position == 3) {
-//			Event tempEvent = (Event) globalVariable.getSelectedEvent();
-//			if(!tempEvent.getName().equals("defaultEvent"))
-//			{
-//			alertDialogBuilder = createDialog
-//					.createAlertDialog(
-//							"Total : "+((globalVariable.getMenIn() - globalVariable
-//									.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-//											.getWomenOut())),
-//							"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8))
-//							+ "\nEvent ends at:  "+globalVariable.timeFormat(tempEvent.getEndDate().replace('T', ',').substring(0, tempEvent.getEndDate().length()-8)),
-//							false);
-//			}else
-//			{
-//				alertDialogBuilder = createDialog
-//						.createAlertDialog(
-//								"Total : "+((globalVariable.getMenIn() - globalVariable
-//										.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-//												.getWomenOut())),
-//								"You are counting for "+tempEvent.getName()+"\nEvent started at: "+globalVariable.timeFormat(tempEvent.getStartDate().replace('T', ',').substring(0, tempEvent.getStartDate().length()-8)),
-//								false);
-//			}
-//			alertDialogBuilder.setPositiveButton("Ok",
-//					new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface dialog, int id) {
-//							alertDialog.dismiss();
-//						}
-//					});
-//			alertDialog = alertDialogBuilder.create();
-//			alertDialog.show();
-//		} 
-//		else if (position == 4) {
-//			nextIntent = new Intent(CountActivity.this,
-//					ReportActualActvivity.class);
-//			startActivityForResult(nextIntent, REPORT);
-//		}
+	      }
+		else if (position == 2) {
+			onLogout(null);
+		}
 	}
 
 	@Override
@@ -944,12 +582,16 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	public void sendNotification() {
 		try {
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
-					- (globalVariable.getWomenIn() - globalVariable
+					+ (globalVariable.getWomenIn() - globalVariable
 							.getWomenOut());
+			System.out.println(">>>>>>> notification ph no:"+sharedPreference.getString("prefPhone", "XXXXXXXXXX"));
+			SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d, yyyy h:mm a");
+			df.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+			String strDate = df.format(new Date());
 			SmsManager smsManager = SmsManager.getDefault();
 			smsManager.sendTextMessage(
-					sharedPref.getString("prefPhone", "09019129275"), "wduwg",
-					"test notification for WDUWG total count: " + (total),
+					sharedPreference.getString("prefPhone", "09019129275"), "wduwg",
+					"Total Attendance at \""+globalVariable.getSelectedBusiness().getName()+"\" are " + (total)+ " at "+strDate,
 					null, null);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -45,7 +45,6 @@ public class ContextMenuAdapter extends BaseAdapter {
 		protected ImageView imageView;
 		protected TextView textView;
 		protected TextView textView2;
-		protected ImageButton imageButton;
 		protected Switch toggleButton;
 	}
 
@@ -72,8 +71,6 @@ public class ContextMenuAdapter extends BaseAdapter {
 					.findViewById(R.id.textView_menu);
 			viewHolder.textView2 = (TextView) convertView
 					.findViewById(R.id.textView_menu2);
-			viewHolder.imageButton = (ImageButton) convertView
-					.findViewById(R.id.logout_IB);
 			viewHolder.toggleButton = (Switch) convertView
 					.findViewById(R.id.switchB);
 			convertView.setTag(viewHolder);
@@ -86,11 +83,6 @@ public class ContextMenuAdapter extends BaseAdapter {
 		viewHolder.textView.setText(listContextMenuItems.get(position)
 				.getText());
 		viewHolder.textView.setTypeface(typeface);
-		if (position == 0 && isLogoutVisisble) {
-			viewHolder.imageButton.setVisibility(View.VISIBLE);
-		} else {
-			viewHolder.imageButton.setVisibility(View.GONE);
-		}
 		if (position == 2) {
 			if (!isFlashCompatible)
 				viewHolder.textView2.setVisibility(View.VISIBLE);

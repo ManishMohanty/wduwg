@@ -47,15 +47,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp" >
 
-        <ImageButton
-            android:id="@+id/logout_IB"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@null"
-            android:onClick="onLogout"
-            android:scaleType="fitXY"
-            android:src="@drawable/logout"
-            android:visibility="gone" />
 
         <Switch 
             android:id="@+id/switchB"
