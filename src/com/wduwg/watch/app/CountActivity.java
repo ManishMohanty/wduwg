@@ -769,32 +769,33 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	@Override
 	public void onBackPressed() {
-		alertDialogBuilder = createDialog.createAlertDialog("Alert",
-				"Stop counting for this event?", false);
-
-		alertDialogBuilder.setPositiveButton("Yes",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-						CountActivity.this.setResult(MOVE_ANOTHER_STEP_BACK,
-								previousIntent);
-						saveLastCount();
-						CountActivity.this.setResult(MOVE_BACK, previousIntent);
-						saveLastCount();
-						finish();
-					}
-
-				});
-
-		alertDialogBuilder.setNegativeButton("No",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-
-		alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
+		super.onBackPressed();
+//		alertDialogBuilder = createDialog.createAlertDialog("Alert",
+//				"Stop counting for this event?", false);
+//
+//		alertDialogBuilder.setPositiveButton("Yes",
+//				new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int id) {
+//						dialog.dismiss();
+//						CountActivity.this.setResult(MOVE_ANOTHER_STEP_BACK,
+//								previousIntent);
+//						saveLastCount();
+//						CountActivity.this.setResult(MOVE_BACK, previousIntent);
+//						saveLastCount();
+//						finish();
+//					}
+//
+//				});
+//
+//		alertDialogBuilder.setNegativeButton("No",
+//				new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int id) {
+//						dialog.dismiss();
+//					}
+//				});
+//
+//		alertDialog = alertDialogBuilder.create();
+//		alertDialog.show();
 
 	}
 

@@ -49,9 +49,6 @@ public class MainActivity extends Activity
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		System.out.println(">>>>>>> on back");
-//		Intent intent = new Intent(MainActivity.this,SpalshFirstActivity.class);
-//		startActivity(intent);
 	}
 
 	Typeface typeface;

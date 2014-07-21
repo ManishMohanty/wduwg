@@ -160,13 +160,6 @@ public class SpalshFirstActivity extends Activity {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-//		if (globalVariable.getFb_access_token() != null) {
-//			Intent intent = new Intent(SpalshFirstActivity.this,
-//					MainActivity.class);
-//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//			startActivity(intent);
-//		}
-
 	}
 
 	@Override
