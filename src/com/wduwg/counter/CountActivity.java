@@ -225,7 +225,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 		// schedule task
 		timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 15000);
+		timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
 		for (int i = 0; i < 5; i++)
 			scheduledTask.run();
 		SchedulerCount.event = globalVariable.getSelectedEvent();
