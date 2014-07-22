@@ -494,38 +494,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		// Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
-
-		if (!ignoreOnRestart) {
-			alertDialogBuilder = createDialog
-					.createAlertDialog(
-							"Event Exists",
-							"You are already counting for an event. Do you wish to start a new count?",
-							false);
-			alertDialogBuilder.setPositiveButton("Yes",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							saveLastCount();
-							globalVariable.setSelectedEvent(null);
-							globalVariable.setSelectedReportsEvent(null);
-							globalVariable.saveSharedPreferences();
-							dialog.dismiss();
-							CountActivity.this.setResult(MOVE_BACK);
-							finish();
-						}
-					});
-			alertDialogBuilder.setNegativeButton("No",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							// restartSaving();
-							dialog.dismiss();
-						}
-
-					});
-
-			alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-		}
 	}
 
 	private void restartSaving() {
