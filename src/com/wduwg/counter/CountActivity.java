@@ -2,7 +2,9 @@ package com.wduwg.counter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.prefs.Preferences;
 
@@ -223,7 +225,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 		// schedule task
 		timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+		timer.scheduleAtFixedRate(scheduledTask, 1000, 15000);
 		for (int i = 0; i < 5; i++)
 			scheduledTask.run();
 		SchedulerCount.event = globalVariable.getSelectedEvent();
@@ -651,10 +653,13 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 					- (globalVariable.getWomenIn() - globalVariable
 							.getWomenOut());
+			SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d, yyyy h:mm a");
+			df.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+			String strDate = df.format(new Date());
 			SmsManager smsManager = SmsManager.getDefault();
 			smsManager.sendTextMessage(
 					sharedPref.getString("prefPhone", "09019129275"), "wduwg",
-					"test notification for WDUWG total count: " + (total),
+					"Total Attendance at \""+globalVariable.getSelectedBusiness().getName()+"\" are " + (total)+ " at "+strDate,
 					null, null);
 		} catch (Exception e) {
 			e.printStackTrace();
