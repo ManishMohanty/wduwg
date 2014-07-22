@@ -69,7 +69,7 @@ public class BusinessDashboardActivity extends Activity {
 		     }
 		    });
 		   }
-		  }, 0, 300000);
+		  }, 0, 120000);
 		
 	}
 
@@ -96,16 +96,6 @@ public class BusinessDashboardActivity extends Activity {
 		
 		typefaceBold = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Bold.ttf");
 		typefaceLight = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Light.ttf");
-		 totalCount = (TextView)findViewById(R.id.totalCount);
-		 menCount = (TextView)findViewById(R.id.menCount);
-		 womenCount = (TextView) findViewById(R.id.womenCount);
-		 totalVisitors = (TextView)findViewById(R.id.totalVisitor);
-		 
-		 totalCount.setTypeface(typefaceLight);
-		 menCount.setTypeface(typefaceLight);
-		 womenCount.setTypeface(typefaceLight);
-		 totalVisitors.setTypeface(typefaceLight);
-		 
 		 
 		 eventLabel = (TextView)findViewById(R.id.events_label);
 		 eventLabel.setTypeface(typefaceBold);
@@ -113,6 +103,16 @@ public class BusinessDashboardActivity extends Activity {
 		 specialLabel.setTypeface(typefaceBold);
 		 visitorLabel = (TextView)findViewById(R.id.visitorLabel);
 		 visitorLabel.setTypeface(typefaceBold);
+		 
+		 totalCount = (TextView)findViewById(R.id.totalCount);
+		 womenCount = (TextView) findViewById(R.id.womenCount);
+		 totalVisitors = (TextView)findViewById(R.id.totalVisitor);
+		 menCount = (TextView)findViewById(R.id.menCount);
+		 
+		 totalCount.setTypeface(typefaceLight);
+		 menCount.setTypeface(typefaceLight);
+		 womenCount.setTypeface(typefaceLight);
+		 totalVisitors.setTypeface(typefaceLight);
 		 
 		 eventgridView = (GridView)findViewById(R.id.eventGV);
 		 specialgridView = (GridView)findViewById(R.id.specialGV);
