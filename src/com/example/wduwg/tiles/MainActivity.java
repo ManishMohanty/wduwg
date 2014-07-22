@@ -227,11 +227,11 @@ public class MainActivity extends Activity
 											public void onAnimationEnd(
 													Animation animation) {
 												
-												Animation rotateimage = AnimationUtils
+												Animation flip_inAnimation = AnimationUtils
 														.loadAnimation(
 																MainActivity.this,
-																R.anim.custom_anim);
-												logo.startAnimation(rotateimage); 
+																R.anim.flip_in);
+												logo.startAnimation(flip_inAnimation); 
 												AlphaAnimation fadeInMessageAgain = new AlphaAnimation(
 														0.0f, 1.0f);
 												fadeInMessageAgain.setDuration(3000);

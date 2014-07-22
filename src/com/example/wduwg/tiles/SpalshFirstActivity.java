@@ -106,10 +106,10 @@ public class SpalshFirstActivity extends Activity {
 							lp.topMargin = 60;
 							logo1.setLayoutParams(lp);
 
-							Animation rotateimage = AnimationUtils
+							Animation flip_inAnimation = AnimationUtils
 									.loadAnimation(SpalshFirstActivity.this,
-											R.anim.custom_anim);
-							logo1.startAnimation(rotateimage);
+											R.anim.flip_in);
+							logo1.startAnimation(flip_inAnimation);
 
 							AlphaAnimation fadeIn = new AlphaAnimation(0.0f,
 									1.0f);
