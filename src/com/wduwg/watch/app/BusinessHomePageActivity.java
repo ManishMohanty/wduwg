@@ -118,7 +118,7 @@ public class BusinessHomePageActivity extends Activity {
 			businessAddressET.setFocusableInTouchMode(false);
 		} else {
 			if (previousIntent.getBooleanExtra("defaultImage", false)) {
-				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeResource(getResources(), R.drawable.wduwg_logo2223)));
+				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeResource(getResources(), R.drawable.wduwg_no_text_small)));
 			} else {
 				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape( BitmapFactory.decodeByteArray(
 						previousIntent.getByteArrayExtra("byteArray"),

@@ -13,7 +13,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/wduwg_logo2223" />
+        android:src="@drawable/wduwg_no_text_small" />
     
     
 <EditText  android:layout_width="fill_parent"

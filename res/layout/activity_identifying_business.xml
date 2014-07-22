@@ -21,7 +21,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_marginTop="30dp"
-            android:src="@drawable/wduwg_logo2223" />
+            android:src="@drawable/wduwg_no_text" />
 
         <TextView
             android:id="@+id/loading_status_message"

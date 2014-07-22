@@ -23,7 +23,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:scaleType="fitXY"
-        android:src="@drawable/wduwg_logo2223" />
+        android:src="@drawable/wduwg_no_text_small" />
 
     <LinearLayout
         android:id="@+id/place_name"
