@@ -265,7 +265,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		
 		scheduledTask = new SchedulerCount(this);
 		timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 300000);
+		timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
 		
 		createDialog = new CreateDialog(this);
 		
