@@ -79,7 +79,7 @@ public class SpalshFirstActivity extends Activity {
 				public void run() {
 					// TODO Auto-generated method stub
 					TranslateAnimation animation = new TranslateAnimation(0, 0,
-							0, -220);
+							0, -165);
 					animation.setDuration(800);
 					animation.setFillAfter(true);
 					animation.setAnimationListener(new AnimationListener() {
