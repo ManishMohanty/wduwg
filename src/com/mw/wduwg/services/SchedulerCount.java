@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.preference.PreferenceManager;
@@ -44,9 +46,9 @@ public class SchedulerCount extends TimerTask {
         sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
 		if (!(globalVariable.intervalWomenIn == 0
 				&& globalVariable.intervalWomenOut == 0
-				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0)) {
-				SaveCountAsync async = new SaveCountAsync();
-				async.execute(new String[] { "dfs" });
+				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0 && globalVariable.isInternet())) {
+					SaveCountAsync async = new SaveCountAsync();
+					async.execute(new String[] { "dfs" });
 		} else {
 			Log.d("== Count ==", "Everything is ZERO");
 		}
@@ -56,6 +58,7 @@ public class SchedulerCount extends TimerTask {
 		@Override
 		protected Void doInBackground(String... params) {
 			jParser = new JSONParser();
+			
 			String url = ServerURLs.URL + ServerURLs.COUNTER;
 			System.out.println("url is   : " + url);
 			JSONObject jsonObject2 = null;

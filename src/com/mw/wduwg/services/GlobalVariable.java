@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -27,6 +29,28 @@ public class GlobalVariable extends Application {
 	SharedPreferences sharedPreferences;
 	
 	String startDate;
+	
+	
+	public boolean isInternet()
+	{
+		ConnectivityManager connection =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(connection != null)
+		{
+		   NetworkInfo[] info = connection.getAllNetworkInfo();
+		   if(info != null)
+		   {
+			   for(int i=0;i<info.length;i++)
+			   {
+				   if(info[i].getState() == NetworkInfo.State.CONNECTED)
+				   {
+					   return true;
+				   }
+			   }
+			   
+		   }
+		}
+		   return false;
+	}
     
 	public String getStartDate() {
 		return startDate;
