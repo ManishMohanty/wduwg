@@ -101,8 +101,8 @@ public class SchedulerFBPosts extends TimerTask {
 				if(preferences.contains("fb_access_token") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
 				{
 					System.out.println(">>>>>>> interval in scheduler :"+preferences.getString("prefFb_frequency", null));
-				FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-				asyncExample.execute(new String[] { "Helllo Worlds" });
+//				FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
+//				asyncExample.execute(new String[] { "Helllo Worlds" });
 				}
 				else
 				{

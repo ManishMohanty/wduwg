@@ -50,9 +50,12 @@ public class SchedulerCount extends TimerTask {
             	sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
         		if (!(globalVariable.intervalWomenIn == 0
         				&& globalVariable.intervalWomenOut == 0
-        				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0 && globalVariable.isInternet())) {
+        				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0)) {
+        			if(globalVariable.isInternet() == true)
+        			{
         				SaveCountAsync async = new SaveCountAsync();
         				async.execute(new String[] { "dfs" });
+        			}
         		} else {
         			Log.d("== Count ==", "Everything is ZERO");
         		}
