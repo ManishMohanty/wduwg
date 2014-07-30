@@ -56,7 +56,10 @@ public class BusinessDashboardActivity extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		commonMethod();
+		if(globalVariable.getSelectedBusiness()!= null)
+		{
+			commonMethod();
+		}
 		super.onResume();
 		autoUpdate = new Timer();
 		  autoUpdate.schedule(new TimerTask() {
@@ -414,6 +417,7 @@ public class BusinessDashboardActivity extends Activity {
 	    	 men_out =0;
 	    	 women_in = 0;
 	    	 women_out = 0;
+	    	 if(globalVariable.getSelectedBusiness() != null)
 			commonMethod();
 		}
 	}

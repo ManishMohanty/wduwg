@@ -282,6 +282,7 @@ public class BusinessHomePageActivity extends Activity {
 							.put("google_place_id", businessID)
 							.put("google_api_result", completeResult)
 							.put("face_book_page", fbPage.getId())
+							.put("facebook_page_name",fbPage.getName() )
 							.put("customer_id",
 									globalVariable.getCustomer().getId()
 											.get$oid())
