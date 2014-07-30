@@ -84,10 +84,6 @@ public class SchedulerCount extends TimerTask {
 						.put("time", sdf.format(new Date()))
 						.put("business_id",
 								globalVariable.getSelectedBusiness().getId().get$oid());
-				System.out.println(">>>>>>> MenIn:"+globalVariable.getIntervalMenIn());
-				System.out.println(">>>>>>> Menout:"+globalVariable.getIntervalMenOut());
-				System.out.println(">>>>>>> womenIn:"+globalVariable.getIntervalWomenIn());
-				System.out.println(">>>>>>> womenout:"+globalVariable.getIntervalWomenOut());
 				jsonObject2 = new JSONObject().put("counter", jsonObject);
 				globalVariable.setIntervalMenIn(0);
 				globalVariable.setIntervalMenOut(0);
