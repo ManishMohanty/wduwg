@@ -274,7 +274,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
-				headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+//				headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+//		        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
+				headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
 		        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 				customDialog.show();
 				return false;
@@ -287,7 +289,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			   public boolean onLongClick(View v) {
 			
 			    // TODO Auto-generated method stub
-				   headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+				   headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
 			        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 				   customDialog.show();
 					return false;
@@ -300,7 +302,10 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 							
 							public boolean onLongClick(View v) {
 								// TODO Auto-generated method stub
-								headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+//								headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+//						        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
+								
+								headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
 						        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 								customDialog.show();
 								return false;
@@ -310,7 +315,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					
 					public boolean onLongClick(View v) {
 						// TODO Auto-generated method stub
-						headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+						headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
 				        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 						customDialog.show();
 						return false;
@@ -430,25 +435,28 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
 		headerTV = (TextView) child.findViewById(R.id.header_TV);
 		headerTV.setTypeface(typeface);
-        headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+//        headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
+//        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
+		
+		headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
         		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
+		
 		contextMenuItems = new ArrayList<ContextMenuItem>();
 		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.done), "Stop Counting"));
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.settings), "Settings"));
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.facebook), "Logout"));
-		boolean isLogoutVisisble = false;
-		if (globalVariable.getFb_access_token() != null) {
-			isLogoutVisisble = true;
-			System.out.println(">>>>>>> true");
-		}
+				R.drawable.done), "Reset Counting"));
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.settings), "Settings"));
+//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
+//				R.drawable.facebook), "Logout"));
+//		boolean isLogoutVisisble = false;
+//		if (globalVariable.getFb_access_token() != null) {
+//			isLogoutVisisble = true;
+//			System.out.println(">>>>>>> true");
+//		}
 //		isFlashCompatible = this.getPackageManager().hasSystemFeature(
 //				PackageManager.FEATURE_CAMERA_FLASH);
 //
-		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
-				isLogoutVisisble, false);// isFlashCompatible
+		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems, false);// isFlashCompatible
 //
 		listView.setAdapter(adapter);
 //
@@ -466,21 +474,22 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	}
 
 	public void onDone(View view) {
-		globalVariable.setMenIn(0);
-		globalVariable.setWomenIn(0);
-		globalVariable.setMenOut(0);
-		globalVariable.setWomenOut(0);
+		
 		alertDialogBuilder = createDialog.createAlertDialog("Alert",
-				"Stop counting for this event?", false);
+				"Do you wish to reset Count?", false);
 
 		alertDialogBuilder.setPositiveButton("Yes",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
-						CountActivity.this.setResult(MOVE_ANOTHER_STEP_BACK,
-								previousIntent);
 						saveLastCount();
-						finish();
+//						CountActivity.this.setResult(MOVE_ANOTHER_STEP_BACK,
+//								previousIntent);
+						inMaleTV.setText("" + 0);
+						outMaleTV.setText(""+0);
+						inFemaleTV.setText(""+0);
+						outFemaleTV.setText(""+0);
+//						finish();
 					}
 
 				});
@@ -500,26 +509,30 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		scheduledTask.run();
 		timer.cancel();
 		globalVariable.setSelectedEvent(null);
+		globalVariable.setMenIn(0);
+		globalVariable.setMenOut(0);
+		globalVariable.setWomenIn(0);
+		globalVariable.setWomenOut(0);
 		globalVariable.saveSharedPreferences();
 	}
 
-	public void onLogout(View view) {
-		if (LoginFacebookActivity.timer != null)
-			LoginFacebookActivity.timer.cancel();
-
-		adapter.swapData(contextMenuItems, false);
-		adapter.notifyDataSetChanged();
-		listView.invalidateViews();
-		globalVariable.getCustomer().setPages(null);
-		globalVariable.setFb_access_expire(0);
-		globalVariable.setFb_access_token(null);
-		globalVariable.saveSharedPreferences();
-		Toast.makeText(this, "Logged out from FB.", Toast.LENGTH_SHORT).show();
-		customDialog.dismiss();
-		nextIntent = new Intent(this,SpalshFirstActivity.class);
-		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(nextIntent);
-	}
+//	public void onLogout(View view) {
+//		if (LoginFacebookActivity.timer != null)
+//			LoginFacebookActivity.timer.cancel();
+//
+//		adapter.swapData(contextMenuItems, false);
+//		adapter.notifyDataSetChanged();
+//		listView.invalidateViews();
+//		globalVariable.getCustomer().setPages(null);
+//		globalVariable.setFb_access_expire(0);
+//		globalVariable.setFb_access_token(null);
+//		globalVariable.saveSharedPreferences();
+//		Toast.makeText(this, "Logged out from FB.", Toast.LENGTH_SHORT).show();
+//		customDialog.dismiss();
+//		nextIntent = new Intent(this,SpalshFirstActivity.class);
+//		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//		startActivity(nextIntent);
+//	}
 
 	boolean isFlashOn = false;
 	Camera cam;
@@ -530,14 +543,14 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		if (position == 0) {
 			onDone(null);
 		} 
-	else if (position == 1) {
-			nextIntent = new Intent(CountActivity.this,
-					AppSettingsActivity.class);
-			startActivityForResult(nextIntent, SETTING);
-	      }
-		else if (position == 2) {
-			onLogout(null);
-		}
+//	else if (position == 1) {
+//			nextIntent = new Intent(CountActivity.this,
+//					AppSettingsActivity.class);
+//			startActivityForResult(nextIntent, SETTING);
+//	      }
+//		else if (position == 2) {
+//			onLogout(null);
+//		}
 	}
 
 	@Override

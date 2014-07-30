@@ -68,7 +68,7 @@
             android:clickable="true"
             android:onClick="connectFacebook"
             android:visibility="gone" 
-            android:src="@drawable/fbconnect"
+            android:src="@drawable/startcount"
             />
     </LinearLayout>
    

@@ -1,11 +1,21 @@
 package com.wduwg.watch.app;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -21,7 +31,11 @@ import android.widget.Toast;
 import com.apphance.android.Apphance;
 import com.apphance.android.Apphance.Mode;
 import com.apphance.android.common.Configuration;
+import com.google.gson.Gson;
+import com.mw.wduwg.model.Business;
+import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
+import com.mw.wduwg.services.JSONParser;
 import com.parse.Parse;
 
 public class SpalshFirstActivity extends Activity {
@@ -31,8 +45,11 @@ public class SpalshFirstActivity extends Activity {
 
 	Typeface typeface;
 	Typeface typeface2;
+	String imeiNo;
 
 	GlobalVariable globalVariable;
+	CreateDialog createDialog;
+	ProgressDialog progressDialgog;
 
 	private void findThings() {
 		appNameTextView = (TextView) findViewById(R.id.app_name_text);
@@ -46,6 +63,9 @@ public class SpalshFirstActivity extends Activity {
 				"Fonts/OpenSans-Light.ttf");
 		appNameTextView.setTypeface(typeface);
 		welcomeTextView.setTypeface(typeface);
+		TelephonyManager  telephonyManager = (TelephonyManager)getSystemService(this.TELEPHONY_SERVICE);
+		imeiNo = telephonyManager.getDeviceId();
+		System.out.println(">>>>>>> IMEI NO:"+imeiNo);
 	}
 
 	@Override
@@ -53,10 +73,10 @@ public class SpalshFirstActivity extends Activity {
 		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.splash_first);
 		globalVariable = (GlobalVariable) getApplicationContext();
-		if (globalVariable.getFb_access_token() != null) {
+		if (globalVariable.getSelectedBusiness()!= null) {
 			System.out.println(">>>>>>> inside splash ");
 			Intent intent = new Intent(SpalshFirstActivity.this,
-					MainActivity.class);
+					CountActivity.class);
 			startActivity(intent);
 		} else {
 			setContentView(R.layout.splash_first);
@@ -169,11 +189,83 @@ public class SpalshFirstActivity extends Activity {
 	}
 
 	public void connectFacebook(View v) {
-		Intent intent = new Intent(SpalshFirstActivity.this,
-				LoginFacebookActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.putExtra("fromContext", false);
-		startActivity(intent);
+//		Intent intent = new Intent(SpalshFirstActivity.this,
+//				LoginFacebookActivity.class);
+//		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		intent.putExtra("fromContext", false);
+//		startActivity(intent);
+		if(globalVariable.getSelectedBusiness() != null)
+		{
+			Intent intent = new Intent(SpalshFirstActivity.this,CountActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.anim_out,
+					R.anim.anim_in);
+		}
+		else
+		{
+		 createDialog = new CreateDialog(SpalshFirstActivity.this);
+		 progressDialgog = createDialog.createProgressDialog("Loading...", "Please wait for a while", true, null);
+		 progressDialgog.show();
+		 BusinessAsyncTask asynctask = new BusinessAsyncTask();
+		 asynctask.execute();
+		}
+		
+	}
+	
+	private class BusinessAsyncTask extends AsyncTask<Void, Void, Boolean>
+	{
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			try{
+				System.out.println(">>>>>>> response");
+				JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
+				List<NameValuePair> param = new ArrayList<NameValuePair>();
+				param.add(new BasicNameValuePair("imei_no", imeiNo));
+				JSONObject jsonobject = jsonparser.getJSONObjectFromUrlAfterHttpGet("http://dcounter.herokuapp.com/businesses/imei_business.json", param);
+				System.out.println(">>>>>>> response"+jsonobject);
+				if(jsonobject.getString("status").equals("ok"))
+		        {
+		        	Gson gson = new Gson();
+		        	String businessJsonString = jsonobject.getString("business");
+		        	System.out.println(">>>>>>> business:"+businessJsonString);
+		        	Business B = gson.fromJson(businessJsonString, Business.class);
+		        	globalVariable.setMenIn(0);
+					globalVariable.setMenOut(0);
+					globalVariable.setWomenIn(0);
+					globalVariable.setWomenOut(0);
+					globalVariable.setSelectedBusiness(B);
+					return true;
+		        }
+				else
+				{
+					return false;
+				}
+			 }catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			return false;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			progressDialgog.dismiss();
+			if(result)
+			{
+			Intent intent = new Intent(SpalshFirstActivity.this,CountActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.anim_out,
+					R.anim.anim_in);
+			}
+			else
+			{
+				Toast.makeText(SpalshFirstActivity.this, "Business for current Device does not exist", Toast.LENGTH_SHORT).show();
+			}
+		}
+		
 	}
 
 }
