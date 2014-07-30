@@ -424,15 +424,20 @@ public class BusinessDashboardActivity extends Activity {
 		getMenuInflater().inflate(R.menu.overflow_options_menu, menu);
 		CharSequence rawTitle = "Logout";
 		CharSequence delink = "Delink";
+		CharSequence delete = "Delete";
 		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
 		menu.findItem(R.id.menu_delink).setTitleCondensed(delink);
+		menu.findItem(R.id.menu_delete).setTitleCondensed(delete);
 
 		SpannableString logoutstr = new SpannableString(rawTitle);
 		SpannableString delinkstr = new SpannableString(delink);
+		SpannableString deletestr = new SpannableString(delete);
 		delinkstr.setSpan(typefaceBold, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
 		logoutstr.setSpan(typefaceBold, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
+		deletestr.setSpan(typefaceBold, 0, deletestr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.findItem(R.id.menu_delete).setTitle(deletestr);
 		return true;
 	}
 
@@ -521,9 +526,77 @@ public class BusinessDashboardActivity extends Activity {
 	});
 	alertDialog = alertDialogBuilder.create();
 	alertDialog.show();
+	
+		case R.id.menu_delete:
+			alertDialogBuilder = createDialog
+			.createAlertDialog(
+					"Delete",
+					"Do you wish to delete business permanentaly ?",
+					false);
+	alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			
+			
+			// call async task to delete business
+			alertDialog.dismiss();
+			progressDialog = createDialog.createProgressDialog("Deleting",
+					"Please wait for a while.", true, null);
+			progressDialog.show();
+			DeleteAsyncTask asyncTask = new DeleteAsyncTask();
+			asyncTask.execute();
+			
+		}
+	});
+	alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			alertDialog.dismiss();
+		}
+	});
+	alertDialog = alertDialogBuilder.create();
+	alertDialog.show();          
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	
+	
+	private class DeleteAsyncTask extends AsyncTask<Void, Void, Void>
+	{
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			JSONParser jParser = new JSONParser();
+			jParser.deleteObject("http://dcounter.herokuapp.com/businesses/", globalVariable.getSelectedBusiness().get_id().get$oid() );
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			globalVariable.getCustomer().getBusinesses().remove(globalVariable.getSelectedBusiness());
+			progressDialog.dismiss();
+			globalVariable.setSelectedBusiness(null);
+			globalVariable.setSelectedEvent(null);
+			globalVariable.setMenIn(0);
+			globalVariable.setMenOut(0);
+			globalVariable.setWomenIn(0);
+			globalVariable.setWomenOut(0);
+			globalVariable.saveSharedPreferences();
+			Intent nextIntent = new Intent(BusinessDashboardActivity.this, BusinessOfUserActivity.class);
+			startActivity(nextIntent);
+			overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+		}
+		
+		
 	}
 	
 }
