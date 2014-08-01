@@ -50,7 +50,7 @@ public class JSONParser {
 	public JSONObject getJSONFromUrlAfterHttpPost(String url,
 			JSONObject jsonObject) {
 		System.out.println("url is   :  " + url);
-		System.out.println("json im sending   :  " + jsonObject.toString());
+		System.out.println(">>>>>>> json im sending   :  " + jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -82,7 +82,7 @@ System.out.println("hello");
 
 	public JSONObject getJSONFromUrlAfterHttpPost2(String url,
 			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-		System.out.println("json im sending   :  " + jsonObject.toString());
+		System.out.println(">>>>>>> json im sending   :  " + jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -134,7 +134,7 @@ System.out.println("hello");
 
 	public JSONObject getJSONFromUrlAfterHttpPost3(String url,
 			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-		System.out.println("json im sending   :  " + jsonObject.toString());
+		System.out.println(">>>>>> json im sending   :  " + jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -257,7 +257,7 @@ System.out.println("hello");
 			}
 			is.close();
 			jsonString = sb.toString();
-			System.out.println("json string im getting  :  " + jsonString);
+			System.out.println(">>>>>>> json string im getting  :  " + jsonString);
 		} catch (Exception e) {
 			Log.e("Buffer Error", "Error converting result " + e.toString());
 		}
@@ -285,7 +285,7 @@ System.out.println("hello");
 			}
 			is.close();
 			jsonString = sb.toString();
-			System.out.println("json string im getting  :  " + jsonString);
+			System.out.println(">>>>>>> json string im getting  :  " + jsonString);
 		} catch (Exception e) {
 			Log.e("Buffer Error", "Error converting result " + e.toString());
 		}

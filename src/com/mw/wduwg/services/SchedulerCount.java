@@ -26,7 +26,7 @@ import com.parse.ParseObject;
 import com.wduwg.counter.CountActivity;
 
 public class SchedulerCount extends TimerTask {
-
+	int men_in=0,men_out = 0, women_in = 0, women_out = 0;
 	public static Event event;
 	Editor editor;
 	Context context;
@@ -58,10 +58,14 @@ public class SchedulerCount extends TimerTask {
 	}
 
 	private class SaveCountAsync extends AsyncTask<String, Void, Void> {
+		
 		@Override
 		protected Void doInBackground(String... params) {
 			jParser = new JSONParser();
-			
+			men_in += globalVariable.getIntervalMenIn();
+			men_out += globalVariable.getIntervalMenOut();
+			women_in += globalVariable.getIntervalWomenIn();
+			women_out += globalVariable.getIntervalWomenOut();
 			String url = ServerURLs.URL + ServerURLs.COUNTER;
 			System.out.println("url is   : " + url);
 			JSONObject jsonObject2 = null;
@@ -69,30 +73,36 @@ public class SchedulerCount extends TimerTask {
 			try {
 				JSONObject jsonObject;
 				jsonObject = new JSONObject()
-						.put("women_in", globalVariable.getIntervalWomenIn())
-						.put("women_out", globalVariable.getIntervalWomenOut())
-						.put("men_in", globalVariable.getIntervalMenIn())
-						.put("men_out", globalVariable.getIntervalMenOut())
+						.put("women_in", women_in)
+						.put("women_out", women_out)
+						.put("men_in",men_in )
+						.put("men_out", men_out)
 						.put("time", sdf.format(new Date()))
 						.put("business_id",
 								globalVariable.getSelectedBusiness().getId().get$oid());
-				System.out.println(">>>>>>> MenIn:"+globalVariable.getIntervalMenIn());
-				System.out.println(">>>>>>> Menout:"+globalVariable.getIntervalMenOut());
-				System.out.println(">>>>>>> womenIn:"+globalVariable.getIntervalWomenIn());
-				System.out.println(">>>>>>> womenout:"+globalVariable.getIntervalWomenOut());
 				jsonObject2 = new JSONObject().put("counter", jsonObject);
 				globalVariable.setIntervalMenIn(0);
 				globalVariable.setIntervalMenOut(0);
 				globalVariable.setIntervalWomenIn(0);
 				globalVariable.setIntervalWomenOut(0);
 	            globalVariable.saveSharedPreferences();
+	            
+	            jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
+						jsonObject2);
+				System.out.println(">>>>>>> counter response:"+jsonFromServer);
+				if(jsonFromServer.get("status").equals("ok"))
+				{
+					men_in = 0;
+					men_out = 0;
+					women_in = 0;
+					women_out = 0;
+				}
 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 
-			jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
-					jsonObject2);
+			
 			
 			Log.d("== Count ==", "Saved successfully");
 			return null;
