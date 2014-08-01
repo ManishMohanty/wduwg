@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.mw.wduwg.model.Event;
@@ -25,7 +26,10 @@ import com.parse.ParseObject;
 import com.wduwg.watch.app.CountActivity;
 
 public class SchedulerCount extends TimerTask {
-
+       
+	int men_in = 0, men_out = 0 , women_in = 0 , women_out = 0; 
+	
+	
 	Looper looper = Looper.getMainLooper();
 	private Handler mHandler = new Handler(looper);
     
@@ -48,6 +52,15 @@ public class SchedulerCount extends TimerTask {
 		mHandler.post(new Runnable() {
             public void run() {
             	sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
+            	int status=Settings.System.getInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON,0);
+            	if(status == 1)
+    			{
+            		System.out.println(">>>>>>> airplane mode:ON");
+    				Settings.System.putInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON, 0);
+    			}
+            	else{
+            		System.out.println(">>>>>>> airplane mode: OFF");
+            	}
         		if (!(globalVariable.getIntervalWomenIn() == 0
         				&& globalVariable.getIntervalWomenOut() == 0
         				&& globalVariable.getIntervalMenIn() == 0 && globalVariable.getIntervalMenOut() == 0)) {
@@ -71,16 +84,20 @@ public class SchedulerCount extends TimerTask {
 		protected Void doInBackground(String... params) {
 			jParser = new JSONParser();
 			String url = ServerURLs.URL + ServerURLs.COUNTER;
+			women_in +=  globalVariable.getIntervalWomenIn();
+			women_out += globalVariable.getIntervalWomenOut();
+			men_in += globalVariable.getIntervalMenIn();
+			men_out += globalVariable.getIntervalMenOut();
 			System.out.println("url is   : " + url);
 			JSONObject jsonObject2 = null;
 			System.out.println(">>>>>>> time:"+sdf.format(new Date()));
 			try {
 				JSONObject jsonObject;
 				jsonObject = new JSONObject()
-						.put("women_in", globalVariable.getIntervalWomenIn())
-						.put("women_out", globalVariable.getIntervalWomenOut())
-						.put("men_in", globalVariable.getIntervalMenIn())
-						.put("men_out", globalVariable.getIntervalMenOut())
+						.put("women_in", women_in)
+						.put("women_out", women_out)
+						.put("men_in", men_in)
+						.put("men_out", men_out)
 						.put("time", sdf.format(new Date()))
 						.put("business_id",
 								globalVariable.getSelectedBusiness().getId().get$oid());
@@ -91,12 +108,20 @@ public class SchedulerCount extends TimerTask {
 				globalVariable.setIntervalWomenOut(0);
 	            globalVariable.saveSharedPreferences();
 
+	            jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
+	            		jsonObject2);
+	            if(jsonFromServer.get("status").equals("ok"))
+	            {
+	            	men_in = 0;
+	            	men_out = 0;
+	            	women_in = 0;
+	            	women_out = 0;
+	            	globalVariable.setTotalInDB(jsonFromServer.getInt("total"));
+	            }
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 
-			jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
-					jsonObject2);
 			
 			Log.d("== Count ==", "Saved successfully");
 			return null;
@@ -104,6 +129,7 @@ public class SchedulerCount extends TimerTask {
 
 		@Override
 		protected void onPostExecute(Void result) {
+			Settings.System.putInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON, 1);
 		}// onPostExecute
 	}// Async Task
 }

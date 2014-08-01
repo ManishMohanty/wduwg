@@ -30,7 +30,16 @@ public class GlobalVariable extends Application {
 	Gson gson;
 	int menIn,menOut,womenIn,womenOut;
 	int intervalMenIn,intervalWomenIn,intervalMenOut,intervalWomenOut;
+	int totalInDB;
 	
+	public int getTotalInDB() {
+		return totalInDB;
+	}
+
+	public void setTotalInDB(int totalInDB) {
+		this.totalInDB = totalInDB;
+	}
+
 	public boolean isInternet()
 	{
 		ConnectivityManager connection =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
