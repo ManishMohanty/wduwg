@@ -44,9 +44,9 @@ public class SchedulerCount extends TimerTask {
 	public void run() {
 		globalVariable = (GlobalVariable) context.getApplicationContext();
         sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
-		if (!(globalVariable.intervalWomenIn == 0
-				&& globalVariable.intervalWomenOut == 0
-				&& globalVariable.intervalMenIn == 0 && globalVariable.intervalMenOut == 0 ) ) {
+		if (!(globalVariable.getIntervalWomenIn() == 0
+				&& globalVariable.getIntervalWomenOut() == 0
+				&& globalVariable.getIntervalMenIn() == 0 && globalVariable.getIntervalMenOut() == 0 ) ) {
 			if(globalVariable.isInternet()== true)
 			{
 					SaveCountAsync async = new SaveCountAsync();

@@ -176,6 +176,10 @@ public class GlobalVariable extends Application {
 		this.menOut=sharedPreferences.getInt("menOut", 0);
 		this.womenIn=sharedPreferences.getInt("womenIn", 0);
 		this.womenOut=sharedPreferences.getInt("womenOut", 0);
+		this.intervalMenIn = sharedPreferences.getInt("intervalMenIn", 0);
+		this.intervalMenOut = sharedPreferences.getInt("intervalMenOut", 0);
+		this.intervalWomenIn = sharedPreferences.getInt("intervalWomenIn", 0);
+		this.intervalWomenOut = sharedPreferences.getInt("intervalWomenOut", 0);
 		this.startDate = sharedPreferences.getString("startDate", null);
 	}	
 	
@@ -247,6 +251,10 @@ public class GlobalVariable extends Application {
 			editor.putInt("womenIn", womenIn);
 			editor.putInt("menOut", menOut);
 			editor.putInt("womenOut", womenOut);
+			editor.putInt("intervalMenIn", intervalMenIn);
+			editor.putInt("intervalMenOut", intervalMenOut);
+			editor.putInt("intervalWomenIn", intervalWomenIn);
+			editor.putInt("intervalWomenOut", intervalWomenOut);
 		editor.commit();
 	}
 	

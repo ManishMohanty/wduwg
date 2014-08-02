@@ -498,8 +498,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		super.onRestart();
 	}
 
-	private void restartSaving() {
+	private void restartSaving() { 
 	}
+
 
 	@Override
 	protected void onResume() {
@@ -570,7 +571,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	void saveLastCount() {
 		scheduledTask.run();
-		timer.cancel();
+//		timer.cancel();
 		globalVariable.setSelectedEvent(null);
 		globalVariable.saveSharedPreferences();
 	}
