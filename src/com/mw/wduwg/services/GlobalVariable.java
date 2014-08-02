@@ -238,6 +238,10 @@ public class GlobalVariable extends Application {
 			editor.putInt("womenIn", womenIn);
 			editor.putInt("menOut", menOut);
 			editor.putInt("womenOut", womenOut);
+			editor.putInt("intervalMenIn", intervalMenIn);
+			editor.putInt("intervalMenOut",intervalMenOut);
+			editor.putInt("intervalWomenIn", intervalWomenIn);
+			editor.putInt("intervalWomenOut", intervalWomenOut);
 		editor.commit();
 	}
 	
