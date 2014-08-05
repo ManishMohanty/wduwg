@@ -119,7 +119,7 @@ public class SchedulerFBPosts extends TimerTask {
 					.getMenOut()) + "").length() - 1;
 
 			postMessage = postMessage
-					+ "\n  Current Attendance:\t\t\t"
+					+ "\n  Current Attendance:\t\t"
 					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable
 							.getWomenIn() - globalVariable.getWomenOut()))
 					+ "\n  Men: "
@@ -142,10 +142,10 @@ public class SchedulerFBPosts extends TimerTask {
 				 final Rect bounds = new Rect();
 					TextPaint textPaint = new TextPaint() {
 					    {
-					        setColor(Color.parseColor("#ffffff"));
+					        setColor(Color.parseColor("#686b69"));
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(context.getAssets(),
-					    			"Fonts/OpenSans-Light.ttf"));
+					    			"Fonts/OpenSans-Bold.ttf"));
 					        setTextSize(35f);
 					        setAntiAlias(true);
 					    }
@@ -162,7 +162,7 @@ public class SchedulerFBPosts extends TimerTask {
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
 					
-					bmp.eraseColor(Color.parseColor("#66AfD9"));// just adding black background
+					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
 				 
