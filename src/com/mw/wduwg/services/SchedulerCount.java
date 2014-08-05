@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
@@ -51,16 +52,8 @@ public class SchedulerCount extends TimerTask {
 		
 		mHandler.post(new Runnable() {
             public void run() {
+            	try{
             	sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
-            	int status=Settings.System.getInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON,0);
-            	if(status == 1)
-    			{
-            		System.out.println(">>>>>>> airplane mode:ON");
-    				Settings.System.putInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON, 0);
-    			}
-            	else{
-            		System.out.println(">>>>>>> airplane mode: OFF");
-            	}
         		if (!(globalVariable.getIntervalWomenIn() == 0
         				&& globalVariable.getIntervalWomenOut() == 0
         				&& globalVariable.getIntervalMenIn() == 0 && globalVariable.getIntervalMenOut() == 0)) {
@@ -75,6 +68,10 @@ public class SchedulerCount extends TimerTask {
         		} else {
         			Log.d("== Count ==", "Everything is ZERO");
         		}
+            	}catch(Exception e)
+            	{
+            		e.printStackTrace();
+            	}
             }
         });
 	}
@@ -119,6 +116,7 @@ public class SchedulerCount extends TimerTask {
 	            	globalVariable.setTotalInDB(jsonFromServer.getInt("total"));
 	            }
 			} catch (JSONException e) {
+				globalVariable.saveSharedPreferences();
 				e.printStackTrace();
 			}
 
@@ -129,7 +127,7 @@ public class SchedulerCount extends TimerTask {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			Settings.System.putInt(context.getContentResolver(),Settings.System.AIRPLANE_MODE_ON, 1);
+			
 		}// onPostExecute
 	}// Async Task
 }
