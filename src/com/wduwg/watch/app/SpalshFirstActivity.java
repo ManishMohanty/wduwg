@@ -8,7 +8,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -28,15 +30,11 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.apphance.android.Apphance;
-import com.apphance.android.Apphance.Mode;
-import com.apphance.android.common.Configuration;
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
-import com.parse.Parse;
 
 public class SpalshFirstActivity extends Activity {
 
@@ -50,6 +48,8 @@ public class SpalshFirstActivity extends Activity {
 	GlobalVariable globalVariable;
 	CreateDialog createDialog;
 	ProgressDialog progressDialgog;
+	AlertDialog.Builder alertdialogbuilder;
+	AlertDialog alertDialog;
 
 	private void findThings() {
 		appNameTextView = (TextView) findViewById(R.id.app_name_text);
@@ -72,11 +72,34 @@ public class SpalshFirstActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.splash_first);
+		createDialog = new CreateDialog(SpalshFirstActivity.this);
 		globalVariable = (GlobalVariable) getApplicationContext();
+		if(!globalVariable.isInternet())
+		{
+			alertdialogbuilder = createDialog
+					.createAlertDialog(
+							"Networok Error",
+							"Your are now Offline please establish a connection for using WDUWG.",
+							false);
+			alertdialogbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					alertDialog.dismiss();
+					System.exit(0);
+				}
+			});
+			alertDialog = alertdialogbuilder.create();
+			alertDialog.show();  
+		}else{
+		
 		if (globalVariable.getSelectedBusiness()!= null) {
 			System.out.println(">>>>>>> inside splash ");
 			Intent intent = new Intent(SpalshFirstActivity.this,
 					CountActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(intent);
 		} else {
 			setContentView(R.layout.splash_first);
@@ -170,6 +193,7 @@ public class SpalshFirstActivity extends Activity {
 
 		}
 	}
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -194,21 +218,22 @@ public class SpalshFirstActivity extends Activity {
 //		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //		intent.putExtra("fromContext", false);
 //		startActivity(intent);
-		if(globalVariable.getSelectedBusiness() != null)
-		{
-			Intent intent = new Intent(SpalshFirstActivity.this,CountActivity.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.anim_out,
-					R.anim.anim_in);
-		}
-		else
-		{
-		 createDialog = new CreateDialog(SpalshFirstActivity.this);
-		 progressDialgog = createDialog.createProgressDialog("Loading...", "Please wait for a while", true, null);
-		 progressDialgog.show();
-		 BusinessAsyncTask asynctask = new BusinessAsyncTask();
-		 asynctask.execute();
-		}
+		
+			if(globalVariable.getSelectedBusiness() != null)
+			{
+				Intent intent = new Intent(SpalshFirstActivity.this,CountActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.anim_out,
+						R.anim.anim_in);
+			}
+			else
+			{
+			 
+			 progressDialgog = createDialog.createProgressDialog("Loading...", "Please wait for a while", true, null);
+			 progressDialgog.show();
+			 BusinessAsyncTask asynctask = new BusinessAsyncTask();
+			 asynctask.execute();
+			}
 		
 	}
 	
