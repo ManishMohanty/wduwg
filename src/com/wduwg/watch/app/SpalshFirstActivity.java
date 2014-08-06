@@ -79,7 +79,7 @@ public class SpalshFirstActivity extends Activity {
 			alertdialogbuilder = createDialog
 					.createAlertDialog(
 							"Networok Error",
-							"Your are now Offline please establish a connection for using WDUWG.",
+							"You are now offline. Please establish a connection for using WDUWG.",
 							false);
 			alertdialogbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 

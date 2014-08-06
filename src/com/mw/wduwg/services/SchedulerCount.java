@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.text.format.Time;
 import android.util.Log;
 
 import com.mw.wduwg.model.Event;
@@ -87,7 +88,9 @@ public class SchedulerCount extends TimerTask {
 			men_out += globalVariable.getIntervalMenOut();
 			System.out.println("url is   : " + url);
 			JSONObject jsonObject2 = null;
-			System.out.println(">>>>>>> time:"+sdf.format(new Date()));
+//			System.out.println(">>>>>>> cdt date:"+sdf.format(new Date().getDate()));
+//			System.out.println(">>>>>>> cdt hour:"+sdf.format(new Date().getHours()));
+			if(men_in > 0 || men_out > 0 || women_out > 0 || women_in > 0 )
 			try {
 				JSONObject jsonObject;
 				jsonObject = new JSONObject()
@@ -104,7 +107,6 @@ public class SchedulerCount extends TimerTask {
 				globalVariable.setIntervalWomenIn(0);
 				globalVariable.setIntervalWomenOut(0);
 	            globalVariable.saveSharedPreferences();
-
 	            jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
 	            		jsonObject2);
 	            if(jsonFromServer.get("status").equals("ok"))

@@ -2,6 +2,7 @@ package com.mw.wduwg.services;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Application;
 import android.content.Context;
@@ -31,7 +32,25 @@ public class GlobalVariable extends Application {
 	int menIn,menOut,womenIn,womenOut;
 	int intervalMenIn,intervalWomenIn,intervalMenOut,intervalWomenOut;
 	int totalInDB;
+	Date resetDate;
+	boolean isReset;
 	
+	public Date getResetDate() {
+		return resetDate;
+	}
+
+	public void setResetDate(Date resetDate) {
+		this.resetDate = resetDate;
+	}
+
+	public boolean isReset() {
+		return isReset;
+	}
+
+	public void setReset(boolean isReset) {
+		this.isReset = isReset;
+	}
+
 	public int getTotalInDB() {
 		return totalInDB;
 	}
@@ -177,6 +196,8 @@ public class GlobalVariable extends Application {
 		this.intervalMenOut = sharedPreferences.getInt("intervalMenOut", 0);
 		this.intervalWomenIn = sharedPreferences.getInt("intervalWomenIn", 0);
 		this.intervalWomenOut = sharedPreferences.getInt("intervalWomenOut", 0);
+		this.isReset = sharedPreferences.getBoolean("isreset", false);
+//		this.resetDate = new Date(sharedPreferences.getString("resetdate", null));
 	}	
 	
 	public void saveSharedPreferences(){
@@ -246,6 +267,8 @@ public class GlobalVariable extends Application {
 			editor.putInt("intervalMenOut",intervalMenOut);
 			editor.putInt("intervalWomenIn", intervalWomenIn);
 			editor.putInt("intervalWomenOut", intervalWomenOut);
+			editor.putBoolean("isreset", this.isReset);
+//			editor.putString("resetdate", this.resetDate.toString());
 		editor.commit();
 	}
 	
