@@ -387,38 +387,22 @@ public class BusinessDashboardActivity extends Activity {
 			try {
 				JSONParser jsonparser = new JSONParser(BusinessDashboardActivity.this);
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
-//				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
-//				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
-//				if(specialsjsonarr.length()>0)
-//				{
-//					for(int i = 0; i< specialsjsonarr.length(); i++)
-//					{
-//						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
-//						men_in += Integer.parseInt(jsonobject.getString("men_in"));
-//						men_out += Integer.parseInt(jsonobject.getString("men_out"));
-//						women_in += Integer.parseInt(jsonobject.getString("women_in"));
-//						women_out += Integer.parseInt(jsonobject.getString("women_out"));
-//					}
-//				}
-				for(int i=0; i< globalVariable.getCustomer().getBusinesses().size();i++)
+				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
+				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
+				if(specialsjsonarr.length()>0)
 				{
-					params.add(new BasicNameValuePair("business_id",globalVariable.getCustomer().getBusinesses().get(i).getId().get$oid() ));
-					JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
-					if(specialsjsonarr.length()>0)
+					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
-						for(int i1 = 0; i< specialsjsonarr.length(); i++)
-						{
-							JSONObject jsonobject = specialsjsonarr.getJSONObject(i1);
-							men_in += Integer.parseInt(jsonobject.getString("men_in"));
-							men_out += Integer.parseInt(jsonobject.getString("men_out"));
-							women_in += Integer.parseInt(jsonobject.getString("women_in"));
-							women_out += Integer.parseInt(jsonobject.getString("women_out"));
-							globalVariable.getCustomer().getBusinesses().get(i).setMenIn(men_in);
-							globalVariable.getCustomer().getBusinesses().get(i).setMenOut(men_out);
-							globalVariable.getCustomer().getBusinesses().get(i).setWomenIn(women_in);
-							globalVariable.getCustomer().getBusinesses().get(i).setWomenOut(women_out);
-						}
+						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
+						men_in += Integer.parseInt(jsonobject.getString("men_in"));
+						men_out += Integer.parseInt(jsonobject.getString("men_out"));
+						women_in += Integer.parseInt(jsonobject.getString("women_in"));
+						women_out += Integer.parseInt(jsonobject.getString("women_out"));
 					}
+					globalVariable.getSelectedBusiness().setMenIn(men_in);
+					globalVariable.getSelectedBusiness().setMenOut(men_out);
+					globalVariable.getSelectedBusiness().setWomenIn(women_in);
+					globalVariable.getSelectedBusiness().setWomenOut(women_out);
 				}
 				
 			} catch (Exception e) {
