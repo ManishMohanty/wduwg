@@ -16,12 +16,12 @@
         >
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/women_in"
             android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/women_in"
+            android:background="@drawable/women_in_m"
             android:clickable="true"
             android:onClick="womenIn_watch"
              >
@@ -29,19 +29,23 @@
             <TextView android:id="@+id/womenInTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70px"
-                android:layout_marginTop="70px"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:paddingLeft="20dp"
+                android:paddingBottom="20dp"
                 android:text="0"
                 android:textColor="#ffffff"
                 android:textSize="25px" />
-        </LinearLayout>
+<!--                 android:layout_marginLeft="20px"
+                android:layout_marginTop="70px" -->
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/women_out"
             android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentRight="true"
-            android:background="@drawable/women_out"
+            android:background="@drawable/women_out_m"
             android:clickable="true"
             android:onClick="womenOut_watch"
              >
@@ -49,12 +53,16 @@
             <TextView android:id="@+id/womenOutTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:layout_marginTop="70px"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp"
                 android:text="0"
                 android:textColor="#ffffff"
                 android:textSize="25px" />
-        </LinearLayout>
+<!--                 android:layout_marginLeft="70px"
+                android:layout_marginTop="70px" -->
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -68,31 +76,35 @@
          >
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/men_in"
             android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentLeft="true"
             android:clickable="true"
             android:onClick="menIn_watch"
-            android:background="@drawable/men_in" >
+            android:background="@drawable/men_in_m" >
             
             <TextView android:id="@+id/menInTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70px"
-                android:layout_marginTop="70px"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="20dp"
+                android:paddingBottom="20dp"
                 android:text="0"
                 android:textColor="#ffffff"
                 android:textSize="25px" />
-        </LinearLayout>
+<!--                 android:layout_marginLeft="20px"
+                android:layout_marginTop="70px" -->
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/men_out"
             android:layout_width="117px"
             android:layout_height="110px"
             android:layout_alignParentRight="true"
-            android:background="@drawable/men_out"
+            android:background="@drawable/men_out_m"
             android:clickable="true"
             android:onClick="menOut_watch"
              >
@@ -100,12 +112,30 @@
                 android:id="@+id/menOutTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:layout_marginTop="70px"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="20dp"
+                android:paddingRight="20dp"
                 android:text="0"
                 android:textColor="#ffffff"
                 android:textSize="25px" />
-        </LinearLayout>
+<!--                 android:layout_marginLeft="70px"
+                android:layout_marginTop="70px" -->
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/attendance_new"
+        >
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:id="@+id/total_attendance"
+                  android:text="10000"
+                  android:textSize="22px"
+                  android:textColor="#ffffff"
+            />
     </RelativeLayout>
 
 </RelativeLayout>

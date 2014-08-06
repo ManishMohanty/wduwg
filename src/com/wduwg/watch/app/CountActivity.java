@@ -66,7 +66,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	public static int MOVE_ANOTHER_STEP_BACK = 10;
 
 	TextView inMaleTV, currentMaleTV, outMaleTV, inFemaleTV, currentFemaleTV,
-			outFemaleTV, totalHeaderTV;
+			outFemaleTV, totalHeaderTV, total_attendance;
 
 	TextView actionBarTextView;
 
@@ -129,6 +129,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		currentFemaleTV = (TextView) findViewById(R.id.total_female);
 
 		totalHeaderTV = (TextView) findViewById(R.id.total_header);
+		
 
 		femaleLayout = (LinearLayout) findViewById(R.id.female_counter);
 		maleLayout = (LinearLayout) findViewById(R.id.male_counter);
@@ -206,6 +207,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		inFemaleTV.setText("" + globalVariable.getWomenIn());
 		outMaleTV.setText("" + globalVariable.getMenOut());
 		outFemaleTV.setText("" + globalVariable.getWomenOut());
+		
 		currentMaleTV.setText(""
 				+ (globalVariable.getMenIn() - globalVariable.getMenOut()));
 		currentFemaleTV.setText(""
@@ -237,11 +239,12 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		outMaleTV = (TextView)findViewById(R.id.menOutTV);
 		inFemaleTV = (TextView)findViewById(R.id.womenInTV);
 		outFemaleTV = (TextView)findViewById(R.id.womenOutTV);
+		total_attendance =(TextView)findViewById(R.id.total_attendance);
 		
-		LinearLayout womenOut = (LinearLayout)findViewById(R.id.women_out);
-		LinearLayout womenIn = (LinearLayout)findViewById(R.id.women_in);
-		LinearLayout menOut = (LinearLayout)findViewById(R.id.men_out);
-		LinearLayout menIn = (LinearLayout)findViewById(R.id.men_in);
+		RelativeLayout womenOut = (RelativeLayout)findViewById(R.id.women_out);
+		RelativeLayout womenIn = (RelativeLayout)findViewById(R.id.women_in);
+		RelativeLayout menOut = (RelativeLayout)findViewById(R.id.men_out);
+		RelativeLayout menIn = (RelativeLayout)findViewById(R.id.men_in);
 		
 		inMaleTV.setTypeface(typeface);
 		outMaleTV.setTypeface(typeface);
@@ -251,6 +254,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		outMaleTV.setText(""+globalVariable.getMenOut());
 		inFemaleTV.setText(""+globalVariable.getWomenIn());
 		outFemaleTV.setText(""+globalVariable.getWomenOut());
+		total_attendance.setText(""+((globalVariable.getMenIn() - globalVariable
+				.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
+						.getWomenOut())));
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		RelativeLayout menLayout = (RelativeLayout) findViewById(R.id.menLayout);
@@ -276,9 +282,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				// TODO Auto-generated method stub
 //				headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
 //		        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
-				headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
-		        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()) + "\n"
-		        		+"Total Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
+				headerTV.setText(globalVariable.getSelectedBusiness().getName()
+		        		+"\nTotal Attendance At server ->"+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
 				customDialog.show();
 				return false;
 			}
@@ -290,9 +295,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			   public boolean onLongClick(View v) {
 			
 			    // TODO Auto-generated method stub
-				   headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
-			        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()) + "\n"
-			        		+"Total Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
+				   headerTV.setText(globalVariable.getSelectedBusiness().getName()
+			        		+"\nTotal Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
 				   customDialog.show();
 					return false;
 			
@@ -307,9 +311,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //								headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
 //						        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 								
-								headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
-						        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()) + "\n"
-						        		+"Total Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
+								headerTV.setText(globalVariable.getSelectedBusiness().getName()
+						        		+"\nTotal Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
 								customDialog.show();
 								return false;
 							}
@@ -318,9 +321,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					
 					public boolean onLongClick(View v) {
 						// TODO Auto-generated method stub
-						headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
-				        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()) + "\n"
-				        		+"Total Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
+						headerTV.setText(globalVariable.getSelectedBusiness().getName()
+				        		+"\nTotal Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
 						customDialog.show();
 						return false;
 					}
@@ -333,6 +335,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	}
 	
 	// ******************************************
+	
 	public void menIn_watch(View v) {
 		mPlayerIn.start();
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
@@ -340,6 +343,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		inMaleTV.setText("" + globalVariable.getMenIn());
 		int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+		total_attendance.setText(""+total);
 		if (sharedPreference.contains("prefNotificationFrequency")) {
 			int message_frequency = Integer.parseInt(sharedPreference.getString(
 					"prefNotificationFrequency", ""));
@@ -360,6 +364,10 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			globalVariable.setMenOut(globalVariable.getMenOut() + 1);
 			globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut()+1);
 			outMaleTV.setText("" + globalVariable.getMenOut());
+			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
+					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+			total_attendance.setText(""+total);
+			
 		}
 	}
 
@@ -368,6 +376,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
 		globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn()+1);
 		inFemaleTV.setText("" + globalVariable.getWomenIn());
+		int total1 = (globalVariable.getMenIn() - globalVariable.getMenOut())
+				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+		total_attendance.setText(""+total1);
 		if (sharedPreference.contains("prefNotificationFrequency")) {
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 					+ (globalVariable.getWomenIn() - globalVariable
@@ -390,6 +401,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
 			globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut()+1);
 			outFemaleTV.setText("" + globalVariable.getWomenOut());
+			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
+					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+			total_attendance.setText(""+total);
 		}
 	}
 
