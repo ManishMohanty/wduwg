@@ -41,6 +41,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
     static SchedulerFBPosts scheduleTask;
 	
     private SharedPreferences preferences ;
+    GlobalVariable globalVariable;
     
     static Timer timer;
     
@@ -50,6 +51,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
         setContentView(R.layout.delinkbtn);
         int titleId = getResources().getIdentifier("action_bar_title", "id",
 				"android");
+        globalVariable =  (GlobalVariable)getApplicationContext();
 		TextView yourTextView = (TextView) findViewById(titleId);
 		yourTextView.setTextColor(Color.parseColor("#016AB2"));
 		yourTextView.setTextSize(19);
@@ -100,6 +102,18 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 	System.out.println(">>>>>>> else of drop down");
                 }
             }
+//        	else if(mPreferenceEntries[i] instanceof SwitchPreference)
+//        	{
+//        		if(globalVariable.getSelectedBusiness().getIsfacebookOn())
+//        		{
+//        			mPreferenceEntries[i].setSummary("ON");
+//        			System.out.println(">>>>>>> facebook is already on");
+//        		}else
+//        		{
+//        			mPreferenceEntries[i].setSummary("OFF");
+//        			System.out.println(">>>>>>> facebook is off");
+//        		}
+//        	}
         }
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this); // register change listener
     }
@@ -163,7 +177,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 	 status = (boolean) mPreferenceEntries[i].getSharedPreferences().getBoolean("prefMessageSwitch", false);
                 	else
                 		status = (boolean)mPreferenceEntries[i].getSharedPreferences().getBoolean("facebookSwitch", false);
-//                	mPreferenceEntries[i].setSummary(status?"On":"Off");
+                	mPreferenceEntries[i].setSummary(status?"On":"Off");
                 	if(key.equals("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
                     {
                 		if(scheduleTask != null)
@@ -177,6 +191,14 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     		scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
                     		timer.scheduleAtFixedRate(scheduleTask, 1000, minutes*60*1000);
                     }
+//                	if(key.equals("facebookSwitch"))
+//                	{
+//                		globalVariable.getSelectedBusiness().setIsfacebookOn(preferences.getBoolean("facebookSwitch", false));
+//                		if(globalVariable.getSelectedBusiness().getIsfacebookOn())
+//                		System.out.println(">>>>>>> facebook is becomes on");
+//                		else
+//                			System.out.println(">>>>>>> facebook is becomes off");
+//                	}
                 }
                 break;
             }

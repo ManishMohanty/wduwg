@@ -569,7 +569,14 @@ public class LoginFacebookActivity extends Activity {
 								for(int i=0;i<data.length();i++)
 								{
 									BusinessFBPage page = gson.fromJson(data.get(i).toString(), BusinessFBPage.class);
-									pages.add(page);
+//									pages.add(page);
+									for(int j=0;j<globalVariable.getCustomer().getBusinesses().size();j++)
+									{
+										if(globalVariable.getCustomer().getBusinesses().get(j).getFace_book_page().equals(page.getId()))
+										{
+											globalVariable.getCustomer().getBusinesses().get(j).setSelectedFBPage(page);
+										}
+									}
 								}
 								globalVariable.getCustomer().setPages(pages);
 								System.out.println(">>>>>>> get pageAccessToken complete");

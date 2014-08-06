@@ -44,6 +44,7 @@ import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
 import com.mw.wduwg.services.SchedulerCount;
+import com.mw.wduwg.services.SchedulerFBPosts;
 
 
 public class BusinessDashboardActivity extends Activity {
@@ -53,6 +54,8 @@ public class BusinessDashboardActivity extends Activity {
 	GlobalVariable globalVariable;
 	List<Event> eventList ;
 	private Timer autoUpdate;
+	private static final int SETTING = 93;
+	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -82,7 +85,7 @@ public class BusinessDashboardActivity extends Activity {
 	GridView eventgridView,specialgridView;
 	CreateDialog createDialog ;
 	AlertDialog.Builder alertDialogBuilder;
-	AlertDialog alertDialog;
+	AlertDialog alertDialog,alertDialog1;
 	ProgressDialog progressDialog;
 	int men_in=0,women_in=0,men_out=0,women_out=0;
 	
@@ -384,17 +387,37 @@ public class BusinessDashboardActivity extends Activity {
 			try {
 				JSONParser jsonparser = new JSONParser(BusinessDashboardActivity.this);
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
-				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
-				if(specialsjsonarr.length()>0)
+//				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
+//				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
+//				if(specialsjsonarr.length()>0)
+//				{
+//					for(int i = 0; i< specialsjsonarr.length(); i++)
+//					{
+//						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
+//						men_in += Integer.parseInt(jsonobject.getString("men_in"));
+//						men_out += Integer.parseInt(jsonobject.getString("men_out"));
+//						women_in += Integer.parseInt(jsonobject.getString("women_in"));
+//						women_out += Integer.parseInt(jsonobject.getString("women_out"));
+//					}
+//				}
+				for(int i=0; i< globalVariable.getCustomer().getBusinesses().size();i++)
 				{
-					for(int i = 0; i< specialsjsonarr.length(); i++)
+					params.add(new BasicNameValuePair("business_id",globalVariable.getCustomer().getBusinesses().get(i).getId().get$oid() ));
+					JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
+					if(specialsjsonarr.length()>0)
 					{
-						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
-						men_in += Integer.parseInt(jsonobject.getString("men_in"));
-						men_out += Integer.parseInt(jsonobject.getString("men_out"));
-						women_in += Integer.parseInt(jsonobject.getString("women_in"));
-						women_out += Integer.parseInt(jsonobject.getString("women_out"));
+						for(int i1 = 0; i< specialsjsonarr.length(); i++)
+						{
+							JSONObject jsonobject = specialsjsonarr.getJSONObject(i1);
+							men_in += Integer.parseInt(jsonobject.getString("men_in"));
+							men_out += Integer.parseInt(jsonobject.getString("men_out"));
+							women_in += Integer.parseInt(jsonobject.getString("women_in"));
+							women_out += Integer.parseInt(jsonobject.getString("women_out"));
+							globalVariable.getCustomer().getBusinesses().get(i).setMenIn(men_in);
+							globalVariable.getCustomer().getBusinesses().get(i).setMenOut(men_out);
+							globalVariable.getCustomer().getBusinesses().get(i).setWomenIn(women_in);
+							globalVariable.getCustomer().getBusinesses().get(i).setWomenOut(women_out);
+						}
 					}
 				}
 				
@@ -409,14 +432,17 @@ public class BusinessDashboardActivity extends Activity {
 			System.out.println(">>>>>>> inside counter postexecute");
 			progressDialog.dismiss();
 			System.out.println(">>>>>>> progress dialog dismiss");
-			totalCount.setText("Total :"+((men_in+women_in)-(men_out+women_out)));
-			menCount.setText("Men :"+(men_in-men_out));
-			womenCount.setText("Women :"+(women_in-women_out));
-			totalVisitors.setText("Total Visitors Today :"+(men_in+women_in));
+			totalCount.setText("Total :"+((globalVariable.getSelectedBusiness().getMenIn()+globalVariable.getSelectedBusiness().getWomenIn())-(globalVariable.getSelectedBusiness().getMenOut()+globalVariable.getSelectedBusiness().getWomenOut())));
+			menCount.setText("Men :"+(globalVariable.getSelectedBusiness().getMenIn()-globalVariable.getSelectedBusiness().getMenOut()));
+			womenCount.setText("Women :"+(globalVariable.getSelectedBusiness().getWomenIn()-globalVariable.getSelectedBusiness().getWomenOut()));
+			totalVisitors.setText("Total Visitors Today :"+(globalVariable.getSelectedBusiness().getMenIn()+globalVariable.getSelectedBusiness().getWomenIn()));
 			 men_in =0;
 	    	 men_out =0;
 	    	 women_in = 0;
 	    	 women_out = 0;
+	    	 Timer timer = new Timer();
+	    	 SchedulerFBPosts scheduleTask = new SchedulerFBPosts(BusinessDashboardActivity.this);
+     		timer.scheduleAtFixedRate(scheduleTask, 1000, 3*60*1000);
 	    	 if(globalVariable.getSelectedBusiness() != null)
 			commonMethod();
 		}
@@ -429,19 +455,25 @@ public class BusinessDashboardActivity extends Activity {
 		CharSequence rawTitle = "Logout";
 		CharSequence delink = "Delink";
 		CharSequence delete = "Delete";
+//		CharSequence setting = "Settings";
+		
 		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
 		menu.findItem(R.id.menu_delink).setTitleCondensed(delink);
 		menu.findItem(R.id.menu_delete).setTitleCondensed(delete);
+//		menu.findItem(R.id.menu_settings).setTitleCondensed(setting);
 
 		SpannableString logoutstr = new SpannableString(rawTitle);
 		SpannableString delinkstr = new SpannableString(delink);
 		SpannableString deletestr = new SpannableString(delete);
+//		SpannableString settingstr = new SpannableString(setting);
 		delinkstr.setSpan(typefaceBold, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
 		logoutstr.setSpan(typefaceBold, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
 		deletestr.setSpan(typefaceBold, 0, deletestr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_delete).setTitle(deletestr);
+//		settingstr.setSpan(typefaceBold, 0, settingstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//		menu.findItem(R.id.menu_settings).setTitle(settingstr);
 		return true;
 	}
 
@@ -489,49 +521,9 @@ public class BusinessDashboardActivity extends Activity {
 			Intent nextIntent = new Intent(BusinessDashboardActivity.this,SpalshFirstActivity.class);
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(nextIntent);
-		case R.id.menu_delink:
-			
-			alertDialogBuilder = createDialog
-			.createAlertDialog(
-					"Delink",
-					"Do you wish to delink business with device ?",
-					false);
-	alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
-			alertDialog.dismiss();
-			SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
-			Timer timer = new Timer();
-			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-			scheduledTask.run();
-			SchedulerCount.event = globalVariable.getSelectedEvent();
-			timer.cancel();
-			globalVariable.setSelectedBusiness(null);
-			globalVariable.setSelectedEvent(null);
-			globalVariable.setMenIn(0);
-			globalVariable.setMenOut(0);
-			globalVariable.setWomenIn(0);
-			globalVariable.setWomenOut(0);
-			globalVariable.saveSharedPreferences();
-			Intent nextIntent = new Intent(BusinessDashboardActivity.this, BusinessOfUserActivity.class);
-			startActivity(nextIntent);
-			overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
-		}
-	});
-	alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
-			alertDialog.dismiss();
-		}
-	});
-	alertDialog = alertDialogBuilder.create();
-	alertDialog.show();
-	
+			return true;
 		case R.id.menu_delete:
+			System.out.println(">>>>>>> dlete option");
 			alertDialogBuilder = createDialog
 			.createAlertDialog(
 					"Delete",
@@ -563,7 +555,55 @@ public class BusinessDashboardActivity extends Activity {
 		}
 	});
 	alertDialog = alertDialogBuilder.create();
-	alertDialog.show();          
+	alertDialog.show();     
+	return true;
+		case R.id.menu_delink:
+			System.out.println(">>>>>>> delink option");
+			AlertDialog.Builder alertDialogBuilder1 = createDialog
+			.createAlertDialog(
+					"Delink",
+					"Do you wish to delink business with device ?",
+					false);
+	alertDialogBuilder1.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			alertDialog1.dismiss();
+			SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
+			Timer timer = new Timer();
+			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+			scheduledTask.run();
+			SchedulerCount.event = globalVariable.getSelectedEvent();
+			timer.cancel();
+			globalVariable.setSelectedBusiness(null);
+			globalVariable.setSelectedEvent(null);
+			globalVariable.setMenIn(0);
+			globalVariable.setMenOut(0);
+			globalVariable.setWomenIn(0);
+			globalVariable.setWomenOut(0);
+			globalVariable.saveSharedPreferences();
+			Intent nextIntent = new Intent(BusinessDashboardActivity.this, BusinessOfUserActivity.class);
+			startActivity(nextIntent);
+			overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+		}
+	});
+	alertDialogBuilder1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			// TODO Auto-generated method stub
+			alertDialog1.dismiss();
+		}
+	});
+	 alertDialog1 = alertDialogBuilder1.create();
+	 alertDialog1.show();
+	 System.out.println(">>>>>>> last line delnk");
+	 return true;
+		
+	
+//		case R.id.menu_settings:
+//			nextIntent = new Intent(BusinessDashboardActivity.this,
+//					AppSettingsActivity.class);
+//			startActivityForResult(nextIntent, SETTING);
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -12,6 +12,7 @@ public class Business implements Serializable {
 
 	private static final long serialVersionUID = -8015437165470024712L;
 	
+	
 	@SerializedName("id")
 	Id id;
 	
@@ -31,7 +32,69 @@ public class Business implements Serializable {
 	String imageUrl;
 	String imageEncoded;
 	Bitmap image;
+	boolean isfacebookOn;
+	String face_book_page;
+	int menIn,menOut,womenIn,womenOut;
+	BusinessFBPage selectedFBPage;
+	public BusinessFBPage getSelectedFBPage() {
+		return selectedFBPage;
+	}
+
+	public void setSelectedFBPage(BusinessFBPage selectedFBPage) {
+		this.selectedFBPage = selectedFBPage;
+	}
+
+	public String getFace_book_page() {
+		return face_book_page;
+	}
+
+	public void setFace_book_page(String face_book_page) {
+		this.face_book_page = face_book_page;
+	}
 	
+	
+	
+
+	public int getMenIn() {
+		return menIn;
+	}
+
+	public void setMenIn(int menIn) {
+		this.menIn = menIn;
+	}
+
+	public int getMenOut() {
+		return menOut;
+	}
+
+	public void setMenOut(int menOut) {
+		this.menOut = menOut;
+	}
+
+	public int getWomenIn() {
+		return womenIn;
+	}
+
+	public void setWomenIn(int womenIn) {
+		this.womenIn = womenIn;
+	}
+
+	public int getWomenOut() {
+		return womenOut;
+	}
+
+	public void setWomenOut(int womenOut) {
+		this.womenOut = womenOut;
+	}
+
+	public boolean getIsfacebookOn() {
+		return isfacebookOn;
+	}
+
+	public void setIsfacebookOn(boolean isfacebookOn) {
+		this.isfacebookOn = isfacebookOn;
+	}
+
 	public Bitmap getImage() {
 		return image;
 	}

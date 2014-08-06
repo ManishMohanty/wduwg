@@ -197,6 +197,18 @@ public class BusinessOfUserActivity extends Activity{
 							int position, long id) {
 						// TODO Auto-generated method stub
 						final int positionFinal = position;
+//						int fbpageSize = globalVariable.getCustomer().getPages().size();
+//						Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
+//
+//						for(int i=0;i<fbpageSize;i++)
+//						{
+//							if(globalVariable.getCustomer().getPages().get(i).getId().equals(business.getFace_book_page()))
+//							{
+//								globalVariable.setSelectedFBPage(globalVariable.getCustomer().getPages().get(i));
+//							}
+//						}
+						
+						
 						if(globalVariable.getCustomer().getBusinesses().size() == 0 || position == globalVariable.getCustomer().getBusinesses().size() - 1)
 						{
 							System.out.println(">>>>>>> sending to ident");

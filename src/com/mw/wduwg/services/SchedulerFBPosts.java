@@ -44,6 +44,7 @@ import com.facebook.AccessTokenSource;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.android.Facebook;
+import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.Event;
 import com.parse.entity.mime.HttpMultipartMode;
 import com.parse.entity.mime.MultipartEntity;
@@ -87,51 +88,69 @@ public class SchedulerFBPosts extends TimerTask {
 
 	public void run() {
 		Log.d(">>>>>>>", "Scheduler");
-		if(preferences.contains("fb_access_token") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
+//		if(preferences.contains("fb_access_token") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
+//		{
+//			System.out.println(">>>>>>> interval in scheduler :"+preferences.getString("prefFb_frequency", null));
+//		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
+//		asyncExample.execute(new String[] { "Helllo Worlds" });
+//		}
+//		else
+//		{
+//			if(LoginFacebookActivity.timer != null)
+//			{
+//				LoginFacebookActivity.timer.cancel();
+//			    SchedulerFBPosts.this.cancel();
+//			}
+//		}
+		for(int i = 0;i<globalVariable.getCustomer().getBusinesses().size();i++)
 		{
-			System.out.println(">>>>>>> interval in scheduler :"+preferences.getString("prefFb_frequency", null));
-		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-		asyncExample.execute(new String[] { "Helllo Worlds" });
+		  Business currentBusiness = (Business)globalVariable.getCustomer().getBusinesses().get(i);
+		  if(currentBusiness.getIsfacebookOn() && globalVariable.fb_access_token!= null)
+		  {
+		    FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
+			asyncExample.execute(currentBusiness);
+		  }
+
 		}
-		else
-		{
-			if(LoginFacebookActivity.timer != null)
-			{
-				LoginFacebookActivity.timer.cancel();
-			    SchedulerFBPosts.this.cancel();
-			}
-		}
+		
+		
+		
 	}
 
 	public void postToWall() {
 		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-		asyncExample.execute(new String[] { "Helllo Worls" });
+//		asyncExample.execute(new String[] { "Helllo Worls" });
+		asyncExample.execute(globalVariable.getSelectedBusiness());
 	}
 
-	private class FacebookPostAsyncExample extends AsyncTask<String, Void, Boolean> {
+	private class FacebookPostAsyncExample extends AsyncTask<Business, Void, Boolean> {
 
 		@SuppressWarnings("deprecation")
 		@Override
-		protected Boolean doInBackground(String... params) {
+		protected Boolean doInBackground(Business... params) {
 			boolean returnBool = false;
 			String postMessage = "";
-			Event tempEvent = globalVariable.getSelectedEvent();
-			System.out.println(">>>>>>> gloabalVariable selected event:"+globalVariable.getSelectedEvent().getName());
-			if (!tempEvent.getName().equals("defaultEvent")) {
-				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName()
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
-			}else
-			{
-				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
-				postMessage = postMessage 
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
-			}
+//			Event tempEvent = globalVariable.getSelectedEvent();
+//			System.out.println(">>>>>>> gloabalVariable selected event:"+globalVariable.getSelectedEvent().getName());
+//			if (!tempEvent.getName().equals("defaultEvent")) {
+//				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName()
+//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
+//			}else
+//			{
+//				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
+//				postMessage = postMessage 
+//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
+//			}
+//			
+//			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length() -1;
+//			postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
+//					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
+//					+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
+//					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
+			System.out.println(">>>>>>> page  token:" + params[0].getSelectedFBPage().getName());
 			
-			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length() -1;
-			postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
-					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
-					+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
-					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
+			postMessage = "  Current Attendance:\t\t\t"+ (params[0].getMenIn()+params[0].getWomenIn() - (params[0].getMenOut()+params[0].getWomenOut())) +"\n  Men:"
+					+(params[0].getMenIn()-params[0].getMenOut())+"\n  Women: "+(params[0].getWomenIn()-params[0].getWomenOut());
 			
 			System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************
@@ -147,10 +166,10 @@ public class SchedulerFBPosts extends TimerTask {
 				 final Rect bounds = new Rect();
 					TextPaint textPaint = new TextPaint() {
 					    {
-					        setColor(Color.parseColor("#ffffff"));
+					        setColor(Color.parseColor("#686B69"));
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(context.getAssets(),
-					    			"Fonts/OpenSans-Light.ttf"));
+					    			"Fonts/OpenSans-Bold.ttf"));
 					        setTextSize(35f);
 					        setAntiAlias(true);
 					    }
@@ -167,7 +186,7 @@ public class SchedulerFBPosts extends TimerTask {
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
 					
-					bmp.eraseColor(Color.parseColor("#66AfD9"));// just adding black background
+					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
 				 
@@ -189,8 +208,10 @@ public class SchedulerFBPosts extends TimerTask {
 				      ByteArrayBody bab = new ByteArrayBody(data, "test.png");
 					 try{
 						 System.out.println(">>>>>>> string after conversion");
+						 System.out.println(">>>>>>> page token:"+params[0].getSelectedFBPage().getAccess_token());
 						 // create new Session with page access_token
-						 Session.openActiveSessionWithAccessToken(context,AccessToken.createFromExistingAccessToken(globalVariable.getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
+//						 Session.openActiveSessionWithAccessToken(context,AccessToken.createFromExistingAccessToken(globalVariable.getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
+						 Session.openActiveSessionWithAccessToken(context,AccessToken.createFromExistingAccessToken(params[0].getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
 								@Override
 								public void call(Session session, SessionState state, Exception exception) {
 									System.out.println(">>>>>>> session status callback");
@@ -205,14 +226,15 @@ public class SchedulerFBPosts extends TimerTask {
 							System.out.println(">>>>>>> new session open");
 						 
 						 
-				    String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+//				    String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+							String url = "https://graph.facebook.com/"+params[0].getSelectedFBPage().getId()+"/photos";
 					HttpPost postRequest = new HttpPost(url);
 					HttpParams http_parameters = new BasicHttpParams();
 				    HttpConnectionParams.setConnectionTimeout(http_parameters, 3000);
 				    HttpClient httpClient = new DefaultHttpClient();
 				    MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 				    System.out.println(">>>>>>> Start post");
-				    reqEntity.addPart("access_token", new StringBody(globalVariable.getSelectedFBPage().getAccess_token()));
+				    reqEntity.addPart("access_token", new StringBody(params[0].getSelectedFBPage().getAccess_token()));
 				    System.out.println(">>>>>>> under  post1");
 				    reqEntity.addPart("message", new StringBody("test ................."));
 				    System.out.println(">>>>>>> under  post2");
@@ -227,7 +249,7 @@ public class SchedulerFBPosts extends TimerTask {
 							|| response1.equals("false")) {
 						System.out.println(">>>>>>> Blank response.");
 					} else {
-						System.out.println(">>>>>>> Message posted to your facebook wall!");
+						System.out.println(">>>>>>> Message posted to your facebook wall! -->"+ url);
 						returnBool = true;
 					}
 					 }catch(Exception e)
