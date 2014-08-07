@@ -507,6 +507,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 						outMaleTV.setText(""+0);
 						inFemaleTV.setText(""+0);
 						outFemaleTV.setText(""+0);
+						total_attendance.setText(""+0);
 //						finish();
 					}
 
