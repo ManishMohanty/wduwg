@@ -391,6 +391,10 @@ public class BusinessDashboardActivity extends Activity {
 				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
 				if(specialsjsonarr.length()>0)
 				{
+					men_in = 0;
+					men_out = 0;
+					women_in = 0;
+					women_out = 0;
 					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
@@ -399,6 +403,16 @@ public class BusinessDashboardActivity extends Activity {
 						women_in += Integer.parseInt(jsonobject.getString("women_in"));
 						women_out += Integer.parseInt(jsonobject.getString("women_out"));
 					}
+					globalVariable.getSelectedBusiness().setMenIn(men_in);
+					globalVariable.getSelectedBusiness().setMenOut(men_out);
+					globalVariable.getSelectedBusiness().setWomenIn(women_in);
+					globalVariable.getSelectedBusiness().setWomenOut(women_out);
+				}else
+				{
+					men_in = 0;
+					men_out = 0;
+					women_in = 0;
+					women_out = 0;
 					globalVariable.getSelectedBusiness().setMenIn(men_in);
 					globalVariable.getSelectedBusiness().setMenOut(men_out);
 					globalVariable.getSelectedBusiness().setWomenIn(women_in);
@@ -553,12 +567,16 @@ public class BusinessDashboardActivity extends Activity {
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
 			alertDialog1.dismiss();
-			SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
-			Timer timer = new Timer();
-			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-			scheduledTask.run();
-			SchedulerCount.event = globalVariable.getSelectedEvent();
-			timer.cancel();
+			autoUpdate.cancel();
+			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
+			{
+				SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
+			    Timer timer = new Timer();
+			    timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+			    scheduledTask.run();
+			    SchedulerCount.event = globalVariable.getSelectedEvent();
+			    timer.cancel();
+			}
 			globalVariable.setSelectedBusiness(null);
 			globalVariable.setSelectedEvent(null);
 			globalVariable.setMenIn(0);
