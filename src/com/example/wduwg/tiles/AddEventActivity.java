@@ -1,15 +1,27 @@
 package com.example.wduwg.tiles;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
-import java.util.zip.Inflater;
+import java.text.DateFormat;
 
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -22,33 +34,38 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.Layout.Alignment;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.example.wduwg.tiles.R;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenSource;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.android.Facebook;
 import com.google.gson.Gson;
-import com.mw.wduwg.adapter.AutoCompleteAdapter;
 import com.mw.wduwg.model.Event;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
@@ -56,8 +73,11 @@ import com.mw.wduwg.services.JSONParser;
 import com.mw.wduwg.services.MyAutoCompleteTextView;
 import com.mw.wduwg.services.SchedulerCount;
 import com.mw.wduwg.services.ServerURLs;
-import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.entity.mime.HttpMultipartMode;
+import com.parse.entity.mime.MultipartEntity;
+import com.parse.entity.mime.content.ByteArrayBody;
+import com.parse.entity.mime.content.StringBody;
 
 @SuppressLint("SimpleDateFormat")
 public class AddEventActivity extends Activity {
@@ -72,6 +92,8 @@ public class AddEventActivity extends Activity {
 	EditText startDateET, endDateET, startTimeET, endTimeET;
 	MyAutoCompleteTextView nameACTV;
 	TextView headerTV,continueTV,deleteEvent;
+	int[] drawableArray = {R.drawable.bar1,R.drawable.bar2,R.drawable.bar3,R.drawable.bar4,R.drawable.bar5,R.drawable.bar6,
+			R.drawable.bar7,R.drawable.bar8,R.drawable.bar10};
 
 
 	static final int DATE_PICKER_ID_Start = 1111;
@@ -83,7 +105,7 @@ public class AddEventActivity extends Activity {
 
 	Typeface typeface;
 	Typeface typeface2;
-
+	Event event;
 
 	// Date startDate;
 	Date startDateTime = new Date();
@@ -108,7 +130,7 @@ public class AddEventActivity extends Activity {
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
 	SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm");
-	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+//	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -234,7 +256,7 @@ public class AddEventActivity extends Activity {
 				"Fonts/OpenSans-Light.ttf");
 		typeface = Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Bold.ttf");
-		sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
+//		sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
 		nameACTV.setTypeface(typeface);
 		endDateET.setTypeface(typeface2);
 		startDateET.setTypeface(typeface2);
@@ -642,7 +664,7 @@ public class AddEventActivity extends Activity {
 				    
 				    if(!jsonFromServer.has("error"))
 				    {
-				    	Event event = gson.fromJson(jsonFromServer.toString(), Event.class);
+				    	event = gson.fromJson(jsonFromServer.toString(), Event.class);
 					    System.out.println(">>>>>>> Event start date: "+ event.getStartDate());
 					    if(event.getStartDate().equalsIgnoreCase("is already taken"))
 						{
@@ -675,6 +697,8 @@ public class AddEventActivity extends Activity {
 				globalVariable.setMenOut(0);
 				globalVariable.setWomenIn(0);
 				globalVariable.setWomenOut(0);
+				FacebookPostAsyncExample facebookAsync  = new FacebookPostAsyncExample();
+				facebookAsync.execute("heloo");
 				alertDialogBuilder = createDialog.createAlertDialog(
 						"Event added successfully", null, false);
 				alertDialogBuilder.setCancelable(false);
@@ -733,6 +757,158 @@ public class AddEventActivity extends Activity {
 	
 	
 
+	private class FacebookPostAsyncExample extends AsyncTask<String, Void, Boolean> {
+
+		@SuppressWarnings("deprecation")
+		@Override
+		protected Boolean doInBackground(String... params) {
+//			System.out.println(">>>>>>> in post async");
+			boolean returnBool = false;
+			String postMessage="";
+				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ event.getName();
+				System.out.println(">>>>>>> Event start date:"+event.getStartDate());
+				System.out.println(">>>>>>> Event end date:"+event.getEndDate());
+				postMessage = postMessage 
+						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(event.getStartDate().substring(0, 16)) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(event.getEndDate().substring(0, 16));
+			
+		System.out.println(">>>>>>> Message"+postMessage);
+			// ********************************Convert String to Image **************************
+			try {
+		// =================== image append ===================	
+				 int lower = 0;
+				 int upper = 8;
+				 int r =Integer.valueOf((int) ((Math.random() * (upper - lower)) + lower)) ;
+				 
+				 Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), drawableArray[r]);
+				 
+				 
+				 final Rect bounds = new Rect();
+					TextPaint textPaint = new TextPaint() {
+					    {
+					        setColor(Color.parseColor("#686B69"));
+					        setTextAlign(Paint.Align.LEFT);
+					        setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(),
+					    			"Fonts/OpenSans-Light.ttf"));
+					        setTextSize(35f);
+					        setAntiAlias(true);
+					    }
+					};
+					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
+					StaticLayout mTextLayout = new StaticLayout(postMessage, textPaint,
+							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+					int maxWidth = -1;
+					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
+					    if (maxWidth < mTextLayout.getLineWidth(i)) {
+					        maxWidth = (int) mTextLayout.getLineWidth(i);
+					    }
+					}
+					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
+					            Bitmap.Config.ARGB_8888);
+					
+					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
+					final Canvas canvas = new Canvas(bmp);
+					mTextLayout.draw(canvas);
+				 
+				 
+				 
+				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight(),  Bitmap.Config.ARGB_8888);
+				 Canvas canvasAppend = new Canvas(bmOverlay);
+				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
+				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
+				 OutputStream os = null; 
+				 byte[] data = null;
+				    	
+				      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				      bmp.recycle();
+				      bmOverlay.compress(CompressFormat.JPEG, 100, baos); 
+				      data = baos.toByteArray();
+				      Facebook facebook = new Facebook("743382039036135");
+				   // *********************************end conversion ***********************
+				      // posting to page wall
+				      ByteArrayBody bab = new ByteArrayBody(data, "test.png");
+					 try{
+						 // create new Session with page access_token
+						 Session.openActiveSessionWithAccessToken(getApplicationContext(),AccessToken.createFromExistingAccessToken(globalVariable.getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
+								@Override
+								public void call(Session session, SessionState state, Exception exception) {
+									System.out.println(">>>>>>> session status callback");
+									// TODO Auto-generated method stub
+									if(session != null && session.isOpened()) {
+						                Session.setActiveSession(session);
+						                Session session1  = Session.getActiveSession();
+						                System.out.println(">>>>>>> is Manage"+session1.isPublishPermission("manage_pages"));
+						            }
+								}
+							});// session open closed
+							System.out.println(">>>>>>> new session open");
+					
+						 
+					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+					HttpPost postRequest = new HttpPost(url);
+					HttpParams http_parameters = new BasicHttpParams();
+				    HttpConnectionParams.setConnectionTimeout(http_parameters, 3000);
+				    HttpClient httpClient = new DefaultHttpClient();
+				    MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+				    reqEntity.addPart("access_token", new StringBody(Session.getActiveSession().getAccessToken()));
+				    reqEntity.addPart("message", new StringBody(postMessage));
+				    reqEntity.addPart("picture", bab);
+				    postRequest.setEntity(reqEntity);
+				    HttpResponse response1 = httpClient.execute(postRequest);
+				    System.out.println(">>>>>>> response"+response1);
+				    if (response1 == null || response1.equals("")
+							|| response1.equals("false")) {
+						System.out.println(">>>>>>> Blank response.");
+					} else {
+						System.out.println(">>>>>>> Message posted to your facebook wall!");
+						returnBool = true;
+					}
+					 }catch(Exception e)
+					 {
+						 
+					 }
+				
+			} catch (Exception e) {
+				System.out.println("Failed to post to wall!");
+				e.printStackTrace();
+			}
+			
+			return returnBool;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+		}
+		
+		public String convertDate(String datestr)
+		{
+			
+			String formatedDate="";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+				System.out.println(">>>>>>> param :"+datestr);
+				int hh = Integer.parseInt(datestr.split("T")[1].split(":")[0]);
+				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+				if(hh<13)
+				{
+				formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  AM";
+				System.out.println(">>>>>>> formated date:"+formatedDate);
+				}else
+				{
+					System.out.println(">>>>>>> param :"+datestr);
+					formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  PM";
+					System.out.println(">>>>>>> formated date:"+formatedDate);
+				}
+			}catch(Exception e)
+			{
+				System.out.println(">>>>error:"+e.getMessage());
+				e.printStackTrace();
+				
+			}
+			return formatedDate;
+		}
+
+	}
+	
 	
 
 }

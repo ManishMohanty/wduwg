@@ -1,25 +1,59 @@
 package com.mw.wduwg.services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.Bitmap.CompressFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+import android.text.Layout.Alignment;
+import android.widget.Toast;
 
+import com.example.wduwg.tiles.LoginFacebookActivity;
+import com.example.wduwg.tiles.R;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenSource;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.android.Facebook;
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.BusinessFBPage;
 import com.mw.wduwg.model.Customer;
 import com.mw.wduwg.model.Event;
+import com.mw.wduwg.model.Special;
+import com.parse.entity.mime.HttpMultipartMode;
+import com.parse.entity.mime.MultipartEntity;
+import com.parse.entity.mime.content.ByteArrayBody;
+import com.parse.entity.mime.content.StringBody;
 
 public class GlobalVariable extends Application {
 
@@ -354,6 +388,10 @@ public class GlobalVariable extends Application {
 			return null;
 		}
 	}
+	
+	
+	
+	
 	
 	
 }

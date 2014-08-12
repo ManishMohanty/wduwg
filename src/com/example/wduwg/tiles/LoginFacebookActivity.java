@@ -88,6 +88,7 @@ import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.BusinessFBPage;
 import com.mw.wduwg.model.Customer;
 import com.mw.wduwg.model.Event;
+import com.mw.wduwg.model.Special;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
@@ -293,15 +294,7 @@ public class LoginFacebookActivity extends Activity {
 		}
 	}
 
-	public void postToWall() {
-//		alertDialogBuilder = createDialog
-//				.createAlertDialog(
-//						"Delink Successful",
-//						"Your device has been delinked. Redirecting search as per current location.",
-//						false);
-//		alertDialog = alertDialogBuilder.create();
-//		alertDialog.show();
-	  
+	public void postToWall() {	  
 		// code for postin to page wall
 		createDialog = new CreateDialog(LoginFacebookActivity.this);
 		progressDialgog = createDialog.createProgressDialog("Posting", "Please wait for a while", true, null);
@@ -310,7 +303,12 @@ public class LoginFacebookActivity extends Activity {
 		asyncExample.execute(new String[] { "Helllo Worls" });  
 		
 	}
-
+	public void post()
+	{
+		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
+		asyncExample.execute(new String[] { "Helllo Worls" });
+	}
+	
 	private boolean validate() {
 		boolean bool = true;
 		if (messageFbEt.getText().toString().trim().length() == 0) {
@@ -329,24 +327,24 @@ public class LoginFacebookActivity extends Activity {
 //			System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage="";
+			if(globalVariable.getSelectedEvent()!= null)
+			{
 			Event tempEvent = globalVariable.getSelectedEvent();
-			System.out.println(">>>>>>> while post inside login facebook global slected event"+tempEvent.getName());
-			System.out.println(tempEvent.getName());
 			postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
-			if (!tempEvent.getName().equals("defaultEvent")) {
-			postMessage = postMessage 
-					+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
-		    }else
-		    {
-			postMessage = postMessage 
-					+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
-		    }
-			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length()-1;
+				
+					postMessage = postMessage 
+							+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
+				
+			}else
+			{
+				Special tempSpecial = globalVariable.getSelectedBusiness().getSpecials().get(globalVariable.getSelectedBusiness().getSpecials().size() - 1);
+				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempSpecial.getName();
+				
+				postMessage = postMessage 
+						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempSpecial.getStartDate().replace('T', ',').substring(0, (tempSpecial.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempSpecial.getEndDate().replace('T', ',').substring(0, (tempSpecial.getEndDate().length()-13)));
+			}
 			
-		postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
-				+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
-				+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
-				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
+			
 		
 		System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************
@@ -457,7 +455,7 @@ public class LoginFacebookActivity extends Activity {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			if (result)
-				progressDialgog.dismiss();
+//				progressDialgog.dismiss();
 				Toast.makeText(LoginFacebookActivity.this,
 						"Posted on your selected page.", Toast.LENGTH_SHORT).show();
 		}
