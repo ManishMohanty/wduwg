@@ -166,6 +166,16 @@
             </intent-filter>
         </activity>
         
+        <receiver android:name="com.wduwg.receiver.MyReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.SCREEN_OFF"></action>
+            <action android:name="android.intent.action.SCREEN_ON"></action>
+            <action android:name="android.intent.action.ACTION_POWER_CONNECTED"></action>
+            <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"></action>
+             <action android:name="android.intent.action.ACTION_SHUTDOWN"></action>
+        </intent-filter>
+    </receiver>
+        
     </application>
 
 </manifest>
