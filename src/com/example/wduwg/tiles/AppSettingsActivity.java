@@ -165,9 +165,12 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     	}
                     	timer = new Timer();
                     	scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
-                    	int minutes = Integer.parseInt(preferences.getString("prefFb_frequency", ""));
-                    	System.out.println(">>>>>>> interval: in settings:"+minutes);
-                    	timer.scheduleAtFixedRate(scheduleTask, 1000, minutes*60*1000);
+                    	String  postcontent = preferences.getString("prefFb_frequency", "");
+                    	if(postcontent.equalsIgnoreCase("Men and Women"))
+                    		scheduleTask.setMenwomen(true);
+                    	else
+                    		scheduleTask.setMenwomen(false);
+                    	timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
                     }
                 }
                 else if(mPreferenceEntries[i] instanceof SwitchPreference)
@@ -186,19 +189,15 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 		 System.out.println(">>>>>>> timer stop:"+timer.purge());
                 		 timer.cancel();
                 		}
-                    	int minutes = Integer.parseInt(preferences.getString("prefFb_frequency", "0"));
+                    	String postcontent = preferences.getString("prefFb_frequency", "0");
                     		timer = new Timer();
                     		scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
-                    		timer.scheduleAtFixedRate(scheduleTask, 1000, minutes*60*1000);
+                    		if(postcontent.equalsIgnoreCase("Men and Women"))
+                        	{
+                        		scheduleTask.setMenwomen(true);
+                        	}
+                    		timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
                     }
-//                	if(key.equals("facebookSwitch"))
-//                	{
-//                		globalVariable.getSelectedBusiness().setIsfacebookOn(preferences.getBoolean("facebookSwitch", false));
-//                		if(globalVariable.getSelectedBusiness().getIsfacebookOn())
-//                		System.out.println(">>>>>>> facebook is becomes on");
-//                		else
-//                			System.out.println(">>>>>>> facebook is becomes off");
-//                	}
                 }
                 break;
             }

@@ -53,7 +53,7 @@ public class BusinessDashboardActivity extends Activity {
 	Typeface typefaceBold,typefaceLight;
 	GlobalVariable globalVariable;
 	List<Event> eventList ;
-	private Timer autoUpdate;
+	private  Timer autoUpdate;
 	private static final int SETTING = 93;
 	
 	@Override
@@ -64,19 +64,6 @@ public class BusinessDashboardActivity extends Activity {
 			commonMethod();
 		}
 		super.onResume();
-		autoUpdate = new Timer();
-		  autoUpdate.schedule(new TimerTask() {
-		   @Override
-		   public void run() {
-		    runOnUiThread(new Runnable() {
-		     public void run() {
-		    	 LoadStringsAsync2 asyncTask = new LoadStringsAsync2();
-					asyncTask.execute();
-		     }
-		    });
-		   }
-		  }, 0, 120000);
-		
 	}
 
 	List<Special> specialList;
@@ -174,6 +161,8 @@ public class BusinessDashboardActivity extends Activity {
 					Intent intent = new Intent(BusinessDashboardActivity.this,AddSpecialActivity.class);
 					if(special.getName().equalsIgnoreCase("Add Special"))
 					{
+						if(autoUpdate != null)
+							autoUpdate.cancel();
 						intent.putExtra("newAdd", true);
 						globalVariable.getSelectedBusiness().getSpecials().remove(position);
 					}
@@ -191,6 +180,7 @@ public class BusinessDashboardActivity extends Activity {
         	   events = globalVariable.getSelectedBusiness().getEventList();
         	   if(events.size() == 0 || !events.get(events.size()-1).getName().equalsIgnoreCase("Add Event"))
         	   {
+        		   
         		   Event newEvent = new Event();
         		   newEvent.setName("Add Event");
         		   newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
@@ -209,6 +199,8 @@ public class BusinessDashboardActivity extends Activity {
 					Intent intent = new Intent(BusinessDashboardActivity.this,AddEventActivity.class);
 					if(event1.getName().equalsIgnoreCase("Add Event"))
 					{
+						if(autoUpdate != null)
+							autoUpdate.cancel();
 						intent.putExtra("addNew", true);
 						globalVariable.getSelectedBusiness().getEventList().remove(position);
 					}
@@ -221,6 +213,8 @@ public class BusinessDashboardActivity extends Activity {
 	
 	public void allEvents(View v)
 	{
+		if(autoUpdate != null)
+		autoUpdate.cancel();
 		Intent nextIntent = new Intent(this,EventActivity.class);
 		startActivity(nextIntent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
@@ -228,6 +222,8 @@ public class BusinessDashboardActivity extends Activity {
 	
 	public void allSpecials(View v)
 	{
+		if(autoUpdate != null)
+		autoUpdate.cancel();
 		Intent nextIntent = new Intent(this,SpecialActivity.class);
 		startActivity(nextIntent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
@@ -235,6 +231,8 @@ public class BusinessDashboardActivity extends Activity {
 	
 	public void viewDetail(View v)
 	{
+		if(autoUpdate != null)
+		autoUpdate.cancel();
 		Intent nextIntent = new Intent(this,ReportActualActvivity.class);
 		startActivity(nextIntent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
@@ -438,11 +436,22 @@ public class BusinessDashboardActivity extends Activity {
 	    	 men_out =0;
 	    	 women_in = 0;
 	    	 women_out = 0;
-	    	 Timer timer = new Timer();
-	    	 SchedulerFBPosts scheduleTask = new SchedulerFBPosts(BusinessDashboardActivity.this);
-     		timer.scheduleAtFixedRate(scheduleTask, 1000, 3*60*1000);
 	    	 if(globalVariable.getSelectedBusiness() != null)
 			commonMethod();
+	    	 if(autoUpdate == null){
+	    			autoUpdate = new Timer();
+	    			  autoUpdate.schedule(new TimerTask() {
+	    			   @Override
+	    			   public void run() {
+	    			    runOnUiThread(new Runnable() {
+	    			     public void run() {
+	    			    	 LoadStringsAsync2 asyncTask = new LoadStringsAsync2();
+	    						asyncTask.execute();
+	    			     }
+	    			    });
+	    			   }
+	    			  }, 0, 120000);
+	    			}
 		}
 	}
 	
@@ -453,25 +462,25 @@ public class BusinessDashboardActivity extends Activity {
 		CharSequence rawTitle = "Logout";
 		CharSequence delink = "Delink";
 		CharSequence delete = "Delete";
-//		CharSequence setting = "Settings";
+		CharSequence setting = "Settings";
 		
 		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
 		menu.findItem(R.id.menu_delink).setTitleCondensed(delink);
 		menu.findItem(R.id.menu_delete).setTitleCondensed(delete);
-//		menu.findItem(R.id.menu_settings).setTitleCondensed(setting);
+		menu.findItem(R.id.menu_settings).setTitleCondensed(setting);
 
 		SpannableString logoutstr = new SpannableString(rawTitle);
 		SpannableString delinkstr = new SpannableString(delink);
 		SpannableString deletestr = new SpannableString(delete);
-//		SpannableString settingstr = new SpannableString(setting);
+		SpannableString settingstr = new SpannableString(setting);
 		delinkstr.setSpan(typefaceBold, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
 		logoutstr.setSpan(typefaceBold, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
 		deletestr.setSpan(typefaceBold, 0, deletestr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_delete).setTitle(deletestr);
-//		settingstr.setSpan(typefaceBold, 0, settingstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//		menu.findItem(R.id.menu_settings).setTitle(settingstr);
+		settingstr.setSpan(typefaceBold, 0, settingstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		menu.findItem(R.id.menu_settings).setTitle(settingstr);
 		return true;
 	}
 
@@ -502,6 +511,8 @@ public class BusinessDashboardActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.menu_logout:
+			if(autoUpdate != null)
+				autoUpdate.cancel();
 			if (LoginFacebookActivity.timer != null)
 				LoginFacebookActivity.timer.cancel();
 			globalVariable.getCustomer().setPages(null);
@@ -515,6 +526,10 @@ public class BusinessDashboardActivity extends Activity {
 			globalVariable.setWomenOut(0);
 			globalVariable.saveSharedPreferences();
 			globalVariable.saveSharedPreferences();
+			if(AppSettingsActivity.timer != null)
+			{
+				AppSettingsActivity.timer.cancel();
+			}
 			Toast.makeText(this, "Logged out from FB.", Toast.LENGTH_SHORT).show();
 			Intent nextIntent = new Intent(BusinessDashboardActivity.this,SpalshFirstActivity.class);
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -522,6 +537,8 @@ public class BusinessDashboardActivity extends Activity {
 			return true;
 		case R.id.menu_delete:
 			System.out.println(">>>>>>> dlete option");
+			if(autoUpdate != null)
+			autoUpdate.cancel();
 			alertDialogBuilder = createDialog
 			.createAlertDialog(
 					"Delete",
@@ -566,6 +583,7 @@ public class BusinessDashboardActivity extends Activity {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
+			if(autoUpdate != null)
 			alertDialog1.dismiss();
 			autoUpdate.cancel();
 			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
@@ -602,10 +620,12 @@ public class BusinessDashboardActivity extends Activity {
 	 return true;
 		
 	
-//		case R.id.menu_settings:
-//			nextIntent = new Intent(BusinessDashboardActivity.this,
-//					AppSettingsActivity.class);
-//			startActivityForResult(nextIntent, SETTING);
+		case R.id.menu_settings:
+			if(autoUpdate != null)
+			autoUpdate.cancel();
+			nextIntent = new Intent(BusinessDashboardActivity.this,
+					AppSettingsActivity.class);
+			startActivityForResult(nextIntent, SETTING);
 		default:
 			return super.onOptionsItemSelected(item);
 		}

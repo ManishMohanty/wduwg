@@ -47,6 +47,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.SyncStateContract.Constants;
 import android.text.Editable;
 import android.text.Layout.Alignment;
@@ -197,6 +198,7 @@ public class LoginFacebookActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.facebook_login);
         fromContext = getIntent().getBooleanExtra("fromContext", false);
+        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 		findThings();
 		if(fromContext == false)
 		{
@@ -251,16 +253,13 @@ public class LoginFacebookActivity extends Activity {
 							System.out.println(">>>>>>> Access expiry:"+facebook.getAccessExpires());
 							globalVariable.setFb_access_expire(facebook.getAccessExpires());
 							globalVariable.setFb_access_token(facebook.getAccessToken());
-                             timer = new Timer();
-							
-							if(globalVariable.isfacebookOn() == true && globalVariable.facebookFrequency() > 0)
+							if(globalVariable.isfacebookOn() == true)
 							{
-								
-								int minutes = globalVariable.facebookFrequency();
-								Log.d(">>>>>>> facebook scheduler","freq"+minutes);
-							
-							scheduledTask = new SchedulerFBPosts(LoginFacebookActivity.this);
-							timer.scheduleAtFixedRate(scheduledTask, 1000, minutes * 60 * 1000);
+//								timer = new Timer();
+//								scheduledTask = new SchedulerFBPosts(LoginFacebookActivity.this);
+//								if(globalVariable.facebookFrequency().equalsIgnoreCase("Men and Women"))
+//									scheduledTask.setMenwomen(true);
+//								timer.scheduleAtFixedRate(scheduledTask, 1000, 60 * 60 * 1000);
 							}else
 							{
 								Log.d(">>>>>>> facebook switch off","------------");
@@ -294,20 +293,6 @@ public class LoginFacebookActivity extends Activity {
 		}
 	}
 
-	public void postToWall() {	  
-		// code for postin to page wall
-		createDialog = new CreateDialog(LoginFacebookActivity.this);
-		progressDialgog = createDialog.createProgressDialog("Posting", "Please wait for a while", true, null);
-		progressDialgog.show();
-		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-		asyncExample.execute(new String[] { "Helllo Worls" });  
-		
-	}
-	public void post()
-	{
-		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-		asyncExample.execute(new String[] { "Helllo Worls" });
-	}
 	
 	private boolean validate() {
 		boolean bool = true;
@@ -319,170 +304,170 @@ public class LoginFacebookActivity extends Activity {
 	}
 
 
-	private class FacebookPostAsyncExample extends AsyncTask<String, Void, Boolean> {
-
-		@SuppressWarnings("deprecation")
-		@Override
-		protected Boolean doInBackground(String... params) {
-//			System.out.println(">>>>>>> in post async");
-			boolean returnBool = false;
-			String postMessage="";
-			if(globalVariable.getSelectedEvent()!= null)
-			{
-			Event tempEvent = globalVariable.getSelectedEvent();
-			postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
-				
-					postMessage = postMessage 
-							+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
-				
-			}else
-			{
-				Special tempSpecial = globalVariable.getSelectedBusiness().getSpecials().get(globalVariable.getSelectedBusiness().getSpecials().size() - 1);
-				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempSpecial.getName();
-				
-				postMessage = postMessage 
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempSpecial.getStartDate().replace('T', ',').substring(0, (tempSpecial.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempSpecial.getEndDate().replace('T', ',').substring(0, (tempSpecial.getEndDate().length()-13)));
-			}
-			
-			
-		
-		System.out.println(">>>>>>> Message"+postMessage);
-			// ********************************Convert String to Image **************************
-			try {
-		// =================== image append ===================	
-				 int lower = 0;
-				 int upper = 8;
-				 int r =Integer.valueOf((int) ((Math.random() * (upper - lower)) + lower)) ;
-				 
-				 Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), drawableArray[r]);
-				 
-				 
-				 final Rect bounds = new Rect();
-					TextPaint textPaint = new TextPaint() {
-					    {
-					        setColor(Color.parseColor("#ffffff"));
-					        setTextAlign(Paint.Align.LEFT);
-					        setTypeface(Typeface.createFromAsset(LoginFacebookActivity.this.getAssets(),
-					    			"Fonts/OpenSans-Light.ttf"));
-					        setTextSize(35f);
-					        setAntiAlias(true);
-					    }
-					};
-					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
-					StaticLayout mTextLayout = new StaticLayout(postMessage, textPaint,
-							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-					int maxWidth = -1;
-					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
-					    if (maxWidth < mTextLayout.getLineWidth(i)) {
-					        maxWidth = (int) mTextLayout.getLineWidth(i);
-					    }
-					}
-					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
-					            Bitmap.Config.ARGB_8888);
-					
-					bmp.eraseColor(Color.parseColor("#3c8383"));// just adding black background
-					final Canvas canvas = new Canvas(bmp);
-					mTextLayout.draw(canvas);
-				 
-				 
-				 
-				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight(),  Bitmap.Config.ARGB_8888);
-				 Canvas canvasAppend = new Canvas(bmOverlay);
-				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
-				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
-				 OutputStream os = null; 
-				 byte[] data = null;
-				    	
-				      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				      bmp.recycle();
-				      bmOverlay.compress(CompressFormat.JPEG, 100, baos); 
-				      data = baos.toByteArray();
-				   // *********************************end conversion ***********************
-				      // posting to page wall
-				      ByteArrayBody bab = new ByteArrayBody(data, "test.png");
-					 try{
-						 // create new Session with page access_token
-						 Session.openActiveSessionWithAccessToken(getApplicationContext(),AccessToken.createFromExistingAccessToken(globalVariable.getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
-								@Override
-								public void call(Session session, SessionState state, Exception exception) {
-									System.out.println(">>>>>>> session status callback");
-									// TODO Auto-generated method stub
-									if(session != null && session.isOpened()) {
-						                Session.setActiveSession(session);
-						                Session session1  = Session.getActiveSession();
-						                System.out.println(">>>>>>> is Manage"+session1.isPublishPermission("manage_pages"));
-						            }
-								}
-							});// session open closed
-							System.out.println(">>>>>>> new session open");
-						 
-						 
-					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
-					HttpPost postRequest = new HttpPost(url);
-					HttpParams http_parameters = new BasicHttpParams();
-				    HttpConnectionParams.setConnectionTimeout(http_parameters, 3000);
-				    HttpClient httpClient = new DefaultHttpClient();
-				    MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-				    reqEntity.addPart("access_token", new StringBody(Session.getActiveSession().getAccessToken()));
-				    reqEntity.addPart("message", new StringBody(messageFbEt.getEditableText().toString()));
-				    reqEntity.addPart("picture", bab);
-				    postRequest.setEntity(reqEntity);
-				    HttpResponse response1 = httpClient.execute(postRequest);
-				    System.out.println(">>>>>>> response"+response1);
-				    if (response1 == null || response1.equals("")
-							|| response1.equals("false")) {
-						System.out.println(">>>>>>> Blank response.");
-					} else {
-						System.out.println(">>>>>>> Message posted to your facebook wall!");
-						returnBool = true;
-					}
-					 }catch(Exception e)
-					 {
-						 
-					 }
-				LoginFacebookActivity.this.setResult(RESULT_OK);
-				finish();
-			} catch (Exception e) {
-				System.out.println("Failed to post to wall!");
-				e.printStackTrace();
-				LoginFacebookActivity.this.setResult(RESULT_OK);
-				finish();
-			}
-			
-			return returnBool;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			if (result)
-//				progressDialgog.dismiss();
-				Toast.makeText(LoginFacebookActivity.this,
-						"Posted on your selected page.", Toast.LENGTH_SHORT).show();
-		}
-		
-		public String convertDate(String datestr)
-		{
-			String formatedDate="";
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			try{
-				int hh = Integer.parseInt(datestr.split(",")[1].split(":")[0]);
-				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
-				if(hh<13)
-				{
-				formatedDate=formatedDate+df.format(sdf.parse(datestr.split(",")[0])) + " ,  "+datestr.split(",")[1]+"  AM";
-				}else
-				{
-					formatedDate=formatedDate+df.format(sdf.parse(datestr.split(",")[0])) + " ,  "+datestr.split(",")[1]+"  PM";
-				}
-			}catch(Exception e)
-			{
-				e.printStackTrace();
-				
-			}
-			return formatedDate;
-		}
-
-	}
+//	private class FacebookPostAsyncExample extends AsyncTask<String, Void, Boolean> {
+//
+//		@SuppressWarnings("deprecation")
+//		@Override
+//		protected Boolean doInBackground(String... params) {
+////			System.out.println(">>>>>>> in post async");
+//			boolean returnBool = false;
+//			String postMessage="";
+//			if(globalVariable.getSelectedEvent()!= null)
+//			{
+//			Event tempEvent = globalVariable.getSelectedEvent();
+//			postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
+//				
+//					postMessage = postMessage 
+//							+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
+//				
+//			}else
+//			{
+//				Special tempSpecial = globalVariable.getSelectedBusiness().getSpecials().get(globalVariable.getSelectedBusiness().getSpecials().size() - 1);
+//				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempSpecial.getName();
+//				
+//				postMessage = postMessage 
+//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempSpecial.getStartDate().replace('T', ',').substring(0, (tempSpecial.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempSpecial.getEndDate().replace('T', ',').substring(0, (tempSpecial.getEndDate().length()-13)));
+//			}
+//			
+//			
+//		
+//		System.out.println(">>>>>>> Message"+postMessage);
+//			// ********************************Convert String to Image **************************
+//			try {
+//		// =================== image append ===================	
+//				 int lower = 0;
+//				 int upper = 8;
+//				 int r =Integer.valueOf((int) ((Math.random() * (upper - lower)) + lower)) ;
+//				 
+//				 Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), drawableArray[r]);
+//				 
+//				 
+//				 final Rect bounds = new Rect();
+//					TextPaint textPaint = new TextPaint() {
+//					    {
+//					        setColor(Color.parseColor("#ffffff"));
+//					        setTextAlign(Paint.Align.LEFT);
+//					        setTypeface(Typeface.createFromAsset(LoginFacebookActivity.this.getAssets(),
+//					    			"Fonts/OpenSans-Light.ttf"));
+//					        setTextSize(35f);
+//					        setAntiAlias(true);
+//					    }
+//					};
+//					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
+//					StaticLayout mTextLayout = new StaticLayout(postMessage, textPaint,
+//							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+//					int maxWidth = -1;
+//					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
+//					    if (maxWidth < mTextLayout.getLineWidth(i)) {
+//					        maxWidth = (int) mTextLayout.getLineWidth(i);
+//					    }
+//					}
+//					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
+//					            Bitmap.Config.ARGB_8888);
+//					
+//					bmp.eraseColor(Color.parseColor("#3c8383"));// just adding black background
+//					final Canvas canvas = new Canvas(bmp);
+//					mTextLayout.draw(canvas);
+//				 
+//				 
+//				 
+//				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight(),  Bitmap.Config.ARGB_8888);
+//				 Canvas canvasAppend = new Canvas(bmOverlay);
+//				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
+//				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
+//				 OutputStream os = null; 
+//				 byte[] data = null;
+//				    	
+//				      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//				      bmp.recycle();
+//				      bmOverlay.compress(CompressFormat.JPEG, 100, baos); 
+//				      data = baos.toByteArray();
+//				   // *********************************end conversion ***********************
+//				      // posting to page wall
+//				      ByteArrayBody bab = new ByteArrayBody(data, "test.png");
+//					 try{
+//						 // create new Session with page access_token
+//						 Session.openActiveSessionWithAccessToken(getApplicationContext(),AccessToken.createFromExistingAccessToken(globalVariable.getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
+//								@Override
+//								public void call(Session session, SessionState state, Exception exception) {
+//									System.out.println(">>>>>>> session status callback");
+//									// TODO Auto-generated method stub
+//									if(session != null && session.isOpened()) {
+//						                Session.setActiveSession(session);
+//						                Session session1  = Session.getActiveSession();
+//						                System.out.println(">>>>>>> is Manage"+session1.isPublishPermission("manage_pages"));
+//						            }
+//								}
+//							});// session open closed
+//							System.out.println(">>>>>>> new session open");
+//						 
+//						 
+//					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+//					HttpPost postRequest = new HttpPost(url);
+//					HttpParams http_parameters = new BasicHttpParams();
+//				    HttpConnectionParams.setConnectionTimeout(http_parameters, 3000);
+//				    HttpClient httpClient = new DefaultHttpClient();
+//				    MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+//				    reqEntity.addPart("access_token", new StringBody(Session.getActiveSession().getAccessToken()));
+//				    reqEntity.addPart("message", new StringBody(messageFbEt.getEditableText().toString()));
+//				    reqEntity.addPart("picture", bab);
+//				    postRequest.setEntity(reqEntity);
+//				    HttpResponse response1 = httpClient.execute(postRequest);
+//				    System.out.println(">>>>>>> response"+response1);
+//				    if (response1 == null || response1.equals("")
+//							|| response1.equals("false")) {
+//						System.out.println(">>>>>>> Blank response.");
+//					} else {
+//						System.out.println(">>>>>>> Message posted to your facebook wall!");
+//						returnBool = true;
+//					}
+//					 }catch(Exception e)
+//					 {
+//						 
+//					 }
+//				LoginFacebookActivity.this.setResult(RESULT_OK);
+//				finish();
+//			} catch (Exception e) {
+//				System.out.println("Failed to post to wall!");
+//				e.printStackTrace();
+//				LoginFacebookActivity.this.setResult(RESULT_OK);
+//				finish();
+//			}
+//			
+//			return returnBool;
+//		}
+//
+//		@Override
+//		protected void onPostExecute(Boolean result) {
+//			if (result)
+////				progressDialgog.dismiss();
+//				Toast.makeText(LoginFacebookActivity.this,
+//						"Posted on your selected page.", Toast.LENGTH_SHORT).show();
+//		}
+//		
+//		public String convertDate(String datestr)
+//		{
+//			String formatedDate="";
+//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//			try{
+//				int hh = Integer.parseInt(datestr.split(",")[1].split(":")[0]);
+//				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+//				if(hh<13)
+//				{
+//				formatedDate=formatedDate+df.format(sdf.parse(datestr.split(",")[0])) + " ,  "+datestr.split(",")[1]+"  AM";
+//				}else
+//				{
+//					formatedDate=formatedDate+df.format(sdf.parse(datestr.split(",")[0])) + " ,  "+datestr.split(",")[1]+"  PM";
+//				}
+//			}catch(Exception e)
+//			{
+//				e.printStackTrace();
+//				
+//			}
+//			return formatedDate;
+//		}
+//
+//	}
 
 	public void getProfileInformation() {
 		mAsyncRunner.request("me", new RequestListener() {
@@ -490,6 +475,7 @@ public class LoginFacebookActivity extends Activity {
 			public void onComplete(String response, Object state) {
 				System.out.println(">>>>>>> Profile"+ response);
 				String json = response;
+				
 				try {
 					JSONObject profile = new JSONObject(json);
 					// getting name of the user
@@ -567,7 +553,7 @@ public class LoginFacebookActivity extends Activity {
 								for(int i=0;i<data.length();i++)
 								{
 									BusinessFBPage page = gson.fromJson(data.get(i).toString(), BusinessFBPage.class);
-//									pages.add(page);
+									pages.add(page);
 									for(int j=0;j<globalVariable.getCustomer().getBusinesses().size();j++)
 									{
 										if(globalVariable.getCustomer().getBusinesses().get(j).getFace_book_page().equals(page.getId()))
@@ -675,7 +661,7 @@ public class LoginFacebookActivity extends Activity {
 	}
 
 	public void onPost(View view) {
-		postToWall();
+//		postToWall();
 	}
 
 	public void onProfile(View view) {

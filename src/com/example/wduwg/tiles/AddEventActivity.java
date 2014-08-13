@@ -11,7 +11,6 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.text.DateFormat;
 
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -21,7 +20,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -91,10 +89,10 @@ public class AddEventActivity extends Activity {
 	GlobalVariable globalVariable;
 	EditText startDateET, endDateET, startTimeET, endTimeET;
 	MyAutoCompleteTextView nameACTV;
-	TextView headerTV,continueTV,deleteEvent;
-	int[] drawableArray = {R.drawable.bar1,R.drawable.bar2,R.drawable.bar3,R.drawable.bar4,R.drawable.bar5,R.drawable.bar6,
-			R.drawable.bar7,R.drawable.bar8,R.drawable.bar10};
-
+	TextView headerTV, continueTV, deleteEvent;
+	int[] drawableArray = { R.drawable.bar1, R.drawable.bar2, R.drawable.bar3,
+			R.drawable.bar4, R.drawable.bar5, R.drawable.bar6, R.drawable.bar7,
+			R.drawable.bar8, R.drawable.bar10 };
 
 	static final int DATE_PICKER_ID_Start = 1111;
 	static final int DATE_PICKER_ID_end = 2222;
@@ -112,7 +110,7 @@ public class AddEventActivity extends Activity {
 
 	Date endDate;
 	Date endDateTime;
-	
+
 	Event selectedEvent;
 
 	CreateDialog createDialog;
@@ -123,43 +121,47 @@ public class AddEventActivity extends Activity {
 	Intent nextIntent;
 	ParseObject parentBusinessPO;
 	List<ParseObject> eventsList;
-	
+
 	// boolean status
-	boolean isAdded ;
+	boolean isAdded;
 	boolean isDefaultEvent = false;
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
 	SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm");
-//	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-		
+
+	// SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_event);
-        System.out.println(">>>>>>> AddEvent:: onCreate");
+		System.out.println(">>>>>>> AddEvent:: onCreate");
 		findThings();
 		initializeThings();
-		
-		if(getIntent().hasExtra("event")&& !getIntent().hasExtra("addNew"))
-		{
-			selectedEvent = (Event)getIntent().getSerializableExtra("event");
+
+		if (getIntent().hasExtra("event") && !getIntent().hasExtra("addNew")) {
+			selectedEvent = (Event) getIntent().getSerializableExtra("event");
 			nameACTV.setText(selectedEvent.getName());
 			nameACTV.setKeyListener(null);
 			nameACTV.setFocusable(false);
 			nameACTV.setFocusableInTouchMode(false);
 			nameACTV.setClickable(false);
-			startDateET.setText(selectedEvent.getStartDate().substring(7, selectedEvent.getStartDate().length()));
+			startDateET.setText(selectedEvent.getStartDate().substring(7,
+					selectedEvent.getStartDate().length()));
 			startDateET.setKeyListener(null);
 			startDateET.setFocusable(false);
 			startDateET.setFocusableInTouchMode(false);
 			startDateET.setClickable(false);
-			System.out.println(">>>>>>> satrt date:"+selectedEvent.getStartDate());
-			endDateET.setText(selectedEvent.getEndDate().substring(7, selectedEvent.getEndDate().length()));
+			System.out.println(">>>>>>> satrt date:"
+					+ selectedEvent.getStartDate());
+			endDateET.setText(selectedEvent.getEndDate().substring(7,
+					selectedEvent.getEndDate().length()));
 			endDateET.setKeyListener(null);
 			endDateET.setFocusable(false);
 			endDateET.setFocusableInTouchMode(false);
 			endDateET.setClickable(false);
-			System.out.println(">>>>>>> end date:"+selectedEvent.getEndDate());
+			System.out
+					.println(">>>>>>> end date:" + selectedEvent.getEndDate());
 			startTimeET.setText(selectedEvent.getStartDate().substring(0, 8));
 			startTimeET.setKeyListener(null);
 			startTimeET.setFocusable(false);
@@ -171,10 +173,12 @@ public class AddEventActivity extends Activity {
 			endTimeET.setFocusableInTouchMode(false);
 			endTimeET.setClickable(false);
 			ActionBar actionbar = getActionBar();
-			LayoutInflater inflater =(LayoutInflater) this
+			LayoutInflater inflater = (LayoutInflater) this
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View customActionBar = inflater.inflate(R.layout.custom_action_bar, null);
-			TextView title = (TextView)customActionBar.findViewById(R.id.action_bar_TV);
+			View customActionBar = inflater.inflate(R.layout.custom_action_bar,
+					null);
+			TextView title = (TextView) customActionBar
+					.findViewById(R.id.action_bar_TV);
 			title.setText("Event Details");
 			title.setTextSize(19);
 			Typeface font = Typeface.createFromAsset(getAssets(),
@@ -184,30 +188,29 @@ public class AddEventActivity extends Activity {
 			actionbar.setCustomView(customActionBar);
 			continueTV.setVisibility(View.GONE);
 			headerTV.setVisibility(View.GONE);
-		}else{
+		} else {
 			deleteEvent.setVisibility(View.GONE);
-		actionBarAndKeyboardAndListener();
-//        checkPreferences();
-		Calendar calendar = Calendar.getInstance();
-		year = calendar.get(Calendar.YEAR);
+			actionBarAndKeyboardAndListener();
+			// checkPreferences();
+			Calendar calendar = Calendar.getInstance();
+			year = calendar.get(Calendar.YEAR);
 
-		month = calendar.get(Calendar.MONTH);
-		day = calendar.get(Calendar.DAY_OF_MONTH);
-		hour = calendar.get(Calendar.HOUR_OF_DAY);
-		minute = calendar.get(Calendar.MINUTE);
-        
-		onTouchListeners();
+			month = calendar.get(Calendar.MONTH);
+			day = calendar.get(Calendar.DAY_OF_MONTH);
+			hour = calendar.get(Calendar.HOUR_OF_DAY);
+			minute = calendar.get(Calendar.MINUTE);
+
+			onTouchListeners();
 		}
 	}
-	
-	public void onDone(View v)
-	{
-		Intent intent = new Intent(this,BusinessDashboardActivity.class);
+
+	public void onDone(View v) {
+		Intent intent = new Intent(this, BusinessDashboardActivity.class);
 		intent.putExtra("isFromMain", true);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -226,7 +229,7 @@ public class AddEventActivity extends Activity {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -238,7 +241,6 @@ public class AddEventActivity extends Activity {
 			}
 		}
 	}
-	
 
 	private void findThings() {
 		nameACTV = (MyAutoCompleteTextView) findViewById(R.id.event_name_editText);
@@ -247,8 +249,8 @@ public class AddEventActivity extends Activity {
 		startTimeET = (EditText) findViewById(R.id.startstime);
 		endTimeET = (EditText) findViewById(R.id.endstime);
 		headerTV = (TextView) findViewById(R.id.header_TV);
-		continueTV = (TextView)findViewById(R.id.next_page_continueTV);
-		deleteEvent = (TextView)findViewById(R.id.deleteEvent);
+		continueTV = (TextView) findViewById(R.id.next_page_continueTV);
+		deleteEvent = (TextView) findViewById(R.id.deleteEvent);
 	}
 
 	private void initializeThings() {
@@ -256,7 +258,7 @@ public class AddEventActivity extends Activity {
 				"Fonts/OpenSans-Light.ttf");
 		typeface = Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Bold.ttf");
-//		sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
+		// sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
 		nameACTV.setTypeface(typeface);
 		endDateET.setTypeface(typeface2);
 		startDateET.setTypeface(typeface2);
@@ -275,7 +277,7 @@ public class AddEventActivity extends Activity {
 		TextView yourTextView = (TextView) findViewById(titleId);
 		yourTextView.setTextSize(19);
 		yourTextView.setTextColor(Color.parseColor("#016AB2"));
-		
+
 		yourTextView.setTypeface(typeface);
 
 		((RelativeLayout) findViewById(R.id.add_event_LL))
@@ -352,8 +354,10 @@ public class AddEventActivity extends Activity {
 	}
 
 	private void checkPreferences() {
-		if (globalVariable.getSelectedEvent() != null && !getIntent().hasExtra("from_event") ) {
-			System.out.println(">>>>>>> selected event"+globalVariable.getSelectedEvent().getName());
+		if (globalVariable.getSelectedEvent() != null
+				&& !getIntent().hasExtra("from_event")) {
+			System.out.println(">>>>>>> selected event"
+					+ globalVariable.getSelectedEvent().getName());
 			alertDialogBuilder = createDialog
 					.createAlertDialog(
 							"Event Exists",
@@ -362,11 +366,14 @@ public class AddEventActivity extends Activity {
 			alertDialogBuilder.setPositiveButton("Yes",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							SchedulerCount scheduledTask = new SchedulerCount(AddEventActivity.this);
+							SchedulerCount scheduledTask = new SchedulerCount(
+									AddEventActivity.this);
 							Timer timer = new Timer();
-							timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+							timer.scheduleAtFixedRate(scheduledTask, 1000,
+									10000);
 							scheduledTask.run();
-							SchedulerCount.event = globalVariable.getSelectedEvent();
+							SchedulerCount.event = globalVariable
+									.getSelectedEvent();
 							timer.cancel();
 							globalVariable.setSelectedEvent(null);
 							globalVariable.setSelectedReportsEvent(null);
@@ -389,20 +396,20 @@ public class AddEventActivity extends Activity {
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 		}
-		
+
 	}
 
 	private void nextActivity() {
-//		if(getIntent().hasExtra("from_event"))
-//		{
-			nextIntent = new Intent(AddEventActivity.this, EventActivity.class);
-			startActivityForResult(nextIntent, 100);
-//		}
-//		else
-//		{
-//		nextIntent = new Intent(AddEventActivity.this, CountActivity.class);
-//		startActivityForResult(nextIntent, RANDOM_NUMBER);
-//		}
+		// if(getIntent().hasExtra("from_event"))
+		// {
+		nextIntent = new Intent(AddEventActivity.this, EventActivity.class);
+		startActivityForResult(nextIntent, 100);
+		// }
+		// else
+		// {
+		// nextIntent = new Intent(AddEventActivity.this, CountActivity.class);
+		// startActivityForResult(nextIntent, RANDOM_NUMBER);
+		// }
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
 
@@ -504,16 +511,14 @@ public class AddEventActivity extends Activity {
 		SaveEventToParseAndPreferencesAsync asyncTask = new SaveEventToParseAndPreferencesAsync();
 		asyncTask.execute(new String[] { "Hello World" });
 	}
-	
-	public void onDelete(View v)
-	{
+
+	public void onDelete(View v) {
 		progressDialog = createDialog.createProgressDialog("Saving",
 				"Please wait for a while.", true, null);
 		progressDialog.show();
 		DeleteAsyncTask asyncTask = new DeleteAsyncTask();
 		asyncTask.execute();
 	}
-	
 
 	public void onContinue(View v) {
 		if (!validate())
@@ -553,42 +558,41 @@ public class AddEventActivity extends Activity {
 		}
 		if (startDateET.getText().toString().trim().length() > 0
 				&& startTimeET.getText().toString().trim().length() > 0) {
-			System.out.println(">>>>>>> start date before:"+startDateTime);
+			System.out.println(">>>>>>> start date before:" + startDateTime);
 			startDateTime = createDate(startDateTime, startTimeET.getText()
 					.toString());
-			System.out.println(">>>>>>> start date after"+startDateTime);
+			System.out.println(">>>>>>> start date after" + startDateTime);
 		}
 		if (endDateET.getText().toString().trim().length() > 0
 				&& endTimeET.getText().toString().trim().length() > 0) {
-			System.out.println(">>>>>>> end date before"+endDate);
+			System.out.println(">>>>>>> end date before" + endDate);
 			endDateTime = createDate(endDate, endTimeET.getText().toString());
-			System.out.println(">>>>>>> end date after"+endDateTime);
+			System.out.println(">>>>>>> end date after" + endDateTime);
 		}
-		
-		Date d = new Date();
-		String time = d.getHours() + ":"+d.getMinutes()+":"+d.getSeconds();
-		if(startDateTime.compareTo(createDate(d,time))>=0)
-		{
 
-			if (endDateTime != null && startDateTime.compareTo(endDateTime) >= 0 ) {
+		Date d = new Date();
+		String time = d.getHours() + ":" + d.getMinutes() + ":"
+				+ d.getSeconds();
+		if (startDateTime.compareTo(createDate(d, time)) >= 0) {
+
+			if (endDateTime != null
+					&& startDateTime.compareTo(endDateTime) >= 0) {
 				endDateET.setError("");
-				Toast.makeText(this, "End date or time must be After start date and time",
+				Toast.makeText(this,
+						"End date or time must be After start date and time",
 						Toast.LENGTH_LONG).show();
 				bool = false;
 			}
-		}else
-		{
-			alertDialogBuilder = createDialog
-					.createAlertDialog(
-							"Error",
-							"Start date and time must be after Current date and time",
-							false);
+		} else {
+			alertDialogBuilder = createDialog.createAlertDialog("Error",
+					"Start date and time must be after Current date and time",
+					false);
 			alertDialogBuilder.setPositiveButton("Cancel",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							alertDialog.dismiss();
 						}
-			});
+					});
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 			bool = false;
@@ -600,12 +604,12 @@ public class AddEventActivity extends Activity {
 		Date finalDate = null;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
 		String dateTime = dateFormat.format(date) + " " + time;
-		System.out.println(">>>>>>> middle  : "+dateTime);
+		System.out.println(">>>>>>> middle  : " + dateTime);
 		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 		formatter.setTimeZone(TimeZone.getTimeZone("US/Central"));
 		try {
 			finalDate = new Date(formatter.format(new Date(dateTime)));
-//			finalDate = formatter.parse(dateTime);
+			// finalDate = formatter.parse(dateTime);
 			System.out.println(">>>>>>> US Central date is  :  " + finalDate);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -619,27 +623,28 @@ public class AddEventActivity extends Activity {
 	private class SaveEventToParseAndPreferencesAsync extends
 			AsyncTask<String, Void, Void> {
 		boolean isEventAlreadyThere = false;
-//		ParseObject eventPO;
 
-		
+		// ParseObject eventPO;
+
 		@Override
 		protected Void doInBackground(String... params) {
 			jParser = new JSONParser();
-			
 
 			if (globalVariable == null)
 				System.out.println(">>>>>>> global im  null");
 			if (globalVariable.getSelectedBusiness() == null)
 				System.out.println(">>>>>>> sel bus im null");
-             startDateTime = createDate(startDateTime, startTimeET.getText().toString());
+			startDateTime = createDate(startDateTime, startTimeET.getText()
+					.toString());
 			String url = ServerURLs.URL + ServerURLs.EVENTS;
 			System.out.println(">>>>>>> url is   : " + url);
-			System.out.println(">>>>>>> selectedBusinessId:"+globalVariable.getSelectedBusiness().getId().get$oid() );
+			System.out.println(">>>>>>> selectedBusinessId:"
+					+ globalVariable.getSelectedBusiness().getId().get$oid());
 			JSONObject jsonObject2 = null;
 			try {
 				JSONObject jsonObject;
 				if (isDefaultEvent)
-					
+
 					jsonObject = new JSONObject()
 							.put("name", "defaultEvent")
 							.put("start_date_time", startDateTime)
@@ -657,88 +662,90 @@ public class AddEventActivity extends Activity {
 				jsonObject2 = new JSONObject().put("event", jsonObject);
 				jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
 						jsonObject2);
-				
-				
-					Gson gson = new Gson();
-				    
-				    
-				    if(!jsonFromServer.has("error"))
-				    {
-				    	event = gson.fromJson(jsonFromServer.toString(), Event.class);
-					    System.out.println(">>>>>>> Event start date: "+ event.getStartDate());
-					    if(event.getStartDate().equalsIgnoreCase("is already taken"))
-						{
-						    isAdded = false;
-						}
-					    else{
-					    	globalVariable.setSelectedEvent(event);
-					    	System.out.println("while skip inside addevent global slected event"+globalVariable.getSelectedEvent().getName());
-					    	isAdded = true;
-					    }
-				    }
+
+				Gson gson = new Gson();
+
+				if (!jsonFromServer.has("error")) {
+					event = gson.fromJson(jsonFromServer.toString(),
+							Event.class);
+					System.out.println(">>>>>>> Event start date: "
+							+ event.getStartDate());
+					if (event.getStartDate().equalsIgnoreCase(
+							"is already taken")) {
+						isAdded = false;
+					} else {
+						globalVariable.setSelectedEvent(event);
+						System.out
+								.println("while skip inside addevent global slected event"
+										+ globalVariable.getSelectedEvent()
+												.getName());
+						isAdded = true;
+					}
+				}
 
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 
-			
 			return null;
-			
+
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			progressDialog.dismiss();
-			
-			if(isAdded)
-			{
+
+			if (isAdded) {
 				globalVariable.setMenIn(0);
 				globalVariable.setMenOut(0);
 				globalVariable.setWomenIn(0);
 				globalVariable.setWomenOut(0);
-				FacebookPostAsyncExample facebookAsync  = new FacebookPostAsyncExample();
+				FacebookPostAsyncExample facebookAsync = new FacebookPostAsyncExample();
 				facebookAsync.execute("heloo");
 				alertDialogBuilder = createDialog.createAlertDialog(
 						"Event added successfully", null, false);
 				alertDialogBuilder.setCancelable(false);
-				alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						alertDialog.dismiss();
-						nextActivity();
-					}
-				});
-			}
-			else{
+				alertDialogBuilder.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								alertDialog.dismiss();
+								nextActivity();
+							}
+						});
+			} else {
 				alertDialogBuilder = createDialog.createAlertDialog(
 						"This Event already exists at same time", null, false);
 				alertDialogBuilder.setCancelable(false);
-				alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						alertDialog.dismiss();
-					}
-				});
+				alertDialogBuilder.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								alertDialog.dismiss();
+							}
+						});
 			}
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 			isDefaultEvent = false;
 		}// onPostExecute
 
-	}//end Async Task for add record
-	
-	private class DeleteAsyncTask extends AsyncTask<Void, Void, Void>
-	{
+	}// end Async Task for add record
+
+	private class DeleteAsyncTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			jParser = new JSONParser();
-			jParser.deleteObject("http://dcounter.herokuapp.com/events/", selectedEvent.getId().get$oid() );
+			jParser.deleteObject("http://dcounter.herokuapp.com/events/",
+					selectedEvent.getId().get$oid());
 			return null;
 		}
 
@@ -747,168 +754,225 @@ public class AddEventActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			progressDialog.dismiss();
-			Toast.makeText(AddEventActivity.this, "selected event deleted", Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(AddEventActivity.this,BusinessDashboardActivity.class);
+			Toast.makeText(AddEventActivity.this, "selected event deleted",
+					Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(AddEventActivity.this,
+					BusinessDashboardActivity.class);
 			startActivity(intent);
 		}
-		
-		
-	}
-	
-	
 
-	private class FacebookPostAsyncExample extends AsyncTask<String, Void, Boolean> {
+	}
+
+	private class FacebookPostAsyncExample extends
+			AsyncTask<String, Void, Boolean> {
 
 		@SuppressWarnings("deprecation")
 		@Override
 		protected Boolean doInBackground(String... params) {
-//			System.out.println(">>>>>>> in post async");
+			// System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
-			String postMessage="";
-				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ event.getName();
-				System.out.println(">>>>>>> Event start date:"+event.getStartDate());
-				System.out.println(">>>>>>> Event end date:"+event.getEndDate());
-				postMessage = postMessage 
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(event.getStartDate().substring(0, 16)) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(event.getEndDate().substring(0, 16));
-			
-		System.out.println(">>>>>>> Message"+postMessage);
-			// ********************************Convert String to Image **************************
+			String postMessage = "";
+			String eventName = "\n Event:\t\t\t\t\t\t\t\t\t\t\t\t\t"+ globalVariable.getSelectedEvent().getName();
+			 postMessage = postMessage
+			 + " Start Time:\t\t\t\t\t\t\t\t\t\t"+
+			 convertDate(event.getStartDate().substring(0, 16)) +
+			 "\n End Time:\t\t\t\t\t\t\t\t\t\t\t" +
+			 convertDate(event.getEndDate().substring(0, 16));
+
+			System.out.println(">>>>>>> Message11" + postMessage);
+			// ********************************Convert String to Image
+			// **************************
 			try {
-		// =================== image append ===================	
-				 int lower = 0;
-				 int upper = 8;
-				 int r =Integer.valueOf((int) ((Math.random() * (upper - lower)) + lower)) ;
-				 
-				 Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), drawableArray[r]);
-				 
-				 
-				 final Rect bounds = new Rect();
-					TextPaint textPaint = new TextPaint() {
-					    {
-					        setColor(Color.parseColor("#686B69"));
-					        setTextAlign(Paint.Align.LEFT);
-					        setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(),
-					    			"Fonts/OpenSans-Light.ttf"));
-					        setTextSize(35f);
-					        setAntiAlias(true);
-					    }
-					};
-					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
-					StaticLayout mTextLayout = new StaticLayout(postMessage, textPaint,
-							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-					int maxWidth = -1;
-					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
-					    if (maxWidth < mTextLayout.getLineWidth(i)) {
-					        maxWidth = (int) mTextLayout.getLineWidth(i);
-					    }
+				// =================== image append ===================
+				int lower = 0;
+				int upper = 8;
+				int r = Integer
+						.valueOf((int) ((Math.random() * (upper - lower)) + lower));
+
+				Bitmap myBitmap = BitmapFactory.decodeResource(getResources(),
+						drawableArray[r]);
+
+				final Rect bounds = new Rect();
+				TextPaint textPaint = new TextPaint() {
+					{
+						setColor(Color.parseColor("#000000"));
+						setTextAlign(Paint.Align.LEFT);
+						setTypeface(Typeface.createFromAsset(
+								getApplicationContext().getAssets(),
+								"Fonts/OpenSans-Bold.ttf"));
+						setTextSize(35f);
+						setAntiAlias(true);
 					}
-					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
-					            Bitmap.Config.ARGB_8888);
-					
-					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
-					final Canvas canvas = new Canvas(bmp);
-					mTextLayout.draw(canvas);
-				 
-				 
-				 
-				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight(),  Bitmap.Config.ARGB_8888);
-				 Canvas canvasAppend = new Canvas(bmOverlay);
-				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
-				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
-				 OutputStream os = null; 
-				 byte[] data = null;
-				    	
-				      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				      bmp.recycle();
-				      bmOverlay.compress(CompressFormat.JPEG, 100, baos); 
-				      data = baos.toByteArray();
-				      Facebook facebook = new Facebook("743382039036135");
-				   // *********************************end conversion ***********************
-				      // posting to page wall
-				      ByteArrayBody bab = new ByteArrayBody(data, "test.png");
-					 try{
-						 // create new Session with page access_token
-						 Session.openActiveSessionWithAccessToken(getApplicationContext(),AccessToken.createFromExistingAccessToken(globalVariable.getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
+				};
+				textPaint.getTextBounds(eventName, 0, eventName.length(),
+						bounds);
+				StaticLayout mTextLayout = new StaticLayout(eventName,
+						textPaint, myBitmap.getWidth(), Alignment.ALIGN_NORMAL,
+						1.0f, 0.0f, false);
+				int maxWidth = -1;
+				for (int i = 0; i < mTextLayout.getLineCount(); i++) {
+					if (maxWidth < mTextLayout.getLineWidth(i)) {
+						maxWidth = (int) mTextLayout.getLineWidth(i);
+					}
+				}
+				final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth(),
+						mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
+
+				bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black
+															// background
+				final Canvas canvas = new Canvas(bmp);
+				mTextLayout.draw(canvas);
+				
+				TextPaint textPaint1 = new TextPaint() {
+				    {
+				        setColor(Color.parseColor("#837777"));
+				        setTextAlign(Paint.Align.LEFT);
+				        setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(),
+				    			"Fonts/OpenSans-Bold.ttf"));
+				        setTextSize(30f);
+				        setAntiAlias(true);
+				    }
+				};
+				textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
+				StaticLayout mTextLayout1 = new StaticLayout(postMessage, textPaint1,
+						myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+				int maxWidth1 = -1;
+				for (int i = 0; i < mTextLayout1.getLineCount(); i++) {
+				    if (maxWidth1 < mTextLayout1.getLineWidth(i)) {
+				        maxWidth1 = (int) mTextLayout1.getLineWidth(i);
+				    }
+				}
+				final Bitmap bmp1 = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout1.getHeight(),
+				            Bitmap.Config.ARGB_8888);
+				
+				bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding black background
+				final Canvas canvas1 = new Canvas(bmp1);
+				mTextLayout1.draw(canvas1);
+
+				Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(),
+						myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
+						Bitmap.Config.ARGB_8888);
+				Canvas canvasAppend = new Canvas(bmOverlay);
+				canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
+				canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
+				canvasAppend.drawBitmap(bmp1, 0.f, myBitmap.getHeight()+bmp.getHeight(), null);
+				OutputStream os = null;
+				byte[] data = null;
+
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				bmp.recycle();
+				bmOverlay.compress(CompressFormat.JPEG, 100, baos);
+				data = baos.toByteArray();
+				Facebook facebook = new Facebook("743382039036135");
+				// *********************************end conversion
+				// ***********************
+				// posting to page wall
+				ByteArrayBody bab = new ByteArrayBody(data, "test.png");
+				try {
+					// create new Session with page access_token
+					Session.openActiveSessionWithAccessToken(
+							getApplicationContext(),
+							AccessToken
+									.createFromExistingAccessToken(
+											globalVariable.getSelectedBusiness().getSelectedFBPage()
+													.getAccess_token(),
+											new Date(facebook
+													.getAccessExpires()),
+											new Date(facebook
+													.getLastAccessUpdate()),
+											AccessTokenSource.FACEBOOK_APPLICATION_NATIVE,
+											Arrays.asList("manage_pages",
+													"publish_stream",
+													"photo_upload")),
+							new Session.StatusCallback() {
 								@Override
-								public void call(Session session, SessionState state, Exception exception) {
-									System.out.println(">>>>>>> session status callback");
+								public void call(Session session,
+										SessionState state, Exception exception) {
+									System.out
+											.println(">>>>>>> session status callback");
 									// TODO Auto-generated method stub
-									if(session != null && session.isOpened()) {
-						                Session.setActiveSession(session);
-						                Session session1  = Session.getActiveSession();
-						                System.out.println(">>>>>>> is Manage"+session1.isPublishPermission("manage_pages"));
-						            }
+									if (session != null && session.isOpened()) {
+										Session.setActiveSession(session);
+										Session session1 = Session
+												.getActiveSession();
+										System.out.println(">>>>>>> is Manage"
+												+ session1
+														.isPublishPermission("manage_pages"));
+									}
 								}
 							});// session open closed
-							System.out.println(">>>>>>> new session open");
-					
-						 
-					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+					System.out.println(">>>>>>> new session open");
+
+					String url = "https://graph.facebook.com/"
+							+ globalVariable.getSelectedBusiness().getSelectedFBPage().getId()
+							+ "/photos";
+					System.out.println(">>>>>>> Url fb:" + url);
 					HttpPost postRequest = new HttpPost(url);
 					HttpParams http_parameters = new BasicHttpParams();
-				    HttpConnectionParams.setConnectionTimeout(http_parameters, 3000);
-				    HttpClient httpClient = new DefaultHttpClient();
-				    MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-				    reqEntity.addPart("access_token", new StringBody(Session.getActiveSession().getAccessToken()));
-				    reqEntity.addPart("message", new StringBody(postMessage));
-				    reqEntity.addPart("picture", bab);
-				    postRequest.setEntity(reqEntity);
-				    HttpResponse response1 = httpClient.execute(postRequest);
-				    System.out.println(">>>>>>> response"+response1);
-				    if (response1 == null || response1.equals("")
+					HttpConnectionParams.setConnectionTimeout(http_parameters,
+							3000);
+					HttpClient httpClient = new DefaultHttpClient();
+					MultipartEntity reqEntity = new MultipartEntity(
+							HttpMultipartMode.BROWSER_COMPATIBLE);
+					reqEntity.addPart("access_token", new StringBody(Session
+							.getActiveSession().getAccessToken()));
+//					reqEntity.addPart("message", new StringBody(postMessage));
+					reqEntity.addPart("picture", bab);
+					postRequest.setEntity(reqEntity);
+					HttpResponse response1 = httpClient.execute(postRequest);
+					System.out.println(">>>>>>> response" + response1);
+					if (response1 == null || response1.equals("")
 							|| response1.equals("false")) {
 						System.out.println(">>>>>>> Blank response.");
 					} else {
-						System.out.println(">>>>>>> Message posted to your facebook wall!");
+						System.out
+								.println(">>>>>>> Message posted to your facebook wall!");
 						returnBool = true;
 					}
-					 }catch(Exception e)
-					 {
-						 
-					 }
-				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			} catch (Exception e) {
 				System.out.println("Failed to post to wall!");
 				e.printStackTrace();
 			}
-			
+
 			return returnBool;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean result) {
 		}
-		
-		public String convertDate(String datestr)
-		{
-			
-			String formatedDate="";
+
+		public String convertDate(String datestr) {
+
+			String formatedDate = "";
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			try{
-				System.out.println(">>>>>>> param :"+datestr);
+			try {
+				System.out.println(">>>>>>> param :" + datestr);
 				int hh = Integer.parseInt(datestr.split("T")[1].split(":")[0]);
 				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
-				if(hh<13)
-				{
-				formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  AM";
-				System.out.println(">>>>>>> formated date:"+formatedDate);
-				}else
-				{
-					System.out.println(">>>>>>> param :"+datestr);
-					formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  PM";
-					System.out.println(">>>>>>> formated date:"+formatedDate);
+				if (hh < 13) {
+					formatedDate = formatedDate
+							+ df.format(sdf.parse(datestr.split("T")[0]))
+							+ " ,  " + datestr.split("T")[1] + "  AM";
+					System.out.println(">>>>>>> formated date:" + formatedDate);
+				} else {
+					System.out.println(">>>>>>> param :" + datestr);
+					formatedDate = formatedDate
+							+ df.format(sdf.parse(datestr.split("T")[0]))
+							+ " ,  " + datestr.split("T")[1] + "  PM";
+					System.out.println(">>>>>>> formated date:" + formatedDate);
 				}
-			}catch(Exception e)
-			{
-				System.out.println(">>>>error:"+e.getMessage());
+			} catch (Exception e) {
+				System.out.println(">>>>error:" + e.getMessage());
 				e.printStackTrace();
-				
+
 			}
 			return formatedDate;
 		}
 
 	}
-	
-	
 
 }

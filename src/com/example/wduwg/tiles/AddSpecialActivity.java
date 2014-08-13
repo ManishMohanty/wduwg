@@ -582,12 +582,11 @@ public class AddSpecialActivity extends Activity {
 //			System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage="";
-				postMessage = postMessage + "\n  Special:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getName();
+			String specialName = "";
+			specialName = specialName + "\n Special:\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getName();
 				System.out.println(">>>>>>> special date:"+selectedSpecial.getStartDate());
-//				postMessage = postMessage 
-//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(selectedSpecial.getStartDate().replace('T', ',').substring(0, (selectedSpecial.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(selectedSpecial.getEndDate().replace('T', ',').substring(0, (selectedSpecial.getEndDate().length()-13)));
 				postMessage = postMessage 
-						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(selectedSpecial.getStartDate().substring(0, 16)) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(selectedSpecial.getEndDate().substring(0, 16));
+						+ " Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(selectedSpecial.getStartDate().substring(0, 16)) + "\n End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(selectedSpecial.getEndDate().substring(0, 16));
 			
 		System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************
@@ -603,16 +602,16 @@ public class AddSpecialActivity extends Activity {
 				 final Rect bounds = new Rect();
 					TextPaint textPaint = new TextPaint() {
 					    {
-					        setColor(Color.parseColor("#686B69"));
+					    	setColor(Color.parseColor("#000000"));
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(),
-					    			"Fonts/OpenSans-Light.ttf"));
+					    			"Fonts/OpenSans-Bold.ttf"));
 					        setTextSize(35f);
 					        setAntiAlias(true);
 					    }
 					};
-					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
-					StaticLayout mTextLayout = new StaticLayout(postMessage, textPaint,
+					textPaint.getTextBounds(specialName, 0, specialName.length(), bounds);
+					StaticLayout mTextLayout = new StaticLayout(specialName, textPaint,
 							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 					int maxWidth = -1;
 					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
@@ -626,13 +625,43 @@ public class AddSpecialActivity extends Activity {
 					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
+					
+					
+					
+					
+					TextPaint textPaint1 = new TextPaint() {
+					    {
+					        setColor(Color.parseColor("#837777"));
+					        setTextAlign(Paint.Align.LEFT);
+					        setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(),
+					    			"Fonts/OpenSans-Bold.ttf"));
+					        setTextSize(30f);
+					        setAntiAlias(true);
+					    }
+					};
+					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
+					StaticLayout mTextLayout1 = new StaticLayout(postMessage, textPaint1,
+							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+					int maxWidth1 = -1;
+					for (int i = 0; i < mTextLayout1.getLineCount(); i++) {
+					    if (maxWidth1 < mTextLayout1.getLineWidth(i)) {
+					        maxWidth1 = (int) mTextLayout1.getLineWidth(i);
+					    }
+					}
+					final Bitmap bmp1 = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout1.getHeight(),
+					            Bitmap.Config.ARGB_8888);
+					
+					bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding black background
+					final Canvas canvas1 = new Canvas(bmp1);
+					mTextLayout1.draw(canvas1);
 				 
 				 
 				 
-				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight(),  Bitmap.Config.ARGB_8888);
+				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight()+bmp1.getHeight(),  Bitmap.Config.ARGB_8888);
 				 Canvas canvasAppend = new Canvas(bmOverlay);
 				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
 				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
+				 canvasAppend.drawBitmap(bmp1, 0.f, myBitmap.getHeight()+bmp.getHeight(), null);
 				 OutputStream os = null; 
 				 byte[] data = null;
 				    	
@@ -646,7 +675,7 @@ public class AddSpecialActivity extends Activity {
 				      ByteArrayBody bab = new ByteArrayBody(data, "test.png");
 					 try{
 						 // create new Session with page access_token
-						 Session.openActiveSessionWithAccessToken(getApplicationContext(),AccessToken.createFromExistingAccessToken(globalVariable.getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
+						 Session.openActiveSessionWithAccessToken(getApplicationContext(),AccessToken.createFromExistingAccessToken(globalVariable.getSelectedBusiness().getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
 								@Override
 								public void call(Session session, SessionState state, Exception exception) {
 									System.out.println(">>>>>>> session status callback");
@@ -661,14 +690,14 @@ public class AddSpecialActivity extends Activity {
 							System.out.println(">>>>>>> new session open");
 					
 						 
-					String url = "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+					String url = "https://graph.facebook.com/"+globalVariable.getSelectedBusiness().getSelectedFBPage().getId()+"/photos";
 					HttpPost postRequest = new HttpPost(url);
 					HttpParams http_parameters = new BasicHttpParams();
 				    HttpConnectionParams.setConnectionTimeout(http_parameters, 3000);
 				    HttpClient httpClient = new DefaultHttpClient();
 				    MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 				    reqEntity.addPart("access_token", new StringBody(Session.getActiveSession().getAccessToken()));
-				    reqEntity.addPart("message", new StringBody(postMessage));
+//				    reqEntity.addPart("message", new StringBody(postMessage));
 				    reqEntity.addPart("picture", bab);
 				    postRequest.setEntity(reqEntity);
 				    HttpResponse response1 = httpClient.execute(postRequest);
@@ -682,7 +711,7 @@ public class AddSpecialActivity extends Activity {
 					}
 					 }catch(Exception e)
 					 {
-						 
+						 e.printStackTrace();
 					 }
 				
 			} catch (Exception e) {

@@ -323,9 +323,9 @@ public class GlobalVariable extends Application {
 	{
 		return sharedPreferences.getBoolean("facebookSwitch", false);
 	}
-	public int facebookFrequency()
+	public String facebookFrequency()
 	{
-		return Integer.parseInt(sharedPreferences.getString("prefFb_frequency", "0"));
+		return sharedPreferences.getString("prefFb_frequency", "0");
 	}
 	
 	public boolean isNotificationOn()

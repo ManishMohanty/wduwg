@@ -55,6 +55,15 @@ public class SchedulerFBPosts extends TimerTask {
 
 	Context context;
 	GlobalVariable globalVariable;
+	boolean menwomen ;
+
+	public boolean isMenwomen() {
+		return menwomen;
+	}
+
+	public void setMenwomen(boolean menwomen) {
+		this.menwomen = menwomen;
+	}
 
 	SharedPreferences preferences;
 	SharedPreferences.Editor editor;
@@ -87,34 +96,10 @@ public class SchedulerFBPosts extends TimerTask {
 	}
 
 	public void run() {
-		Log.d(">>>>>>>", "Scheduler");
-//		if(preferences.contains("fb_access_token") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
-//		{
-//			System.out.println(">>>>>>> interval in scheduler :"+preferences.getString("prefFb_frequency", null));
-//		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-//		asyncExample.execute(new String[] { "Helllo Worlds" });
-//		}
-//		else
-//		{
-//			if(LoginFacebookActivity.timer != null)
-//			{
-//				LoginFacebookActivity.timer.cancel();
-//			    SchedulerFBPosts.this.cancel();
-//			}
-//		}
-		for(int i = 0;i<globalVariable.getCustomer().getBusinesses().size();i++)
-		{
-		  Business currentBusiness = (Business)globalVariable.getCustomer().getBusinesses().get(i);
-		  if(currentBusiness.getIsfacebookOn() && globalVariable.fb_access_token!= null)
-		  {
+		System.out.println(">>>>>>> Scheduler");
+		  Business currentBusiness = (Business)globalVariable.getSelectedBusiness();
 		    FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
 			asyncExample.execute(currentBusiness);
-		  }
-
-		}
-		
-		
-		
 	}
 
 	public void postToWall() {
@@ -130,27 +115,15 @@ public class SchedulerFBPosts extends TimerTask {
 		protected Boolean doInBackground(Business... params) {
 			boolean returnBool = false;
 			String postMessage = "";
-//			Event tempEvent = globalVariable.getSelectedEvent();
-//			System.out.println(">>>>>>> gloabalVariable selected event:"+globalVariable.getSelectedEvent().getName());
-//			if (!tempEvent.getName().equals("defaultEvent")) {
-//				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName()
-//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(tempEvent.getEndDate().replace('T', ',').substring(0, (tempEvent.getEndDate().length()-13)));
-//			}else
-//			{
-//				postMessage = postMessage + "\n  Event:\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ tempEvent.getName();
-//				postMessage = postMessage 
-//						+ "\n  Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(tempEvent.getStartDate().replace('T', ',').substring(0, (tempEvent.getStartDate().length()-13))) + "\n  End Time:\t\t\t\t\t\t\t\t\t\t\t" + "daily";
-//			}
-//			
-//			int length = ((globalVariable.getMenIn() - globalVariable.getMenOut())+"").length() -1;
-//			postMessage = postMessage		+ "\n  Number of Patrons:\t\t\t"
-//					+ ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())) + "\n  Men: "
-//					+ (globalVariable.getMenIn() - globalVariable.getMenOut()) + "\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: ".substring(length, 20)
-//					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut())+"\n";
-			System.out.println(">>>>>>> page  token:" + params[0].getSelectedFBPage().getName());
-			
-			postMessage = "  Current Attendance:\t\t\t"+ (params[0].getMenIn()+params[0].getWomenIn() - (params[0].getMenOut()+params[0].getWomenOut())) +"\n  Men:"
-					+(params[0].getMenIn()-params[0].getMenOut())+"\n  Women: "+(params[0].getWomenIn()-params[0].getWomenOut());
+//			System.out.println(">>>>>>> page  token:" + params[0].getSelectedFBPage().getName());
+			if(menwomen == true)
+			{
+				postMessage = "  Current Attendance:\t\t\t"+ (params[0].getMenIn()+params[0].getWomenIn() - (params[0].getMenOut()+params[0].getWomenOut())) +"\n  Men:"
+						+(params[0].getMenIn()-params[0].getMenOut())+"\n  Women: "+(params[0].getWomenIn()-params[0].getWomenOut());	
+			}else
+			{
+				postMessage = "  Current Attendance:\t\t\t"+ (params[0].getMenIn()+params[0].getWomenIn() - (params[0].getMenOut()+params[0].getWomenOut()));
+			}
 			
 			System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************

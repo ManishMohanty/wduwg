@@ -53,8 +53,8 @@
   <string name="business">Manage Business Registeration</string>
   
   <string name="minage">Legal Age</string>
-  <string name="autoupdatefacebook">Update Counts</string>
-  <string name="update_frequency">How Often?</string>
+  <string name="autoupdatefacebook">Publish Counts</string>
+  <string name="update_frequency">Publish Format?</string>
   <string name="message_notification">Send Count Alerts</string>
   <string name="notification_frequency">How Often?</string>
   <string name="phone_number">Where? </string>

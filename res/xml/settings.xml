@@ -6,7 +6,7 @@
                        android:layout="@layout/pref_category"
                        >
         <com.wduwg.preference.CustomSwitchPreference android:title="@string/message_notification"
-                          android:defaultValue="true"
+                          android:defaultValue="false"
                           android:key="prefMessageSwitch"
                           />
         <com.wduwg.preference.CustomListPreference android:title="@string/notification_frequency"
@@ -27,14 +27,16 @@
    <PreferenceCategory  android:title="@string/facebook"
                         android:layout="@layout/pref_category" >
         <com.wduwg.preference.CustomSwitchPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="facebookSwitch"
         android:title="@string/autoupdatefacebook" />
         <com.wduwg.preference.CustomListPreference android:title="@string/update_frequency"
                         android:key="prefFb_frequency"
-                        android:summary="click to select update interval"
+                        android:summary="click to select post content"
                         android:entries="@array/updateFrequency"
-                        android:entryValues="@array/updateFrequencyValues"/>
+                        android:entryValues="@array/updateFrequencyValues"/> 
+                        
+                        
     </PreferenceCategory>
     
    <PreferenceCategory android:title="@string/scanner"
