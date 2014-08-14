@@ -35,16 +35,5 @@
                         android:summary="click to select post content"
                         android:entries="@array/updateFrequency"
                         android:entryValues="@array/updateFrequencyValues"/> 
-                        
-                        
     </PreferenceCategory>
-    
-   <PreferenceCategory android:title="@string/scanner"
-                        android:layout="@layout/pref_category" >
-                <com.wduwg.preference.CustomEditTextPreference android:key="prefMinage"
-                                                       android:title="@string/minage"
-                                                       android:summary="enter Age"
-                                                       android:inputType="number"/>
-                
-    </PreferenceCategory>
-</PreferenceScreen>
+   </PreferenceScreen> 

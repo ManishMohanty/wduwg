@@ -82,13 +82,13 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 	else
                 		mPreferenceEntries[i].setSummary("click to enter phone number");
                 }
-                else
-                {
-                	if(currentPreference.getText() != null)
-                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
-                	else
-                		mPreferenceEntries[i].setSummary("click to enter Age");	
-                }
+//                else
+//                {
+//                	if(currentPreference.getText() != null)
+//                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
+//                	else
+//                		mPreferenceEntries[i].setSummary("click to enter Age");	
+//                }
         	}else if (mPreferenceEntries[i] instanceof ListPreference) {
                   ListPreference currentPreference = (ListPreference) mPreferenceEntries[i];
                 if(currentPreference.getEntry()!=null)
@@ -102,18 +102,6 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 	System.out.println(">>>>>>> else of drop down");
                 }
             }
-//        	else if(mPreferenceEntries[i] instanceof SwitchPreference)
-//        	{
-//        		if(globalVariable.getSelectedBusiness().getIsfacebookOn())
-//        		{
-//        			mPreferenceEntries[i].setSummary("ON");
-//        			System.out.println(">>>>>>> facebook is already on");
-//        		}else
-//        		{
-//        			mPreferenceEntries[i].setSummary("OFF");
-//        			System.out.println(">>>>>>> facebook is off");
-//        		}
-//        	}
         }
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this); // register change listener
     }
@@ -139,13 +127,13 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     	else
                     		mPreferenceEntries[i].setSummary("click to enter phone number");
                     }
-                    else
-                    {
-                    	if(currentPreference.getText() != null)
-                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
-                    	else
-                    		mPreferenceEntries[i].setSummary("click to enter Age");	
-                    }
+//                    else
+//                    {
+//                    	if(currentPreference.getText() != null)
+//                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
+//                    	else
+//                    		mPreferenceEntries[i].setSummary("click to enter Age");	
+//                    }
                 }
                 else if (mPreferenceEntries[i] instanceof ListPreference) {
                     final ListPreference currentPreference = (ListPreference) mPreferenceEntries[i];

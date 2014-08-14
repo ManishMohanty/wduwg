@@ -772,7 +772,7 @@ public class AddEventActivity extends Activity {
 			// System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage = "";
-			String eventName = "\n Event:\t\t\t\t\t\t\t\t\t\t\t\t\t"+ globalVariable.getSelectedEvent().getName();
+			String eventName = " Event:\t\t\t\t\t\t\t\t\t\t\t\t\t"+ globalVariable.getSelectedEvent().getName();
 			 postMessage = postMessage
 			 + " Start Time:\t\t\t\t\t\t\t\t\t\t"+
 			 convertDate(event.getStartDate().substring(0, 16)) +
@@ -956,13 +956,13 @@ public class AddEventActivity extends Activity {
 				if (hh < 13) {
 					formatedDate = formatedDate
 							+ df.format(sdf.parse(datestr.split("T")[0]))
-							+ " ,  " + datestr.split("T")[1] + "  AM";
+							+ " ,  " + datestr.split("T")[1] + "  am";
 					System.out.println(">>>>>>> formated date:" + formatedDate);
 				} else {
 					System.out.println(">>>>>>> param :" + datestr);
 					formatedDate = formatedDate
 							+ df.format(sdf.parse(datestr.split("T")[0]))
-							+ " ,  " + datestr.split("T")[1] + "  PM";
+							+ " ,  " + datestr.split("T")[1] + "  pm";
 					System.out.println(">>>>>>> formated date:" + formatedDate);
 				}
 			} catch (Exception e) {

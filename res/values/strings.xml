@@ -48,7 +48,7 @@
   <string name="choose_Frequency">choose Frequency</string>
   
   <string name="facebook">Manage Facebook Alerts</string>
-  <string name="scanner">Manage Scanner Validation Rules</string>
+  <!-- <string name="scanner">Manage Scanner Validation Rules</string> -->
   <string name="notification">Manage Alerts Based On Count Thresholds</string>
   <string name="business">Manage Business Registeration</string>
   

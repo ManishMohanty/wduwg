@@ -534,7 +534,7 @@ public class AddSpecialActivity extends Activity {
 					&& startDateTime.compareTo(endDateTime) >= 0) {
 				endDateET.setError("");
 				Toast.makeText(this,
-						"End date must be greater than start date.",
+						"End date and time must be After start date and time.",
 						Toast.LENGTH_LONG).show();
 				bool = false;
 			}
@@ -583,7 +583,7 @@ public class AddSpecialActivity extends Activity {
 			boolean returnBool = false;
 			String postMessage="";
 			String specialName = "";
-			specialName = specialName + "\n Special:\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getName();
+			specialName = specialName + " Special:\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getName();
 				System.out.println(">>>>>>> special date:"+selectedSpecial.getStartDate());
 				postMessage = postMessage 
 						+ " Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(selectedSpecial.getStartDate().substring(0, 16)) + "\n End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(selectedSpecial.getEndDate().substring(0, 16));
@@ -735,10 +735,10 @@ public class AddSpecialActivity extends Activity {
 				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
 				if(hh<13)
 				{
-				formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  AM";
+				formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  am";
 				}else
 				{
-					formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  PM";
+					formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  pm";
 				}
 			}catch(Exception e)
 			{

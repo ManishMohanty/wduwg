@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.TimerTask;
 
 import org.apache.http.HttpResponse;
@@ -114,15 +115,18 @@ public class SchedulerFBPosts extends TimerTask {
 		@Override
 		protected Boolean doInBackground(Business... params) {
 			boolean returnBool = false;
+			SimpleDateFormat df = new SimpleDateFormat("d MMM yyyy, h:mm a");
+			df.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
 			String postMessage = "";
+			String postName = " Current Attendance:\t\t\t"+ (params[0].getMenIn()+params[0].getWomenIn() - (params[0].getMenOut()+params[0].getWomenOut()));
 //			System.out.println(">>>>>>> page  token:" + params[0].getSelectedFBPage().getName());
 			if(menwomen == true)
 			{
-				postMessage = "  Current Attendance:\t\t\t"+ (params[0].getMenIn()+params[0].getWomenIn() - (params[0].getMenOut()+params[0].getWomenOut())) +"\n  Men:"
-						+(params[0].getMenIn()-params[0].getMenOut())+"\n  Women: "+(params[0].getWomenIn()-params[0].getWomenOut());	
+				postMessage = " Men: "
+						+(params[0].getMenIn()-params[0].getMenOut())+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: "+(params[0].getWomenIn()-params[0].getWomenOut()) + "\n Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date());	
 			}else
 			{
-				postMessage = "  Current Attendance:\t\t\t"+ (params[0].getMenIn()+params[0].getWomenIn() - (params[0].getMenOut()+params[0].getWomenOut()));
+				postMessage = " Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date());
 			}
 			
 			System.out.println(">>>>>>> Message"+postMessage);
@@ -139,7 +143,7 @@ public class SchedulerFBPosts extends TimerTask {
 				 final Rect bounds = new Rect();
 					TextPaint textPaint = new TextPaint() {
 					    {
-					        setColor(Color.parseColor("#686B69"));
+					        setColor(Color.parseColor("#000000"));
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(context.getAssets(),
 					    			"Fonts/OpenSans-Bold.ttf"));
@@ -147,8 +151,8 @@ public class SchedulerFBPosts extends TimerTask {
 					        setAntiAlias(true);
 					    }
 					};
-					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
-					StaticLayout mTextLayout = new StaticLayout(postMessage, textPaint,
+					textPaint.getTextBounds(postName, 0, postName.length(), bounds);
+					StaticLayout mTextLayout = new StaticLayout(postName, textPaint,
 							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 					int maxWidth = -1;
 					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
@@ -162,15 +166,43 @@ public class SchedulerFBPosts extends TimerTask {
 					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
 					mTextLayout.draw(canvas);
-				 
-				 
-				 
-				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight(),  Bitmap.Config.ARGB_8888);
-				 Canvas canvasAppend = new Canvas(bmOverlay);
-				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
-				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
-				 OutputStream os = null; 
-				 byte[] data = null;
+					
+					
+					TextPaint textPaint1 = new TextPaint() {
+					    {
+					        setColor(Color.parseColor("#837777"));
+					        setTextAlign(Paint.Align.LEFT);
+					        setTypeface(Typeface.createFromAsset(context.getAssets(),
+					    			"Fonts/OpenSans-Bold.ttf"));
+					        setTextSize(30f);
+					        setAntiAlias(true);
+					    }
+					};
+					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
+					StaticLayout mTextLayout1 = new StaticLayout(postMessage, textPaint1,
+							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+					int maxWidth1 = -1;
+					for (int i = 0; i < mTextLayout1.getLineCount(); i++) {
+					    if (maxWidth1 < mTextLayout1.getLineWidth(i)) {
+					        maxWidth1 = (int) mTextLayout1.getLineWidth(i);
+					    }
+					}
+					final Bitmap bmp1 = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout1.getHeight(),
+					            Bitmap.Config.ARGB_8888);
+					
+					bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding black background
+					final Canvas canvas1 = new Canvas(bmp1);
+					mTextLayout1.draw(canvas1);
+
+					Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(),
+							myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
+							Bitmap.Config.ARGB_8888);
+					Canvas canvasAppend = new Canvas(bmOverlay);
+					canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
+					canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
+					canvasAppend.drawBitmap(bmp1, 0.f, myBitmap.getHeight()+bmp.getHeight(), null);
+					OutputStream os = null;
+					byte[] data = null;
 				    	
 				      ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				      bmp.recycle();
