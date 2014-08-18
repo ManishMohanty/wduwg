@@ -144,6 +144,10 @@ public class AddSpecialActivity extends Activity {
 		// nameET.setText(dateFormat3.format(startDateTime));
 		startDateET.setText(dateFormat.format(startDateTime));
 		startTimeET.setText(dateFormat2.format(startDateTime));
+		startDateET.setFocusable(false);
+		startTimeET.setFocusable(false);
+		endDateET.setFocusable(false);
+		endTimeET.setFocusable(false);
 	}
 
 	@Override

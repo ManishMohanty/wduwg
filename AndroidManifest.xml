@@ -72,6 +72,7 @@
         <activity
             android:name="com.example.wduwg.tiles.AddEventActivity"
             android:label="@string/title_activity_events"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -128,6 +129,7 @@
         <activity
             android:name="com.example.wduwg.tiles.AddSpecialActivity"
             android:label="Add Specials"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait" >
         </activity>
         <activity

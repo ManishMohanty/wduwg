@@ -260,7 +260,7 @@ public class BusinessDashboardActivity extends Activity {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
 				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/events.json",params);
-				System.out.println(">>>>>>> inside backgound for event");
+				System.out.println(">>>>>>> inside background for event");
 				System.out.println(">>>>>>> response length:"+specialsjsonarr.length());
 				if(specialsjsonarr.length()>0)
 				{

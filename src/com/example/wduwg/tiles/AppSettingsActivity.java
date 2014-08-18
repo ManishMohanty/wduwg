@@ -158,7 +158,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     		scheduleTask.setMenwomen(true);
                     	else
                     		scheduleTask.setMenwomen(false);
-                    	timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
+                    	timer.scheduleAtFixedRate(scheduleTask, 1000, 2*60*1000);
                     }
                 }
                 else if(mPreferenceEntries[i] instanceof SwitchPreference)
@@ -185,7 +185,13 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                         		scheduleTask.setMenwomen(true);
                         	}
                     		timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
-                    }
+                    } // else for facebook off.
+                	else
+                	{
+                		scheduleTask.cancel();
+                		timer.cancel();
+                		System.out.println(">>>>>>> Facebook off");
+                	}
                 }
                 break;
             }

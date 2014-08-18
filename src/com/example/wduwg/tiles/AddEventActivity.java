@@ -269,6 +269,10 @@ public class AddEventActivity extends Activity {
 		createDialog = new CreateDialog(this);
 		startDateET.setText(dateFormat.format(startDateTime));
 		startTimeET.setText(dateFormat2.format(startDateTime));
+		startDateET.setFocusable(false);
+		startTimeET.setFocusable(false);
+		endDateET.setFocusable(false);
+		endTimeET.setFocusable(false);
 	}
 
 	private void actionBarAndKeyboardAndListener() {

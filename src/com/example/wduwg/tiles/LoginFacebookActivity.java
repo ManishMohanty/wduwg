@@ -506,6 +506,11 @@ public class LoginFacebookActivity extends Activity {
                     	for (int i=0; i<jsonArray.length(); i++) {
                     		businessList.add( gson.fromJson(jsonArray.getString(i), Business.class));
                     	}
+                    	for (int i=0; i< businessList.size();i++)
+                    	{
+//                    		if(businessList.get(i).getImei_no() != null)
+                    		System.out.println(">>>>>>> imei no:>>>" + businessList.get(i).getImei_no());
+                    	}
                     	customer.setBusinesses(businessList);
                     	System.out.println("customer business"+customer.getBusinesses().size());
                     	List<Business> bnessList = customer.getBusinesses();

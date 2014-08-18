@@ -62,6 +62,7 @@ public class GridAdapter extends BaseAdapter {
 		protected SmartImageView imageView;
 		protected TextView businessName;
 		protected TextView address;
+		protected TextView status;
 	}
 
 	@Override
@@ -88,6 +89,11 @@ public class GridAdapter extends BaseAdapter {
 				viewHolder.address = (TextView)convertView.findViewById(R.id.address);
 				viewHolder.imageView = (SmartImageView) convertView
 						.findViewById(R.id.image);
+				if((tempPlace.getImei_no() == null || tempPlace.getImei_no().length() < 1) && !tempPlace.getName().equalsIgnoreCase("Add Business"))
+				{
+					viewHolder.status = (TextView)convertView.findViewById(R.id.status);
+					viewHolder.status.setVisibility(View.VISIBLE);
+				}
 				viewHolder.businessName.setTypeface(typefaceBold);
 				viewHolder.address.setTypeface(typefaceLight);
 				

@@ -31,6 +31,15 @@ public class Business implements Serializable {
 	
 	String imageUrl;
 	String imageEncoded;
+	String imei_no;
+	public String getImei_no() {
+		return imei_no;
+	}
+
+	public void setImei_no(String imei_no) {
+		this.imei_no = imei_no;
+	}
+
 	Bitmap image;
 	boolean isfacebookOn;
 	String face_book_page;
