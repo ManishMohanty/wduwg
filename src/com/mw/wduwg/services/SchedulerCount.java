@@ -30,6 +30,7 @@ import com.wduwg.watch.app.CountActivity;
 public class SchedulerCount extends TimerTask {
        
 	int men_in = 0, men_out = 0 , women_in = 0 , women_out = 0; 
+	boolean isUnderProgress = false;
 	
 	
 	Looper looper = Looper.getMainLooper();
@@ -92,6 +93,7 @@ public class SchedulerCount extends TimerTask {
 //			System.out.println(">>>>>>> cdt hour:"+sdf.format(new Date().getHours()));
 			if(men_in > 0 || men_out > 0 || women_out > 0 || women_in > 0 )
 			try {
+				if(isUnderProgress == false){
 				JSONObject jsonObject;
 				jsonObject = new JSONObject()
 						.put("women_in", women_in)
@@ -107,16 +109,19 @@ public class SchedulerCount extends TimerTask {
 				globalVariable.setIntervalWomenIn(0);
 				globalVariable.setIntervalWomenOut(0);
 	            globalVariable.saveSharedPreferences();
+	            isUnderProgress = true;
 	            jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
 	            		jsonObject2);
 	            if(jsonFromServer.get("status").equals("ok"))
 	            {
+	            	isUnderProgress = false;
 	            	men_in = 0;
 	            	men_out = 0;
 	            	women_in = 0;
 	            	women_out = 0;
 	            	globalVariable.setTotalInDB(jsonFromServer.getInt("total"));
 	            }
+			}
 			} catch (JSONException e) {
 				globalVariable.saveSharedPreferences();
 				e.printStackTrace();

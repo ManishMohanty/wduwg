@@ -337,7 +337,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	// ******************************************
 	
 	public void menIn_watch(View v) {
-		mPlayerIn.start();
+//		mPlayerIn.start();
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
 		globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn()+1);
 		inMaleTV.setText("" + globalVariable.getMenIn());
@@ -360,7 +360,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	public void menOut_watch(View v) {
 		if ((globalVariable.getMenIn() - globalVariable.getMenOut()) > 0) {
-			mPlayerOut.start();
+//			mPlayerOut.start();
 			globalVariable.setMenOut(globalVariable.getMenOut() + 1);
 			globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut()+1);
 			outMaleTV.setText("" + globalVariable.getMenOut());
@@ -372,7 +372,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	}
 
 	public void womenIn_watch(View v) {
-		mPlayerIn.start();
+//		mPlayerIn.start();
 		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
 		globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn()+1);
 		inFemaleTV.setText("" + globalVariable.getWomenIn());
@@ -397,7 +397,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	public void womenOut_watch(View v) {
 		if ((globalVariable.getWomenIn() - globalVariable.getWomenOut()) > 0) {
-			mPlayerOut.start();
+//			mPlayerOut.start();
 			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
 			globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut()+1);
 			outFemaleTV.setText("" + globalVariable.getWomenOut());
