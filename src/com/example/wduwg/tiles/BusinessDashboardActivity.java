@@ -296,6 +296,7 @@ public class BusinessDashboardActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			System.out.println(">>> event list size:"+eventList.size());
 			return eventList;
 		}
 

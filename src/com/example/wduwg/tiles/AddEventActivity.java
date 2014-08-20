@@ -55,6 +55,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -284,7 +285,7 @@ public class AddEventActivity extends Activity {
 
 		yourTextView.setTypeface(typeface);
 
-		((RelativeLayout) findViewById(R.id.add_event_LL))
+		((ScrollView) findViewById(R.id.my_scrollview))
 				.setOnTouchListener(new OnTouchListener() {
 					@Override
 					public boolean onTouch(View v, MotionEvent event) {

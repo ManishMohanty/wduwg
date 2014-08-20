@@ -47,8 +47,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -383,6 +385,18 @@ public class AddSpecialActivity extends Activity {
 			@SuppressWarnings("deprecation")
 			public boolean onTouch(View v, MotionEvent event) {
 				showDialog(TIME_PICKER_ID_endSPCL);
+				return false;
+			}
+		});
+		
+		
+		((ScrollView) findViewById(R.id.my_scrollview))
+		.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getCurrentFocus()
+						.getWindowToken(), 0);
 				return false;
 			}
 		});

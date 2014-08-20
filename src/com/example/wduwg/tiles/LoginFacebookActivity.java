@@ -492,7 +492,6 @@ public class LoginFacebookActivity extends Activity {
 					params.add(new BasicNameValuePair("email", email));
 					JSONObject jsonobject = jsonparser.getJSONObjectFromUrlAfterHttpGet("http://dcounter.herokuapp.com/customers.json", params);
                     Log.d(">>>>>>> user validation json=======","jsonobject"+jsonobject);
-                    
                     if(jsonobject.getString("status").equals("ok"))
                     {
                     	Gson gson = new Gson();
@@ -506,11 +505,7 @@ public class LoginFacebookActivity extends Activity {
                     	for (int i=0; i<jsonArray.length(); i++) {
                     		businessList.add( gson.fromJson(jsonArray.getString(i), Business.class));
                     	}
-                    	for (int i=0; i< businessList.size();i++)
-                    	{
-//                    		if(businessList.get(i).getImei_no() != null)
-                    		System.out.println(">>>>>>> imei no:>>>" + businessList.get(i).getImei_no());
-                    	}
+                    	
                     	customer.setBusinesses(businessList);
                     	System.out.println("customer business"+customer.getBusinesses().size());
                     	List<Business> bnessList = customer.getBusinesses();

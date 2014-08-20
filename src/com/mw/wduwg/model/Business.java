@@ -31,13 +31,14 @@ public class Business implements Serializable {
 	
 	String imageUrl;
 	String imageEncoded;
-	String imei_no;
-	public String getImei_no() {
-		return imei_no;
+	boolean isActivated;
+
+	public boolean isActivated() {
+		return isActivated;
 	}
 
-	public void setImei_no(String imei_no) {
-		this.imei_no = imei_no;
+	public void setActivated(boolean isActivated) {
+		this.isActivated = isActivated;
 	}
 
 	Bitmap image;

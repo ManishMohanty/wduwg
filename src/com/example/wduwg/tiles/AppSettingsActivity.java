@@ -186,7 +186,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                         	}
                     		timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
                     } // else for facebook off.
-                	else
+                	else if(key.equals("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == false && scheduleTask != null && timer != null )
                 	{
                 		scheduleTask.cancel();
                 		timer.cancel();
