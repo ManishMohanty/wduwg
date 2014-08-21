@@ -269,10 +269,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		System.out.println(">>>>>>> Width:"+width);
 		System.out.println(">>>>>>> Height:"+height);
 		
-		scheduledTask = new SchedulerCount(this);
-		timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
-		
 		createDialog = new CreateDialog(this);
 		
 		
@@ -449,6 +445,13 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if(timer == null)
+		{
+		scheduledTask = new SchedulerCount(this);
+		timer = new Timer();
+		timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
+		}
+		
 		child = inflater.inflate(R.layout.listview_context_menu, null);
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
 		headerTV = (TextView) child.findViewById(R.id.header_TV);

@@ -35,6 +35,7 @@ import com.mw.wduwg.model.Business;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
+import com.mw.wduwg.services.SchedulerCount;
 
 public class SpalshFirstActivity extends Activity {
 
@@ -96,6 +97,12 @@ public class SpalshFirstActivity extends Activity {
 		
 		if (globalVariable.getSelectedBusiness()!= null) {
 			System.out.println(">>>>>>> inside splash ");
+			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
+				
+			{
+				SchedulerCount scheduleCountTask = new SchedulerCount(SpalshFirstActivity.this);
+				scheduleCountTask.run();
+			}
 			Intent intent = new Intent(SpalshFirstActivity.this,
 					CountActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

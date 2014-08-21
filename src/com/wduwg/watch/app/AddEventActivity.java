@@ -119,7 +119,7 @@ public class AddEventActivity extends Activity {
 			skipTV.setVisibility(View.VISIBLE);
 		}
 		actionBarAndKeyboardAndListener();
-        checkPreferences();
+//        checkPreferences();
 		Calendar calendar = Calendar.getInstance();
 		year = calendar.get(Calendar.YEAR);
 
@@ -157,7 +157,7 @@ public class AddEventActivity extends Activity {
 			if (resultCode == CountActivity.MOVE_ANOTHER_STEP_BACK) {
 				finish();
 			} else if (resultCode == CountActivity.MOVE_BACK) {
-				checkPreferences();
+//				checkPreferences();
 			}
 		}
 	}
@@ -274,46 +274,46 @@ public class AddEventActivity extends Activity {
 		});
 	}
 
-	private void checkPreferences() {
-		if (globalVariable.getSelectedEvent() != null) {
-			System.out.println(">>>>>>> selected event"+globalVariable.getSelectedEvent().getName());
-			alertDialogBuilder = createDialog
-					.createAlertDialog(
-							"Event Exists",
-							"You are already counting for an event. Do you wish to start a new count?",
-							false);
-			alertDialogBuilder.setPositiveButton("Yes",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							SchedulerCount scheduledTask = new SchedulerCount(AddEventActivity.this);
-							Timer timer = new Timer();
-							timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-							scheduledTask.run();
-							SchedulerCount.event = globalVariable.getSelectedEvent();
-							timer.cancel();
-							globalVariable.setSelectedEvent(null);
-							globalVariable.setSelectedReportsEvent(null);
-							globalVariable.setMenIn(0);
-							globalVariable.setMenOut(0);
-							globalVariable.setWomenIn(0);
-							globalVariable.setWomenOut(0);
-							globalVariable.saveSharedPreferences();
-							dialog.dismiss();
-						}
-					});
-
-			alertDialogBuilder.setNegativeButton("No",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-							nextActivity();
-						}
-					});
-			alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-		}
-		
-	}
+//	private void checkPreferences() {
+//		if (globalVariable.getSelectedEvent() != null) {
+//			System.out.println(">>>>>>> selected event"+globalVariable.getSelectedEvent().getName());
+//			alertDialogBuilder = createDialog
+//					.createAlertDialog(
+//							"Event Exists",
+//							"You are already counting for an event. Do you wish to start a new count?",
+//							false);
+//			alertDialogBuilder.setPositiveButton("Yes",
+//					new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int id) {
+//							SchedulerCount scheduledTask = new SchedulerCount(AddEventActivity.this);
+//							Timer timer = new Timer();
+//							timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
+//							scheduledTask.run();
+//							SchedulerCount.event = globalVariable.getSelectedEvent();
+//							timer.cancel();
+//							globalVariable.setSelectedEvent(null);
+//							globalVariable.setSelectedReportsEvent(null);
+//							globalVariable.setMenIn(0);
+//							globalVariable.setMenOut(0);
+//							globalVariable.setWomenIn(0);
+//							globalVariable.setWomenOut(0);
+//							globalVariable.saveSharedPreferences();
+//							dialog.dismiss();
+//						}
+//					});
+//
+//			alertDialogBuilder.setNegativeButton("No",
+//					new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int id) {
+//							dialog.dismiss();
+//							nextActivity();
+//						}
+//					});
+//			alertDialog = alertDialogBuilder.create();
+//			alertDialog.show();
+//		}
+//		
+//	}
 
 	private void nextActivity() {
 		if(getIntent().hasExtra("from_event"))
