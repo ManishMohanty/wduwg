@@ -298,7 +298,7 @@ public class IdentifyingBusinessActivity extends Activity {
 			findViewById(R.id.skip_layout).setVisibility(View.VISIBLE);
 
 			if (businesses.size() > 0) {
-				GridAdapter adapter = new GridAdapter(IdentifyingBusinessActivity.this,businesses);
+				GridAdapter adapter = new GridAdapter(IdentifyingBusinessActivity.this,businesses,false);
 				gridview.setAdapter(adapter);
 				gridview.setOnItemClickListener(new OnItemClickListener() {
 

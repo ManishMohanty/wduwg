@@ -528,7 +528,7 @@ public class BusinessHomePageActivity extends Activity {
 						if (!isExist) {
 							alertDialog.dismiss();
 							progressDialog = createDialog.createProgressDialog(
-									"Saving", "Please wait for a while.", true,
+									"Saving", "Please wait while we add this business to your login.", true,
 									null);
 							progressDialog.show();
 							SaveToParseAndPreferencesAsync async = new SaveToParseAndPreferencesAsync();

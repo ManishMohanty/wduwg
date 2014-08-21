@@ -33,7 +33,7 @@ public class ReportFragment1 extends Fragment {
 				false);
 		createDialog = new CreateDialog(getActivity());
         progressDialog = progressDialog = createDialog.createProgressDialog("Loading",
-				"Please wait for a while.", true, null);
+				"Please wait while we make your graphs.", true, null);
 		context = getActivity();
 		globalVariable = (GlobalVariable)context.getApplicationContext();
 		WebView webView = (WebView) rootView.findViewById(R.id.webView);

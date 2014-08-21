@@ -23,6 +23,7 @@ public class GridAdapter extends BaseAdapter {
 	List<Business> businessList;
 	LayoutInflater inflater;
 	Typeface typefaceBold,typefaceLight;
+	boolean isCustomerBusiness ;
 	
 	public Integer[] mThumbIds = {
             R.drawable.lights_color, R.drawable.lights_colors,
@@ -30,10 +31,11 @@ public class GridAdapter extends BaseAdapter {
             R.drawable.city_lights, R.drawable.splash_image
            
     };
-	public GridAdapter(Context context, List<Business> businessList)
+	public GridAdapter(Context context, List<Business> businessList,boolean value)
 	{
 		this.context = context;
 		this.businessList = businessList;
+		this.isCustomerBusiness = value;
 		typefaceBold = Typeface.createFromAsset(this.context.getAssets(), "Fonts/OpenSans-Bold.ttf");
 		typefaceLight = Typeface.createFromAsset(this.context.getAssets(), "Fonts/OpenSans-Light.ttf");
 	}
@@ -89,7 +91,7 @@ public class GridAdapter extends BaseAdapter {
 				viewHolder.address = (TextView)convertView.findViewById(R.id.address);
 				viewHolder.imageView = (SmartImageView) convertView
 						.findViewById(R.id.image);
-				if(!tempPlace.isActivated() && !tempPlace.getName().equalsIgnoreCase("Add Business"))
+				if(!tempPlace.isActivated() && !tempPlace.getName().equalsIgnoreCase("Add Business") && isCustomerBusiness)
 				{
 					viewHolder.status = (TextView)convertView.findViewById(R.id.status);
 					viewHolder.status.setVisibility(View.VISIBLE);

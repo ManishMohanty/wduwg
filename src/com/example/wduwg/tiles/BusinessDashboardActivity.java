@@ -124,7 +124,7 @@ public class BusinessDashboardActivity extends Activity {
        ab.setCustomView(v);
 //       commomMethod();
         createDialog = new CreateDialog(this);
-		progressDialog = createDialog.createProgressDialog("Loading", "wait for a while", true, null);
+		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we fetch your data.", true, null);
 		progressDialog.show();
 		LoadStringsAsync asyncTask = new LoadStringsAsync();
 		asyncTask.execute();
@@ -512,8 +512,11 @@ public class BusinessDashboardActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.menu_logout:
-			if(autoUpdate != null)
+			if(autoUpdate != null){
 				autoUpdate.cancel();
+				autoUpdate.purge();
+				autoUpdate = null;
+			}
 			if (LoginFacebookActivity.timer != null)
 				LoginFacebookActivity.timer.cancel();
 			globalVariable.getCustomer().setPages(null);
@@ -553,9 +556,14 @@ public class BusinessDashboardActivity extends Activity {
 			
 			
 			// call async task to delete business
+			if(autoUpdate != null){
+				autoUpdate.cancel();
+				autoUpdate.purge();
+				autoUpdate = null;
+			}
 			alertDialog.dismiss();
 			progressDialog = createDialog.createProgressDialog("Deleting",
-					"Please wait for a while.", true, null);
+					"Please wait while we delete this business from your login.", true, null);
 			progressDialog.show();
 			DeleteAsyncTask asyncTask = new DeleteAsyncTask();
 			asyncTask.execute();
@@ -587,6 +595,8 @@ public class BusinessDashboardActivity extends Activity {
 			if(autoUpdate != null)
 			alertDialog1.dismiss();
 			autoUpdate.cancel();
+			autoUpdate.purge();
+			autoUpdate = null;
 			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
 			{
 				SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
@@ -648,6 +658,7 @@ public class BusinessDashboardActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
+			
 			super.onPostExecute(result);
 			globalVariable.getCustomer().getBusinesses().remove(globalVariable.getSelectedBusiness());
 			progressDialog.dismiss();

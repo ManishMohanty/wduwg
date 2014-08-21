@@ -509,8 +509,8 @@ public class AddEventActivity extends Activity {
 	public void onSkip(View view) {
 		isDefaultEvent = true;
 
-		progressDialog = createDialog.createProgressDialog("Saving",
-				"Please wait for a while.", true, null);
+		progressDialog = createDialog.createProgressDialog("Loading",
+				"Please wait while we delete this Event.", true, null);
 		progressDialog.show();
 
 		SaveEventToParseAndPreferencesAsync asyncTask = new SaveEventToParseAndPreferencesAsync();
@@ -518,8 +518,8 @@ public class AddEventActivity extends Activity {
 	}
 
 	public void onDelete(View v) {
-		progressDialog = createDialog.createProgressDialog("Saving",
-				"Please wait for a while.", true, null);
+		progressDialog = createDialog.createProgressDialog("Deleting",
+				"Please wait while we delete this Event.", true, null);
 		progressDialog.show();
 		DeleteAsyncTask asyncTask = new DeleteAsyncTask();
 		asyncTask.execute();
@@ -529,8 +529,8 @@ public class AddEventActivity extends Activity {
 		if (!validate())
 			return;
 
-		progressDialog = createDialog.createProgressDialog("Saving",
-				"Please wait for a while.", true, null);
+		progressDialog = createDialog.createProgressDialog("Loading",
+				"Please wait while we register your event.", true, null);
 		progressDialog.show();
 
 		SaveEventToParseAndPreferencesAsync asyncTask = new SaveEventToParseAndPreferencesAsync();

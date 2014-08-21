@@ -266,7 +266,7 @@ public class LoginFacebookActivity extends Activity {
 							}  
 							try{
 								createDialog = new CreateDialog(LoginFacebookActivity.this);
-								progressDialgog = createDialog.createProgressDialog("Validation", "Please wait for a while", true, null);
+								progressDialgog = createDialog.createProgressDialog("Validation", "Please wait while validate your login.", true, null);
 								progressDialgog.show();
 								getProfileInformation();
 							}catch(Exception e)

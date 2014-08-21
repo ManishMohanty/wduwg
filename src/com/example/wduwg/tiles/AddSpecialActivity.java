@@ -141,7 +141,7 @@ public class AddSpecialActivity extends Activity {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading",
-				"Please wait for a while", true, null);
+				"Please wait while we register your special.", true, null);
 
 		// nameET.setText(dateFormat3.format(startDateTime));
 		startDateET.setText(dateFormat.format(startDateTime));
@@ -222,8 +222,8 @@ public class AddSpecialActivity extends Activity {
 
 	public void onDelete(View v)
 	{
-		progressDialog = createDialog.createProgressDialog("Saving",
-				"Please wait for a while.", true, null);
+		progressDialog = createDialog.createProgressDialog("Deleting",
+				"Please wait while we delete this Special.", true, null);
 		progressDialog.show();
 		DeleteAsyncTask asyncTask = new DeleteAsyncTask();
 		asyncTask.execute();

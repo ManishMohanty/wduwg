@@ -65,7 +65,7 @@ Event selectedEvent;
 //		eventLV = (ListView)findViewById(R.id.eventList);
 		eventsGV = (GridView)findViewById(R.id.eventsGV);
 		createDialog = new CreateDialog(this);
-		progressDialog = createDialog.createProgressDialog("Loading", "wait for a while", true, null);
+		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we load your events.", true, null);
 		progressDialog.show();
 		LoadStringsAsync asyncTask = new LoadStringsAsync();
 		asyncTask.execute();

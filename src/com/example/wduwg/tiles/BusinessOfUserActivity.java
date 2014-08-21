@@ -191,7 +191,7 @@ public class BusinessOfUserActivity extends Activity{
 			businessList = globalVariable.getCustomer().getBusinesses();
 		}
 		System.out.println(">>>>>>>After new business list size :"+businessList.size());
-		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, businessList);
+		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, businessList,true);
 		gridView.setAdapter(adapter);
 		
 		

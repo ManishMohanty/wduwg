@@ -82,7 +82,7 @@ public class SpecialActivity extends Activity {
 //		specialLV = (ListView)findViewById(R.id.specialList);
 		specialGV = (GridView)findViewById(R.id.specialsGV);
 		createDialog = new CreateDialog(this);
-		progressDialog = createDialog.createProgressDialog("Loading", "wait for a while", true, null);
+		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we load your specials.", true, null);
 		progressDialog.show();
 		LoadStringsAsync asyncTask = new LoadStringsAsync();
 		asyncTask.execute();
