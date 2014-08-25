@@ -200,7 +200,6 @@
             android:background="@drawable/gt"
             android:clickable="true"
             android:onClick="allSpecials" />
-
     </RelativeLayout>
 
      

@@ -241,7 +241,7 @@ public class SchedulerFBPosts extends TimerTask {
 				    System.out.println(">>>>>>> Start post");
 				    reqEntity.addPart("access_token", new StringBody(params[0].getSelectedFBPage().getAccess_token()));
 				    System.out.println(">>>>>>> under  post1");
-				    reqEntity.addPart("message", new StringBody("test ................."));
+//				    reqEntity.addPart("message", new StringBody(""));
 				    System.out.println(">>>>>>> under  post2");
 				    reqEntity.addPart("picture", bab);
 				    System.out.println(">>>>>>> under  post3");

@@ -509,7 +509,7 @@ public class AddEventActivity extends Activity {
 	public void onSkip(View view) {
 		isDefaultEvent = true;
 
-		progressDialog = createDialog.createProgressDialog("Loading",
+		progressDialog = createDialog.createProgressDialog("Deleting",
 				"Please wait while we delete this Event.", true, null);
 		progressDialog.show();
 
