@@ -266,7 +266,7 @@ public class LoginFacebookActivity extends Activity {
 							}  
 							try{
 								createDialog = new CreateDialog(LoginFacebookActivity.this);
-								progressDialgog = createDialog.createProgressDialog("Validation", "Please wait while validate your login.", true, null);
+								progressDialgog = createDialog.createProgressDialog("Validation", "Please wait while we validate your login.", true, null);
 								progressDialgog.show();
 								getProfileInformation();
 							}catch(Exception e)
@@ -601,7 +601,7 @@ public class LoginFacebookActivity extends Activity {
 							else
 							{
 								Toast.makeText(getApplicationContext(),
-										 "\nEmail: " + email + "Does not exist",
+										 "\nEmail: " + email + " Does not exist. Please contact WDUWG administrator to register this email.",
 										Toast.LENGTH_LONG).show();
 								globalVariable.setFb_access_token(null);
 								globalVariable.setFb_access_expire(0);

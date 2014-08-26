@@ -122,8 +122,8 @@ public class SchedulerFBPosts extends TimerTask {
 //			System.out.println(">>>>>>> page  token:" + params[0].getSelectedFBPage().getName());
 			if(menwomen == true)
 			{
-				postMessage = " Men: "
-						+(params[0].getMenIn()-params[0].getMenOut())+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tWomen: "+(params[0].getWomenIn()-params[0].getWomenOut()) + "\n Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date());	
+				postMessage = " Men: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+						+(params[0].getMenIn()-params[0].getMenOut())+"\n Women: \t\t\t\t\t\t\t\t\t\t\t\t\t\t"+(params[0].getWomenIn()-params[0].getWomenOut()) + "\n Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date());	
 			}else
 			{
 				postMessage = " Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date());

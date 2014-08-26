@@ -137,8 +137,8 @@ public class SpecialActivity extends Activity {
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
 						Special special = gson.fromJson(jsonobject.toString(), Special.class);
 						special.setName(jsonobject.getString("name"));
-						String starts_from = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
-						String valid_upto =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
+						String starts_from = globalVariable.convertDate(jsonobject.getString("start_date_time").substring(0, 16));
+						String valid_upto =  globalVariable.convertDate(jsonobject.getString("end_date_time").substring(0, 16));
 						special.setStartDate(starts_from);
 						special.setEndDate(valid_upto);
 						special.setDescription("Start @ "+starts_from + "\nEnd @ " + valid_upto);

@@ -168,24 +168,23 @@ public class AddSpecialActivity extends Activity {
 			nameET.setFocusable(false);
 			nameET.setFocusableInTouchMode(false);
 			nameET.setClickable(false);
-			startDateET.setText(selectedSpecial.getStartDate().substring(7, selectedSpecial.getStartDate().length()));
+			startDateET.setText(selectedSpecial.getStartDate().split(",")[0]);
 			startDateET.setKeyListener(null);
 			startDateET.setFocusable(false);
 			startDateET.setFocusableInTouchMode(false);
 			startDateET.setClickable(false);
-			System.out.println(">>>>>>> satrt date:"+selectedSpecial.getStartDate());
-			endDateET.setText(selectedSpecial.getEndDate().substring(7, selectedSpecial.getEndDate().length()));
+			endDateET.setText(selectedSpecial.getEndDate().split(",")[0]);
 			endDateET.setKeyListener(null);
 			endDateET.setFocusable(false);
 			endDateET.setFocusableInTouchMode(false);
 			endDateET.setClickable(false);
-			System.out.println(">>>>>>> end date:"+selectedSpecial.getEndDate());
-			startTimeET.setText(selectedSpecial.getStartDate().substring(0, 6));
+			
+			startTimeET.setText(selectedSpecial.getStartDate().split(",")[1]);
 			startTimeET.setKeyListener(null);
 			startTimeET.setFocusable(false);
 			startTimeET.setFocusableInTouchMode(false);
 			startTimeET.setClickable(false);
-			endTimeET.setText(selectedSpecial.getEndDate().substring(0, 6));
+			endTimeET.setText(selectedSpecial.getEndDate().split(",")[1]);
 			endTimeET.setKeyListener(null);
 			endTimeET.setFocusable(false);
 			endTimeET.setFocusableInTouchMode(false);
@@ -301,8 +300,8 @@ public class AddSpecialActivity extends Activity {
 				JSONObject jsonFromServer = jsonparser.getJSONFromUrlAfterHttpPost(url, jsonObject2);
 				Gson gson = new Gson();
 				selectedSpecial = gson.fromJson(jsonFromServer.toString(), Special.class);
-				selectedSpecial.setStartDate(jsonFromServer.getString("start_date_time"));
-				selectedSpecial.setEndDate(jsonFromServer.getString("end_date_time"));
+				selectedSpecial.setStartDate(globalVariable.convertDate(jsonFromServer.getString("start_date_time").substring(0, 16)));
+				selectedSpecial.setEndDate(globalVariable.convertDate(jsonFromServer.getString("end_date_time").substring(0, 16)));
 
 			} catch (Exception e) {
 				Log.d("Response========", "inside catch");
@@ -601,10 +600,12 @@ public class AddSpecialActivity extends Activity {
 			boolean returnBool = false;
 			String postMessage="";
 			String specialName = "";
-			specialName = specialName + " Special:\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getName();
+			specialName = specialName + " Special: \t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getName();
 				System.out.println(">>>>>>> special date:"+selectedSpecial.getStartDate());
+//				postMessage = postMessage 
+//						+ " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+ convertDate(selectedSpecial.getStartDate().substring(0, 16)) + "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" + convertDate(selectedSpecial.getEndDate().substring(0, 16));
 				postMessage = postMessage 
-						+ " Start Time:\t\t\t\t\t\t\t\t\t\t"+ convertDate(selectedSpecial.getStartDate().substring(0, 16)) + "\n End Time:\t\t\t\t\t\t\t\t\t\t\t" + convertDate(selectedSpecial.getEndDate().substring(0, 16));
+						+ " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getStartDate() + "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" + selectedSpecial.getEndDate();
 			
 		System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************
@@ -743,29 +744,8 @@ public class AddSpecialActivity extends Activity {
 		@Override
 		protected void onPostExecute(Boolean result) {
 		}
-		
-		public String convertDate(String datestr)
-		{
-			String formatedDate="";
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			try{
-				int hh = Integer.parseInt(datestr.split("T")[1].split(":")[0]);
-				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
-				if(hh<13)
-				{
-				formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  am";
-				}else
-				{
-					formatedDate=formatedDate+df.format(sdf.parse(datestr.split("T")[0])) + " ,  "+datestr.split("T")[1]+"  pm";
-				}
-			}catch(Exception e)
-			{
-				e.printStackTrace();
-				
-			}
-			return formatedDate;
-		}
 
 	}
+	
 
 }

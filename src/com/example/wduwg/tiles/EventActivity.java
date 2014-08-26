@@ -141,11 +141,11 @@ Event selectedEvent;
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
 						Event event = gson.fromJson(jsonobject.toString(), Event.class);
 						event.setName(jsonobject.getString("name"));
-						String startTime = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
+						String startTime = globalVariable.convertDate(jsonobject.getString("start_date_time").substring(0, 16));
 						if(!event.getName().equalsIgnoreCase("defaultEvent"))
 						{
 							
-						    String endTime =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
+						    String endTime =  globalVariable.convertDate(jsonobject.getString("end_date_time").substring(0, 16));
 							event.setDescription("Start @ "+startTime + "\nEnd @ " + endTime);
 							event.setStartDate(startTime);
 							event.setEndDate(endTime);

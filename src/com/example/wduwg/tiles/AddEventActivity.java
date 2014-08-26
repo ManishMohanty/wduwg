@@ -147,28 +147,26 @@ public class AddEventActivity extends Activity {
 			nameACTV.setFocusable(false);
 			nameACTV.setFocusableInTouchMode(false);
 			nameACTV.setClickable(false);
-			startDateET.setText(selectedEvent.getStartDate().substring(7,
-					selectedEvent.getStartDate().length()));
+			startDateET.setText(selectedEvent.getStartDate().split(",")[0]);
 			startDateET.setKeyListener(null);
 			startDateET.setFocusable(false);
 			startDateET.setFocusableInTouchMode(false);
 			startDateET.setClickable(false);
 			System.out.println(">>>>>>> satrt date:"
 					+ selectedEvent.getStartDate());
-			endDateET.setText(selectedEvent.getEndDate().substring(7,
-					selectedEvent.getEndDate().length()));
+			endDateET.setText(selectedEvent.getEndDate().split(",")[0]);
 			endDateET.setKeyListener(null);
 			endDateET.setFocusable(false);
 			endDateET.setFocusableInTouchMode(false);
 			endDateET.setClickable(false);
 			System.out
 					.println(">>>>>>> end date:" + selectedEvent.getEndDate());
-			startTimeET.setText(selectedEvent.getStartDate().substring(0, 8));
+			startTimeET.setText(selectedEvent.getStartDate().split(",")[1]);
 			startTimeET.setKeyListener(null);
 			startTimeET.setFocusable(false);
 			startTimeET.setFocusableInTouchMode(false);
 			startTimeET.setClickable(false);
-			endTimeET.setText(selectedEvent.getEndDate().substring(0, 8));
+			endTimeET.setText(selectedEvent.getEndDate().split(",")[1]);
 			endTimeET.setKeyListener(null);
 			endTimeET.setFocusable(false);
 			endTimeET.setFocusableInTouchMode(false);
@@ -671,15 +669,17 @@ public class AddEventActivity extends Activity {
 				Gson gson = new Gson();
 
 				if (!jsonFromServer.has("error")) {
-					event = gson.fromJson(jsonFromServer.toString(),
+					selectedEvent = gson.fromJson(jsonFromServer.toString(),
 							Event.class);
+					selectedEvent.setStartDate(globalVariable.convertDate(jsonFromServer.getString("start_date_time").substring(0, 16)));
+					selectedEvent.setEndDate(globalVariable.convertDate(jsonFromServer.getString("end_date_time").substring(0, 16)));
 					System.out.println(">>>>>>> Event start date: "
-							+ event.getStartDate());
-					if (event.getStartDate().equalsIgnoreCase(
+							+ selectedEvent.getStartDate());
+					if (selectedEvent.getStartDate().equalsIgnoreCase(
 							"is already taken")) {
 						isAdded = false;
 					} else {
-						globalVariable.setSelectedEvent(event);
+						globalVariable.setSelectedEvent(selectedEvent);
 						System.out
 								.println("while skip inside addevent global slected event"
 										+ globalVariable.getSelectedEvent()
@@ -777,12 +777,15 @@ public class AddEventActivity extends Activity {
 			// System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage = "";
-			String eventName = " Event:\t\t\t\t\t\t\t\t\t\t\t\t\t"+ globalVariable.getSelectedEvent().getName();
+//			event.setStartDate(convertDate(event.getStartDate().substring(0, 16)));
+//			event.setEndDate(convertDate(event.getEndDate().substring(0, 16)));
+			String eventName = " Event: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ globalVariable.getSelectedEvent().getName();
+			System.out.println(">>>>>>> event date before convert"+globalVariable.getSelectedEvent().getStartDate());
 			 postMessage = postMessage
-			 + " Start Time:\t\t\t\t\t\t\t\t\t\t"+
-			 convertDate(event.getStartDate().substring(0, 16)) +
-			 "\n End Time:\t\t\t\t\t\t\t\t\t\t\t" +
-			 convertDate(event.getEndDate().substring(0, 16));
+			 + " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+
+			 globalVariable.getSelectedEvent().getStartDate() +
+			 "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" +
+			 globalVariable.getSelectedEvent().getEndDate();
 
 			System.out.println(">>>>>>> Message11" + postMessage);
 			// ********************************Convert String to Image
@@ -951,6 +954,7 @@ public class AddEventActivity extends Activity {
 		}
 
 		public String convertDate(String datestr) {
+			System.out.println(">>>>>>> event date input came for conversion:"+datestr);
 
 			String formatedDate = "";
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

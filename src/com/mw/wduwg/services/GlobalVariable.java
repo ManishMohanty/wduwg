@@ -30,6 +30,7 @@ import android.graphics.Typeface;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.nfc.FormatException;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.StaticLayout;
@@ -58,34 +59,30 @@ import com.parse.entity.mime.content.StringBody;
 public class GlobalVariable extends Application {
 
 	// FIXME: shared preferences should be read from here ONLY
-	
+
 	SharedPreferences sharedPreferences;
 
 	Gson gson;
-	int menIn,menOut,womenIn,womenOut;
-	int intervalMenIn,intervalWomenIn,intervalMenOut,intervalWomenOut;
-	
-	public boolean isInternet()
-	{
-		ConnectivityManager connection =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-		if(connection != null)
-		{
-		   NetworkInfo[] info = connection.getAllNetworkInfo();
-		   if(info != null)
-		   {
-			   for(int i=0;i<info.length;i++)
-			   {
-				   if(info[i].getState() == NetworkInfo.State.CONNECTED)
-				   {
-					   return true;
-				   }
-			   }
-			   
-		   }
+	int menIn, menOut, womenIn, womenOut;
+	int intervalMenIn, intervalWomenIn, intervalMenOut, intervalWomenOut;
+
+	public boolean isInternet() {
+		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connection != null) {
+			NetworkInfo[] info = connection.getAllNetworkInfo();
+			if (info != null) {
+				for (int i = 0; i < info.length; i++) {
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+				}
+
+			}
 		}
-		   return false;
+		return false;
 	}
-	
+
 	public int getMenIn() {
 		return menIn;
 	}
@@ -117,8 +114,10 @@ public class GlobalVariable extends Application {
 	public void setWomenOut(int womenOut) {
 		this.womenOut = womenOut;
 	}
+
 	Customer customer;
 	Business selectedBusiness;
+
 	public int getIntervalMenIn() {
 		return intervalMenIn;
 	}
@@ -150,7 +149,9 @@ public class GlobalVariable extends Application {
 	public void setIntervalWomenOut(int intervalWomenOut) {
 		this.intervalWomenOut = intervalWomenOut;
 	}
+
 	BusinessFBPage selectedFBPage;
+
 	public BusinessFBPage getSelectedFBPage() {
 		return selectedFBPage;
 	}
@@ -158,114 +159,102 @@ public class GlobalVariable extends Application {
 	public void setSelectedFBPage(BusinessFBPage selectedFBPage) {
 		this.selectedFBPage = selectedFBPage;
 	}
+
 	Event selectedEvent;
 	// CHECK: what is this used for?
 	Event selectedEventReports;
-	
+
 	String fb_access_token;
 	long fb_access_expire;
-	
-	
 
 	@Override
-	public void onCreate(){
+	public void onCreate() {
 		super.onCreate();
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		gson = new Gson();
-		if (sharedPreferences.contains("customer")){
-			String customerFromSP = sharedPreferences.getString("customer", null);
+		if (sharedPreferences.contains("customer")) {
+			String customerFromSP = sharedPreferences.getString("customer",
+					null);
 			this.customer = gson.fromJson(customerFromSP, Customer.class);
 		}
-		if(sharedPreferences.contains("business"))
-		{
-			String businessFromSP = sharedPreferences.getString("business", null);
-			this.selectedBusiness = gson.fromJson(businessFromSP, Business.class);
+		if (sharedPreferences.contains("business")) {
+			String businessFromSP = sharedPreferences.getString("business",
+					null);
+			this.selectedBusiness = gson.fromJson(businessFromSP,
+					Business.class);
 		}
-		if(sharedPreferences.contains("event"))
-		{
+		if (sharedPreferences.contains("event")) {
 			String eventFromSP = sharedPreferences.getString("event", null);
 			this.selectedEvent = gson.fromJson(eventFromSP, Event.class);
 		}
-		if(sharedPreferences.contains("fb_access_token"))
-		{
-			this.fb_access_token = sharedPreferences.getString("fb_access_token", null);
+		if (sharedPreferences.contains("fb_access_token")) {
+			this.fb_access_token = sharedPreferences.getString(
+					"fb_access_token", null);
 		}
-		if(sharedPreferences.contains("selectedFBPage"))
-		{
-			this.selectedFBPage = gson.fromJson(sharedPreferences.getString("selectedFBPage", null), BusinessFBPage.class);
+		if (sharedPreferences.contains("selectedFBPage")) {
+			this.selectedFBPage = gson.fromJson(
+					sharedPreferences.getString("selectedFBPage", null),
+					BusinessFBPage.class);
 		}
-		this.menIn=sharedPreferences.getInt("menIn", 0);
-		this.menOut=sharedPreferences.getInt("menOut", 0);
-		this.womenIn=sharedPreferences.getInt("womenIn", 0);
-		this.womenOut=sharedPreferences.getInt("womenOut", 0);
-	}	
-	
-	public void saveSharedPreferences(){
+		this.menIn = sharedPreferences.getInt("menIn", 0);
+		this.menOut = sharedPreferences.getInt("menOut", 0);
+		this.womenIn = sharedPreferences.getInt("womenIn", 0);
+		this.womenOut = sharedPreferences.getInt("womenOut", 0);
+	}
+
+	public void saveSharedPreferences() {
 		// FIXME:
 		Editor editor = sharedPreferences.edit();
-		if(this.fb_access_token !=null)
-		editor.putString("fb_access_token", this.fb_access_token);
-		else if(sharedPreferences.contains("fb_access_token"))
-		{
+		if (this.fb_access_token != null)
+			editor.putString("fb_access_token", this.fb_access_token);
+		else if (sharedPreferences.contains("fb_access_token")) {
 			editor.remove("fb_access_token");
 		}
-		if(this.fb_access_expire != 0)
-		{
+		if (this.fb_access_expire != 0) {
 			editor.putLong("fb_access_expire", this.fb_access_expire);
-		}else if(sharedPreferences.contains("fb_access_expire"))
-		{
+		} else if (sharedPreferences.contains("fb_access_expire")) {
 			editor.remove("fb_access_expire");
 		}
-		if(selectedFBPage!=null)
-		{
-		  editor.putString("selectedFBPage", gson.toJson(this.selectedFBPage))	;
-		}else if(sharedPreferences.contains("selectedFBPage"))
-		{
+		if (selectedFBPage != null) {
+			editor.putString("selectedFBPage", gson.toJson(this.selectedFBPage));
+		} else if (sharedPreferences.contains("selectedFBPage")) {
 			editor.remove("selectedFBPage");
 		}
-		
-		
+
 		String customergsonToJSON = gson.toJson(this.customer);
 		editor.putString("customer", customergsonToJSON);
-		if(this.selectedBusiness != null){
-		String businessgsonToJSON = gson.toJson(this.selectedBusiness);
-		editor.putString("business", businessgsonToJSON);
-		}else if(sharedPreferences.contains("business"))
-		{
+		if (this.selectedBusiness != null) {
+			String businessgsonToJSON = gson.toJson(this.selectedBusiness);
+			editor.putString("business", businessgsonToJSON);
+		} else if (sharedPreferences.contains("business")) {
 			editor.remove("business");
 			editor.remove("isDeviceRegistered");
 			editor.remove("event");
 			editor.remove("isEventThere");
-		}else if(sharedPreferences.contains("isDeviceRegistered"))
-		{
+		} else if (sharedPreferences.contains("isDeviceRegistered")) {
 			editor.remove("isDeviceRegistered");
-		}else if(sharedPreferences.contains("event"))
-		{
+		} else if (sharedPreferences.contains("event")) {
 			editor.remove("event");
-		}else if(sharedPreferences.contains("isEventThere"))
-		{
+		} else if (sharedPreferences.contains("isEventThere")) {
 			editor.remove("isEventThere");
 		}
-		
-		
-		if(this.selectedBusiness != null)
-		{
+
+		if (this.selectedBusiness != null) {
 			editor.putBoolean("isDeviceRegistered", true);
 		}
-		if(this.selectedEvent!= null)
-		{
+		if (this.selectedEvent != null) {
 			editor.putBoolean("isEventThere", true);
 			String eventgsonToJSON = gson.toJson(this.selectedEvent);
 			editor.putString("event", eventgsonToJSON);
 		}
-		
-			editor.putInt("menIn", menIn);
-			editor.putInt("womenIn", womenIn);
-			editor.putInt("menOut", menOut);
-			editor.putInt("womenOut", womenOut);
+
+		editor.putInt("menIn", menIn);
+		editor.putInt("womenIn", womenIn);
+		editor.putInt("menOut", menOut);
+		editor.putInt("womenOut", womenOut);
 		editor.commit();
 	}
-	
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -318,25 +307,24 @@ public class GlobalVariable extends Application {
 				targetHeight), null);
 		return targetBitmap;
 	}
-	
-	public boolean isfacebookOn()
-	{
+
+	public boolean isfacebookOn() {
 		return sharedPreferences.getBoolean("facebookSwitch", false);
 	}
-	public String facebookFrequency()
-	{
+
+	public String facebookFrequency() {
 		return sharedPreferences.getString("prefFb_frequency", "0");
 	}
-	
-	public boolean isNotificationOn()
-	{
+
+	public boolean isNotificationOn() {
 		return sharedPreferences.getBoolean("prefMessageSwitch", false);
 	}
-	public int messageFrequency()
-	{
-		return Integer.parseInt(sharedPreferences.getString("prefNotificationFrequency", "0"));
+
+	public int messageFrequency() {
+		return Integer.parseInt(sharedPreferences.getString(
+				"prefNotificationFrequency", "0"));
 	}
-	
+
 	public long getFb_access_expire() {
 		return fb_access_expire;
 	}
@@ -352,46 +340,128 @@ public class GlobalVariable extends Application {
 	public void setFb_access_token(String fb_access_token) {
 		this.fb_access_token = fb_access_token;
 	}
-	
-	public String timeFormat(String datetime)
-	{
-		System.out.println(">>>>>>>current time:"+datetime);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat df = new SimpleDateFormat("MMMM dd,yyyy");
-		String date = datetime.split(",")[0];
-		int day =Integer.parseInt( date.split("-")[2]);
-		String time = datetime.split(",")[1];
-		int hh = Integer.parseInt(time.split(":")[0]);
-		hh = hh -5;
-		if(hh < 0)
-		{
-			
-			hh = hh + 24;
-			day = day -1;
+
+	public String convertDate(String datestr) {
+		System.out.println(">>>>>>> while posting date:" + datestr);
+		int hour = Integer.parseInt(datestr.split("T")[1].split(":")[0]) - 5;
+		int minutes = Integer.parseInt(datestr.split("T")[1].split(":")[1]);
+		int date = Integer.parseInt(datestr.split("T")[0].split("-")[2]);
+		int month = Integer.parseInt(datestr.split("T")[0].split("-")[1]);
+		int year = Integer.parseInt(datestr.split("T")[0].split("-")[0]);
+		if (hour < 0) {
+			date = date - 1;
+			hour = 24 + hour;
 		}
-		if((hh) > 11)
-		{
-			if(hh != 12)
-			time = (hh-12) + ":"+time.split(":")[1]+" PM  ";
+		if (date == 31) {
+			month = month - 1;
+		}
+		if (month == 0) {
+			month = 12;
+			year = year - 1;
+		}
+		String formatedDate = "";
+		switch (month) {
+		case 1:
+			if (hour < 12)
+				formatedDate = date + " " + "Jan" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
 			else
-				time = (hh) + ":"+time.split(":")[1]+" PM  ";
-		}else
-		{
-			time = (hh) + ":"+time.split(":")[1]+" AM  ";
+				formatedDate = date + " " + "Jan" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 2:
+			if (hour < 12)
+				formatedDate = date + " " + "Feb" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Feb" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 3:
+			if (hour < 12)
+				formatedDate = date + " " + "Mar" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Mar" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 4:
+			if (hour < 12)
+				formatedDate = date + " " + "Apr" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Apr" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 5:
+			if (hour < 12)
+				formatedDate = date + " " + "May" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "May" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 6:
+			if (hour < 12)
+				formatedDate = date + " " + "Jun" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Jun" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 7:
+			if (hour < 12)
+				formatedDate = date + " " + "Jul" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Jul" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 8:
+			if (hour < 12)
+				formatedDate = date + " " + "Aug" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Aug" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 9:
+			if (hour < 12)
+				formatedDate = date + " " + "Sep" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Sep" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 10:
+			if (hour < 12)
+				formatedDate = date + " " + "Oct" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Oct" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 11:
+			if (hour < 12)
+				formatedDate = date + " " + "Nov" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Nov" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+		case 12:
+			if (hour < 12)
+				formatedDate = date + " " + "Dec" + " " + year + ", " + hour
+						+ ":" + minutes + " am";
+			else
+				formatedDate = date + " " + "Dec" + " " + year + ", "
+						+ (hour - 12) + ":" + minutes + " pm";
+			break;
+
 		}
-		try{
-			date = date.substring(0, date.length()-2)+  day;
-		 return time+ df.format(sdf.parse(date));
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+
+		System.out.println(">>>> converted date" + formatedDate);
+		return formatedDate;
 	}
-	
-	
-	
-	
-	
-	
+
 }

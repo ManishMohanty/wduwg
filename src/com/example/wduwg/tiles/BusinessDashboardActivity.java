@@ -1,7 +1,10 @@
 package com.example.wduwg.tiles;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,10 +20,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.telephony.gsm.SmsManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.LayoutInflater;
@@ -44,7 +50,6 @@ import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
 import com.mw.wduwg.services.SchedulerCount;
-import com.mw.wduwg.services.SchedulerFBPosts;
 
 
 public class BusinessDashboardActivity extends Activity {
@@ -55,6 +60,8 @@ public class BusinessDashboardActivity extends Activity {
 	List<Event> eventList ;
 	private  Timer autoUpdate;
 	private static final int SETTING = 93;
+	
+	SharedPreferences sharedPreference;
 	
 	@Override
 	protected void onResume() {
@@ -140,10 +147,10 @@ public class BusinessDashboardActivity extends Activity {
 			}else
 			{
 			    specials = globalVariable.getSelectedBusiness().getSpecials();
-				if(specials.size()==0 || !specials.get(specials.size() - 1).getName().equalsIgnoreCase("Add Special"))
+				if(specials.size()==0 || !specials.get(specials.size() - 1).getName().equalsIgnoreCase("Add a Special"))
 				{
 				Special newSpecial = new Special();
-				newSpecial.setName("Add Special");
+				newSpecial.setName("Add a Special");
 				newSpecial.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
 				specials.add(newSpecial);
 				}
@@ -159,7 +166,7 @@ public class BusinessDashboardActivity extends Activity {
 					// TODO Auto-generated method stub
 					Special special = globalVariable.getSelectedBusiness().getSpecials().get(position);
 					Intent intent = new Intent(BusinessDashboardActivity.this,AddSpecialActivity.class);
-					if(special.getName().equalsIgnoreCase("Add Special"))
+					if(special.getName().equalsIgnoreCase("Add a Special"))
 					{
 						if(autoUpdate != null)
 							autoUpdate.cancel();
@@ -178,11 +185,11 @@ public class BusinessDashboardActivity extends Activity {
            }else
            {
         	   events = globalVariable.getSelectedBusiness().getEventList();
-        	   if(events.size() == 0 || !events.get(events.size()-1).getName().equalsIgnoreCase("Add Event"))
+        	   if(events.size() == 0 || !events.get(events.size()-1).getName().equalsIgnoreCase("Add an Event"))
         	   {
         		   
         		   Event newEvent = new Event();
-        		   newEvent.setName("Add Event");
+        		   newEvent.setName("Add an Event");
         		   newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
         		   events.add(newEvent);
         	   }
@@ -197,7 +204,7 @@ public class BusinessDashboardActivity extends Activity {
 					// TODO Auto-generated method stub
 					Event event1 = globalVariable.getSelectedBusiness().getEventList().get(position);
 					Intent intent = new Intent(BusinessDashboardActivity.this,AddEventActivity.class);
-					if(event1.getName().equalsIgnoreCase("Add Event"))
+					if(event1.getName().equalsIgnoreCase("Add an Event"))
 					{
 						if(autoUpdate != null)
 							autoUpdate.cancel();
@@ -273,12 +280,12 @@ public class BusinessDashboardActivity extends Activity {
 						 event = gson.fromJson(jsonobject.toString(), Event.class);
 		     			event.setName(jsonobject.getString("name"));
 		     			System.out.println(">>>>>>> event id:"+event.getId().get$oid());
-						String startTime = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
+						String startTime = globalVariable.convertDate(jsonobject.getString("start_date_time").substring(0, 16));
 						event.setStartDate(startTime);
 						if(!event.getName().equalsIgnoreCase("defaultEvent"))
 						{
 							System.out.println(">>>>>>> endDate"+jsonobject.getString("end_date_time"));
-						    String endTime =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
+						    String endTime =  globalVariable.convertDate(jsonobject.getString("end_date_time").substring(0, 16));
 							event.setDescription("Start @ "+startTime+"\nEnd @ "+ endTime);
 							event.setEndDate(endTime);
 						}else
@@ -345,8 +352,8 @@ public class BusinessDashboardActivity extends Activity {
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
 						Special special = gson.fromJson(jsonobject.toString(), Special.class);
 						special.setName(jsonobject.getString("name"));
-						String starts_from = globalVariable.timeFormat(jsonobject.getString("start_date_time").replace('T', ',').substring(0, (jsonobject.getString("start_date_time").length()-8)));
-						String valid_upto =  globalVariable.timeFormat(jsonobject.getString("end_date_time").replace('T', ',').substring(0, jsonobject.getString("end_date_time").length()-8));
+						String starts_from = globalVariable.convertDate(jsonobject.getString("start_date_time").substring(0, 16));
+						String valid_upto =  globalVariable.convertDate(jsonobject.getString("end_date_time").substring(0, 16));
 						special.setStartDate(starts_from);
 						special.setEndDate(valid_upto);
 						special.setDescription("Start @ "+starts_from + "\nEnd @ " + valid_upto);
@@ -374,6 +381,7 @@ public class BusinessDashboardActivity extends Activity {
 	
 	
 	//counter
+	int visitors_total;
 	public class LoadStringsAsync2 extends AsyncTask<Void, Void, Void> {
 
 		// new thread for imagedownloading res
@@ -401,11 +409,34 @@ public class BusinessDashboardActivity extends Activity {
 						men_out += Integer.parseInt(jsonobject.getString("men_out"));
 						women_in += Integer.parseInt(jsonobject.getString("women_in"));
 						women_out += Integer.parseInt(jsonobject.getString("women_out"));
+						visitors_total += men_in + women_in;
 					}
 					globalVariable.getSelectedBusiness().setMenIn(men_in);
 					globalVariable.getSelectedBusiness().setMenOut(men_out);
 					globalVariable.getSelectedBusiness().setWomenIn(women_in);
 					globalVariable.getSelectedBusiness().setWomenOut(women_out);
+					int message_frequency = Integer.parseInt(sharedPreference.getString(
+							"prefNotificationFrequency", ""));
+					if( sharedPreference.getBoolean("prefMessageSwitch", false) == true && (visitors_total) >= message_frequency)
+					{
+						System.out.println(">>>>>>> MSG frequency:"+message_frequency);
+						try{
+							SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d, yyyy h:mm a");
+							df.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+							String strDate = df.format(new Date());
+							SmsManager smsManager = SmsManager.getDefault();
+							smsManager.sendTextMessage(
+									sharedPreference.getString("prefPhone", "09019129275"), "wduwg",
+									"Total Attendance at \""+globalVariable.getSelectedBusiness().getName()+"\" is " + (men_in+women_in - men_out - women_out)+ " at "+strDate,
+									null, null);
+							visitors_total = 0;
+						}catch(Exception e)
+						{
+							e.printStackTrace();
+						}
+						
+					}
+					
 				}else
 				{
 					men_in = 0;
@@ -437,6 +468,7 @@ public class BusinessDashboardActivity extends Activity {
 	    	 men_out =0;
 	    	 women_in = 0;
 	    	 women_out = 0;
+	    	 sharedPreference = PreferenceManager.getDefaultSharedPreferences(BusinessDashboardActivity.this);
 	    	 if(globalVariable.getSelectedBusiness() != null)
 			commonMethod();
 	    	 if(autoUpdate == null){

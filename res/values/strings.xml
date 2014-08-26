@@ -14,7 +14,7 @@
     <string name="title_activity_list_event">Events</string>
     <string name="title_activity_count">Total Count :</string>
     <string name="title_activity_identifying_business">Select Your Venue</string>
-    <string name="title_activity_events">Add Event Details	</string>
+    <string name="title_activity_events">Add Event</string>
     <string name="title_activity_reports">Reports</string>
     <string name="continueText"><u><b>Continue</b></u></string>
     <string name="delete"><u><b>Delete</b></u></string>
