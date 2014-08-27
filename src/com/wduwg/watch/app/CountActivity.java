@@ -343,16 +343,22 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		System.out.println(">>>>>>> inside men_in:"+globalVariable.getMenIn());
 		System.out.println(">>>>>>> time:"+new Date());
 		System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
-		if (sharedPreference.contains("prefNotificationFrequency")) {
-			int message_frequency = Integer.parseInt(sharedPreference.getString(
-					"prefNotificationFrequency", ""));
-			if (total > 0
-					&& total % message_frequency == 0
-					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
-//				System.out.println(">>>>>>> message frequency:"+message_frequency);
-//				sendNotification();
-			}
-		}
+		globalVariable.saveSharedPreferences();
+//		if(total % 50 == 0)
+//		{
+//			int a = 10/0;
+//		}
+		
+//		if (sharedPreference.contains("prefNotificationFrequency")) {
+//			int message_frequency = Integer.parseInt(sharedPreference.getString(
+//					"prefNotificationFrequency", ""));
+//			if (total > 0
+//					&& total % message_frequency == 0
+//					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
+////				System.out.println(">>>>>>> message frequency:"+message_frequency);
+////				sendNotification();
+//			}
+//		}
 
 	}
 
@@ -365,6 +371,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			System.out.println(">>>>>>> inside men_out:"+globalVariable.getMenOut());
 			System.out.println(">>>>>>> time:"+new Date());
 			System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
+			globalVariable.saveSharedPreferences();
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 			total_attendance.setText(""+total);
@@ -384,19 +391,24 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		System.out.println(">>>>>>> inside women_in:"+globalVariable.getWomenIn());
 		System.out.println(">>>>>>> time:"+new Date());
 		System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
-		if (sharedPreference.contains("prefNotificationFrequency")) {
-			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
-					+ (globalVariable.getWomenIn() - globalVariable
-							.getWomenOut());
-			int message_frequency = Integer.parseInt(sharedPreference.getString(
-					"prefNotificationFrequency", ""));
-			if (total > 0
-					&& total % message_frequency == 0
-					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
-//				System.out.println(">>>>>>> message frequency:"+message_frequency);
-//				sendNotification();
-			}
-		}
+		globalVariable.saveSharedPreferences();
+//		if(total1 % 50 == 0)
+//		{
+//			int a = 10/0;
+//		}
+//		if (sharedPreference.contains("prefNotificationFrequency")) {
+//			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
+//					+ (globalVariable.getWomenIn() - globalVariable
+//							.getWomenOut());
+//			int message_frequency = Integer.parseInt(sharedPreference.getString(
+//					"prefNotificationFrequency", ""));
+//			if (total > 0
+//					&& total % message_frequency == 0
+//					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
+////				System.out.println(">>>>>>> message frequency:"+message_frequency);
+////				sendNotification();
+//			}
+//		}
 	}
 
 	public void womenOut_watch(View v) {
@@ -408,6 +420,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
 			globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut()+1);
 			outFemaleTV.setText("" + globalVariable.getWomenOut());
+			globalVariable.saveSharedPreferences();
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 			total_attendance.setText(""+total);
