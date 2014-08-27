@@ -345,6 +345,12 @@ public class GlobalVariable extends Application {
 		System.out.println(">>>>>>> while posting date:" + datestr);
 		int hour = Integer.parseInt(datestr.split("T")[1].split(":")[0]) - 5;
 		int minutes = Integer.parseInt(datestr.split("T")[1].split(":")[1]);
+		String minutesStr;
+		if(minutes < 10)
+		{
+			minutesStr = "0"+minutes;
+		}else
+			minutesStr = ""+minutes;
 		int date = Integer.parseInt(datestr.split("T")[0].split("-")[2]);
 		int month = Integer.parseInt(datestr.split("T")[0].split("-")[1]);
 		int year = Integer.parseInt(datestr.split("T")[0].split("-")[0]);
@@ -359,103 +365,104 @@ public class GlobalVariable extends Application {
 			month = 12;
 			year = year - 1;
 		}
+		
 		String formatedDate = "";
 		switch (month) {
 		case 1:
 			if (hour < 12)
-				formatedDate = date + " " + "Jan" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Jan" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Jan" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 2:
 			if (hour < 12)
-				formatedDate = date + " " + "Feb" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Feb" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Feb" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 3:
 			if (hour < 12)
-				formatedDate = date + " " + "Mar" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Mar" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Mar" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 4:
 			if (hour < 12)
-				formatedDate = date + " " + "Apr" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Apr" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Apr" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 5:
 			if (hour < 12)
-				formatedDate = date + " " + "May" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "May" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "May" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 6:
 			if (hour < 12)
-				formatedDate = date + " " + "Jun" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Jun" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Jun" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 7:
 			if (hour < 12)
-				formatedDate = date + " " + "Jul" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Jul" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Jul" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 8:
 			if (hour < 12)
-				formatedDate = date + " " + "Aug" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Aug" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Aug" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 9:
 			if (hour < 12)
-				formatedDate = date + " " + "Sep" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Sep" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Sep" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 10:
 			if (hour < 12)
-				formatedDate = date + " " + "Oct" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Oct" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Oct" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 11:
 			if (hour < 12)
-				formatedDate = date + " " + "Nov" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Nov" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Nov" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 		case 12:
 			if (hour < 12)
-				formatedDate = date + " " + "Dec" + " " + year + ", " + hour
-						+ ":" + minutes + " am";
+				formatedDate = date + " " + "Dec" + " " + year + ", "+"0" + hour
+						+ ":" + minutesStr + " am";
 			else
 				formatedDate = date + " " + "Dec" + " " + year + ", "
-						+ (hour - 12) + ":" + minutes + " pm";
+						+ (hour - 12) + ":" + minutesStr + " pm";
 			break;
 
 		}

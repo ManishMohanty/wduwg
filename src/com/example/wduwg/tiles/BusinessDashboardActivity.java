@@ -66,6 +66,21 @@ public class BusinessDashboardActivity extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		if(autoUpdate == null)
+		{
+			autoUpdate = new Timer();
+			  autoUpdate.schedule(new TimerTask() {
+			   @Override
+			   public void run() {
+			    runOnUiThread(new Runnable() {
+			     public void run() {
+			    	 LoadStringsAsync2 asyncTask = new LoadStringsAsync2();
+						asyncTask.execute();
+			     }
+			    });
+			   }
+			  }, 0, 120000);
+		}
 		if(globalVariable.getSelectedBusiness()!= null)
 		{
 			commonMethod();
@@ -382,6 +397,7 @@ public class BusinessDashboardActivity extends Activity {
 	
 	//counter
 	int visitors_total;
+	int previous_total;
 	public class LoadStringsAsync2 extends AsyncTask<Void, Void, Void> {
 
 		// new thread for imagedownloading res
@@ -411,14 +427,16 @@ public class BusinessDashboardActivity extends Activity {
 						women_out += Integer.parseInt(jsonobject.getString("women_out"));
 						visitors_total += men_in + women_in;
 					}
+					System.out.println(">>>>>>> visitors_total:"+visitors_total);
 					globalVariable.getSelectedBusiness().setMenIn(men_in);
 					globalVariable.getSelectedBusiness().setMenOut(men_out);
 					globalVariable.getSelectedBusiness().setWomenIn(women_in);
 					globalVariable.getSelectedBusiness().setWomenOut(women_out);
 					int message_frequency = Integer.parseInt(sharedPreference.getString(
 							"prefNotificationFrequency", ""));
-					if( sharedPreference.getBoolean("prefMessageSwitch", false) == true && (visitors_total) >= message_frequency)
+					if( sharedPreference.getBoolean("prefMessageSwitch", false) == true && (visitors_total-previous_total) >= message_frequency)
 					{
+						previous_total = visitors_total;
 						System.out.println(">>>>>>> MSG frequency:"+message_frequency);
 						try{
 							SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d, yyyy h:mm a");
@@ -429,7 +447,6 @@ public class BusinessDashboardActivity extends Activity {
 									sharedPreference.getString("prefPhone", "09019129275"), "wduwg",
 									"Total Attendance at \""+globalVariable.getSelectedBusiness().getName()+"\" is " + (men_in+women_in - men_out - women_out)+ " at "+strDate,
 									null, null);
-							visitors_total = 0;
 						}catch(Exception e)
 						{
 							e.printStackTrace();
