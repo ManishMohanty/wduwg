@@ -101,6 +101,9 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 	mPreferenceEntries[i].setSummary("Click to select value");
                 	System.out.println(">>>>>>> else of drop down");
                 }
+            }else if(mPreferenceEntries[i] instanceof SwitchPreference)
+            {
+            	SwitchPreference currenPreference = (SwitchPreference)mPreferenceEntries[i];
             }
         }
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this); // register change listener
@@ -144,53 +147,47 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     
                     if(key.equals("prefFb_frequency") && preferences.getBoolean("facebookSwitch", false) == true && currentPreference.getEntry() != null)
                     {
-                    	System.out.println(">>>>>>> AppSettings");
-                    	if(scheduleTask != null)
-                    	{
-                    		System.out.println(">>>>>>> timer stop:"+timer.purge());
-                    		timer.cancel();
-                    		scheduleTask.cancel();
-                    	}
-                    	timer = new Timer();
-                    	scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
+                    	globalVariable.fbPostOff();
                     	String  postcontent = preferences.getString("prefFb_frequency", "");
                     	if(postcontent.equalsIgnoreCase("Men and Women"))
-                    		scheduleTask.setMenwomen(true);
+                 		globalVariable.fbPostOn(true);
                     	else
-                    		scheduleTask.setMenwomen(false);
-                    	timer.scheduleAtFixedRate(scheduleTask, 1000, 2*60*1000);
+                    		globalVariable.fbPostOn(false);
                     }
                 }
                 else if(mPreferenceEntries[i] instanceof SwitchPreference)
                 {
+                	System.out.println(">>>>>> key:"+key);
                 	final SwitchPreference currentPrefrence = (SwitchPreference) mPreferenceEntries[i];
                 	if(key.equals("prefMessageSwitch") )
+                	{
                 	 status = (boolean) mPreferenceEntries[i].getSharedPreferences().getBoolean("prefMessageSwitch", false);
-                	else
+                	System.out.println(">>>>>> status of key:"+ status);
+                	}
+                	 else
                 		status = (boolean)mPreferenceEntries[i].getSharedPreferences().getBoolean("facebookSwitch", false);
-                	mPreferenceEntries[i].setSummary(status?"On":"Off");
-                	if(key.equals("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
+                	    mPreferenceEntries[i].setSummary(status?"On":"Off");
+                	if(key.equalsIgnoreCase("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
                     {
-                		if(scheduleTask != null)
-                		{
-                			scheduleTask.cancel();
-                		 System.out.println(">>>>>>> timer stop:"+timer.purge());
-                		 timer.cancel();
-                		}
+                		System.out.println(">>>>>> key:"+key);
+                		boolean  flag = preferences.getBoolean("facebookSwitch", false);
+                		System.out.println(">>>>>>> facebook status:"+flag);
                     	String postcontent = preferences.getString("prefFb_frequency", "0");
-                    		timer = new Timer();
-                    		scheduleTask = new SchedulerFBPosts(AppSettingsActivity.this);
-                    		if(postcontent.equalsIgnoreCase("Men and Women"))
+                    	System.out.println(">>>>>> facebook posting on");
+                    	System.out.println(">>>>>> post content"+postcontent);
+                    	globalVariable.fbPostOff();
+                		if(postcontent.equalsIgnoreCase("Men and Women"))
                         	{
-                        		scheduleTask.setMenwomen(true);
+                			  globalVariable.fbPostOn(true);
                         	}
-                    		timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
+                		else
+                		{
+                			globalVariable.fbPostOn(false);
+                		}
                     } // else for facebook off.
                 	else if(key.equals("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == false && scheduleTask != null && timer != null )
                 	{
-                		scheduleTask.cancel();
-                		timer.cancel();
-                		System.out.println(">>>>>>> Facebook off");
+                		globalVariable.fbPostOff();
                 	}
                 }
                 break;
@@ -217,12 +214,6 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
 	public void delink(View v)
 	{
 		GlobalVariable globalVariable = (GlobalVariable) getApplicationContext();
-		SchedulerCount scheduledTask = new SchedulerCount(this);
-		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-		scheduledTask.run();
-		SchedulerCount.event = globalVariable.getSelectedEvent();
-		timer.cancel();
 		globalVariable.setSelectedBusiness(null);
 		globalVariable.setSelectedEvent(null);
 		globalVariable.setMenIn(0);
@@ -230,6 +221,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
 		globalVariable.setWomenIn(0);
 		globalVariable.setWomenOut(0);
 		globalVariable.saveSharedPreferences();
+		globalVariable.fbPostOff();
 		Intent intent = new Intent(this,MainActivity.class);
 		startActivity(intent);
 		this.finish();

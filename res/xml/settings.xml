@@ -31,6 +31,7 @@
         android:key="facebookSwitch"
         android:title="@string/autoupdatefacebook" />
         <com.wduwg.preference.CustomListPreference android:title="@string/update_frequency"
+                        android:defaultValue="Total"
                         android:key="prefFb_frequency"
                         android:summary="click to select post content"
                         android:entries="@array/updateFrequency"

@@ -115,7 +115,7 @@ public class BusinessOfUserActivity extends Activity{
 		// TODO Auto-generated method stub
 		MenuItem logouItem = menu.findItem(R.id.menu_logout);
 		MenuItem delinkItem = menu.findItem(R.id.menu_delink);
-		MenuItem deleteItem = menu.findItem(R.id.menu_delete);
+//		MenuItem deleteItem = menu.findItem(R.id.menu_delete);
 		MenuItem settingsItem = menu.findItem(R.id.menu_settings);
 		if(globalVariable.getFb_access_token() !=null)
 		{
@@ -127,12 +127,12 @@ public class BusinessOfUserActivity extends Activity{
 		if(globalVariable.getSelectedBusiness() != null)
 		{
 			delinkItem.setEnabled(true);
-			deleteItem.setEnabled(true);
+//			deleteItem.setEnabled(true);
 			settingsItem.setEnabled(true);
 		}else
 		{
 			delinkItem.setEnabled(false);
-			deleteItem.setEnabled(false);
+//			deleteItem.setEnabled(false);
 			settingsItem.setEnabled(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -236,6 +236,7 @@ public class BusinessOfUserActivity extends Activity{
 										globalVariable.setSelectedBusiness(null);
 										globalVariable.setSelectedBusiness(business);
 										globalVariable.saveSharedPreferences();
+										globalVariable.fbPostOff();
 												Gson gson = new Gson();
 												String json = gson.toJson(business);
 												System.out.println(">>>>>>> business existing"

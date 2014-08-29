@@ -160,7 +160,7 @@ public class AddSpecialActivity extends Activity {
 		findThings();
 		initializeThings();
 		
-		if(getIntent().hasExtra("special")&& ! getIntent().hasExtra("newAdd"))
+		if(getIntent().hasExtra("special")&& !getIntent().hasExtra("newAdd"))
 		{
 			selectedSpecial = (Special)getIntent().getSerializableExtra("special");
 			nameET.setText(selectedSpecial.getName());
@@ -262,6 +262,15 @@ public class AddSpecialActivity extends Activity {
 	}
 	
 	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(AddSpecialActivity.this , BusinessDashboardActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(intent);
+		super.onBackPressed();
+	}
+
+	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
@@ -278,6 +287,7 @@ public class AddSpecialActivity extends Activity {
 
 		// new thread for imagedownloading res
 		List<String> specialList = new ArrayList<String>();
+		boolean isAdded = false;
 
 		public LoadStringsAsync() {
 
@@ -298,11 +308,15 @@ public class AddSpecialActivity extends Activity {
 				jsonObject2 = new JSONObject().put("special", newObject);
 				
 				JSONObject jsonFromServer = jsonparser.getJSONFromUrlAfterHttpPost(url, jsonObject2);
+				if(!jsonFromServer.getString("name").equalsIgnoreCase("is already taken"))
+				{
 				Gson gson = new Gson();
 				selectedSpecial = gson.fromJson(jsonFromServer.toString(), Special.class);
 				selectedSpecial.setStartDate(globalVariable.convertDate(jsonFromServer.getString("start_date_time").substring(0, 16)));
 				selectedSpecial.setEndDate(globalVariable.convertDate(jsonFromServer.getString("end_date_time").substring(0, 16)));
-
+				isAdded = true;
+				}
+				
 			} catch (Exception e) {
 				Log.d("Response========", "inside catch");
 				e.printStackTrace();
@@ -313,6 +327,11 @@ public class AddSpecialActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void arg0) {
 			progressDialog.dismiss();
+			
+			if(isAdded)
+			{
+				FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
+				asyncExample.execute(new String[] { "Helllo Worls" });
 			alertDialogBuilder = createDialog.createAlertDialog(
 					"Special added successfully", null, false);
 			alertDialogBuilder.setCancelable(false);
@@ -324,13 +343,27 @@ public class AddSpecialActivity extends Activity {
 					alertDialog.dismiss();
 					Intent intent = new Intent(AddSpecialActivity.this,
 							SpecialActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 					startActivity(intent);
 				}
 			});
+			}else
+			{
+				alertDialogBuilder = createDialog.createAlertDialog(
+						"There is already a special with the same name and start time. Please change the name or the start time to create a new Special.", null, false);
+				alertDialogBuilder.setCancelable(false);
+				alertDialogBuilder.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								alertDialog.dismiss();
+							}
+						});
+			}
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
-			FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-			asyncExample.execute(new String[] { "Helllo Worls" }); 
 		}
 
 	}
@@ -605,7 +638,7 @@ public class AddSpecialActivity extends Activity {
 //				postMessage = postMessage 
 //						+ " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+ convertDate(selectedSpecial.getStartDate().substring(0, 16)) + "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" + convertDate(selectedSpecial.getEndDate().substring(0, 16));
 				postMessage = postMessage 
-						+ " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getStartDate() + "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" + selectedSpecial.getEndDate();
+						+ " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+ selectedSpecial.getStartDate() + "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" + selectedSpecial.getEndDate()+"\n";
 			
 		System.out.println(">>>>>>> Message"+postMessage);
 			// ********************************Convert String to Image **************************

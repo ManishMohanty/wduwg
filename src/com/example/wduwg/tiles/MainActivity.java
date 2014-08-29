@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.transition.ChangeBounds;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -344,6 +345,7 @@ public void onDelink(View v) {
 				globalVariable.setMenOut(0);
 				globalVariable.setWomenIn(0);
 				globalVariable.setWomenOut(0);
+				globalVariable.fbPostOff();
 				globalVariable.saveSharedPreferences();
 				Intent nextIntent = new Intent(MainActivity.this, BusinessOfUserActivity.class);
 				startActivity(nextIntent);
@@ -390,5 +392,5 @@ public void onDelink(View v) {
 	protected void onRestart() {
 		super.onRestart();
 	}
-	
+
 }

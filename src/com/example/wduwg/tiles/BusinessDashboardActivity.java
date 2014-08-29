@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -60,14 +61,16 @@ public class BusinessDashboardActivity extends Activity {
 	List<Event> eventList ;
 	private  Timer autoUpdate;
 	private static final int SETTING = 93;
-	
+	int message_frequency,increment;
 	SharedPreferences sharedPreference;
 	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		if(autoUpdate == null)
+		if(autoUpdate != null)
 		{
+			autoUpdate.cancel();
+			autoUpdate.purge();
 			autoUpdate = new Timer();
 			  autoUpdate.schedule(new TimerTask() {
 			   @Override
@@ -80,6 +83,15 @@ public class BusinessDashboardActivity extends Activity {
 			    });
 			   }
 			  }, 0, 120000);
+			  if(message_frequency != Integer.parseInt(sharedPreference.getString(
+						"prefNotificationFrequency", "0")))
+			  {
+			  message_frequency = Integer.parseInt(sharedPreference.getString(
+						"prefNotificationFrequency", "0"));
+			  System.out.println(">>>>>while change message frequency"+message_frequency);
+			  increment = Integer.parseInt(sharedPreference.getString(
+						"prefNotificationFrequency", "0"));
+			  }
 		}
 		if(globalVariable.getSelectedBusiness()!= null)
 		{
@@ -108,7 +120,7 @@ public class BusinessDashboardActivity extends Activity {
 		setContentView(R.layout.activity_business_dashboard);
 		
 		gson = new Gson();
-		
+		 sharedPreference = PreferenceManager.getDefaultSharedPreferences(BusinessDashboardActivity.this);
 		typefaceBold = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Bold.ttf");
 		typefaceLight = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Light.ttf");
 		 
@@ -144,10 +156,20 @@ public class BusinessDashboardActivity extends Activity {
        ActionBar ab = getActionBar();
        ab.setDisplayShowCustomEnabled(true);
        ab.setCustomView(v);
+       if(sharedPreference.contains("prefNotificationFrequency"))
+       {
+       message_frequency = Integer.parseInt(sharedPreference.getString(
+				"prefNotificationFrequency", "0"));
+       
+	  System.out.println(">>>>>while change message frequency"+message_frequency);
+	  increment = Integer.parseInt(sharedPreference.getString(
+				"prefNotificationFrequency", "0"));
+       }
 //       commomMethod();
         createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we fetch your data.", true, null);
 		progressDialog.show();
+		
 		LoadStringsAsync asyncTask = new LoadStringsAsync();
 		asyncTask.execute();
 	}
@@ -225,6 +247,7 @@ public class BusinessDashboardActivity extends Activity {
 							autoUpdate.cancel();
 						intent.putExtra("addNew", true);
 						globalVariable.getSelectedBusiness().getEventList().remove(position);
+						System.out.println(">>>>> ******************************************");
 					}
 					intent.putExtra("event",event1);
 					startActivity(intent);
@@ -396,8 +419,7 @@ public class BusinessDashboardActivity extends Activity {
 	
 	
 	//counter
-	int visitors_total;
-	int previous_total;
+	int previous_visitors ;
 	public class LoadStringsAsync2 extends AsyncTask<Void, Void, Void> {
 
 		// new thread for imagedownloading res
@@ -414,6 +436,7 @@ public class BusinessDashboardActivity extends Activity {
 				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
 				if(specialsjsonarr.length()>0)
 				{
+					int visitors_total = 0;
 					men_in = 0;
 					men_out = 0;
 					women_in = 0;
@@ -425,18 +448,19 @@ public class BusinessDashboardActivity extends Activity {
 						men_out += Integer.parseInt(jsonobject.getString("men_out"));
 						women_in += Integer.parseInt(jsonobject.getString("women_in"));
 						women_out += Integer.parseInt(jsonobject.getString("women_out"));
-						visitors_total += men_in + women_in;
 					}
+					visitors_total = men_in + women_in;
 					System.out.println(">>>>>>> visitors_total:"+visitors_total);
 					globalVariable.getSelectedBusiness().setMenIn(men_in);
 					globalVariable.getSelectedBusiness().setMenOut(men_out);
 					globalVariable.getSelectedBusiness().setWomenIn(women_in);
 					globalVariable.getSelectedBusiness().setWomenOut(women_out);
-					int message_frequency = Integer.parseInt(sharedPreference.getString(
-							"prefNotificationFrequency", ""));
-					if( sharedPreference.getBoolean("prefMessageSwitch", false) == true && (visitors_total-previous_total) >= message_frequency)
+					System.out.println(">>>>> msg fre before sending message"+message_frequency);
+					if( sharedPreference.getBoolean("prefMessageSwitch", false) == true && visitors_total >= message_frequency)
 					{
-						previous_total = visitors_total;
+						System.out.println(">>>>>>> total visitor"+visitors_total);
+						System.out.println(">>>>>>> MSG frequency:"+message_frequency);
+						message_frequency +=increment;
 						System.out.println(">>>>>>> MSG frequency:"+message_frequency);
 						try{
 							SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d, yyyy h:mm a");
@@ -485,7 +509,6 @@ public class BusinessDashboardActivity extends Activity {
 	    	 men_out =0;
 	    	 women_in = 0;
 	    	 women_out = 0;
-	    	 sharedPreference = PreferenceManager.getDefaultSharedPreferences(BusinessDashboardActivity.this);
 	    	 if(globalVariable.getSelectedBusiness() != null)
 			commonMethod();
 	    	 if(autoUpdate == null){
@@ -511,24 +534,24 @@ public class BusinessDashboardActivity extends Activity {
 		getMenuInflater().inflate(R.menu.overflow_options_menu, menu);
 		CharSequence rawTitle = "Logout";
 		CharSequence delink = "Delink";
-		CharSequence delete = "Delete";
+//		CharSequence delete = "Delete";
 		CharSequence setting = "Settings";
 		
 		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
 		menu.findItem(R.id.menu_delink).setTitleCondensed(delink);
-		menu.findItem(R.id.menu_delete).setTitleCondensed(delete);
+//		menu.findItem(R.id.menu_delete).setTitleCondensed(delete);
 		menu.findItem(R.id.menu_settings).setTitleCondensed(setting);
 
 		SpannableString logoutstr = new SpannableString(rawTitle);
 		SpannableString delinkstr = new SpannableString(delink);
-		SpannableString deletestr = new SpannableString(delete);
+//		SpannableString deletestr = new SpannableString(delete);
 		SpannableString settingstr = new SpannableString(setting);
 		delinkstr.setSpan(typefaceBold, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
 		logoutstr.setSpan(typefaceBold, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
-		deletestr.setSpan(typefaceBold, 0, deletestr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		menu.findItem(R.id.menu_delete).setTitle(deletestr);
+//		deletestr.setSpan(typefaceBold, 0, deletestr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//		menu.findItem(R.id.menu_delete).setTitle(deletestr);
 		settingstr.setSpan(typefaceBold, 0, settingstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_settings).setTitle(settingstr);
 		return true;
@@ -577,6 +600,7 @@ public class BusinessDashboardActivity extends Activity {
 			globalVariable.setMenOut(0);
 			globalVariable.setWomenIn(0);
 			globalVariable.setWomenOut(0);
+			globalVariable.fbPostOff();
 			globalVariable.saveSharedPreferences();
 			globalVariable.saveSharedPreferences();
 			if(AppSettingsActivity.timer != null)
@@ -588,48 +612,50 @@ public class BusinessDashboardActivity extends Activity {
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(nextIntent);
 			return true;
-		case R.id.menu_delete:
-			System.out.println(">>>>>>> dlete option");
-			if(autoUpdate != null)
-			autoUpdate.cancel();
-			alertDialogBuilder = createDialog
-			.createAlertDialog(
-					"Delete",
-					"Do you wish to delete business permanentaly ?",
-					false);
-	alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-		
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
-			
-			
-			// call async task to delete business
-			if(autoUpdate != null){
-				autoUpdate.cancel();
-				autoUpdate.purge();
-				autoUpdate = null;
-			}
-			alertDialog.dismiss();
-			progressDialog = createDialog.createProgressDialog("Deleting",
-					"Please wait while we delete this business from your login.", true, null);
-			progressDialog.show();
-			DeleteAsyncTask asyncTask = new DeleteAsyncTask();
-			asyncTask.execute();
-			
-		}
-	});
-	alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-		
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
-			alertDialog.dismiss();
-		}
-	});
-	alertDialog = alertDialogBuilder.create();
-	alertDialog.show();     
-	return true;
+//		case R.id.menu_delete:
+//			System.out.println(">>>>>>> dlete option");
+//			if(autoUpdate != null)
+//			autoUpdate.cancel();
+//			alertDialogBuilder = createDialog
+//			.createAlertDialog(
+//					"Delete",
+//					"Do you wish to delete business permanentaly ?",
+//					false);
+//	alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//		
+//		@Override
+//		public void onClick(DialogInterface dialog, int which) {
+//			// TODO Auto-generated method stub
+//			
+//			
+//			// call async task to delete business
+//			if(autoUpdate != null){
+//				autoUpdate.cancel();
+//				autoUpdate.purge();
+//				autoUpdate = null;
+//				globalVariable.fbPostOff();
+//				change_setting_preference();
+//			}
+//			alertDialog.dismiss();
+//			progressDialog = createDialog.createProgressDialog("Deleting",
+//					"Please wait while we delete this business from your login.", true, null);
+//			progressDialog.show();
+//			DeleteAsyncTask asyncTask = new DeleteAsyncTask();
+//			asyncTask.execute();
+//			
+//		}
+//	});
+//	alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//		
+//		@Override
+//		public void onClick(DialogInterface dialog, int which) {
+//			// TODO Auto-generated method stub
+//			alertDialog.dismiss();
+//		}
+//	});
+//	alertDialog = alertDialogBuilder.create();
+//	alertDialog.show();     
+//	return true;
 		case R.id.menu_delink:
 			System.out.println(">>>>>>> delink option");
 			AlertDialog.Builder alertDialogBuilder1 = createDialog
@@ -641,11 +667,13 @@ public class BusinessDashboardActivity extends Activity {
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
-			if(autoUpdate != null)
 			alertDialog1.dismiss();
+			if(autoUpdate != null)
+			{
 			autoUpdate.cancel();
 			autoUpdate.purge();
 			autoUpdate = null;
+			}
 			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
 			{
 				SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
@@ -661,6 +689,7 @@ public class BusinessDashboardActivity extends Activity {
 			globalVariable.setMenOut(0);
 			globalVariable.setWomenIn(0);
 			globalVariable.setWomenOut(0);
+			globalVariable.fbPostOff();
 			globalVariable.saveSharedPreferences();
 			Intent nextIntent = new Intent(BusinessDashboardActivity.this, BusinessOfUserActivity.class);
 			startActivity(nextIntent);
@@ -723,7 +752,18 @@ public class BusinessDashboardActivity extends Activity {
 			overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 		}
 		
-		
+	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if(autoUpdate != null)
+		{
+			autoUpdate.cancel();
+			autoUpdate.purge();
+			autoUpdate = null;
+		}
+		super.onBackPressed();
 	}
 	
 }

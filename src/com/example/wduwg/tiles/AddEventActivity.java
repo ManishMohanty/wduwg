@@ -125,6 +125,15 @@ public class AddEventActivity extends Activity {
 
 	// boolean status
 	boolean isAdded;
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(AddEventActivity.this , BusinessDashboardActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(intent);
+		super.onBackPressed();
+	}
+
 	boolean isDefaultEvent = false;
 
 	SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
@@ -671,20 +680,16 @@ public class AddEventActivity extends Activity {
 				if (!jsonFromServer.has("error")) {
 					selectedEvent = gson.fromJson(jsonFromServer.toString(),
 							Event.class);
+					if (!selectedEvent.getStartDate().equalsIgnoreCase(
+							"is already taken")) {
 					selectedEvent.setStartDate(globalVariable.convertDate(jsonFromServer.getString("start_date_time").substring(0, 16)));
 					selectedEvent.setEndDate(globalVariable.convertDate(jsonFromServer.getString("end_date_time").substring(0, 16)));
 					System.out.println(">>>>>>> Event start date: "
 							+ selectedEvent.getStartDate());
-					if (selectedEvent.getStartDate().equalsIgnoreCase(
-							"is already taken")) {
-						isAdded = false;
-					} else {
-						globalVariable.setSelectedEvent(selectedEvent);
-						System.out
-								.println("while skip inside addevent global slected event"
-										+ globalVariable.getSelectedEvent()
-												.getName());
 						isAdded = true;
+						globalVariable.setSelectedEvent(selectedEvent);
+					} else {
+						isAdded = false;
 					}
 				}
 
@@ -719,12 +724,14 @@ public class AddEventActivity extends Activity {
 									int which) {
 								// TODO Auto-generated method stub
 								alertDialog.dismiss();
-								nextActivity();
+								Intent intent = new Intent(AddEventActivity.this,EventActivity.class);
+								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+								startActivity(intent);
 							}
 						});
 			} else {
 				alertDialogBuilder = createDialog.createAlertDialog(
-						"This Event already exists at same time", null, false);
+						"There is already an Event with the same name and start time. Please change the name or the start time to create a new Event.", null, false);
 				alertDialogBuilder.setCancelable(false);
 				alertDialogBuilder.setPositiveButton("Ok",
 						new DialogInterface.OnClickListener() {
@@ -785,7 +792,7 @@ public class AddEventActivity extends Activity {
 			 + " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+
 			 globalVariable.getSelectedEvent().getStartDate() +
 			 "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" +
-			 globalVariable.getSelectedEvent().getEndDate();
+			 globalVariable.getSelectedEvent().getEndDate()+"\n";
 
 			System.out.println(">>>>>>> Message11" + postMessage);
 			// ********************************Convert String to Image

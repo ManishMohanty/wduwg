@@ -86,6 +86,13 @@ Event selectedEvent;
 		actionBar.setCustomView(customActionBar);
 	}
 
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		this.finish();
+		super.onBackPressed();
+	}
+
 	public void newEvent(View v)
 	{
 		Intent intent = new Intent(this,AddEventActivity.class);
@@ -189,7 +196,7 @@ Event selectedEvent;
 					Event selectedEvent = events.get(position);
 //						newEvent(null);
 					Intent intent = new Intent(EventActivity.this,AddEventActivity.class);
-					if(selectedEvent.getName().equalsIgnoreCase("Add Event"))
+					if(selectedEvent.getName().equalsIgnoreCase("Add an Event"))
 					{
 						intent.putExtra("addNew", true);
 					}else

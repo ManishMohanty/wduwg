@@ -1,60 +1,26 @@
 package com.mw.wduwg.services;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Timer;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.graphics.Bitmap.CompressFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.nfc.FormatException;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.text.StaticLayout;
-import android.text.TextPaint;
-import android.text.Layout.Alignment;
-import android.widget.Toast;
 
-import com.example.wduwg.tiles.LoginFacebookActivity;
-import com.example.wduwg.tiles.R;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenSource;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.android.Facebook;
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.model.BusinessFBPage;
 import com.mw.wduwg.model.Customer;
 import com.mw.wduwg.model.Event;
-import com.mw.wduwg.model.Special;
-import com.parse.entity.mime.HttpMultipartMode;
-import com.parse.entity.mime.MultipartEntity;
-import com.parse.entity.mime.content.ByteArrayBody;
-import com.parse.entity.mime.content.StringBody;
 
 public class GlobalVariable extends Application {
 
@@ -65,6 +31,8 @@ public class GlobalVariable extends Application {
 	Gson gson;
 	int menIn, menOut, womenIn, womenOut;
 	int intervalMenIn, intervalWomenIn, intervalMenOut, intervalWomenOut;
+	SchedulerFBPosts scheduleTask;
+	Timer timer;
 
 	public boolean isInternet() {
 		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
@@ -345,130 +313,166 @@ public class GlobalVariable extends Application {
 		System.out.println(">>>>>>> while posting date:" + datestr);
 		int hour = Integer.parseInt(datestr.split("T")[1].split(":")[0]) - 5;
 		int minutes = Integer.parseInt(datestr.split("T")[1].split(":")[1]);
-		String minutesStr;
-		if(minutes < 10)
-		{
-			minutesStr = "0"+minutes;
-		}else
-			minutesStr = ""+minutes;
+		NumberFormat formatter = new DecimalFormat("00");
 		int date = Integer.parseInt(datestr.split("T")[0].split("-")[2]);
 		int month = Integer.parseInt(datestr.split("T")[0].split("-")[1]);
 		int year = Integer.parseInt(datestr.split("T")[0].split("-")[0]);
+		boolean isLeapyear =(year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 		if (hour < 0) {
 			date = date - 1;
 			hour = 24 + hour;
-		}
-		if (date == 31) {
-			month = month - 1;
-		}
-		if (month == 0) {
-			month = 12;
-			year = year - 1;
+			if(date == 0)
+			{
+				if(isLeapyear == true && month == 3)
+				{
+					month = month -1;
+					date = 29;
+				}else if(month == 3)
+				{
+					date = 28;
+					month = month -1;
+				}else if(month == 2 || month == 4 || month == 6 || month == 9 || month == 11|| month == 8)
+				{
+					date = 31;
+					month = month -1;
+				}else
+				{
+					month = month -1;
+					date = 30;
+				}
+			}
+			if(date == 31 && month == 12)
+			{
+				year = year -1;
+			}
 		}
 		
+		
 		String formatedDate = "";
+		if(hour == 12 )
+		{
+			hour = 24;
+		}
 		switch (month) {
 		case 1:
 			if (hour < 12)
-				formatedDate = date + " " + "Jan" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Jan" + " " + year + ", " + formatter.format(hour) 
+						+ ":" + formatter.format(minutes) + " am";
 			else
 				formatedDate = date + " " + "Jan" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 2:
 			if (hour < 12)
-				formatedDate = date + " " + "Feb" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Feb" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Feb" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 3:
 			if (hour < 12)
-				formatedDate = date + " " + "Mar" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Mar" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Mar" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 4:
 			if (hour < 12)
-				formatedDate = date + " " + "Apr" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Apr" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Apr" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 5:
 			if (hour < 12)
-				formatedDate = date + " " + "May" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "May" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "May" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 6:
 			if (hour < 12)
-				formatedDate = date + " " + "Jun" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Jun" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Jun" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 7:
 			if (hour < 12)
-				formatedDate = date + " " + "Jul" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Jul" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Jul" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 8:
 			if (hour < 12)
-				formatedDate = date + " " + "Aug" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Aug" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Aug" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 9:
 			if (hour < 12)
-				formatedDate = date + " " + "Sep" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Sep" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Sep" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 10:
 			if (hour < 12)
-				formatedDate = date + " " + "Oct" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Oct" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Oct" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 11:
 			if (hour < 12)
-				formatedDate = date + " " + "Nov" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Nov" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Nov" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 		case 12:
 			if (hour < 12)
-				formatedDate = date + " " + "Dec" + " " + year + ", "+"0" + hour
-						+ ":" + minutesStr + " am";
+				formatedDate = date + " " + "Dec" + " " + year + ", " + formatter.format(hour)
+						+ ":" + formatter.format(minutes)  + " am";
 			else
 				formatedDate = date + " " + "Dec" + " " + year + ", "
-						+ (hour - 12) + ":" + minutesStr + " pm";
+						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
 			break;
 
 		}
 
 		System.out.println(">>>> converted date" + formatedDate);
 		return formatedDate;
+	}
+	
+	
+	public void fbPostOn(boolean isMenWomen)
+	{
+		scheduleTask = new SchedulerFBPosts(getApplicationContext());
+		timer = new Timer();
+		scheduleTask.setMenwomen(isMenWomen);
+		timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
+	}
+	public void fbPostOff()
+	{
+		if(timer != null)
+		{
+		timer.cancel();
+		timer.purge();
+		sharedPreferences.edit().putBoolean("facebookSwitch", false).commit();
+		}
 	}
 
 }

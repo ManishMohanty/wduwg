@@ -11,12 +11,12 @@
         android:orderInCategory="2"
         android:showAsAction="never"
         android:title="Delink"/> 
-    <item
+    <!-- <item
         android:id="@+id/menu_delete"
         android:orderInCategory="3"
         android:showAsAction="never"
         android:title="Delete"
-        />
+        /> -->
     <item
         android:id="@+id/menu_settings"
         android:orderInCategory="3"

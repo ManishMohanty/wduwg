@@ -123,10 +123,10 @@ public class SchedulerFBPosts extends TimerTask {
 			if(menwomen == true)
 			{
 				postMessage = " Men: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
-						+(params[0].getMenIn()-params[0].getMenOut())+"\n Women: \t\t\t\t\t\t\t\t\t\t\t\t\t\t"+(params[0].getWomenIn()-params[0].getWomenOut()) + "\n Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date());	
+						+(params[0].getMenIn()-params[0].getMenOut())+"\n Women: \t\t\t\t\t\t\t\t\t\t\t\t\t\t"+(params[0].getWomenIn()-params[0].getWomenOut()) + "\n Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date())+"\n";	
 			}else
 			{
-				postMessage = " Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date());
+				postMessage = " Time: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+df.format(new Date())+"\n";
 			}
 			
 			System.out.println(">>>>>>> Message"+postMessage);
@@ -154,6 +154,8 @@ public class SchedulerFBPosts extends TimerTask {
 					textPaint.getTextBounds(postName, 0, postName.length(), bounds);
 					StaticLayout mTextLayout = new StaticLayout(postName, textPaint,
 							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+//					StaticLayout mTextLayout = new StaticLayout(postName, textPaint,
+//							750, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 					int maxWidth = -1;
 					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
 					    if (maxWidth < mTextLayout.getLineWidth(i)) {
@@ -162,6 +164,8 @@ public class SchedulerFBPosts extends TimerTask {
 					}
 					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
 					            Bitmap.Config.ARGB_8888);
+//					final Bitmap bmp = Bitmap.createBitmap(750 , mTextLayout.getHeight(),
+//				            Bitmap.Config.ARGB_8888);
 					
 					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
@@ -189,6 +193,8 @@ public class SchedulerFBPosts extends TimerTask {
 					}
 					final Bitmap bmp1 = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout1.getHeight(),
 					            Bitmap.Config.ARGB_8888);
+//					final Bitmap bmp1 = Bitmap.createBitmap(750 , mTextLayout1.getHeight(),
+//				            Bitmap.Config.ARGB_8888);
 					
 					bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas1 = new Canvas(bmp1);
@@ -197,6 +203,9 @@ public class SchedulerFBPosts extends TimerTask {
 					Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(),
 							myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
 							Bitmap.Config.ARGB_8888);
+//					Bitmap bmOverlay = Bitmap.createBitmap(750,
+//							myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
+//							Bitmap.Config.ARGB_8888);
 					Canvas canvasAppend = new Canvas(bmOverlay);
 					canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
 					canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
