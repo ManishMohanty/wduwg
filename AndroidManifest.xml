@@ -29,6 +29,15 @@
         android:name="android.hardware.camera.flash"
         android:required="false" />
 
+    <supports-screens android:requiresSmallestWidthDp="100" />
+    <supports-screens 
+              android:smallScreens="true"
+              android:normalScreens="true"
+              android:largeScreens="true"
+              android:xlargeScreens="true"
+              android:anyDensity="true"/>
+    
+    
     <application
         android:name="com.mw.wduwg.services.GlobalVariable"
         android:allowBackup="true"
