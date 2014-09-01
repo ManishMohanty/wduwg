@@ -336,6 +336,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //		mPlayerIn.start();
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
 		globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn()+1);
+		globalVariable.saveSharedPreferences();
 		inMaleTV.setText("" + globalVariable.getMenIn());
 		int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
@@ -343,7 +344,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		System.out.println(">>>>>>> inside men_in:"+globalVariable.getMenIn());
 		System.out.println(">>>>>>> time:"+new Date());
 		System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
-		globalVariable.saveSharedPreferences();
 //		if(total % 50 == 0)
 //		{
 //			int a = 10/0;
@@ -367,11 +367,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //			mPlayerOut.start();
 			globalVariable.setMenOut(globalVariable.getMenOut() + 1);
 			globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut()+1);
-			outMaleTV.setText("" + globalVariable.getMenOut());
-			System.out.println(">>>>>>> inside men_out:"+globalVariable.getMenOut());
-			System.out.println(">>>>>>> time:"+new Date());
-			System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
 			globalVariable.saveSharedPreferences();
+			outMaleTV.setText("" + globalVariable.getMenOut());
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 			total_attendance.setText(""+total);
@@ -383,15 +380,11 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //		mPlayerIn.start();
 		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
 		globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn()+1);
+		globalVariable.saveSharedPreferences();
 		inFemaleTV.setText("" + globalVariable.getWomenIn());
 		int total1 = (globalVariable.getMenIn() - globalVariable.getMenOut())
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 		total_attendance.setText(""+total1);
-		System.out.println(">>>>>>> inside women in");
-		System.out.println(">>>>>>> inside women_in:"+globalVariable.getWomenIn());
-		System.out.println(">>>>>>> time:"+new Date());
-		System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
-		globalVariable.saveSharedPreferences();
 //		if(total1 % 50 == 0)
 //		{
 //			int a = 10/0;
@@ -413,14 +406,11 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	public void womenOut_watch(View v) {
 		if ((globalVariable.getWomenIn() - globalVariable.getWomenOut()) > 0) {
-			System.out.println(">>>>>>> inside women_out:"+globalVariable.getWomenOut());
-			System.out.println(">>>>>>> time:"+new Date());
-			System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
 //			mPlayerOut.start();
 			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
 			globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut()+1);
-			outFemaleTV.setText("" + globalVariable.getWomenOut());
 			globalVariable.saveSharedPreferences();
+			outFemaleTV.setText("" + globalVariable.getWomenOut());
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 					+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 			total_attendance.setText(""+total);

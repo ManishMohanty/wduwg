@@ -12,20 +12,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.text.format.Time;
 import android.util.Log;
 
 import com.mw.wduwg.model.Event;
-import com.parse.ParseObject;
-import com.wduwg.watch.app.CountActivity;
 
 public class SchedulerCount extends TimerTask {
        
