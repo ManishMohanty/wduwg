@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shellborder" >
+    
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="83dp"
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/imagelayout"
+                    android:gravity="center_horizontal"
+                    android:scaleType="fitXY">
+
+    <com.loopj.android.image.SmartImageView
+        android:id="@+id/image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:scaleType="fitXY"
+        android:src="@drawable/city_lights"
+        />
+    <TextView 
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Waiting for Activation"
+              android:layout_centerInParent="true"
+              android:rotation="25"
+              android:textColor="#ff0000"
+              android:textStyle="bold"
+              android:textSize="13.5sp"
+              android:id="@+id/status"
+              android:background="#E7E7E7"
+              android:visibility="gone"/>
+    </RelativeLayout>
+   
+
+    <TextView
+        android:id="@+id/businessName"
+        android:layout_width="160dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/imagelayout"
+        android:gravity="center_horizontal"
+        android:text="Adiga"
+        android:textColor="#686B69"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="160dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/businessName"
+        android:gravity="center_horizontal"
+        android:text="indira nagar CmH Road"
+        android:textColor="#686B69"
+        android:textSize="12sp" />
+
+</RelativeLayout>

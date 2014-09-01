@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="0dp"
+        android:textSize="13sp"
+        android:text="@string/messageForUser"
+        android:id="@+id/messageForUser"
+        android:textColor="#686B69"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        />
+<!--         android:layout_marginLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" -->
+    
+    
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="12dp"
+                    >
+             <!--       android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                     android:layout_marginTop="10dp" -->
+    <GridView 
+    android:id="@+id/gridView1"
+    android:numColumns="2"
+    android:gravity="center"
+    android:verticalSpacing="12dp"
+    android:horizontalSpacing="12dp"
+    android:columnWidth="100dp"
+    android:stretchMode="columnWidth"
+    android:layout_width="fill_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp" 
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_height="match_parent" >
+    
+    </GridView>
+    </RelativeLayout>
+
+</LinearLayout>

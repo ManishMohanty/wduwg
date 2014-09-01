@@ -29,7 +29,6 @@
         android:name="android.hardware.camera.flash"
         android:required="false" />
 
-    <supports-screens android:requiresSmallestWidthDp="100" />
     <supports-screens 
               android:smallScreens="true"
               android:normalScreens="true"

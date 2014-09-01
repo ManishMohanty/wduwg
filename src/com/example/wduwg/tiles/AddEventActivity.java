@@ -326,7 +326,7 @@ public class AddEventActivity extends Activity {
 			@SuppressWarnings("deprecation")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				((EditText) v).setVisibility(View.GONE);
+//				((EditText) v).setVisibility(View.GONE);
 
 				showDialog(DATE_PICKER_ID_Start);
 				return false;
@@ -338,7 +338,7 @@ public class AddEventActivity extends Activity {
 			@Override
 			@SuppressWarnings("deprecation")
 			public boolean onTouch(View v, MotionEvent event) {
-				((EditText) v).setVisibility(View.GONE);
+//				((EditText) v).setVisibility(View.GONE);
 				showDialog(DATE_PICKER_ID_end);
 				return false;
 			}

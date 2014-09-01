@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/splash_logo"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
         android:src="@drawable/wduwg" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/splash_logo"
         android:layout_centerInParent="false"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="invisible" >
@@ -37,7 +37,7 @@
             android:gravity="center_horizontal"
             android:text="Welcome to"
             android:textColor="#0669B1"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:gravity="center_horizontal"
             android:text="WDUWG"
             android:textColor="#0669B1"
-            android:textSize="40sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
@@ -58,16 +58,15 @@
             android:gravity="center_horizontal"
             android:text="@string/splash_message"
             android:textColor="#0669B1"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textLayout"
         android:layout_centerInParent="false"
-        android:layout_marginTop="125sp"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="invisible"
@@ -83,7 +82,7 @@
             android:onClick="onDelink"
             android:text="@string/delink"
             android:textColor="@color/text_color"
-            android:textSize="21sp"
+            android:textSize="19sp"
             android:visibility="gone" 
             android:layout_marginRight="80dp"/>
 
@@ -97,7 +96,7 @@
             android:onClick="oncontinue"
             android:text="@string/continueText"
             android:textColor="@color/text_color"
-            android:textSize="21sp"
+            android:textSize="19sp"
             android:visibility="invisible" /> 
     </LinearLayout>
 

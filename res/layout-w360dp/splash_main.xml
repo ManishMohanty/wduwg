@@ -58,16 +58,16 @@
             android:gravity="center_horizontal"
             android:text="@string/splash_message"
             android:textColor="#0669B1"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/textLayout"
         android:layout_centerInParent="false"
-        android:layout_marginTop="125sp"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="invisible"

@@ -15,6 +15,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.transition.ChangeBounds;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -86,6 +87,11 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_main);
+		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        Toast.makeText(this, "height:"+dpHeight+"dp\n Width:"+dpWidth+"dp", Toast.LENGTH_LONG).show();
 		findThings();
 		initializeThings();
 

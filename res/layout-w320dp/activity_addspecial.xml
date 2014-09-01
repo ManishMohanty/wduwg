@@ -129,25 +129,23 @@
          android:paddingRight="10dp"
          android:textSize="21sp"
          android:textColor="#0669b1"
-         android:layout_below="@id/ll2"
          android:clickable="true"
          android:onClick="save"
          android:layout_alignParentRight="true"
-         android:layout_marginRight="10dp"
-         android:layout_marginTop="20dp"/>
+         />
        
-       <TextView  android:layout_width="wrap_content"
-         android:id="@+id/deleteSpecial"
-         android:layout_height="wrap_content"
-         android:text="@string/delete"
-         android:textSize="21sp"
-         android:textColor="#0669b1"
-         android:layout_below="@id/ll2"
-         android:clickable="true"
-         android:onClick="onDelete"
-         android:layout_alignParentRight="true"
-         android:layout_marginRight="10dp"
-         android:layout_marginTop="20dp"/>
+       <TextView  
+                 android:id="@+id/deleteSpecial"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentRight="true"
+                 android:layout_centerVertical="true"
+                 android:text="@string/delete"
+		         android:textSize="21sp"
+		         android:textColor="#0669b1"
+		         android:clickable="true"
+		         android:onClick="onDelete"
+        />
        
     </RelativeLayout>
     </RelativeLayout>
