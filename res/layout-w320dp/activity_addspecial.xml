@@ -23,8 +23,8 @@
 
     <ImageView
         android:id="@+id/business_profile_imageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/wduwg" />
 
@@ -37,7 +37,7 @@
         android:layout_marginTop="30dp"
         android:text="Please tell us what Special you are having"
         android:textColor="#0669b1"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <com.mw.wduwg.services.MyAutoCompleteTextView
         android:id="@+id/nameET"
@@ -56,7 +56,7 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/nameET"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:weightSum="1" >
 
@@ -86,7 +86,7 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/ll1"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:weightSum="1" >
 

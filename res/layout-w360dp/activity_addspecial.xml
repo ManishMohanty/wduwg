@@ -1,8 +1,8 @@
 <RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".AddEventActivity"
-    android:id="@+id/add_event_LL"
+    tools:context=".AddSpecialActivity"
+    android:id="@+id/add_special_LL"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
@@ -13,18 +13,18 @@
     android:paddingRight="5dp"
     android:paddingTop="30dp"
      >
-<ScrollView android:id="@+id/my_scrollview"
+     <ScrollView android:id="@+id/my_scrollview"
     			android:layout_width="fill_parent"
     			android:layout_height="wrap_content"
     			android:orientation="vertical"      
         		android:layout_marginBottom="0dp">
-        		
-<RelativeLayout android:layout_width="fill_parent"
+   <RelativeLayout android:layout_width="fill_parent"
     			android:layout_height="wrap_content" >
+
     <ImageView
         android:id="@+id/business_profile_imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/wduwg" />
 
@@ -34,19 +34,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/business_profile_imageView"
         android:gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:text="Please tell us what you are counting"
+        android:layout_marginTop="40dp"
+        android:text="Please tell us what Special you are having"
         android:textColor="#0669b1"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <com.mw.wduwg.services.MyAutoCompleteTextView
-        android:id="@+id/event_name_editText"
+        android:id="@+id/nameET"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_below="@+id/header_TV"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:hint="Add a title for your event"
+        android:hint="Add a title for your Special"
         android:paddingLeft="5dp"
         android:singleLine="true"
         android:textColor="#0669b1" />
@@ -55,8 +55,8 @@
         android:id="@+id/ll1"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/event_name_editText"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/nameET"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         android:weightSum="1" >
 
@@ -86,7 +86,7 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/ll1"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         android:weightSum="1" >
 
@@ -110,42 +110,43 @@
             android:maxLines="1"
             android:textColor="#0669b1" />
     </LinearLayout>
-  
+    
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ll2"
          >
 
-       <TextView android:id="@+id/next_page_continueTV"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentRight="true"
-                 android:layout_centerVertical="true"
-                 android:paddingTop="5dp"
-                 android:paddingBottom="5dp"
-                 android:paddingRight="10dp"
-                 android:onClick="onContinue"
-                 android:clickable="true"
-                 android:textColor="@color/text_color"
-                 android:textSize="21sp"
-                 android:text="@string/continueText"
-                  />
+
+       <TextView  android:layout_width="wrap_content"
+         android:id="@+id/continueTV"
+         android:layout_height="wrap_content"
+         android:text="@string/continueText"
+         android:paddingTop="5dp"
+         android:paddingBottom="5dp"
+         android:paddingRight="10dp"
+         android:textSize="21sp"
+         android:textColor="#0669b1"
+         android:layout_below="@id/ll2"
+         android:clickable="true"
+         android:onClick="save"
+         android:layout_alignParentRight="true"
+         android:layout_centerVertical="true"/>
        
-       <TextView android:id="@+id/deleteEvent"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentRight="true"
-                 android:layout_centerVertical="true"
-                 android:onClick="onDelete"
-                 android:clickable="true"
-                 android:textColor="@color/text_color"
-                 android:textSize="21sp"
-                 android:text="@string/delete"
-                  />
+       <TextView  android:layout_width="wrap_content"
+         android:id="@+id/deleteSpecial"
+         android:layout_height="wrap_content"
+         android:text="@string/delete"
+         android:textSize="21sp"
+         android:textColor="#0669b1"
+         android:clickable="true"
+         android:onClick="onDelete"
+         android:layout_alignParentRight="true"
+         android:layout_centerVertical="true"/>
+       
     </RelativeLayout>
- </RelativeLayout>
+    </RelativeLayout>
  </ScrollView>
 
 </RelativeLayout>

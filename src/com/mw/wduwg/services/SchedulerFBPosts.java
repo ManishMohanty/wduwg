@@ -152,20 +152,20 @@ public class SchedulerFBPosts extends TimerTask {
 					    }
 					};
 					textPaint.getTextBounds(postName, 0, postName.length(), bounds);
-					StaticLayout mTextLayout = new StaticLayout(postName, textPaint,
-							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 //					StaticLayout mTextLayout = new StaticLayout(postName, textPaint,
-//							750, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+//							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+					StaticLayout mTextLayout = new StaticLayout(postName, textPaint,
+							730, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 					int maxWidth = -1;
 					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
 					    if (maxWidth < mTextLayout.getLineWidth(i)) {
 					        maxWidth = (int) mTextLayout.getLineWidth(i);
 					    }
 					}
-					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
-					            Bitmap.Config.ARGB_8888);
-//					final Bitmap bmp = Bitmap.createBitmap(750 , mTextLayout.getHeight(),
-//				            Bitmap.Config.ARGB_8888);
+//					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
+//					            Bitmap.Config.ARGB_8888);
+					final Bitmap bmp = Bitmap.createBitmap(730 , mTextLayout.getHeight(),
+				            Bitmap.Config.ARGB_8888);
 					
 					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
@@ -191,21 +191,21 @@ public class SchedulerFBPosts extends TimerTask {
 					        maxWidth1 = (int) mTextLayout1.getLineWidth(i);
 					    }
 					}
-					final Bitmap bmp1 = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout1.getHeight(),
-					            Bitmap.Config.ARGB_8888);
-//					final Bitmap bmp1 = Bitmap.createBitmap(750 , mTextLayout1.getHeight(),
-//				            Bitmap.Config.ARGB_8888);
+//					final Bitmap bmp1 = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout1.getHeight(),
+//					            Bitmap.Config.ARGB_8888);
+					final Bitmap bmp1 = Bitmap.createBitmap(730 , mTextLayout1.getHeight(),
+				            Bitmap.Config.ARGB_8888);
 					
 					bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas1 = new Canvas(bmp1);
 					mTextLayout1.draw(canvas1);
 
-					Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(),
-							myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
-							Bitmap.Config.ARGB_8888);
-//					Bitmap bmOverlay = Bitmap.createBitmap(750,
+//					Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(),
 //							myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
 //							Bitmap.Config.ARGB_8888);
+					Bitmap bmOverlay = Bitmap.createBitmap(730,
+							myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
+							Bitmap.Config.ARGB_8888);
 					Canvas canvasAppend = new Canvas(bmOverlay);
 					canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
 					canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);

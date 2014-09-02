@@ -668,12 +668,12 @@ public class BusinessDashboardActivity extends Activity {
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
 			alertDialog1.dismiss();
-			if(autoUpdate != null)
-			{
+//			if(autoUpdate != null)
+//			{
 			autoUpdate.cancel();
 			autoUpdate.purge();
 			autoUpdate = null;
-			}
+//			}
 			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
 			{
 				SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);

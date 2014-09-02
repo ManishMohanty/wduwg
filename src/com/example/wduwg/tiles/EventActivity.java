@@ -180,7 +180,7 @@ Event selectedEvent;
 			globalVariable.getSelectedBusiness().setEventList(events);
 			globalVariable.saveSharedPreferences();
             Event newEvent = new Event();
-            newEvent.setName("Add Event");
+            newEvent.setName("Add an Event");
             newEvent.setImageUrl("http://images.dashtickets.co.nz/images/events/listings/event_default.jpg");
             events.add(newEvent);
 			

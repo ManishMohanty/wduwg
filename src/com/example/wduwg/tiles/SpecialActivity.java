@@ -162,7 +162,7 @@ public class SpecialActivity extends Activity {
 			globalVariable.getSelectedBusiness().setSpecials(specials);
 			globalVariable.saveSharedPreferences();
             Special special = new Special();
-            special.setName("Add Special");
+            special.setName("Add a Special");
             special.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
             specials.add(special);
             SpecialApater adapter = new SpecialApater(SpecialActivity.this, specials);
@@ -186,7 +186,7 @@ public class SpecialActivity extends Activity {
 	{
 		
 		Intent intent = new Intent(this,AddSpecialActivity.class);
-		if(selectedSpecial.getName().equalsIgnoreCase("Add Special"))
+		if(selectedSpecial.getName().equalsIgnoreCase("Add a Special"))
 		{
 			intent.putExtra("newAdd", true);
 		}else

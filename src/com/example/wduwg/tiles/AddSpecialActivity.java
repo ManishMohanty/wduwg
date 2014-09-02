@@ -664,15 +664,15 @@ public class AddSpecialActivity extends Activity {
 					};
 					textPaint.getTextBounds(specialName, 0, specialName.length(), bounds);
 					StaticLayout mTextLayout = new StaticLayout(specialName, textPaint,
-							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+							750, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 					int maxWidth = -1;
 					for (int i = 0; i < mTextLayout.getLineCount(); i++) {
 					    if (maxWidth < mTextLayout.getLineWidth(i)) {
 					        maxWidth = (int) mTextLayout.getLineWidth(i);
 					    }
 					}
-					final Bitmap bmp = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout.getHeight(),
-					            Bitmap.Config.ARGB_8888);
+					final Bitmap bmp = Bitmap.createBitmap(750 , mTextLayout.getHeight(),
+				            Bitmap.Config.ARGB_8888);
 					
 					bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas = new Canvas(bmp);
@@ -693,15 +693,15 @@ public class AddSpecialActivity extends Activity {
 					};
 					textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
 					StaticLayout mTextLayout1 = new StaticLayout(postMessage, textPaint1,
-							myBitmap.getWidth(), Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+							750, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
 					int maxWidth1 = -1;
 					for (int i = 0; i < mTextLayout1.getLineCount(); i++) {
 					    if (maxWidth1 < mTextLayout1.getLineWidth(i)) {
 					        maxWidth1 = (int) mTextLayout1.getLineWidth(i);
 					    }
 					}
-					final Bitmap bmp1 = Bitmap.createBitmap(myBitmap.getWidth() , mTextLayout1.getHeight(),
-					            Bitmap.Config.ARGB_8888);
+					final Bitmap bmp1 = Bitmap.createBitmap(750 , mTextLayout1.getHeight(),
+				            Bitmap.Config.ARGB_8888);
 					
 					bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding black background
 					final Canvas canvas1 = new Canvas(bmp1);
@@ -709,7 +709,7 @@ public class AddSpecialActivity extends Activity {
 				 
 				 
 				 
-				 Bitmap bmOverlay = Bitmap.createBitmap(myBitmap.getWidth(), myBitmap.getHeight()+bmp.getHeight()+bmp1.getHeight(),  Bitmap.Config.ARGB_8888);
+				 Bitmap bmOverlay = Bitmap.createBitmap(750, myBitmap.getHeight()+bmp.getHeight()+bmp1.getHeight(),  Bitmap.Config.ARGB_8888);
 				 Canvas canvasAppend = new Canvas(bmOverlay);
 				 canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
 				 canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
