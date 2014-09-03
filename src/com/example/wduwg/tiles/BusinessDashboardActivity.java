@@ -61,7 +61,6 @@ public class BusinessDashboardActivity extends Activity {
 	List<Event> eventList ;
 	private  Timer autoUpdate;
 	private static final int SETTING = 93;
-	int message_frequency,increment;
 	SharedPreferences sharedPreference;
 	
 	@Override
@@ -83,15 +82,6 @@ public class BusinessDashboardActivity extends Activity {
 			    });
 			   }
 			  }, 0, 120000);
-			  if(message_frequency != Integer.parseInt(sharedPreference.getString(
-						"prefNotificationFrequency", "0")))
-			  {
-			  message_frequency = Integer.parseInt(sharedPreference.getString(
-						"prefNotificationFrequency", "0"));
-			  System.out.println(">>>>>while change message frequency"+message_frequency);
-			  increment = Integer.parseInt(sharedPreference.getString(
-						"prefNotificationFrequency", "0"));
-			  }
 		}
 		if(globalVariable.getSelectedBusiness()!= null)
 		{
@@ -156,15 +146,6 @@ public class BusinessDashboardActivity extends Activity {
        ActionBar ab = getActionBar();
        ab.setDisplayShowCustomEnabled(true);
        ab.setCustomView(v);
-       if(sharedPreference.contains("prefNotificationFrequency"))
-       {
-       message_frequency = Integer.parseInt(sharedPreference.getString(
-				"prefNotificationFrequency", "0"));
-       
-	  System.out.println(">>>>>while change message frequency"+message_frequency);
-	  increment = Integer.parseInt(sharedPreference.getString(
-				"prefNotificationFrequency", "0"));
-       }
 //       commomMethod();
         createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we fetch your data.", true, null);
@@ -419,7 +400,6 @@ public class BusinessDashboardActivity extends Activity {
 	
 	
 	//counter
-	int previous_visitors ;
 	public class LoadStringsAsync2 extends AsyncTask<Void, Void, Void> {
 
 		// new thread for imagedownloading res
@@ -455,13 +435,11 @@ public class BusinessDashboardActivity extends Activity {
 					globalVariable.getSelectedBusiness().setMenOut(men_out);
 					globalVariable.getSelectedBusiness().setWomenIn(women_in);
 					globalVariable.getSelectedBusiness().setWomenOut(women_out);
-					System.out.println(">>>>> msg fre before sending message"+message_frequency);
-					if( sharedPreference.getBoolean("prefMessageSwitch", false) == true && visitors_total >= message_frequency)
+					if( sharedPreference.getBoolean("prefMessageSwitch", false) == true && visitors_total >= globalVariable.getMessage_frequency()&& globalVariable.getMessage_frequency() > 0)
 					{
-						System.out.println(">>>>>>> total visitor"+visitors_total);
-						System.out.println(">>>>>>> MSG frequency:"+message_frequency);
-						message_frequency +=increment;
-						System.out.println(">>>>>>> MSG frequency:"+message_frequency);
+						int next_frequency = Integer.parseInt(sharedPreference.getString("prefNotificationFrequency", "0")) * (visitors_total / Integer.parseInt(sharedPreference.getString("prefNotificationFrequency", "0")));
+						globalVariable.setMessage_frequency(next_frequency + Integer.parseInt(sharedPreference.getString("prefNotificationFrequency", "0")));
+						globalVariable.saveSharedPreferences();
 						try{
 							SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d, yyyy h:mm a");
 							df.setTimeZone(TimeZone.getTimeZone("America/Chicago"));

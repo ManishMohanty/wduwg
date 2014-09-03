@@ -46,7 +46,7 @@ public class MainActivity extends Activity
 	}
 
 	Typeface typeface;
-	TextView delinkTV;
+	TextView delinkTV;   
 	TextView continueText;
 	CreateDialog createDialog;
 	AlertDialog.Builder alertDialogBuilder;

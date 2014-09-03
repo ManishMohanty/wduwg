@@ -147,7 +147,7 @@ public class SchedulerFBPosts extends TimerTask {
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(context.getAssets(),
 					    			"Fonts/OpenSans-Bold.ttf"));
-					        setTextSize(25f);
+					        setTextSize(35f);
 					        setAntiAlias(true);
 					    }
 					};
@@ -178,7 +178,7 @@ public class SchedulerFBPosts extends TimerTask {
 					        setTextAlign(Paint.Align.LEFT);
 					        setTypeface(Typeface.createFromAsset(context.getAssets(),
 					    			"Fonts/OpenSans-Bold.ttf"));
-					        setTextSize(25f);
+					        setTextSize(30f);
 					        setAntiAlias(true);
 					    }
 					};

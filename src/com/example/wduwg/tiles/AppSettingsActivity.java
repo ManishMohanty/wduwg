@@ -154,6 +154,13 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     	else
                     		globalVariable.fbPostOn(false);
                     }
+                    else 
+                    {
+                    	if(key.equals("prefNotificationFrequency"))
+                    	{
+                    		globalVariable.setMessage_frequency(Integer.parseInt(preferences.getString("prefNotificationFrequency", "0")));
+                    	}
+                    }
                 }
                 else if(mPreferenceEntries[i] instanceof SwitchPreference)
                 {

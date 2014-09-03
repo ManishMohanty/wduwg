@@ -32,6 +32,16 @@ public class GlobalVariable extends Application {
 	int menIn, menOut, womenIn, womenOut;
 	int intervalMenIn, intervalWomenIn, intervalMenOut, intervalWomenOut;
 	SchedulerFBPosts scheduleTask;
+	int message_frequency;
+	
+	public int getMessage_frequency() {
+		return message_frequency;
+	}
+
+	public void setMessage_frequency(int message_frequency) {
+		this.message_frequency = message_frequency;
+	}
+
 	Timer timer;
 
 	public boolean isInternet() {
@@ -164,6 +174,11 @@ public class GlobalVariable extends Application {
 					sharedPreferences.getString("selectedFBPage", null),
 					BusinessFBPage.class);
 		}
+		if(sharedPreferences.contains("message_frequency"))
+		{
+			this.message_frequency = sharedPreferences.getInt("message_frequency", 0);
+			System.out.println("<<<<<msg fre:"+this.message_frequency);
+		}
 		this.menIn = sharedPreferences.getInt("menIn", 0);
 		this.menOut = sharedPreferences.getInt("menOut", 0);
 		this.womenIn = sharedPreferences.getInt("womenIn", 0);
@@ -220,6 +235,8 @@ public class GlobalVariable extends Application {
 		editor.putInt("womenIn", womenIn);
 		editor.putInt("menOut", menOut);
 		editor.putInt("womenOut", womenOut);
+		editor.putInt("message_frequency", this.message_frequency);
+		
 		editor.commit();
 	}
 
