@@ -89,9 +89,9 @@ public class MainActivity extends Activity
 		setContentView(R.layout.splash_main);
 		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
 
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        Toast.makeText(this, "height:"+dpHeight+"dp\n Width:"+dpWidth+"dp", Toast.LENGTH_LONG).show();
+//        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+//        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+//        Toast.makeText(this, "height:"+dpHeight+"dp\n Width:"+dpWidth+"dp", Toast.LENGTH_LONG).show();
 		findThings();
 		initializeThings();
 
