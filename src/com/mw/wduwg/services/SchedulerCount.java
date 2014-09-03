@@ -123,6 +123,10 @@ public class SchedulerCount extends TimerTask {
 			{
 				e.printStackTrace();
 			}
+			catch(Throwable t)
+			{
+				t.printStackTrace();
+			}
 
 			
 			Log.d("== Count ==", "Saved successfully");

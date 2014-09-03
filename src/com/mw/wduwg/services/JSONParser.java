@@ -76,6 +76,10 @@ public class JSONParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		catch(Throwable t)
+		{
+			t.printStackTrace();
+		}
 System.out.println("hello");
 		return getJSONObjectFromInputStream(is);
 	}
