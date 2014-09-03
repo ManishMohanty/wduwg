@@ -119,6 +119,10 @@ public class SchedulerCount extends TimerTask {
 				globalVariable.saveSharedPreferences();
 				e.printStackTrace();
 			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 
 			
 			Log.d("== Count ==", "Saved successfully");
