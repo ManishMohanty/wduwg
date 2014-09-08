@@ -345,11 +345,8 @@ public class MainActivity extends Activity
 				// TODO Auto-generated method stub
 				alertDialog.dismiss();
 				SchedulerCount scheduledTask = new SchedulerCount(MainActivity.this);
-				Timer timer = new Timer();
-				timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
 				scheduledTask.run();
 				SchedulerCount.event = globalVariable.getSelectedEvent();
-				timer.cancel();
 				globalVariable.setSelectedBusiness(null);
 				globalVariable.setSelectedEvent(null);
 				globalVariable.setMenIn(0);

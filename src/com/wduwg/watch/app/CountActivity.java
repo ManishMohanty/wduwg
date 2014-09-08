@@ -156,7 +156,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		selectedEvent = globalVariable.getSelectedEvent();
 
-		scheduledTask = new SchedulerCount(this);
 
 		ab = getActionBar();
 		customActionBarView = inflater
@@ -276,8 +275,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
-//				headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
-//		        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 				headerTV.setText(globalVariable.getSelectedBusiness().getName()
 		        		+"\nTotal Attendance At server ->"+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
 				customDialog.show();
@@ -344,22 +341,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		System.out.println(">>>>>>> inside men_in:"+globalVariable.getMenIn());
 		System.out.println(">>>>>>> time:"+new Date());
 		System.out.println(">>>>>>> count at Server"+globalVariable.getTotalInDB());
-//		if(total % 50 == 0)
-//		{
-//			int a = 10/0;
-//		}
-		
-//		if (sharedPreference.contains("prefNotificationFrequency")) {
-//			int message_frequency = Integer.parseInt(sharedPreference.getString(
-//					"prefNotificationFrequency", ""));
-//			if (total > 0
-//					&& total % message_frequency == 0
-//					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
-////				System.out.println(">>>>>>> message frequency:"+message_frequency);
-////				sendNotification();
-//			}
-//		}
-
 	}
 
 	public void menOut_watch(View v) {
@@ -385,23 +366,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		int total1 = (globalVariable.getMenIn() - globalVariable.getMenOut())
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 		total_attendance.setText(""+total1);
-//		if(total1 % 50 == 0)
-//		{
-//			int a = 10/0;
-//		}
-//		if (sharedPreference.contains("prefNotificationFrequency")) {
-//			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
-//					+ (globalVariable.getWomenIn() - globalVariable
-//							.getWomenOut());
-//			int message_frequency = Integer.parseInt(sharedPreference.getString(
-//					"prefNotificationFrequency", ""));
-//			if (total > 0
-//					&& total % message_frequency == 0
-//					&& sharedPreference.getBoolean("prefMessageSwitch", false) == true) {
-////				System.out.println(">>>>>>> message frequency:"+message_frequency);
-////				sendNotification();
-//			}
-//		}
 	}
 
 	public void womenOut_watch(View v) {
@@ -459,22 +423,28 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(timer == null)
-		{
-		scheduledTask = new SchedulerCount(this);
-		timer = new Timer();
-		timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
-		}
+		try{
+			if(timer != null)
+			{
+				timer.cancel();
+				timer.purge();
+				scheduledTask.cancel();
+			}
+		    scheduledTask = new SchedulerCount(this);
+		    timer = new Timer();
+		    timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
+		   }catch(Throwable t)
+		    {
+			  t.printStackTrace();
+		    }
 		
 		child = inflater.inflate(R.layout.listview_context_menu, null);
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
 		headerTV = (TextView) child.findViewById(R.id.header_TV);
 		headerTV.setTypeface(typeface);
-//        headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
-//        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 		
 		headerTV.setText(globalVariable.getSelectedBusiness().getName()+"\n"
-        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
+        		+"Total Attendance -> "+(globalVariable.getTotalInDB()+ globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 		
 		contextMenuItems = new ArrayList<ContextMenuItem>();
 		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(

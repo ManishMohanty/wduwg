@@ -79,7 +79,7 @@ public class SpalshFirstActivity extends Activity {
 		{
 			alertdialogbuilder = createDialog
 					.createAlertDialog(
-							"Networok Error",
+							"Network Error",
 							"You are now offline. Please establish a connection for using WDUWG.",
 							false);
 			alertdialogbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -97,12 +97,11 @@ public class SpalshFirstActivity extends Activity {
 		
 		if (globalVariable.getSelectedBusiness()!= null) {
 			System.out.println(">>>>>>> inside splash ");
-			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
-				
-			{
-				SchedulerCount scheduleCountTask = new SchedulerCount(SpalshFirstActivity.this);
-				scheduleCountTask.run();
-			}
+//			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
+//			{
+//				SchedulerCount scheduleCountTask = new SchedulerCount(SpalshFirstActivity.this);
+//				scheduleCountTask.run();
+//			}
 			Intent intent = new Intent(SpalshFirstActivity.this,
 					CountActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK

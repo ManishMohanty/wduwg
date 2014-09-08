@@ -17,13 +17,14 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mw.wduwg.model.Event;
 
 public class SchedulerCount extends TimerTask {
        
 	int men_in = 0, men_out = 0 , women_in = 0 , women_out = 0; 
-//	boolean isUnderProgress = false;
+	boolean isUnderProgress = false;
 	
 	
 	Looper looper = Looper.getMainLooper();
@@ -71,9 +72,9 @@ public class SchedulerCount extends TimerTask {
         });
 	}
 
-	private class SaveCountAsync extends AsyncTask<String, Void, Void> {
+	private class SaveCountAsync extends AsyncTask<String, Void, String> {
 		@Override
-		protected Void doInBackground(String... params) {
+		protected String doInBackground(String... params) {
 			jParser = new JSONParser();
 			String url = ServerURLs.URL + ServerURLs.COUNTER;
 			women_in +=  globalVariable.getIntervalWomenIn();
@@ -86,7 +87,7 @@ public class SchedulerCount extends TimerTask {
 //			System.out.println(">>>>>>> cdt hour:"+sdf.format(new Date().getHours()));
 			if(men_in > 0 || men_out > 0 || women_out > 0 || women_in > 0 )
 			try {
-//				if(isUnderProgress == false){
+				if(isUnderProgress == false){
 				JSONObject jsonObject;
 				jsonObject = new JSONObject()
 						.put("women_in", women_in)
@@ -102,39 +103,57 @@ public class SchedulerCount extends TimerTask {
 				globalVariable.setIntervalWomenIn(0);
 				globalVariable.setIntervalWomenOut(0);
 	            globalVariable.saveSharedPreferences();
-//	            isUnderProgress = true;
+	            isUnderProgress = true;
 	            jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
 	            		jsonObject2);
-	            if(jsonFromServer.get("status").equals("ok"))
+	            if(jsonFromServer != null)
 	            {
-//	            	isUnderProgress = false;
-	            	men_in = 0;
-	            	men_out = 0;
-	            	women_in = 0;
-	            	women_out = 0;
-	            	globalVariable.setTotalInDB(jsonFromServer.getInt("total"));
+		            if(jsonFromServer.get("status").equals("ok"))
+		            {
+		            	isUnderProgress = false;
+		            	men_in = 0;
+		            	men_out = 0;
+		            	women_in = 0;
+		            	women_out = 0;
+		            	globalVariable.setTotalInDB(jsonFromServer.getInt("total"));
+		            	return "ok";
+		            }else
+		            	return "fail";
+	            }else
+	            {
+	            	return "fail";
 	            }
-//			}
+			}
 			} catch (JSONException e) {
 				globalVariable.saveSharedPreferences();
 				e.printStackTrace();
+				return "fail";
 			}
 			catch(Exception e)
 			{
 				e.printStackTrace();
+				return "fail";
 			}
 			catch(Throwable t)
 			{
 				t.printStackTrace();
+				return "fail";
 			}
 
 			
 			Log.d("== Count ==", "Saved successfully");
-			return null;
+			return "ok";
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(String result) {
+			if(result.equalsIgnoreCase("ok"))
+			{
+				Toast.makeText(context, "total at server:"+globalVariable.getTotalInDB(), Toast.LENGTH_LONG).show();
+			}else
+			{
+				Toast.makeText(context, "counter update failed", Toast.LENGTH_LONG).show();
+			}
 			
 		}// onPostExecute
 	}// Async Task

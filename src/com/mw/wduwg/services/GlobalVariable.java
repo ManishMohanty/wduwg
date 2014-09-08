@@ -197,6 +197,7 @@ public class GlobalVariable extends Application {
 		this.intervalWomenIn = sharedPreferences.getInt("intervalWomenIn", 0);
 		this.intervalWomenOut = sharedPreferences.getInt("intervalWomenOut", 0);
 		this.isReset = sharedPreferences.getBoolean("isreset", false);
+		this.totalInDB = sharedPreferences.getInt("totalInDB", 0);
 //		this.resetDate = new Date(sharedPreferences.getString("resetdate", null));
 	}	
 	
@@ -267,6 +268,7 @@ public class GlobalVariable extends Application {
 			editor.putInt("intervalMenOut",intervalMenOut);
 			editor.putInt("intervalWomenIn", intervalWomenIn);
 			editor.putInt("intervalWomenOut", intervalWomenOut);
+			editor.putInt("totalInDB", totalInDB);
 			editor.putBoolean("isreset", this.isReset);
 //			editor.putString("resetdate", this.resetDate.toString());
 		editor.commit();
