@@ -1,0 +1,152 @@
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AddSpecialActivity"
+    android:id="@+id/add_special_LL"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="30dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="30dp"
+     >
+     <ScrollView android:id="@+id/my_scrollview"
+    			android:layout_width="fill_parent"
+    			android:layout_height="wrap_content"
+    			android:orientation="vertical"      
+        		android:layout_marginBottom="0dp">
+   <RelativeLayout android:layout_width="fill_parent"
+    			android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/business_profile_imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/wduwg" />
+
+    <TextView
+        android:id="@+id/header_TV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/business_profile_imageView"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="Please tell us what Special you are having"
+        android:textColor="#0669b1"
+        android:textSize="16sp" />
+
+    <com.mw.wduwg.services.MyAutoCompleteTextView
+        android:id="@+id/nameET"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/header_TV"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:hint="Add a title for your Special"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="#0669b1" />
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/nameET"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/startsLabel"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:hint="start date"
+            android:maxLines="1"
+            android:textColor="#0669b1" />
+
+        <EditText
+            android:id="@+id/startstime"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:hint="start time"
+            android:maxLines="1"
+            android:textColor="#0669b1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/ll1"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <EditText
+            android:id="@+id/endsLabel"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:hint="end date"
+            android:maxLines="1"
+            android:textColor="#0669b1" />
+
+        <EditText
+            android:id="@+id/endstime"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:hint="end time"
+            android:maxLines="1"
+            android:textColor="#0669b1" />
+    </LinearLayout>
+    
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll2"
+         >
+
+       <TextView  android:layout_width="wrap_content"
+         android:id="@+id/continueTV"
+         android:layout_height="wrap_content"
+         android:text="@string/continueText"
+         android:paddingTop="5dp"
+         android:paddingBottom="5dp"
+         android:paddingRight="10dp"
+         android:textSize="18sp"
+         android:textColor="#0669b1"
+         android:clickable="true"
+         android:onClick="save"
+         android:layout_alignParentRight="true"
+         />
+       
+       <TextView  
+                 android:id="@+id/deleteSpecial"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentRight="true"
+                 android:layout_centerVertical="true"
+                 android:text="@string/delete"
+		         android:textSize="18sp"
+		         android:textColor="#0669b1"
+		         android:clickable="true"
+		         android:onClick="onDelete"
+        />
+       
+    </RelativeLayout>
+    </RelativeLayout>
+ </ScrollView>
+
+</RelativeLayout>

@@ -1,9 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-    >
-
-<RelativeLayout 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -15,8 +10,8 @@
 
     <ImageView
         android:id="@+id/splash_logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
         android:src="@drawable/wduwg" />
@@ -28,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/splash_logo"
         android:layout_centerInParent="false"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="invisible" >
@@ -106,5 +101,3 @@
     </LinearLayout>
 
 </RelativeLayout>
-
-</ScrollView>

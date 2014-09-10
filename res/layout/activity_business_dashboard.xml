@@ -5,12 +5,13 @@
     android:background="#E7E7E7"
     android:orientation="vertical"
     android:weightSum="1" >
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="8dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
         android:layout_weight=".24"
         android:background="#ffffff" >
 
@@ -85,8 +86,8 @@
             android:clickable="true"
             android:onClick="viewDetail" />
     </RelativeLayout>
-    
-     <View
+
+    <View
         android:layout_width="340dp"
         android:layout_height="1dp"
         android:layout_gravity="center_horizontal"
@@ -142,7 +143,6 @@
             android:background="@drawable/gt"
             android:clickable="true"
             android:onClick="allEvents" />
-
     </RelativeLayout>
 
     <View
@@ -173,7 +173,6 @@
             android:textColor="#686B69"
             android:textSize="20sp" />
 
-
         <GridView
             android:id="@+id/specialGV"
             android:layout_width="fill_parent"
@@ -201,12 +200,5 @@
             android:clickable="true"
             android:onClick="allSpecials" />
     </RelativeLayout>
-
-     
-     
-        
-   
-
-    
 
 </LinearLayout>

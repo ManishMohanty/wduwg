@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SearchByPlaceActivity"
+    android:id="@+id/search_place_LL"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="30dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="30dp"
+     >
+
+
+    <ImageView
+            android:id="@+id/photo"
+             android:layout_width="80dp"
+           android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/wduwg"
+             />
+    
+    <TextView
+        android:id="@+id/header_TV"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/photo"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:text="Please provide search details"
+        android:textColor="#0669b1"
+        android:textSize="16sp" />
+    
+
+
+        <EditText
+            android:id="@+id/place_name"
+            android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/header_TV"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:hint="Business Name"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="#0669b1" />
+        <EditText
+            android:id="@+id/place_city"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/place_name"
+            android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="#0669b1"
+        android:hint="city" />
+        
+        <EditText
+            android:id="@+id/place_state"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/place_city"
+            android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:hint="State"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="#0669b1" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:onClick="searchByPlace"
+            android:textColor="#0669b1"
+            android:textSize="18sp"
+            android:text="@string/search" />
+    </RelativeLayout>
+
+</RelativeLayout>

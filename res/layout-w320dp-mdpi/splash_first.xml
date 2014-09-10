@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/city_lights"
+    android:orientation="vertical" >
+    
+    
+    <ImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/wduwg" />
+    
+    <LinearLayout
+        android:id="@+id/textLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/splash_logo"
+        android:layout_centerInParent="false"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="invisible" >
+
+<!-- android:textColor="#0669B1" changed with #ffffff -->
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Welcome to"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/app_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="WDUWG"
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textLayout"
+        android:layout_centerInParent="false"
+        android:layout_marginTop="35sp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+         >
+          <ImageView
+            android:id="@+id/connectFBIV"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:onClick="connectFacebook"
+            android:visibility="gone" 
+            android:src="@drawable/fbconnect"
+            />
+    </LinearLayout>
+   
+</RelativeLayout>
