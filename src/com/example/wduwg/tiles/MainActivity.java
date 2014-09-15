@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.transition.ChangeBounds;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -22,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -46,8 +46,8 @@ public class MainActivity extends Activity
 	}
 
 	Typeface typeface;
-	TextView delinkTV;   
-	TextView continueText;
+	Button delinkTV;   
+	Button continueText;
 	CreateDialog createDialog;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
@@ -61,10 +61,10 @@ public class MainActivity extends Activity
 	TextView messageText;
 
 	private void findThings() {
-		delinkTV = (TextView) findViewById(R.id.delinkTV);
+		delinkTV = (Button) findViewById(R.id.delinkTV);
 		appNameTextView = (TextView) findViewById(R.id.app_name_text);
 		welcomeTextView = (TextView) findViewById(R.id.welcome_text);
-		continueText = (TextView) findViewById(R.id.continuetext);
+		continueText = (Button) findViewById(R.id.continuetext);
 
 	}
 
@@ -309,6 +309,8 @@ public class MainActivity extends Activity
 															.setVisibility(View.VISIBLE);
 													continueText
 															.startAnimation(fadeIn);
+													System.out
+															.println(">>>>>>>>> hi");
 												}
 
 											}

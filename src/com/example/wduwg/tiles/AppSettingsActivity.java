@@ -74,14 +74,14 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
         for (int i = 0; i < mEntryCount; i++) {
         	if(mPreferenceEntries[i] instanceof EditTextPreference)
         	{
-        		EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
-                if(mAutoSummaryFields[i].equals("prefPhone"))
-                {
-                	if(currentPreference.getText() != null)
-                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+"   Click to change");	
-                	else
-                		mPreferenceEntries[i].setSummary("click to enter phone number");
-                }
+//        		EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
+//                if(mAutoSummaryFields[i].equals("prefPhone"))
+//                {
+//                	if(currentPreference.getText() != null)
+//                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+"   Click to change");	
+//                	else
+//                		mPreferenceEntries[i].setSummary("click to enter phone number");
+//                } commented on 10 september to remove sms
 //                else
 //                {
 //                	if(currentPreference.getText() != null)
@@ -123,13 +123,13 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
             if (key.equals(mAutoSummaryFields[i])) {
                 if (mPreferenceEntries[i] instanceof EditTextPreference) {
                      EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
-                    if(key.equals("prefPhone"))
-                    {
-                    	if(currentPreference.getText() != null)
-                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+"   Click to change");	
-                    	else
-                    		mPreferenceEntries[i].setSummary("click to enter phone number");
-                    }
+//                    if(key.equals("prefPhone"))
+//                    {
+//                    	if(currentPreference.getText() != null)
+//                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+"   Click to change");	
+//                    	else
+//                    		mPreferenceEntries[i].setSummary("click to enter phone number");
+//                    } commented on 10th september to remove sms
 //                    else
 //                    {
 //                    	if(currentPreference.getText() != null)
@@ -156,10 +156,10 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     }
                     else 
                     {
-                    	if(key.equals("prefNotificationFrequency"))
-                    	{
-                    		globalVariable.setMessage_frequency(Integer.parseInt(preferences.getString("prefNotificationFrequency", "0")));
-                    	}
+//                    	if(key.equals("prefNotificationFrequency"))
+//                    	{
+//                    		globalVariable.setMessage_frequency(Integer.parseInt(preferences.getString("prefNotificationFrequency", "0")));
+//                    	}
                     }
                 }
                 else if(mPreferenceEntries[i] instanceof SwitchPreference)
