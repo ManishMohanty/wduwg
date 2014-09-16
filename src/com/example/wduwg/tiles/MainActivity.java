@@ -89,21 +89,21 @@ public class MainActivity extends Activity
 		setContentView(R.layout.splash_main);
 		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
 		int density= getResources().getDisplayMetrics().densityDpi;
-		switch(density)
-		  {
-		  case DisplayMetrics.DENSITY_LOW:
-		     Toast.makeText(this, "LDPI", Toast.LENGTH_SHORT).show();
-		      break;
-		  case DisplayMetrics.DENSITY_MEDIUM:
-		       Toast.makeText(this, "MDPI", Toast.LENGTH_SHORT).show();
-		      break;
-		  case DisplayMetrics.DENSITY_HIGH:
-		      Toast.makeText(this, "HDPI", Toast.LENGTH_SHORT).show();
-		      break;
-		  case DisplayMetrics.DENSITY_XHIGH:
-		       Toast.makeText(this, "XHDPI", Toast.LENGTH_SHORT).show();
-		      break;
-		  }
+//		switch(density)
+//		  {
+//		  case DisplayMetrics.DENSITY_LOW:
+//		     Toast.makeText(this, "LDPI", Toast.LENGTH_SHORT).show();
+//		      break;
+//		  case DisplayMetrics.DENSITY_MEDIUM:
+//		       Toast.makeText(this, "MDPI", Toast.LENGTH_SHORT).show();
+//		      break;
+//		  case DisplayMetrics.DENSITY_HIGH:
+//		      Toast.makeText(this, "HDPI", Toast.LENGTH_SHORT).show();
+//		      break;
+//		  case DisplayMetrics.DENSITY_XHIGH:
+//		       Toast.makeText(this, "XHDPI", Toast.LENGTH_SHORT).show();
+//		      break;
+//		  }
 //		Toast.makeText(this, "density:"+displayMetrics.density, Toast.LENGTH_LONG).show();
 
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
