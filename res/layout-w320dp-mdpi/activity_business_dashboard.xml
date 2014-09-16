@@ -7,12 +7,12 @@
     android:weightSum="1" >
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="15dp"
-        android:layout_weight=".24"
         android:background="#ffffff" >
+       
 
         <TextView
             android:id="@+id/visitorLabel"
@@ -25,7 +25,7 @@
             android:paddingLeft="10dp"
             android:text="Attendance"
             android:textColor="#686B69"
-            android:textSize="16sp" />
+            android:textSize="32sp" />
 
         <TextView
             android:id="@+id/totalCount"
@@ -36,7 +36,7 @@
             android:paddingLeft="10dp"
             android:text="Total Count:"
             android:textColor="#686B69"
-            android:textSize="12sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:paddingLeft="10dp"
             android:text="Men Count:"
             android:textColor="#686B69"
-            android:textSize="12sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:paddingLeft="10dp"
             android:text="Women Count:"
             android:textColor="#686B69"
-            android:textSize="12sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
@@ -71,7 +71,7 @@
             android:paddingLeft="10dp"
             android:text="Total Visitors Today:"
             android:textColor="#686B69"
-            android:textSize="12sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <View
@@ -95,10 +95,9 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_weight=".37"
         android:background="#ffffff" >
 
         <TextView
@@ -112,7 +111,7 @@
             android:paddingLeft="10dp"
             android:text="Events"
             android:textColor="#686B69"
-            android:textSize="16sp" />
+            android:textSize="32sp" />
 
         <GridView
             android:id="@+id/eventGV"
@@ -154,10 +153,9 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_weight=".37"
         android:background="#ffffff" >
 
         <TextView
@@ -171,7 +169,7 @@
             android:paddingLeft="10dp"
             android:text="Specials"
             android:textColor="#686B69"
-            android:textSize="16sp" />
+            android:textSize="32sp" />
 
 
         <GridView

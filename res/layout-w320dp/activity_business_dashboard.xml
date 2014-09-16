@@ -28,7 +28,7 @@
             android:paddingLeft="10dp"
             android:text="Attendance"
             android:textColor="#686B69"
-            android:textSize="18sp" />
+            android:textSize="36sp" />
 
         <TextView
             android:id="@+id/totalCount"
@@ -39,7 +39,7 @@
             android:paddingLeft="10dp"
             android:text="Total Count:"
             android:textColor="#686B69"
-            android:textSize="14sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:paddingLeft="10dp"
             android:text="Men Count:"
             android:textColor="#686B69"
-            android:textSize="14sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
@@ -63,7 +63,7 @@
             android:paddingLeft="10dp"
             android:text="Women Count:"
             android:textColor="#686B69"
-            android:textSize="14sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
@@ -74,7 +74,7 @@
             android:paddingLeft="10dp"
             android:text="Total Visitors Today:"
             android:textColor="#686B69"
-            android:textSize="14sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <View
@@ -114,7 +114,7 @@
             android:paddingLeft="10dp"
             android:text="Events"
             android:textColor="#686B69"
-            android:textSize="18sp" />
+            android:textSize="36sp" />
 
         <GridView
             android:id="@+id/eventGV"
@@ -173,7 +173,7 @@
             android:paddingLeft="10dp"
             android:text="Specials"
             android:textColor="#686B69"
-            android:textSize="18sp" />
+            android:textSize="36sp" />
 
 
         <GridView
