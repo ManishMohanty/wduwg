@@ -97,11 +97,6 @@ public class SpalshFirstActivity extends Activity {
 		
 		if (globalVariable.getSelectedBusiness()!= null) {
 			System.out.println(">>>>>>> inside splash ");
-//			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
-//			{
-//				SchedulerCount scheduleCountTask = new SchedulerCount(SpalshFirstActivity.this);
-//				scheduleCountTask.run();
-//			}
 			Intent intent = new Intent(SpalshFirstActivity.this,
 					CountActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -219,11 +214,6 @@ public class SpalshFirstActivity extends Activity {
 	}
 
 	public void connectFacebook(View v) {
-//		Intent intent = new Intent(SpalshFirstActivity.this,
-//				LoginFacebookActivity.class);
-//		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//		intent.putExtra("fromContext", false);
-//		startActivity(intent);
 		
 			if(globalVariable.getSelectedBusiness() != null)
 			{

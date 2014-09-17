@@ -19,7 +19,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mw.wduwg.model.Event;
 
 public class SchedulerCount extends TimerTask {
        
@@ -30,7 +29,6 @@ public class SchedulerCount extends TimerTask {
 	Looper looper = Looper.getMainLooper();
 	private Handler mHandler = new Handler(looper);
     
-	public static Event event;
 	Editor editor;
 	Context context;
 	JSONParser jParser;

@@ -58,17 +58,6 @@ public class Business implements Serializable {
 		this.imageEncoded = imageEncoded;
 	}
 
-	List<Event> eventList = new ArrayList<Event>();
-	List<Special>specials = new ArrayList<Special>();
-
-	
-	public List<Special> getSpecials() {
-		return specials;
-	}
-
-	public void setSpecials(List<Special> specials) {
-		this.specials = specials;
-	}
 
 	public static class Id{
 	    String $oid;
@@ -145,14 +134,6 @@ public class Business implements Serializable {
 
 	public void setGoogleAPIResult(String googleAPIResult) {
 		this.googleAPIResult = googleAPIResult;
-	}
-
-	public List<Event> getEventList() {
-		return eventList;
-	}
-
-	public void setEventList(List<Event> eventList) {
-		this.eventList = eventList;
 	}
 
 }

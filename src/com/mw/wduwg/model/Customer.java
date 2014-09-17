@@ -19,14 +19,7 @@ public class Customer implements Serializable {
 	String email;
 	
 	List<Business> businesses = new ArrayList<Business>();
-    List<BusinessFBPage> pages = new ArrayList<BusinessFBPage>();
-	public List<BusinessFBPage> getPages() {
-		return pages;
-	}
 
-	public void setPages(List<BusinessFBPage> pages) {
-		this.pages = pages;
-	}
 
 	public Id getId() {
 		return id;

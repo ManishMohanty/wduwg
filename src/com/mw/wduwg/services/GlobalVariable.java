@@ -18,9 +18,7 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
-import com.mw.wduwg.model.BusinessFBPage;
 import com.mw.wduwg.model.Customer;
-import com.mw.wduwg.model.Event;
 
 public class GlobalVariable extends Application {
 
@@ -144,17 +142,6 @@ public class GlobalVariable extends Application {
 	public void setIntervalWomenOut(int intervalWomenOut) {
 		this.intervalWomenOut = intervalWomenOut;
 	}
-	BusinessFBPage selectedFBPage;
-	public BusinessFBPage getSelectedFBPage() {
-		return selectedFBPage;
-	}
-
-	public void setSelectedFBPage(BusinessFBPage selectedFBPage) {
-		this.selectedFBPage = selectedFBPage;
-	}
-	Event selectedEvent;
-	// CHECK: what is this used for?
-	Event selectedEventReports;
 	
 	String fb_access_token;
 	long fb_access_expire;
@@ -175,18 +162,9 @@ public class GlobalVariable extends Application {
 			String businessFromSP = sharedPreferences.getString("business", null);
 			this.selectedBusiness = gson.fromJson(businessFromSP, Business.class);
 		}
-		if(sharedPreferences.contains("event"))
-		{
-			String eventFromSP = sharedPreferences.getString("event", null);
-			this.selectedEvent = gson.fromJson(eventFromSP, Event.class);
-		}
 		if(sharedPreferences.contains("fb_access_token"))
 		{
 			this.fb_access_token = sharedPreferences.getString("fb_access_token", null);
-		}
-		if(sharedPreferences.contains("selectedFBPage"))
-		{
-			this.selectedFBPage = gson.fromJson(sharedPreferences.getString("selectedFBPage", null), BusinessFBPage.class);
 		}
 		this.menIn=sharedPreferences.getInt("menIn", 0);
 		this.menOut=sharedPreferences.getInt("menOut", 0);
@@ -217,13 +195,6 @@ public class GlobalVariable extends Application {
 		{
 			editor.remove("fb_access_expire");
 		}
-		if(selectedFBPage!=null)
-		{
-		  editor.putString("selectedFBPage", gson.toJson(this.selectedFBPage))	;
-		}else if(sharedPreferences.contains("selectedFBPage"))
-		{
-			editor.remove("selectedFBPage");
-		}
 		
 		
 		String customergsonToJSON = gson.toJson(this.customer);
@@ -252,12 +223,6 @@ public class GlobalVariable extends Application {
 		if(this.selectedBusiness != null)
 		{
 			editor.putBoolean("isDeviceRegistered", true);
-		}
-		if(this.selectedEvent!= null)
-		{
-			editor.putBoolean("isEventThere", true);
-			String eventgsonToJSON = gson.toJson(this.selectedEvent);
-			editor.putString("event", eventgsonToJSON);
 		}
 		
 			editor.putInt("menIn", menIn);
@@ -290,21 +255,7 @@ public class GlobalVariable extends Application {
 		this.selectedBusiness = selectedBusiness;
 	}
 
-	public Event getSelectedEvent() {
-		return selectedEvent;
-	}
 
-	public void setSelectedEvent(Event selectedEvent) {
-		this.selectedEvent = selectedEvent;
-	}
-
-	public Event getSelectedReportsEvent() {
-		return selectedEventReports;
-	}
-
-	public void setSelectedReportsEvent(Event selectedReportsEvent) {
-		this.selectedEventReports = selectedReportsEvent;
-	}
 
 	public static Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
 		int targetWidth = 150;

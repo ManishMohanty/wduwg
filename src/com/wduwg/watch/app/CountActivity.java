@@ -4,9 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.Timer;
-import java.util.prefs.Preferences;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -17,23 +15,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.telephony.gsm.SmsManager;
 import android.view.Display;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -43,13 +35,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apphance.android.activity.ApphanceActivity;
-import com.manateeworks.cameraDemo.ActivityCapture;
 import com.mw.wduwg.adapter.ContextMenuAdapter;
 import com.mw.wduwg.model.ContextMenuItem;
-import com.mw.wduwg.model.Event;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.SchedulerCount;
@@ -75,7 +64,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	LinearLayout femaleLayout;
 
 	String businessName;
-	Event selectedEvent;
 	
 
 	Handler handler = new Handler();
@@ -154,7 +142,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		editor = sharedPreference.edit();
 
 		globalVariable = (GlobalVariable) getApplicationContext();
-		selectedEvent = globalVariable.getSelectedEvent();
 
 
 		ab = getActionBar();
@@ -169,35 +156,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		outFemaleTV.setTypeface(typeface);
 		currentMaleTV.setTypeface(typeface);
 		currentFemaleTV.setTypeface(typeface);
-		Event tempEvent = globalVariable.getSelectedEvent();
-		System.out.println(">>>>>>> " + tempEvent.getName());
 		totalHeaderTV.setTypeface(typeface);
-		System.out.println(">>>>>>> istempEventNull:" + (tempEvent == null));
-		if (tempEvent.getName().equals("defaultEvent"))
-			totalHeaderTV.setText("No event information.\nCount started at: "
-					+ globalVariable.timeFormat(tempEvent
-							.getStartDate()
-							.replace('T', ',')
-							.substring(0,
-									(tempEvent.getStartDate().length() - 8))));
-		else {
-			// if we dont use dateFormat it will show time in IST
-
-			totalHeaderTV.setText("You are counting for "
-					+ tempEvent.getName()
-					+ "\nEvent started at: "
-					+ globalVariable.timeFormat(tempEvent
-							.getStartDate()
-							.replace('T', ',')
-							.substring(0,
-									(tempEvent.getStartDate().length() - 8)))
-					+ "\nEvent ends at:  "
-					+ globalVariable.timeFormat(tempEvent
-							.getEndDate()
-							.replace('T', ',')
-							.substring(0,
-									(tempEvent.getEndDate().length() - 8))));
-		}
 		updateCounts();
 	}
 
@@ -301,8 +260,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 							
 							public boolean onLongClick(View v) {
 								// TODO Auto-generated method stub
-//								headerTV.setText(globalVariable.getSelectedBusiness().getName()+"->"+globalVariable.getSelectedFBPage().getName()+"\n"
-//						        		+"Total Attendance -> "+(globalVariable.getMenIn()+globalVariable.getWomenIn() -globalVariable.getWomenOut()-globalVariable.getMenOut()));
 								
 								headerTV.setText(globalVariable.getSelectedBusiness().getName()
 						        		+"\nTotal Attendance At server -> "+(globalVariable.getTotalInDB()+globalVariable.getIntervalMenIn()+globalVariable.getIntervalWomenIn() - globalVariable.getIntervalMenOut() - globalVariable.getIntervalWomenOut()));
@@ -449,22 +406,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		contextMenuItems = new ArrayList<ContextMenuItem>();
 		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
 				R.drawable.done), "Reset Counting"));
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.settings), "Settings"));
-//		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-//				R.drawable.facebook), "Logout"));
-//		boolean isLogoutVisisble = false;
-//		if (globalVariable.getFb_access_token() != null) {
-//			isLogoutVisisble = true;
-//			System.out.println(">>>>>>> true");
-//		}
-//		isFlashCompatible = this.getPackageManager().hasSystemFeature(
-//				PackageManager.FEATURE_CAMERA_FLASH);
-//
 		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems, false);// isFlashCompatible
-//
 		listView.setAdapter(adapter);
-//
 		customDialog = new Dialog(CountActivity.this);
 		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		customDialog.setContentView(child);
@@ -488,14 +431,11 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
 						saveLastCount();
-//						CountActivity.this.setResult(MOVE_ANOTHER_STEP_BACK,
-//								previousIntent);
 						inMaleTV.setText("" + 0);
 						outMaleTV.setText(""+0);
 						inFemaleTV.setText(""+0);
 						outFemaleTV.setText(""+0);
 						total_attendance.setText(""+0);
-//						finish();
 					}
 
 				});
@@ -513,8 +453,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	void saveLastCount() {
 		scheduledTask.run();
-//		timer.cancel();
-		globalVariable.setSelectedEvent(null);
 		globalVariable.setMenIn(0);
 		globalVariable.setMenOut(0);
 		globalVariable.setWomenIn(0);
@@ -522,23 +460,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		globalVariable.saveSharedPreferences();
 	}
 
-//	public void onLogout(View view) {
-//		if (LoginFacebookActivity.timer != null)
-//			LoginFacebookActivity.timer.cancel();
-//
-//		adapter.swapData(contextMenuItems, false);
-//		adapter.notifyDataSetChanged();
-//		listView.invalidateViews();
-//		globalVariable.getCustomer().setPages(null);
-//		globalVariable.setFb_access_expire(0);
-//		globalVariable.setFb_access_token(null);
-//		globalVariable.saveSharedPreferences();
-//		Toast.makeText(this, "Logged out from FB.", Toast.LENGTH_SHORT).show();
-//		customDialog.dismiss();
-//		nextIntent = new Intent(this,SpalshFirstActivity.class);
-//		nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//		startActivity(nextIntent);
-//	}
 
 	boolean isFlashOn = false;
 	Camera cam;
@@ -549,14 +470,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		if (position == 0) {
 			onDone(null);
 		} 
-//	else if (position == 1) {
-//			nextIntent = new Intent(CountActivity.this,
-//					AppSettingsActivity.class);
-//			startActivityForResult(nextIntent, SETTING);
-//	      }
-//		else if (position == 2) {
-//			onLogout(null);
-//		}
 	}
 
 	@Override
@@ -564,26 +477,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		// TODO Auto-generated method stub
 		super.onPause();
 		globalVariable.saveSharedPreferences();
-	}
-
-	@SuppressWarnings("deprecation")
-	public void sendNotification() {
-		try {
-			int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
-					+ (globalVariable.getWomenIn() - globalVariable
-							.getWomenOut());
-			System.out.println(">>>>>>> notification ph no:"+sharedPreference.getString("prefPhone", "XXXXXXXXXX"));
-			SimpleDateFormat df = new SimpleDateFormat("EEE, MMM d, yyyy h:mm a");
-			df.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-			String strDate = df.format(new Date());
-			SmsManager smsManager = SmsManager.getDefault();
-			smsManager.sendTextMessage(
-					sharedPreference.getString("prefPhone", "09019129275"), "wduwg",
-					"Total Attendance at \""+globalVariable.getSelectedBusiness().getName()+"\" are " + (total)+ " at "+strDate,
-					null, null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }
