@@ -784,100 +784,141 @@ public class AddEventActivity extends Activity {
 			// System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage = "";
-//			event.setStartDate(convertDate(event.getStartDate().substring(0, 16)));
-//			event.setEndDate(convertDate(event.getEndDate().substring(0, 16)));
-			String eventName = " Event: \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+ globalVariable.getSelectedEvent().getName();
-			System.out.println(">>>>>>> event date before convert"+globalVariable.getSelectedEvent().getStartDate());
+			try {
+			SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, h:mm a");
+			Date startDate = sdf.parse(globalVariable.getSelectedEvent().getStartDate());
+			Date endDate = sdf.parse(globalVariable.getSelectedEvent().getEndDate());
+			String eventName = "\n\t  "+ globalVariable.getSelectedEvent().getName();
+			SimpleDateFormat sdf2=new SimpleDateFormat("EEE, d MMM, h:mm a");
+			String startDateTime = sdf2.format(startDate);
+			String endDateTime = sdf2.format(endDate);
+			System.out.println(">>>>>>>> startDatetime***"+startDateTime);
+			System.out.println(">>>>>>> endDate.getDate"+endDate.getDate());
+			System.out.println(">>>>>>> startDate.getDate"+startDate.getDate());
+			if(endDate.getDate() > startDate.getDate() )
+			{
 			 postMessage = postMessage
-			 + " Start Time: \t\t\t\t\t\t\t\t\t\t\t\t"+
-			 globalVariable.getSelectedEvent().getStartDate() +
-			 "\n End Time: \t\t\t\t\t\t\t\t\t\t\t\t\t" +
-			 globalVariable.getSelectedEvent().getEndDate()+"\n";
+			 + "\t "
+			 +startDateTime
+			 +"\t-\t " 
+			 +endDateTime+"\n";
+			}else
+			{
+				postMessage = postMessage
+						 + "\t "
+						 +startDateTime.substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+startDateTime.substring(12,startDateTime.length())+"-"+endDateTime.substring(12, endDateTime.length())+"\n";
+			}
 
 			System.out.println(">>>>>>> Message11" + postMessage);
 			// ********************************Convert String to Image
 			// **************************
-			try {
 				// =================== image append ===================
-				int lower = 0;
-				int upper = 8;
-				int r = Integer
-						.valueOf((int) ((Math.random() * (upper - lower)) + lower));
+			int lower = 0;
+			int upper = 8;
+			int r = Integer
+					.valueOf((int) ((Math.random() * (upper - lower)) + lower));
 
-				Bitmap myBitmap = BitmapFactory.decodeResource(getResources(),
-						drawableArray[r]);
+			Bitmap myBitmap = BitmapFactory.decodeResource(
+					AddEventActivity.this.getResources(), drawableArray[r]);
+			int width = myBitmap.getWidth();
+			int height = myBitmap.getHeight();
+			System.out.println(">>>>>> height =" + height);
+			height = (int) (height * 850) / width;
+			System.out.println(">>>>>> new height =" + height);
+			myBitmap = Bitmap.createScaledBitmap(myBitmap, 850, height,
+					true);
 
-				final Rect bounds = new Rect();
-				TextPaint textPaint = new TextPaint() {
-					{
-						setColor(Color.parseColor("#000000"));
-						setTextAlign(Paint.Align.LEFT);
-						setTypeface(Typeface.createFromAsset(
-								getApplicationContext().getAssets(),
-								"Fonts/OpenSans-Bold.ttf"));
-						setTextSize(35f);
-						setAntiAlias(true);
-					}
-				};
-				textPaint.getTextBounds(eventName, 0, eventName.length(),
-						bounds);
-				StaticLayout mTextLayout = new StaticLayout(eventName,
-						textPaint, 750, Alignment.ALIGN_NORMAL,
-						1.0f, 0.0f, false);
-				int maxWidth = -1;
-				for (int i = 0; i < mTextLayout.getLineCount(); i++) {
-					if (maxWidth < mTextLayout.getLineWidth(i)) {
-						maxWidth = (int) mTextLayout.getLineWidth(i);
-					}
+			final Rect bounds = new Rect();
+			TextPaint textPaint = new TextPaint() {
+				{
+					setColor(Color.parseColor("#837777"));
+					setTextAlign(Paint.Align.LEFT);
+					setTypeface(Typeface.createFromAsset(
+							AddEventActivity.this.getAssets(), "Fonts/ufonts.com_segoe_ui_semibold.ttf"));
+					setTextSize(30f);
+					setAntiAlias(true);
 				}
-				final Bitmap bmp = Bitmap.createBitmap(750,
-						mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
+			};
+			textPaint.getTextBounds(eventName, 0, eventName.length(), bounds);
+			StaticLayout mTextLayout = new StaticLayout(eventName,
+					textPaint, 850, Alignment.ALIGN_NORMAL, 1.0f, 0.0f,
+					false);
+			int maxWidth = -1;
+			for (int i = 0; i < mTextLayout.getLineCount(); i++) {
+				if (maxWidth < mTextLayout.getLineWidth(i)) {
+					maxWidth = (int) mTextLayout.getLineWidth(i);
+				}
+			}
+			final Bitmap bmp = Bitmap.createBitmap(850,
+					mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
 
-				bmp.eraseColor(Color.parseColor("#ffffff"));// just adding black
+			bmp.eraseColor(Color.parseColor("#ffffff"));// just adding white
+														// background
+			final Canvas canvas = new Canvas(bmp);
+			mTextLayout.draw(canvas);
+			
+
+			TextPaint textPaint1 = new TextPaint() {
+				{
+					setColor(Color.parseColor("#000000"));
+					setTextAlign(Paint.Align.LEFT);
+					setTypeface(Typeface.createFromAsset(
+							AddEventActivity.this.getAssets(), "Fonts/SEGOEUIL.ttf"));
+					setTextSize(40f);
+					setAntiAlias(true);
+				}
+			};
+			textPaint1.getTextBounds(postMessage, 0, postMessage.length(),
+					bounds);
+			StaticLayout mTextLayout1 = new StaticLayout(postMessage,
+					textPaint1, myBitmap.getWidth(),
+					Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+			int maxWidth1 = -1;
+			for (int i = 0; i < mTextLayout1.getLineCount(); i++) {
+				if (maxWidth1 < mTextLayout1.getLineWidth(i)) {
+					maxWidth1 = (int) mTextLayout1.getLineWidth(i);
+				}
+			}
+			final Bitmap bmp1 = Bitmap.createBitmap(850,
+					mTextLayout1.getHeight(), Bitmap.Config.ARGB_8888);
+
+			bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding
+															// white
 															// background
-				final Canvas canvas = new Canvas(bmp);
-				mTextLayout.draw(canvas);
-				
-				TextPaint textPaint1 = new TextPaint() {
-				    {
-				        setColor(Color.parseColor("#837777"));
-				        setTextAlign(Paint.Align.LEFT);
-				        setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(),
-				    			"Fonts/OpenSans-Bold.ttf"));
-				        setTextSize(30f);
-				        setAntiAlias(true);
-				    }
-				};
-				textPaint.getTextBounds(postMessage, 0, postMessage.length(), bounds);
-				StaticLayout mTextLayout1 = new StaticLayout(postMessage, textPaint1,
-						750, Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-				int maxWidth1 = -1;
-				for (int i = 0; i < mTextLayout1.getLineCount(); i++) {
-				    if (maxWidth1 < mTextLayout1.getLineWidth(i)) {
-				        maxWidth1 = (int) mTextLayout1.getLineWidth(i);
-				    }
-				}
-				final Bitmap bmp1 = Bitmap.createBitmap(750 , mTextLayout1.getHeight(),
-			            Bitmap.Config.ARGB_8888);
-				
-				bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding black background
-				final Canvas canvas1 = new Canvas(bmp1);
-				mTextLayout1.draw(canvas1);
+			final Canvas canvas1 = new Canvas(bmp1);
+			mTextLayout1.draw(canvas1);
 
-				Bitmap bmOverlay = Bitmap.createBitmap(750,
-						myBitmap.getHeight() + bmp.getHeight()+bmp1.getHeight(),
-						Bitmap.Config.ARGB_8888);
-				Canvas canvasAppend = new Canvas(bmOverlay);
-				canvasAppend.drawBitmap(myBitmap, 0.f, 0.f, null);
-				canvasAppend.drawBitmap(bmp, 0.f, myBitmap.getHeight(), null);
-				canvasAppend.drawBitmap(bmp1, 0.f, myBitmap.getHeight()+bmp.getHeight(), null);
-				OutputStream os = null;
-				byte[] data = null;
-
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				bmp.recycle();
-				bmOverlay.compress(CompressFormat.JPEG, 100, baos);
-				data = baos.toByteArray();
+			Bitmap bmOverlay = Bitmap.createBitmap(
+					850 + 40,
+					myBitmap.getHeight() + bmp.getHeight()
+							+ bmp1.getHeight() +40,
+					Bitmap.Config.ARGB_8888);
+			Canvas canvasAppend = new Canvas(bmOverlay);
+			Paint paint = new Paint();
+			paint.setStyle(Paint.Style.FILL);
+			paint.setColor(Color.WHITE);
+			canvasAppend.drawRect(0, 0, 850 + 40, myBitmap.getHeight()
+					+ bmp.getHeight() + bmp1.getHeight() + 40, paint);
+			canvasAppend.drawBitmap(myBitmap, 20, 20, null);
+			Paint paint1 = new Paint();
+			paint1.setColor(Color.LTGRAY);
+			paint1.setStrokeWidth(1);
+			canvasAppend.drawRect(
+					19,
+					myBitmap.getHeight() + 20,
+					850 + 21,
+					myBitmap.getHeight() + bmp.getHeight()
+							+ bmp1.getHeight() + 21, paint1);
+			canvasAppend.drawBitmap(bmp, 20, myBitmap.getHeight() + 20,
+					null);
+			canvasAppend.drawBitmap(bmp1, 20,
+					myBitmap.getHeight() + bmp.getHeight() + 20, null);
+			OutputStream os = null;
+			byte[] data = null;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			bmp.recycle();
+			bmOverlay.compress(CompressFormat.JPEG, 100, baos);
+			data = baos.toByteArray();
 				Facebook facebook = new Facebook("743382039036135");
 				// *********************************end conversion
 				// ***********************
