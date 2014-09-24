@@ -108,20 +108,20 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	private void findThings() {
 
-		inMaleTV = (TextView) findViewById(R.id.male_in);
-		inFemaleTV = (TextView) findViewById(R.id.female_in);
-
-		outMaleTV = (TextView) findViewById(R.id.male_out);
-		outFemaleTV = (TextView) findViewById(R.id.female_out);
-		currentMaleTV = (TextView) findViewById(R.id.total_male);
-		currentFemaleTV = (TextView) findViewById(R.id.total_female);
-
-		totalHeaderTV = (TextView) findViewById(R.id.total_header);
-		
-
-		femaleLayout = (LinearLayout) findViewById(R.id.female_counter);
-		maleLayout = (LinearLayout) findViewById(R.id.male_counter);
-		countPageEntireLL = (LinearLayout) findViewById(R.id.count_entire_page_LL);
+//		inMaleTV = (TextView) findViewById(R.id.male_in);
+//		inFemaleTV = (TextView) findViewById(R.id.female_in);
+//
+//		outMaleTV = (TextView) findViewById(R.id.male_out);
+//		outFemaleTV = (TextView) findViewById(R.id.female_out);
+//		currentMaleTV = (TextView) findViewById(R.id.total_male);
+//		currentFemaleTV = (TextView) findViewById(R.id.total_female);
+//
+//		totalHeaderTV = (TextView) findViewById(R.id.total_header);
+//		
+//
+//		femaleLayout = (LinearLayout) findViewById(R.id.female_counter);
+//		maleLayout = (LinearLayout) findViewById(R.id.male_counter);
+//		countPageEntireLL = (LinearLayout) findViewById(R.id.count_entire_page_LL);
 
 	}
 

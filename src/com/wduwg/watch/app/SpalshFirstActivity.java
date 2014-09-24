@@ -30,12 +30,13 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.JSONParser;
-import com.mw.wduwg.services.SchedulerCount;
 
 public class SpalshFirstActivity extends Activity {
 
@@ -51,6 +52,7 @@ public class SpalshFirstActivity extends Activity {
 	ProgressDialog progressDialgog;
 	AlertDialog.Builder alertdialogbuilder;
 	AlertDialog alertDialog;
+	RequestQueue queue;
 
 	private void findThings() {
 		appNameTextView = (TextView) findViewById(R.id.app_name_text);
@@ -67,6 +69,7 @@ public class SpalshFirstActivity extends Activity {
 		TelephonyManager  telephonyManager = (TelephonyManager)getSystemService(this.TELEPHONY_SERVICE);
 		imeiNo = telephonyManager.getDeviceId();
 		System.out.println(">>>>>>> IMEI NO:"+imeiNo);
+		queue = Volley.newRequestQueue(this);
 	}
 
 	@Override
