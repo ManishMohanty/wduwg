@@ -1,14 +1,14 @@
 package com.mw.wduwg.services;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.TimerTask;
 
@@ -23,34 +23,26 @@ import org.apache.http.params.HttpParams;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.text.Layout.Alignment;
-import android.util.Log;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.example.wduwg.tiles.R;
-import com.example.wduwg.tiles.CountActivity;
-import com.example.wduwg.tiles.LoginFacebookActivity;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenSource;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.android.Facebook;
 import com.mw.wduwg.model.Business;
-import com.mw.wduwg.model.Event;
 import com.parse.entity.mime.HttpMultipartMode;
 import com.parse.entity.mime.MultipartEntity;
 import com.parse.entity.mime.content.ByteArrayBody;
@@ -73,6 +65,7 @@ public class SchedulerFBPosts extends TimerTask {
 	SharedPreferences preferences;
 	SharedPreferences.Editor editor;
 	private static String APP_ID = "743382039036135";
+	List <Integer> drawableList = new ArrayList<Integer>();
 	int[] drawableArray = { R.drawable.bar1, R.drawable.bar2, R.drawable.bar3,
 			R.drawable.bar4, R.drawable.bar5, R.drawable.bar6, R.drawable.bar7,
 			R.drawable.bar8, R.drawable.bar10 };
@@ -103,6 +96,24 @@ public class SchedulerFBPosts extends TimerTask {
 
 	public void run() {
 		System.out.println(">>>>>>> Scheduler");
+		
+//		Field[] drawables = android.R.drawable.class.getFields();
+		Field[] drawables = R.drawable.class.getFields();
+		System.out.println(">>>>>>> business name::"+globalVariable.getSelectedBusiness().getName()+"::::");
+		for (Field f : drawables) {
+		    try {
+		        if(f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().toUpperCase()) || f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().replaceAll("\\s","").toUpperCase()))
+		        {
+		        	System.out.println(">>>****R.drawable." + f.getName());
+		        	drawableList.add(f.getInt(null));
+		        }
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		}
+		System.out.println(">>>>>> dwable matched:"+drawableList.size());
+		
+		
 		Business currentBusiness = (Business) globalVariable
 				.getSelectedBusiness();
 		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
@@ -150,19 +161,41 @@ public class SchedulerFBPosts extends TimerTask {
             total = four_digit(total);
 			System.out.println(">>>>>>new time:"+datetime);
 			System.out.println(">>>>datetiime length"+datetime.length());
-			String postMessage = "\t\t\t  "+men+"                 "+total+"                 "+women;
-			String postName = "\n\t\t\t "+datetime.substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+datetime.substring(13, 21);
-			String attendanceLabel = "\t\t\t   Men\t\t\t\t\t\t\t\t\t\t\t\tCurrent Attendance\t\t\t\t\t\t\t\t\t\t   Women\t\n";
+			String postName = "\n\t\t\t "+datetime.substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+datetime.substring(13, datetime.length());
+			String postMessage;
+			String attendanceLabel;
+			if(menwomen == true)
+			{
+			 postMessage = "\t\t\t  "+men+"                 "+total+"                 "+women;
+			 attendanceLabel = "\t\t\t   Men\t\t\t\t\t\t\t\t\t\t\t\tCurrent Attendance\t\t\t\t\t\t\t\t\t\t   Women\t\n";
+			}
+			else
+			{
+				postMessage = "\t\t\t\t\t\t\t  "+"                 "+total;
+				attendanceLabel = "\t\t\t      \t\t\t\t\t\t\t\t\t\t\t\tCurrent Attendance\t\t\t\t\t\t\t\t\t\t        \t\n";
+			}
 			// ********************************Convert String to Image
 			try {
 				// =================== image append ===================
 				int lower = 0;
 				int upper = 8;
+				Bitmap myBitmap;
+				if(drawableList.size() > 0)
+				{
+					upper = drawableList.size() -1;
 				int r = Integer
 						.valueOf((int) ((Math.random() * (upper - lower)) + lower));
 
-				Bitmap myBitmap = BitmapFactory.decodeResource(
-						context.getResources(), drawableArray[r]);
+				 myBitmap = BitmapFactory.decodeResource(
+						context.getResources(), drawableList.get(r));
+				}
+				else
+				{
+					int r = Integer
+							.valueOf((int) ((Math.random() * (upper - lower)) + lower));
+					myBitmap = BitmapFactory.decodeResource(
+							context.getResources(), drawableArray[r]);
+				}
 				int width = myBitmap.getWidth();
 				int height = myBitmap.getHeight();
 				System.out.println(">>>>>> height =" + height);

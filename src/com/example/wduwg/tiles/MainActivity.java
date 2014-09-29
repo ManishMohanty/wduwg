@@ -129,13 +129,13 @@ public class MainActivity extends Activity
 	{
 		final ImageView logo = (ImageView) findViewById(R.id.splash_logo);
 
-		int titleId = getResources().getIdentifier("action_bar_title", "id",
-				"android");
-		TextView yourTextView = (TextView) findViewById(titleId);
-		yourTextView.setTextColor(Color.parseColor("#016AB2"));
-		yourTextView.setTextSize(19);
-		yourTextView.setTypeface(Typeface.createFromAsset(getAssets(),
-				"Fonts/OpenSans-Bold.ttf"));
+//		int titleId = getResources().getIdentifier("action_bar_title", "id",
+//				"android");
+//		TextView yourTextView = (TextView) findViewById(titleId);
+//		yourTextView.setTextColor(Color.parseColor("#016AB2"));
+//		yourTextView.setTextSize(19);
+//		yourTextView.setTypeface(Typeface.createFromAsset(getAssets(),
+//				"Fonts/OpenSans-Bold.ttf"));
 
 		fadeIn = new AlphaAnimation(0.0f, 1.0f);
 		fadeIn.setDuration(3000);

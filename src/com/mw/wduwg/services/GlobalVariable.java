@@ -480,7 +480,7 @@ public class GlobalVariable extends Application {
 		scheduleTask = new SchedulerFBPosts(getApplicationContext());
 		timer = new Timer();
 		scheduleTask.setMenwomen(isMenWomen);
-		timer.scheduleAtFixedRate(scheduleTask, 1000, 60*60*1000);
+		timer.scheduleAtFixedRate(scheduleTask, 1000, 10*60*1000);
 	}
 	public void fbPostOff()
 	{

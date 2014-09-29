@@ -2,6 +2,7 @@ package com.example.wduwg.tiles;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,6 +92,7 @@ public class AddSpecialActivity extends Activity {
 	static final int DATE_PICKER_ID_endSPCL = 2222;
 	static final int TIME_PICKER_ID_startSPCL = 3333;
 	static final int TIME_PICKER_ID_endSPCL = 4444;
+	List <Integer> drawableList = new ArrayList<Integer>();
 
 	int[] drawableArray = {R.drawable.bar1,R.drawable.bar2,R.drawable.bar3,R.drawable.bar4,R.drawable.bar5,R.drawable.bar6,
 			R.drawable.bar7,R.drawable.bar8,R.drawable.bar10};
@@ -641,6 +643,21 @@ public class AddSpecialActivity extends Activity {
 			SimpleDateFormat sdf2=new SimpleDateFormat("EEE, d MMM, h:mm a");
 			String startDateTime = sdf2.format(startDate);
 			String endDateTime = sdf2.format(endDate);
+			
+			Field[] drawables = R.drawable.class.getFields();
+			for (Field f : drawables) {
+			    try {
+			        if(f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().toUpperCase()) || f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().replaceAll("\\s","").toUpperCase()))
+			        {
+			        	System.out.println(">>>****R.drawable." + f.getName());
+			        	drawableList.add(f.getInt(null));
+			        }
+			    } catch (Exception e) {
+			        e.printStackTrace();
+			    }
+			}
+			
+			
 			if(endDate.getDate() > startDate.getDate() )
 			{
 			 postMessage = postMessage
@@ -658,11 +675,23 @@ public class AddSpecialActivity extends Activity {
 		// =================== image append ===================	
 			int lower = 0;
 			int upper = 8;
+			Bitmap myBitmap;
+			if(drawableList.size() > 0)
+			{
+				upper = drawableList.size() -1;
 			int r = Integer
 					.valueOf((int) ((Math.random() * (upper - lower)) + lower));
 
-			Bitmap myBitmap = BitmapFactory.decodeResource(
-					AddSpecialActivity.this.getResources(), drawableArray[r]);
+			 myBitmap = BitmapFactory.decodeResource(
+					AddSpecialActivity.this.getResources(), drawableList.get(r));
+			}
+			else
+			{
+				int r = Integer
+						.valueOf((int) ((Math.random() * (upper - lower)) + lower));
+				myBitmap = BitmapFactory.decodeResource(
+						AddSpecialActivity.this.getResources(), drawableArray[r]);
+			}
 			int width = myBitmap.getWidth();
 			int height = myBitmap.getHeight();
 			System.out.println(">>>>>> height =" + height);
