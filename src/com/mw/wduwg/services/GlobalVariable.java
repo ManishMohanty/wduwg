@@ -33,6 +33,7 @@ public class GlobalVariable extends Application {
 	Date resetDate;
 	boolean isReset;
 	
+	
 	public Date getResetDate() {
 		return resetDate;
 	}
@@ -347,6 +348,5 @@ public class GlobalVariable extends Application {
 			return null;
 		}
 	}
-	
 	
 }
