@@ -47,6 +47,7 @@ public class SchedulerCount extends TimerTask {
 	GlobalVariable globalVariable;
 
 	RequestQueue queue;
+	JsonObjectRequest previousRequest;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 
@@ -126,16 +127,16 @@ public class SchedulerCount extends TimerTask {
 											Intent nextIntent = new Intent(
 													"scheduler_response_message");
 
-											if (arg0 instanceof NetworkError) {
-												nextIntent
-												.putExtra(
-														"message","NetworkError"+arg0.getStackTrace()
-														);
-											}
-											else if (arg0 instanceof NoConnectionError) {
+											if (arg0 instanceof NoConnectionError) {
 												nextIntent
 												.putExtra(
 														"message","NoConnectionError"+arg0.getStackTrace()
+														);
+											}
+											else if (arg0 instanceof  NetworkError) {
+												nextIntent
+												.putExtra(
+														"message","NetworkError"+arg0.getStackTrace()
 														);
 											}
 											else if (arg0 instanceof ServerError) {
@@ -160,7 +161,10 @@ public class SchedulerCount extends TimerTask {
 									DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
 									DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 							jsonObjRequest.setRetryPolicy(policy);
+							if(previousRequest != null)
+							queue.cancelAll(previousRequest);
 							queue.add(jsonObjRequest);
+							previousRequest = jsonObjRequest;
 							System.out.println(">>>>>>> last count after");
 						}
 					} else {
