@@ -27,6 +27,16 @@ public class GlobalVariable extends Application {
 	// FIXME: shared preferences should be read from here ONLY
 
 	SharedPreferences sharedPreferences;
+	
+	boolean isMenWomen;
+
+	public boolean isMenWomen() {
+		return isMenWomen;
+	}
+
+	public void setMenWomen(boolean isMenWomen) {
+		this.isMenWomen = isMenWomen;
+	}
 
 	Gson gson;
 	int menIn, menOut, womenIn, womenOut;
@@ -183,6 +193,7 @@ public class GlobalVariable extends Application {
 		this.menOut = sharedPreferences.getInt("menOut", 0);
 		this.womenIn = sharedPreferences.getInt("womenIn", 0);
 		this.womenOut = sharedPreferences.getInt("womenOut", 0);
+		this.isMenWomen = sharedPreferences.getBoolean("isMenWomen",false);
 	}
 
 	public void saveSharedPreferences() {
@@ -236,6 +247,7 @@ public class GlobalVariable extends Application {
 		editor.putInt("menOut", menOut);
 		editor.putInt("womenOut", womenOut);
 		editor.putInt("message_frequency", this.message_frequency);
+		editor.putBoolean("isMenWomen", this.isMenWomen);
 		
 		editor.commit();
 	}

@@ -145,14 +145,19 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     else
                     	mPreferenceEntries[i].setSummary("Click to select value");	
                     
-                    if(key.equals("prefFb_frequency") && preferences.getBoolean("facebookSwitch", false) == true && currentPreference.getEntry() != null)
+//                    if(key.equals("prefFb_frequency") && preferences.getBoolean("facebookSwitch", false) == true && currentPreference.getEntry() != null)
+                    if(key.equals("prefFb_frequency")  && currentPreference.getEntry() != null)
                     {
-                    	globalVariable.fbPostOff();
                     	String  postcontent = preferences.getString("prefFb_frequency", "");
                     	if(postcontent.equalsIgnoreCase("Men and Women"))
-                 		globalVariable.fbPostOn(true);
-                    	else
-                    		globalVariable.fbPostOn(false);
+                    	{
+//                    		globalVariable.fbPostOn(true);
+                    		globalVariable.setMenWomen(true);
+                    	}
+                    	else{
+                    		globalVariable.setMenWomen(false);
+//                    		globalVariable.fbPostOn(false);
+                    	}
                     }
                     else 
                     {

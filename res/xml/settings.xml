@@ -26,10 +26,14 @@
      
    <PreferenceCategory  android:title="@string/facebook"
                         android:layout="@layout/pref_category" >
-        <com.wduwg.preference.CustomSwitchPreference
+        <!-- <com.wduwg.preference.CustomSwitchPreference
         android:defaultValue="false"
         android:key="facebookSwitch"
-        android:title="@string/autoupdatefacebook" />
+        android:title="@string/autoupdatefacebook" /> -->
+        
+        <com.wduwg.preference.CustomPreference android:key="type" 
+    android:title="Publish Count"
+    android:summary="Click to post"/>
         <com.wduwg.preference.CustomListPreference android:title="@string/update_frequency"
                         android:defaultValue="Total"
                         android:key="prefFb_frequency"
