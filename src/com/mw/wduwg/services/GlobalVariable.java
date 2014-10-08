@@ -23,17 +23,16 @@ import com.mw.wduwg.model.Customer;
 public class GlobalVariable extends Application {
 
 	// FIXME: shared preferences should be read from here ONLY
-	
+
 	SharedPreferences sharedPreferences;
 
 	Gson gson;
-	int menIn,menOut,womenIn,womenOut;
-	int intervalMenIn,intervalWomenIn,intervalMenOut,intervalWomenOut;
+	int menIn, menOut, womenIn, womenOut;
+	int intervalMenIn, intervalWomenIn, intervalMenOut, intervalWomenOut;
 	int totalInDB;
 	Date resetDate;
 	boolean isReset;
-	
-	
+
 	public Date getResetDate() {
 		return resetDate;
 	}
@@ -58,27 +57,23 @@ public class GlobalVariable extends Application {
 		this.totalInDB = totalInDB;
 	}
 
-	public boolean isInternet()
-	{
-		ConnectivityManager connection =  (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-		if(connection != null)
-		{
-		   NetworkInfo[] info = connection.getAllNetworkInfo();
-		   if(info != null)
-		   {
-			   for(int i=0;i<info.length;i++)
-			   {
-				   if(info[i].getState() == NetworkInfo.State.CONNECTED)
-				   {
-					   return true;
-				   }
-			   }
-			   
-		   }
+	public boolean isInternet() {
+		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connection != null) {
+			NetworkInfo[] info = connection.getAllNetworkInfo();
+			if (info != null) {
+				for (int i = 0; i < info.length; i++) {
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+				}
+
+			}
 		}
-		   return false;
+		return false;
 	}
-	
+
 	public int getMenIn() {
 		return menIn;
 	}
@@ -110,8 +105,10 @@ public class GlobalVariable extends Application {
 	public void setWomenOut(int womenOut) {
 		this.womenOut = womenOut;
 	}
+
 	Customer customer;
 	Business selectedBusiness;
+
 	public int getIntervalMenIn() {
 		return intervalMenIn;
 	}
@@ -143,103 +140,94 @@ public class GlobalVariable extends Application {
 	public void setIntervalWomenOut(int intervalWomenOut) {
 		this.intervalWomenOut = intervalWomenOut;
 	}
-	
+
 	String fb_access_token;
 	long fb_access_expire;
-	
-	
 
 	@Override
-	public void onCreate(){
+	public void onCreate() {
 		super.onCreate();
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		gson = new Gson();
-		if (sharedPreferences.contains("customer")){
-			String customerFromSP = sharedPreferences.getString("customer", null);
+		if (sharedPreferences.contains("customer")) {
+			String customerFromSP = sharedPreferences.getString("customer",
+					null);
 			this.customer = gson.fromJson(customerFromSP, Customer.class);
 		}
-		if(sharedPreferences.contains("business"))
-		{
-			String businessFromSP = sharedPreferences.getString("business", null);
-			this.selectedBusiness = gson.fromJson(businessFromSP, Business.class);
+		if (sharedPreferences.contains("business")) {
+			String businessFromSP = sharedPreferences.getString("business",
+					null);
+			this.selectedBusiness = gson.fromJson(businessFromSP,
+					Business.class);
 		}
-		if(sharedPreferences.contains("fb_access_token"))
-		{
-			this.fb_access_token = sharedPreferences.getString("fb_access_token", null);
+		if (sharedPreferences.contains("fb_access_token")) {
+			this.fb_access_token = sharedPreferences.getString(
+					"fb_access_token", null);
 		}
-		this.menIn=sharedPreferences.getInt("menIn", 0);
-		this.menOut=sharedPreferences.getInt("menOut", 0);
-		this.womenIn=sharedPreferences.getInt("womenIn", 0);
-		this.womenOut=sharedPreferences.getInt("womenOut", 0);
+		this.menIn = sharedPreferences.getInt("menIn", 0);
+		this.menOut = sharedPreferences.getInt("menOut", 0);
+		this.womenIn = sharedPreferences.getInt("womenIn", 0);
+		this.womenOut = sharedPreferences.getInt("womenOut", 0);
 		this.intervalMenIn = sharedPreferences.getInt("intervalMenIn", 0);
 		this.intervalMenOut = sharedPreferences.getInt("intervalMenOut", 0);
 		this.intervalWomenIn = sharedPreferences.getInt("intervalWomenIn", 0);
 		this.intervalWomenOut = sharedPreferences.getInt("intervalWomenOut", 0);
 		this.isReset = sharedPreferences.getBoolean("isreset", false);
 		this.totalInDB = sharedPreferences.getInt("totalInDB", 0);
-//		this.resetDate = new Date(sharedPreferences.getString("resetdate", null));
-	}	
-	
-	public void saveSharedPreferences(){
+		// this.resetDate = new Date(sharedPreferences.getString("resetdate",
+		// null));
+	}
+
+	public void saveSharedPreferences() {
 		// FIXME:
 		Editor editor = sharedPreferences.edit();
-		if(this.fb_access_token !=null)
-		editor.putString("fb_access_token", this.fb_access_token);
-		else if(sharedPreferences.contains("fb_access_token"))
-		{
+		if (this.fb_access_token != null)
+			editor.putString("fb_access_token", this.fb_access_token);
+		else if (sharedPreferences.contains("fb_access_token")) {
 			editor.remove("fb_access_token");
 		}
-		if(this.fb_access_expire != 0)
-		{
+		if (this.fb_access_expire != 0) {
 			editor.putLong("fb_access_expire", this.fb_access_expire);
-		}else if(sharedPreferences.contains("fb_access_expire"))
-		{
+		} else if (sharedPreferences.contains("fb_access_expire")) {
 			editor.remove("fb_access_expire");
 		}
-		
-		
+
 		String customergsonToJSON = gson.toJson(this.customer);
 		editor.putString("customer", customergsonToJSON);
-		if(this.selectedBusiness != null){
-		String businessgsonToJSON = gson.toJson(this.selectedBusiness);
-		editor.putString("business", businessgsonToJSON);
-		}else if(sharedPreferences.contains("business"))
-		{
+		if (this.selectedBusiness != null) {
+			String businessgsonToJSON = gson.toJson(this.selectedBusiness);
+			editor.putString("business", businessgsonToJSON);
+		} else if (sharedPreferences.contains("business")) {
 			editor.remove("business");
 			editor.remove("isDeviceRegistered");
 			editor.remove("event");
 			editor.remove("isEventThere");
-		}else if(sharedPreferences.contains("isDeviceRegistered"))
-		{
+		} else if (sharedPreferences.contains("isDeviceRegistered")) {
 			editor.remove("isDeviceRegistered");
-		}else if(sharedPreferences.contains("event"))
-		{
+		} else if (sharedPreferences.contains("event")) {
 			editor.remove("event");
-		}else if(sharedPreferences.contains("isEventThere"))
-		{
+		} else if (sharedPreferences.contains("isEventThere")) {
 			editor.remove("isEventThere");
 		}
-		
-		
-		if(this.selectedBusiness != null)
-		{
+
+		if (this.selectedBusiness != null) {
 			editor.putBoolean("isDeviceRegistered", true);
 		}
-		
-			editor.putInt("menIn", menIn);
-			editor.putInt("womenIn", womenIn);
-			editor.putInt("menOut", menOut);
-			editor.putInt("womenOut", womenOut);
-			editor.putInt("intervalMenIn", intervalMenIn);
-			editor.putInt("intervalMenOut",intervalMenOut);
-			editor.putInt("intervalWomenIn", intervalWomenIn);
-			editor.putInt("intervalWomenOut", intervalWomenOut);
-			editor.putInt("totalInDB", totalInDB);
-			editor.putBoolean("isreset", this.isReset);
-//			editor.putString("resetdate", this.resetDate.toString());
+
+		editor.putInt("menIn", menIn);
+		editor.putInt("womenIn", womenIn);
+		editor.putInt("menOut", menOut);
+		editor.putInt("womenOut", womenOut);
+		editor.putInt("intervalMenIn", intervalMenIn);
+		editor.putInt("intervalMenOut", intervalMenOut);
+		editor.putInt("intervalWomenIn", intervalWomenIn);
+		editor.putInt("intervalWomenOut", intervalWomenOut);
+		editor.putInt("totalInDB", totalInDB);
+		editor.putBoolean("isreset", this.isReset);
+		// editor.putString("resetdate", this.resetDate.toString());
 		editor.commit();
 	}
-	
+
 	public Customer getCustomer() {
 		return customer;
 	}
@@ -255,8 +243,6 @@ public class GlobalVariable extends Application {
 	public void setSelectedBusiness(Business selectedBusiness) {
 		this.selectedBusiness = selectedBusiness;
 	}
-
-
 
 	public static Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
 		int targetWidth = 150;
@@ -278,25 +264,25 @@ public class GlobalVariable extends Application {
 				targetHeight), null);
 		return targetBitmap;
 	}
-	
-	public boolean isfacebookOn()
-	{
+
+	public boolean isfacebookOn() {
 		return sharedPreferences.getBoolean("facebookSwitch", false);
 	}
-	public int facebookFrequency()
-	{
-		return Integer.parseInt(sharedPreferences.getString("prefFb_frequency", "0"));
+
+	public int facebookFrequency() {
+		return Integer.parseInt(sharedPreferences.getString("prefFb_frequency",
+				"0"));
 	}
-	
-	public boolean isNotificationOn()
-	{
+
+	public boolean isNotificationOn() {
 		return sharedPreferences.getBoolean("prefMessageSwitch", false);
 	}
-	public int messageFrequency()
-	{
-		return Integer.parseInt(sharedPreferences.getString("prefNotificationFrequency", "0"));
+
+	public int messageFrequency() {
+		return Integer.parseInt(sharedPreferences.getString(
+				"prefNotificationFrequency", "0"));
 	}
-	
+
 	public long getFb_access_expire() {
 		return fb_access_expire;
 	}
@@ -312,41 +298,36 @@ public class GlobalVariable extends Application {
 	public void setFb_access_token(String fb_access_token) {
 		this.fb_access_token = fb_access_token;
 	}
-	
-	public String timeFormat(String datetime)
-	{
-		System.out.println(">>>>>>>current time:"+datetime);
+
+	public String timeFormat(String datetime) {
+		System.out.println(">>>>>>>current time:" + datetime);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat df = new SimpleDateFormat("MMMM dd, yyyy");
 		String date = datetime.split(",")[0];
-		int day =Integer.parseInt( date.split("-")[2]);
+		int day = Integer.parseInt(date.split("-")[2]);
 		String time = datetime.split(",")[1];
 		int hh = Integer.parseInt(time.split(":")[0]);
-		hh = hh -5;
-		if(hh < 0)
-		{
-			
+		hh = hh - 5;
+		if (hh < 0) {
+
 			hh = hh + 24;
-			day = day -1;
+			day = day - 1;
 		}
-		if((hh) > 11)
-		{
-			if(hh != 12)
-			time = (hh-12) + ":"+time.split(":")[1]+" PM  ";
+		if ((hh) > 11) {
+			if (hh != 12)
+				time = (hh - 12) + ":" + time.split(":")[1] + " PM  ";
 			else
-				time = (hh) + ":"+time.split(":")[1]+" PM  ";
-		}else
-		{
-			time = (hh) + ":"+time.split(":")[1]+" AM  ";
+				time = (hh) + ":" + time.split(":")[1] + " PM  ";
+		} else {
+			time = (hh) + ":" + time.split(":")[1] + " AM  ";
 		}
-		try{
-			date = date.substring(0, date.length()-2)+  day;
-		 return time+ df.format(sdf.parse(date));
-		}catch(Exception e)
-		{
+		try {
+			date = date.substring(0, date.length() - 2) + day;
+			return time + df.format(sdf.parse(date));
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 }

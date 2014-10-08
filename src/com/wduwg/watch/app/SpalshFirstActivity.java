@@ -66,137 +66,141 @@ public class SpalshFirstActivity extends Activity {
 				"Fonts/OpenSans-Light.ttf");
 		appNameTextView.setTypeface(typeface);
 		welcomeTextView.setTypeface(typeface);
-		TelephonyManager  telephonyManager = (TelephonyManager)getSystemService(this.TELEPHONY_SERVICE);
+		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
 		imeiNo = telephonyManager.getDeviceId();
-		System.out.println(">>>>>>> IMEI NO:"+imeiNo);
+		System.out.println(">>>>>>> IMEI NO:" + imeiNo);
 		queue = Volley.newRequestQueue(this);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.splash_first);
+		// setContentView(R.layout.splash_first);
 		createDialog = new CreateDialog(SpalshFirstActivity.this);
 		globalVariable = (GlobalVariable) getApplicationContext();
-		if(!globalVariable.isInternet())
-		{
+		if (!globalVariable.isInternet()) {
 			alertdialogbuilder = createDialog
 					.createAlertDialog(
 							"Network Error",
 							"You are now offline. Please establish a connection for using WDUWG.",
 							false);
-			alertdialogbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			alertdialogbuilder.setNegativeButton("Cancel",
+					new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					alertDialog.dismiss();
-					System.exit(0);
-				}
-			});
-			alertDialog = alertdialogbuilder.create();
-			alertDialog.show();  
-		}else{
-		
-		if (globalVariable.getSelectedBusiness()!= null) {
-			System.out.println(">>>>>>> inside splash ");
-			Intent intent = new Intent(SpalshFirstActivity.this,
-					CountActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-					| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-			startActivity(intent);
-		} else {
-			setContentView(R.layout.splash_first);
-			findThings();
-			initializeThings();
-
-			final ImageView logo1 = (ImageView) findViewById(R.id.splash_logo);
-			final LinearLayout textLayout1 = (LinearLayout) findViewById(R.id.textLayout);
-
-//			int titleId = getResources().getIdentifier("action_bar_title",
-//					"id", "android");
-//			TextView yourTextView = (TextView) findViewById(titleId);
-//			yourTextView.setTextColor(Color.parseColor("#016AB2"));
-//            yourTextView.setTextSize(19);
-//			yourTextView.setTypeface(typeface);
-
-			new Handler().postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					TranslateAnimation animation = new TranslateAnimation(0, 0,
-							0, -165);
-					animation.setDuration(800);
-					animation.setFillAfter(true);
-					animation.setAnimationListener(new AnimationListener() {
-
-						public void onAnimationStart(Animation animation) {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
 							// TODO Auto-generated method stub
-
-						}
-
-						public void onAnimationRepeat(Animation animation) {
-							// TODO Auto-generated method stub
-
-						}
-
-						public void onAnimationEnd(Animation animation) {
-							// TODO Auto-generated method stub
-
-							int[] location = new int[2];
-							logo1.getLocationInWindow(location);
-							logo1.clearAnimation();
-							LayoutParams lp = new LayoutParams(logo1
-									.getLayoutParams());
-							lp.leftMargin = location[0];
-							lp.topMargin = 60;
-							logo1.setLayoutParams(lp);
-
-							Animation flip_inAnimation = AnimationUtils
-									.loadAnimation(SpalshFirstActivity.this,
-											R.anim.flip_in);
-							logo1.startAnimation(flip_inAnimation);
-
-							AlphaAnimation fadeIn = new AlphaAnimation(0.0f,
-									1.0f);
-							fadeIn.setDuration(3000);
-							fadeIn.setFillAfter(true);
-							textLayout1.setVisibility(View.VISIBLE);
-							textLayout1.startAnimation(fadeIn);
-							fadeIn.setAnimationListener(new AnimationListener() {
-
-								@Override
-								public void onAnimationStart(Animation animation) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onAnimationRepeat(
-										Animation animation) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onAnimationEnd(Animation animation) {
-									// TODO Auto-generated method stub
-									logo1.clearAnimation();
-									findViewById(R.id.buttonLayout)
-											.setVisibility(View.VISIBLE);
-									findViewById(R.id.connectFBIV)
-											.setVisibility(View.VISIBLE);
-								}
-							});
+							alertDialog.dismiss();
+							System.exit(0);
 						}
 					});
-					logo1.startAnimation(animation);
-				}
-			}, 1000);
+			alertDialog = alertdialogbuilder.create();
+			alertDialog.show();
+		} else {
 
+			if (globalVariable.getSelectedBusiness() != null) {
+				System.out.println(">>>>>>> inside splash ");
+				Intent intent = new Intent(SpalshFirstActivity.this,
+						CountActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+						| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				startActivity(intent);
+			} else {
+				setContentView(R.layout.splash_first);
+				findThings();
+				initializeThings();
+
+				final ImageView logo1 = (ImageView) findViewById(R.id.splash_logo);
+				final LinearLayout textLayout1 = (LinearLayout) findViewById(R.id.textLayout);
+
+				// int titleId =
+				// getResources().getIdentifier("action_bar_title",
+				// "id", "android");
+				// TextView yourTextView = (TextView) findViewById(titleId);
+				// yourTextView.setTextColor(Color.parseColor("#016AB2"));
+				// yourTextView.setTextSize(19);
+				// yourTextView.setTypeface(typeface);
+
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						TranslateAnimation animation = new TranslateAnimation(
+								0, 0, 0, -165);
+						animation.setDuration(800);
+						animation.setFillAfter(true);
+						animation.setAnimationListener(new AnimationListener() {
+
+							public void onAnimationStart(Animation animation) {
+								// TODO Auto-generated method stub
+
+							}
+
+							public void onAnimationRepeat(Animation animation) {
+								// TODO Auto-generated method stub
+
+							}
+
+							public void onAnimationEnd(Animation animation) {
+								// TODO Auto-generated method stub
+
+								int[] location = new int[2];
+								logo1.getLocationInWindow(location);
+								logo1.clearAnimation();
+								LayoutParams lp = new LayoutParams(logo1
+										.getLayoutParams());
+								lp.leftMargin = location[0];
+								lp.topMargin = 60;
+								logo1.setLayoutParams(lp);
+
+								Animation flip_inAnimation = AnimationUtils
+										.loadAnimation(
+												SpalshFirstActivity.this,
+												R.anim.flip_in);
+								logo1.startAnimation(flip_inAnimation);
+
+								AlphaAnimation fadeIn = new AlphaAnimation(
+										0.0f, 1.0f);
+								fadeIn.setDuration(3000);
+								fadeIn.setFillAfter(true);
+								textLayout1.setVisibility(View.VISIBLE);
+								textLayout1.startAnimation(fadeIn);
+								fadeIn.setAnimationListener(new AnimationListener() {
+
+									@Override
+									public void onAnimationStart(
+											Animation animation) {
+										// TODO Auto-generated method stub
+
+									}
+
+									@Override
+									public void onAnimationRepeat(
+											Animation animation) {
+										// TODO Auto-generated method stub
+
+									}
+
+									@Override
+									public void onAnimationEnd(
+											Animation animation) {
+										// TODO Auto-generated method stub
+										logo1.clearAnimation();
+										findViewById(R.id.buttonLayout)
+												.setVisibility(View.VISIBLE);
+										findViewById(R.id.connectFBIV)
+												.setVisibility(View.VISIBLE);
+									}
+								});
+							}
+						});
+						logo1.startAnimation(animation);
+					}
+				}, 1000);
+
+			}
 		}
-	}
 	}
 
 	@Override
@@ -217,57 +221,56 @@ public class SpalshFirstActivity extends Activity {
 	}
 
 	public void connectFacebook(View v) {
-		
-			if(globalVariable.getSelectedBusiness() != null)
-			{
-				Intent intent = new Intent(SpalshFirstActivity.this,CountActivity.class);
-				startActivity(intent);
-				overridePendingTransition(R.anim.anim_out,
-						R.anim.anim_in);
-			}
-			else
-			{
-			 
-			 progressDialgog = createDialog.createProgressDialog("Loading...", "Please wait while we initialize the watch", true, null);
-			 progressDialgog.show();
-			 BusinessAsyncTask asynctask = new BusinessAsyncTask();
-			 asynctask.execute();
-			}
-		
+
+		if (globalVariable.getSelectedBusiness() != null) {
+			Intent intent = new Intent(SpalshFirstActivity.this,
+					CountActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+		} else {
+
+			progressDialgog = createDialog.createProgressDialog("Loading...",
+					"Please wait while we initialize the watch", true, null);
+			progressDialgog.show();
+			BusinessAsyncTask asynctask = new BusinessAsyncTask();
+			asynctask.execute();
+		}
+
 	}
-	
-	private class BusinessAsyncTask extends AsyncTask<Void, Void, Boolean>
-	{
+
+	private class BusinessAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO Auto-generated method stub
-			try{
+			try {
 				System.out.println(">>>>>>> response");
 				JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
 				List<NameValuePair> param = new ArrayList<NameValuePair>();
 				param.add(new BasicNameValuePair("imei_no", imeiNo));
-				JSONObject jsonobject = jsonparser.getJSONObjectFromUrlAfterHttpGet("http://dcounter.herokuapp.com/businesses/imei_business.json", param);
-				System.out.println(">>>>>>> response"+jsonobject);
-				if(jsonobject.getString("status").equals("ok"))
-		        {
-		        	Gson gson = new Gson();
-		        	String businessJsonString = jsonobject.getString("business");
-		        	System.out.println(">>>>>>> business:"+businessJsonString);
-		        	Business B = gson.fromJson(businessJsonString, Business.class);
-		        	globalVariable.setMenIn(0);
+				JSONObject jsonobject = jsonparser
+						.getJSONObjectFromUrlAfterHttpGet(
+								"http://dcounter.herokuapp.com/businesses/imei_business.json",
+								param);
+				System.out.println(">>>>>>> response" + jsonobject);
+				if (jsonobject.getString("status").equals("ok")) {
+					Gson gson = new Gson();
+					String businessJsonString = jsonobject
+							.getString("business");
+					System.out
+							.println(">>>>>>> business:" + businessJsonString);
+					Business B = gson.fromJson(businessJsonString,
+							Business.class);
+					globalVariable.setMenIn(0);
 					globalVariable.setMenOut(0);
 					globalVariable.setWomenIn(0);
 					globalVariable.setWomenOut(0);
 					globalVariable.setSelectedBusiness(B);
 					return true;
-		        }
-				else
-				{
+				} else {
 					return false;
 				}
-			 }catch(Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return false;
@@ -277,19 +280,18 @@ public class SpalshFirstActivity extends Activity {
 		protected void onPostExecute(Boolean result) {
 			// TODO Auto-generated method stub
 			progressDialgog.dismiss();
-			if(result)
-			{
-			Intent intent = new Intent(SpalshFirstActivity.this,CountActivity.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.anim_out,
-					R.anim.anim_in);
-			}
-			else
-			{
-				Toast.makeText(SpalshFirstActivity.this, "Business for current Device does not exist", Toast.LENGTH_SHORT).show();
+			if (result) {
+				Intent intent = new Intent(SpalshFirstActivity.this,
+						CountActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+			} else {
+				Toast.makeText(SpalshFirstActivity.this,
+						"Business for current Device does not exist",
+						Toast.LENGTH_SHORT).show();
 			}
 		}
-		
+
 	}
 
 }

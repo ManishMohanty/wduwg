@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 
-
 public class CreateDialog {
 	Context context;
 	ProgressDialog progressDialog;
@@ -20,12 +19,10 @@ public class CreateDialog {
 		System.out.println("creating dialog");
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				context);
-		if (title != null)
-		{
+		if (title != null) {
 			alertDialogBuilder.setTitle(title);
 		}
-		if (message != null)
-		{
+		if (message != null) {
 			alertDialogBuilder.setMessage(message);
 		}
 		alertDialogBuilder.setCancelable(cancel);
@@ -36,12 +33,10 @@ public class CreateDialog {
 			boolean indeterminateState, Drawable drawable) {
 		System.out.println("creating progress dialog");
 		progressDialog = new ProgressDialog(context);
-		if (title != null)
-		{
-			 progressDialog.setTitle(title);
+		if (title != null) {
+			progressDialog.setTitle(title);
 		}
-		if (message != null)
-		{
+		if (message != null) {
 			progressDialog.setMessage(message);
 		}
 

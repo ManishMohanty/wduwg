@@ -75,18 +75,17 @@ public class JSONParser {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		catch(Throwable t)
-		{
+		} catch (Throwable t) {
 			t.printStackTrace();
 		}
-System.out.println("hello");
+		System.out.println("hello");
 		return getJSONObjectFromInputStream(is);
 	}
 
 	public JSONObject getJSONFromUrlAfterHttpPost2(String url,
 			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-		System.out.println(">>>>>>> json im sending   :  " + jsonObject.toString());
+		System.out.println(">>>>>>> json im sending   :  "
+				+ jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -138,7 +137,8 @@ System.out.println("hello");
 
 	public JSONObject getJSONFromUrlAfterHttpPost3(String url,
 			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-		System.out.println(">>>>>>>json im sending   :  " + jsonObject.toString());
+		System.out.println(">>>>>>>json im sending   :  "
+				+ jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -147,12 +147,12 @@ System.out.println("hello");
 			MultipartEntity multipartEntity = new MultipartEntity(
 					HttpMultipartMode.BROWSER_COMPATIBLE);
 			Iterator<?> jsonObjectKeys = jsonObject.keys();
-			while( jsonObjectKeys.hasNext() ){
-	            
-	            String temp = (String)jsonObjectKeys.next();
-	            try {
-					multipartEntity.addPart(temp, new StringBody(
-							jsonObject.getString(temp)));
+			while (jsonObjectKeys.hasNext()) {
+
+				String temp = (String) jsonObjectKeys.next();
+				try {
+					multipartEntity.addPart(temp,
+							new StringBody(jsonObject.getString(temp)));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -174,7 +174,7 @@ System.out.println("hello");
 	}
 
 	public JSONArray getJSONArrayFromUrlAfterHttpGet(String url) {
-		
+
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(url);
 		HttpResponse httpResponse;
@@ -217,9 +217,7 @@ System.out.println("hello");
 
 		return getJSONObjectFromInputStream(is);
 	}
-	
-	 	
-	
+
 	public JSONArray getJSONArrayFromUrlAfterHttpGet(String url,
 			List<NameValuePair> params) {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -261,7 +259,8 @@ System.out.println("hello");
 			}
 			is.close();
 			jsonString = sb.toString();
-			System.out.println(">>>>>>>json string im getting  :  " + jsonString);
+			System.out.println(">>>>>>>json string im getting  :  "
+					+ jsonString);
 		} catch (Exception e) {
 			Log.e("Buffer Error", "Error converting result " + e.toString());
 		}
@@ -289,7 +288,8 @@ System.out.println("hello");
 			}
 			is.close();
 			jsonString = sb.toString();
-			System.out.println(">>>>>>>json string im getting  :  " + jsonString);
+			System.out.println(">>>>>>>json string im getting  :  "
+					+ jsonString);
 		} catch (Exception e) {
 			Log.e("Buffer Error", "Error converting result " + e.toString());
 		}
@@ -302,7 +302,5 @@ System.out.println("hello");
 
 		return jsonObj;
 	}
-
-	
 
 }

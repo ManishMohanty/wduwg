@@ -134,9 +134,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			// Extract data included in the Intent
 
 			String message = intent.getStringExtra("message");
-//			message = message + "  Additional text after exception message";
+			// message = message + "  Additional text after exception message";
 
-//			 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+			// Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 			alertDialogBuilder = createDialog.createAlertDialog("Error",
 					message, false);
 
