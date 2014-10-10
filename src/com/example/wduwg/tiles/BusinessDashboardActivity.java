@@ -513,7 +513,7 @@ public class BusinessDashboardActivity extends Activity {
 		CharSequence rawTitle = "Logout";
 		CharSequence delink = "Delink";
 //		CharSequence delete = "Delete";
-		CharSequence setting = "Settings";
+		CharSequence setting = "Share";
 		
 		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
 		menu.findItem(R.id.menu_delink).setTitleCondensed(delink);
