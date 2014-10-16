@@ -57,6 +57,7 @@
   <string name="update_frequency">Publish Format?</string>
   <string name="message_notification">Send Count Alerts</string>
   <string name="notification_frequency">How Often?</string>
+  <string name="generate_graph"><b><u>Generate Graph</u></b></string>
   <string name="phone_number">Where? </string>
   <string name="page_prompt">Select Facebook Page</string>  
   <string name="add_business"><b><u>Add Business</u></b></string>

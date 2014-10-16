@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <WebView android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 android:layout_weight="1"
+                 android:id="@+id/webView"
+                 />
+    
+    <RelativeLayout android:layout_width="fill_parent"
+                 android:layout_height="fill_parent"
+                 android:layout_weight="1" 
+                 android:gravity="center"
+                 android:visibility="gone"
+                 android:id="@+id/custom_graph"> 
+    <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:weightSum="100" >
+
+                <TextView
+                    android:id="@+id/startsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="45"
+                    android:gravity="center"
+                    android:text="Select Start Date"
+                    android:maxLines="1"
+                    android:textColor="#0669b1" />
+                <Button
+			       android:id="@+id/changeStartDate"
+			       android:layout_width="0dp"
+			       android:layout_height="40dp"
+			       android:gravity="center"
+			       android:layout_weight="10"
+			       android:clickable="true"
+			       android:onClick="showDialog1"
+			       android:background="@drawable/calendar_32"
+                    />
+
+                <TextView
+                    android:id="@+id/startsDate"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="45"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="start Date"
+                    android:maxLines="1"
+                    android:textColor="#0669b1" />
+            </LinearLayout>
+    
+    <LinearLayout
+                android:id="@+id/ll2"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/ll1"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:weightSum="100" >
+
+                <TextView
+                    android:id="@+id/endsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="45"
+                    android:gravity="center"
+                    android:text="Select End Date"
+                    android:maxLines="1"
+                    android:textColor="#0669b1" />
+                <Button
+			       android:id="@+id/changeEndDate"
+			       android:layout_width="0dp"
+			       android:layout_height="40dp"
+			       android:gravity="center"
+			       android:clickable="true"
+			       android:onClick="showDialog2"
+			       android:layout_weight="10"
+			       android:background="@drawable/calendar_32" />
+
+                <TextView
+                    android:id="@+id/endsDate"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="45"
+                    android:gravity="center"
+                    android:hint="end Date"
+                    android:maxLines="1"
+                    android:textColor="#0669b1" />
+            </LinearLayout>
+            <TextView android:layout_marginTop="10dp"
+                	  android:layout_below="@+id/ll2"
+                	  android:layout_marginRight="20dp"
+                	  android:layout_alignParentRight="true"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:clickable="true"
+                      android:onClick="go"
+                      android:text="@string/generate_graph"
+                      android:textColor="#0669b1"
+                      android:textSize="21sp"/>
+            
+    </RelativeLayout>
+
+</LinearLayout>

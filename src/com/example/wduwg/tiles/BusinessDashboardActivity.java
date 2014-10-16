@@ -259,7 +259,8 @@ public class BusinessDashboardActivity extends Activity {
 	{
 		if(autoUpdate != null)
 		autoUpdate.cancel();
-		Intent nextIntent = new Intent(this,ReportActualActvivity.class);
+//		Intent nextIntent = new Intent(this,ReportActualActvivity.class);
+		Intent nextIntent = new Intent(this,ReportActivity.class);
 		startActivity(nextIntent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
