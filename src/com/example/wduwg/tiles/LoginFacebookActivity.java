@@ -38,6 +38,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -48,6 +49,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.provider.SyncStateContract.Constants;
 import android.text.Editable;
@@ -101,7 +104,7 @@ import com.parse.entity.mime.content.ByteArrayBody;
 import com.parse.entity.mime.content.ContentBody;
 import com.parse.entity.mime.content.StringBody;
 
-public class LoginFacebookActivity extends Activity {
+public class LoginFacebookActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 	
 	@Override
 	protected void onPause() {
@@ -114,8 +117,6 @@ public class LoginFacebookActivity extends Activity {
 	ImageView headerIV;
 	AlertDialog.Builder alertDialogBuilder;
 	Button postButton;
-	Button profileButton;
-	Button logoutButton;
 	TextView actionBarTextView;		
 	CreateDialog createDialog;
 	ProgressDialog progressDialgog;
@@ -135,15 +136,20 @@ public class LoginFacebookActivity extends Activity {
 	AlertDialog alertDialog;
 	SharedPreferences preferences;
 	SharedPreferences.Editor editor;
+	RelativeLayout facebook_login_RL;
 
 	Typeface typeface;
 
 	EditText messageFbEt;
 	int[] drawableArray = {R.drawable.bar1,R.drawable.bar2,R.drawable.bar3,R.drawable.bar4,R.drawable.bar5,R.drawable.bar6,
 			R.drawable.bar7,R.drawable.bar8,R.drawable.bar10};
+	private final String totalOnly = "totalOnly";
+	private Preference mPreferenceEntry;
+	
 
 	SchedulerFBPosts scheduledTask;
 	public static Timer timer;
+	
 	
 	private void findThings() {
 		messageFbEt = (EditText) findViewById(R.id.message_fb_ET);
@@ -153,9 +159,7 @@ public class LoginFacebookActivity extends Activity {
 		headerIV = (ImageView) findViewById(R.id.header_IV);
 		postButton = (Button) findViewById(R.id.post_button);
 		postButton.setTypeface(typeface);
-		profileButton = (Button) findViewById(R.id.profile_button);
-		logoutButton = (Button) findViewById(R.id.logout_button);
-
+		facebook_login_RL = (RelativeLayout) findViewById(R.id.facebook_login_RL);
 	}
 
 	private void actionBarAndKeyboardAndListener() {
@@ -198,18 +202,22 @@ public class LoginFacebookActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.facebook_login);
+        setContentView(R.layout.facebook_login);
+        addPreferencesFromResource(R.xml.settings);
+        mPreferenceEntry = new Preference(this);
+        mPreferenceEntry = getPreferenceScreen().findPreference("totalOnly");
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        if(preferences.getBoolean("totalOnly", false) == true)
+		{
+			mPreferenceEntry.setSummary("App will Show the total Counts Only");
+		}
+		else
+		{
+			mPreferenceEntry.setSummary("App will Show Men & Women Counts as well");
+		}
         fromContext = getIntent().getBooleanExtra("fromContext", false);
-        PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 		findThings();
-//		if(fromContext == false)
-//		{
-//			findViewById(R.id.facebook_login_RL).setVisibility(View.GONE);
-//		}
-//		else
-//		{
-//			findViewById(R.id.facebook_login_RL).setVisibility(View.VISIBLE);
-//		}
 		actionBarAndKeyboardAndListener();
 
 		facebook = new Facebook(APP_ID);
@@ -260,6 +268,8 @@ public class LoginFacebookActivity extends Activity {
 								try{
 								createDialog = new CreateDialog(LoginFacebookActivity.this);
 								progressDialgog = createDialog.createProgressDialog("Validation", "Please wait while we validate your login.", true, null);
+								if(facebook_login_RL.getVisibility() == View.VISIBLE)
+								facebook_login_RL.setVisibility(View.INVISIBLE);
 								progressDialgog.show();
 								getProfileInformation();
 							}catch(Exception e)
@@ -272,8 +282,8 @@ public class LoginFacebookActivity extends Activity {
 								Log.d(">>>>>>> facebook switch off","------------");
 							}  
 							postButton.setEnabled(true);
-							profileButton.setEnabled(true);       
-							logoutButton.setEnabled(true);
+//							profileButton.setEnabled(true);       
+//							logoutButton.setEnabled(true);
 						}
 
 						@Override
@@ -761,6 +771,7 @@ public String convertDate(String datestr) {
 //							}
 							else
 							{
+								
 								Toast.makeText(getApplicationContext(),
 										 "\nEmail: " + email + " Does not exist. Please contact WDUWG administrator to register this email.",
 										Toast.LENGTH_LONG).show();
@@ -852,6 +863,35 @@ public String convertDate(String datestr) {
 	public void onBackPressed() {
 		this.setResult(RESULT_OK);
 		finish();
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		// TODO Auto-generated method stub
+		
+		if(key.equals("totalOnly"))
+		{
+			if(preferences.getBoolean("totalOnly", false) == true)
+			{
+				mPreferenceEntry.setSummary("App will Show the total Counts Only");
+				globalVariable.setMenWomen(false);
+			}
+			else
+			{
+				mPreferenceEntry.setSummary("App will Show Men & Women Counts as well");
+				globalVariable.setMenWomen(true);
+			}
+			
+		}
+		
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this); // unregister change listener
 	}
 
 	

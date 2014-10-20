@@ -651,6 +651,7 @@ public class AddEventActivity extends Activity {
 				System.out.println(">>>>>>> sel bus im null");
 			startDateTime = createDate(startDateTime, startTimeET.getText()
 					.toString());
+			System.out.println(">>>>>>>***"+startDateTime);
 			String url = ServerURLs.URL + ServerURLs.EVENTS;
 			System.out.println(">>>>>>> url is   : " + url);
 			System.out.println(">>>>>>> selectedBusinessId:"

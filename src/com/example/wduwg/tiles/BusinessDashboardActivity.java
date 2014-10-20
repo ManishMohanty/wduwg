@@ -691,8 +691,11 @@ public class BusinessDashboardActivity extends Activity {
 		case R.id.menu_settings:
 			if(autoUpdate != null)
 			autoUpdate.cancel();
+//			nextIntent = new Intent(BusinessDashboardActivity.this,
+//					AppSettingsActivity.class);
+//			startActivityForResult(nextIntent, SETTING);
 			nextIntent = new Intent(BusinessDashboardActivity.this,
-					AppSettingsActivity.class);
+					LoginFacebookActivity.class);
 			startActivityForResult(nextIntent, SETTING);
 		default:
 			return super.onOptionsItemSelected(item);

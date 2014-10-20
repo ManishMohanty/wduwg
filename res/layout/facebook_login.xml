@@ -9,16 +9,31 @@
     android:paddingRight="20dp"
     android:paddingTop="30dp" >
 
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/header_IV"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_centerHorizontal="true"
         android:background="@null"
         android:scaleType="fitXY"
-        android:src="@drawable/facebook_round_logo" />
+        android:src="@drawable/facebook_round_logo" /> -->
+        
+     <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="multipleChoice"
+        android:layout_above="@+id/message_fb_ET" >
+       </ListView>
+        
+       
+        
+    <RelativeLayout android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="100dp">
 
-    <EditText
+  <EditText
         android:id="@+id/message_fb_ET"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -44,9 +59,9 @@
         android:text="Post"
         android:textColor="#ffffff"
         android:textSize="20sp" />
-    <!-- android:textStyle="bold" -->
+    </RelativeLayout>
 
-    <RelativeLayout
+    <!-- <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -75,6 +90,6 @@
             android:layout_toRightOf="@+id/profile_button"
             android:onClick="onLogout"
             android:text="LogOut" />
-    </RelativeLayout>
+    </RelativeLayout>  -->
 
 </RelativeLayout>

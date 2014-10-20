@@ -24,14 +24,14 @@
  
     
      
-   <PreferenceCategory  android:title="@string/facebook"
-                        android:layout="@layout/pref_category" >
-        <!-- <com.wduwg.preference.CustomSwitchPreference
+   <!-- <PreferenceCategory  android:title="@string/facebook"
+                        android:layout="@layout/pref_category" > -->
+        <com.wduwg.preference.CustomSwitchPreference
         android:defaultValue="false"
-        android:key="facebookSwitch"
-        android:title="@string/autoupdatefacebook" /> -->
+        android:key="totalOnly"
+        android:title="Publish Total Count Only" /> 
         
-        <com.wduwg.preference.CustomPreference android:key="type" 
+       <!--  <com.wduwg.preference.CustomPreference android:key="type" 
     android:title="Publish Count"
     android:summary="Click to post"/>
         <com.wduwg.preference.CustomListPreference android:title="@string/update_frequency"
@@ -39,6 +39,6 @@
                         android:key="prefFb_frequency"
                         android:summary="click to select post content"
                         android:entries="@array/updateFrequency"
-                        android:entryValues="@array/updateFrequencyValues"/> 
-    </PreferenceCategory>
+                        android:entryValues="@array/updateFrequencyValues"/> --> 
+   <!--  </PreferenceCategory> -->
    </PreferenceScreen> 
