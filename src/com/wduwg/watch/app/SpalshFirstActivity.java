@@ -252,6 +252,10 @@ public class SpalshFirstActivity extends Activity {
 						.getJSONObjectFromUrlAfterHttpGet(
 								"http://dcounter.herokuapp.com/businesses/imei_business.json",
 								param);
+//				JSONObject jsonobject = jsonparser
+//						.getJSONObjectFromUrlAfterHttpGet(
+//								"http://192.168.102.110:3000/businesses/imei_business.json",
+//								param);
 				System.out.println(">>>>>>> response" + jsonobject);
 				if (jsonobject.getString("status").equals("ok")) {
 					Gson gson = new Gson();

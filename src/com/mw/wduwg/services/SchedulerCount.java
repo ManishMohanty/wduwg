@@ -80,6 +80,7 @@ public class SchedulerCount extends TimerTask {
 
 							JSONObject jsonObject2 = null;
 							String url = ServerURLs.URL + ServerURLs.COUNTER;
+//							String url = "http://192.168.102.110:3000/counters.json";
 							JSONObject jsonObject = new JSONObject();
 							jsonObject
 									.put("uuid", uuid)
