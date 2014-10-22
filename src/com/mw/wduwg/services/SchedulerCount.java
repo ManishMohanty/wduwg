@@ -59,25 +59,13 @@ public class SchedulerCount extends TimerTask {
 
 		mHandler.post(new Runnable() {
 			public void run() {
+				if(globalVariable.isInternet() == true)
 				try {
 					sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
-					if (!(globalVariable.getIntervalWomenIn() == 0
-							&& globalVariable.getIntervalWomenOut() == 0
-							&& globalVariable.getIntervalMenIn() == 0 && globalVariable
-							.getIntervalMenOut() == 0)) {
-						System.out.println(">>>>>>>> inside run count");
-						if (globalVariable.isInternet() == true
-								&& globalVariable.getIntervalMenIn() > 0
-								|| globalVariable.getIntervalMenOut() > 0
-								|| globalVariable.getIntervalWomenIn() > 0
-								|| globalVariable.getIntervalWomenOut() > 0) {
-							System.out.println(">>>>>>> last count before");
 							// SaveCountAsync async = new SaveCountAsync();
 							// async.execute(new String[] { "dfs" });
 
-							String uuid = UUID.randomUUID().toString(); // get
-																		// UUid
-
+							String uuid = UUID.randomUUID().toString(); // get uuid
 							JSONObject jsonObject2 = null;
 							String url = ServerURLs.URL + ServerURLs.COUNTER;
 //							String url = "http://192.168.102.110:3000/counters.json";
@@ -171,10 +159,7 @@ public class SchedulerCount extends TimerTask {
 							jsonObjRequest.setRetryPolicy(policy);
 							queue.add(jsonObjRequest);
 							System.out.println(">>>>>>> last count after");
-						}
-					} else {
-						Log.d("== Count ==", "Everything is ZERO");
-					}
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
