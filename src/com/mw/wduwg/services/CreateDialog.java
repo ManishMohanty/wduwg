@@ -16,7 +16,6 @@ public class CreateDialog {
 
 	public AlertDialog.Builder createAlertDialog(String title, String message,
 			boolean cancel) {
-		System.out.println("creating dialog");
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				context);
 		if (title != null) {
@@ -31,7 +30,6 @@ public class CreateDialog {
 
 	public ProgressDialog createProgressDialog(String title, String message,
 			boolean indeterminateState, Drawable drawable) {
-		System.out.println("creating progress dialog");
 		progressDialog = new ProgressDialog(context);
 		if (title != null) {
 			progressDialog.setTitle(title);

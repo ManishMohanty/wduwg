@@ -68,7 +68,6 @@ public class SpalshFirstActivity extends Activity {
 		welcomeTextView.setTypeface(typeface);
 		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
 		imeiNo = telephonyManager.getDeviceId();
-		System.out.println(">>>>>>> IMEI NO:" + imeiNo);
 		queue = Volley.newRequestQueue(this);
 	}
 
@@ -79,18 +78,34 @@ public class SpalshFirstActivity extends Activity {
 		createDialog = new CreateDialog(SpalshFirstActivity.this);
 		globalVariable = (GlobalVariable) getApplicationContext();
 		if (!globalVariable.isInternet()) {
+			if(globalVariable.getSelectedBusiness() != null)
 			alertdialogbuilder = createDialog
 					.createAlertDialog(
 							"Network Error",
-							"You are now offline. Please establish a connection for using WDUWG.",
+							"You are not connected to the network. Counts will be synced once network is available. Press OK to start counting",
 							false);
-			alertdialogbuilder.setNegativeButton("Cancel",
+			else
+				alertdialogbuilder = createDialog
+				.createAlertDialog(
+						"Network Error",
+						"You are not connected to the network. Please establish a connection first for using WDUWG.",
+						false);
+			alertdialogbuilder.setNegativeButton("OK",
 					new DialogInterface.OnClickListener() {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// TODO Auto-generated method stub
 							alertDialog.dismiss();
+							if(globalVariable.getSelectedBusiness()!= null)
+							{
+								Intent intent = new Intent(SpalshFirstActivity.this,
+										CountActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+										| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+								startActivity(intent);
+							}
+							else
 							System.exit(0);
 						}
 					});
@@ -99,7 +114,6 @@ public class SpalshFirstActivity extends Activity {
 		} else {
 
 			if (globalVariable.getSelectedBusiness() != null) {
-				System.out.println(">>>>>>> inside splash ");
 				Intent intent = new Intent(SpalshFirstActivity.this,
 						CountActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -244,7 +258,6 @@ public class SpalshFirstActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			// TODO Auto-generated method stub
 			try {
-				System.out.println(">>>>>>> response");
 				JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
 				List<NameValuePair> param = new ArrayList<NameValuePair>();
 				param.add(new BasicNameValuePair("imei_no", imeiNo));
@@ -256,13 +269,10 @@ public class SpalshFirstActivity extends Activity {
 //						.getJSONObjectFromUrlAfterHttpGet(
 //								"http://192.168.102.110:3000/businesses/imei_business.json",
 //								param);
-				System.out.println(">>>>>>> response" + jsonobject);
 				if (jsonobject.getString("status").equals("ok")) {
 					Gson gson = new Gson();
 					String businessJsonString = jsonobject
 							.getString("business");
-					System.out
-							.println(">>>>>>> business:" + businessJsonString);
 					Business B = gson.fromJson(businessJsonString,
 							Business.class);
 					globalVariable.setMenIn(0);

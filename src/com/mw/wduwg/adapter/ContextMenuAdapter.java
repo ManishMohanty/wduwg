@@ -78,8 +78,6 @@ public class ContextMenuAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.imageView.setImageDrawable(listContextMenuItems
-				.get(position).getDrawable());
 		viewHolder.textView.setText(listContextMenuItems.get(position)
 				.getText());
 		viewHolder.textView.setTypeface(typeface);

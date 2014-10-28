@@ -128,38 +128,38 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	int men_in = 0, men_out = 0, women_in = 0, women_out = 0;
 
-	private BroadcastReceiver myMessageReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// Extract data included in the Intent
-
-			String message = intent.getStringExtra("message");
-			// message = message + "  Additional text after exception message";
-
-			// Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-			alertDialogBuilder = createDialog.createAlertDialog("Error",
-					message, false);
-
-			alertDialogBuilder.setPositiveButton("Yes",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.dismiss();
-						}
-
-					});
-			alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
-
-		}
-	};
+//	private BroadcastReceiver myMessageReceiver = new BroadcastReceiver() {
+//		@Override
+//		public void onReceive(Context context, Intent intent) {
+//			// Extract data included in the Intent
+//
+//			String message = intent.getStringExtra("message");
+//			// message = message + "  Additional text after exception message";
+//
+//			// Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+//			alertDialogBuilder = createDialog.createAlertDialog("Error",
+//					message, false);
+//
+//			alertDialogBuilder.setPositiveButton("Yes",
+//					new DialogInterface.OnClickListener() {
+//						public void onClick(DialogInterface dialog, int id) {
+//							dialog.dismiss();
+//						}
+//
+//					});
+//			alertDialog = alertDialogBuilder.create();
+//			alertDialog.show();
+//
+//		}
+//	};
 
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		globalVariable.saveSharedPreferences();
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(
-				myMessageReceiver);
+//		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+//				myMessageReceiver);
 	}
 
 	private void findThings() {
@@ -282,8 +282,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		display.getSize(size);
 		int width = size.x;
 		int height = size.y;
-		System.out.println(">>>>>>> Width:" + width);
-		System.out.println(">>>>>>> Height:" + height);
 
 		createDialog = new CreateDialog(this);
 
@@ -371,19 +369,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		int total = (globalVariable.getMenIn() - globalVariable.getMenOut())
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 		total_attendance.setText("" + total);
-		System.out
-				.println(">>>>>>> inside men_in:" + globalVariable.getMenIn());
-		System.out.println(">>>>>>> time:" + new Date());
-		System.out.println(">>>>>>> count at Server"
-				+ globalVariable.getTotalInDB());
-		// if((globalVariable.getIntervalMenIn() +
-		// globalVariable.getIntervalMenOut() + globalVariable.getWomenIn() +
-		// globalVariable.getIntervalWomenOut()) >= 5)
-		// {
-		// System.out.println(">>>>>> send to db");
-		// sendToDB();
-		//
-		// }
 
 	}
 
@@ -399,13 +384,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					+ (globalVariable.getWomenIn() - globalVariable
 							.getWomenOut());
 			total_attendance.setText("" + total);
-			// if((globalVariable.getIntervalMenIn() +
-			// globalVariable.getIntervalMenOut() + globalVariable.getWomenIn()
-			// + globalVariable.getIntervalWomenOut()) >= 5)
-			// {
-			// System.out.println(">>>>>> send to db");
-			// sendToDB();
-			// }
 		}
 	}
 
@@ -419,13 +397,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		int total1 = (globalVariable.getMenIn() - globalVariable.getMenOut())
 				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 		total_attendance.setText("" + total1);
-		// if((globalVariable.getIntervalMenIn() +
-		// globalVariable.getIntervalMenOut() + globalVariable.getWomenIn() +
-		// globalVariable.getIntervalWomenOut()) >= 5)
-		// {
-		// System.out.println(">>>>>> send to db");
-		// sendToDB();
-		// }
 	}
 
 	public void womenOut_watch(View v) {
@@ -440,14 +411,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					+ (globalVariable.getWomenIn() - globalVariable
 							.getWomenOut());
 			total_attendance.setText("" + total);
-			// if((globalVariable.getIntervalMenIn() +
-			// globalVariable.getIntervalMenOut() + globalVariable.getWomenIn()
-			// + globalVariable.getIntervalWomenOut()) >= 5)
-			// {
-			// System.out.println(">>>>>> send to db");
-			// sendToDB();
-			// }
-
 		}
 	}
 
@@ -474,7 +437,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		}
 		if (requestCode == SCANNER) {
 			if (resultCode == RESULT_OK) {
-				System.out.println(">>>>>>> scaner result ok");
 				ignoreOnRestart = true;
 			} else if (resultCode == RESULT_CANCELED) {
 			}
@@ -494,9 +456,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		super.onResume();
 		// queue = Volley.newRequestQueue(this);
 
-		LocalBroadcastManager.getInstance(this).registerReceiver(
-				myMessageReceiver,
-				new IntentFilter("scheduler_response_message"));
+//		LocalBroadcastManager.getInstance(this).registerReceiver(
+//				myMessageReceiver,
+//				new IntentFilter("scheduler_response_message"));
 
 		try {
 			if (timer != null) {
@@ -506,7 +468,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			}
 			scheduledTask = new SchedulerCount(this);
 			timer = new Timer();
-			timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
+			timer.scheduleAtFixedRate(scheduledTask, 1000, 60000);
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
@@ -525,8 +487,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 							.getMenOut()));
 
 		contextMenuItems = new ArrayList<ContextMenuItem>();
-		contextMenuItems.add(new ContextMenuItem(getResources().getDrawable(
-				R.drawable.done), "Reset Counting"));
+		contextMenuItems.add(new ContextMenuItem("Reset Counting"));
 		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
 				false);// isFlashCompatible
 		listView.setAdapter(adapter);
@@ -597,15 +558,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	public void sendToDB() {
 
-		System.out.println(">>>>>> interval men_in:"
-				+ globalVariable.getIntervalMenIn());
-		System.out.println(">>>>>> interval men_out:"
-				+ globalVariable.getIntervalMenOut());
-		System.out.println(">>>>>> interval women_in:"
-				+ globalVariable.getIntervalWomenIn());
-		System.out.println(">>>>>> interval women_out:"
-				+ globalVariable.getIntervalWomenOut());
-
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 			sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
@@ -613,7 +565,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			women_out += globalVariable.getIntervalWomenOut();
 			men_in += globalVariable.getIntervalMenIn();
 			men_out += globalVariable.getIntervalMenOut();
-			System.out.println(">>>>>>> last count before");
 			JSONObject jsonObject2 = null;
 			String url = ServerURLs.URL + ServerURLs.COUNTER;
 			JSONObject jsonObject = new JSONObject();
@@ -671,7 +622,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 			jsonObjRequest.setRetryPolicy(policy);
 			queue.add(jsonObjRequest);
-			System.out.println(">>>>>>> last count after");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

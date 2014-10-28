@@ -300,7 +300,6 @@ public class GlobalVariable extends Application {
 	}
 
 	public String timeFormat(String datetime) {
-		System.out.println(">>>>>>>current time:" + datetime);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat df = new SimpleDateFormat("MMMM dd, yyyy");
 		String date = datetime.split(",")[0];

@@ -158,7 +158,6 @@ public class SchedulerCount extends TimerTask {
 									DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
 							jsonObjRequest.setRetryPolicy(policy);
 							queue.add(jsonObjRequest);
-							System.out.println(">>>>>>> last count after");
 					
 				} catch (Exception e) {
 					e.printStackTrace();
