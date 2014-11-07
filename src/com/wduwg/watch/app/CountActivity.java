@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.TelephonyManager;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -466,7 +467,9 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				timer.purge();
 				scheduledTask.cancel();
 			}
-			scheduledTask = new SchedulerCount(this);
+			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
+			String imeiNo = telephonyManager.getDeviceId();
+			scheduledTask = new SchedulerCount(this , imeiNo);
 			timer = new Timer();
 			timer.scheduleAtFixedRate(scheduledTask, 1000, 60000);
 		} catch (Throwable t) {

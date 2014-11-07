@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -43,14 +44,18 @@ public class SchedulerCount extends TimerTask {
 	JSONParser jParser;
 	JSONObject jsonFromServer;
 	GlobalVariable globalVariable;
+	String imeiNo;
+	boolean isprocessing = false;
+	JsonObjectRequest jsonObjRequest = null;
 
 	RequestQueue queue;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 
-	public SchedulerCount(Context context) {
+	public SchedulerCount(Context context,String imeiNo) {
 		super();
 		this.context = context;
+		this.imeiNo = imeiNo;
 		globalVariable = (GlobalVariable) context.getApplicationContext();
 		queue = Volley.newRequestQueue(context);
 	}
@@ -59,13 +64,13 @@ public class SchedulerCount extends TimerTask {
 
 		mHandler.post(new Runnable() {
 			public void run() {
-				if(globalVariable.isInternet() == true)
+				if(globalVariable.isInternet() == true && isprocessing == false && jsonObjRequest == null)
 				try {
+					isprocessing = true;
 					sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
 							// SaveCountAsync async = new SaveCountAsync();
 							// async.execute(new String[] { "dfs" });
-
-							String uuid = UUID.randomUUID().toString(); // get uuid
+							String uuid = imeiNo + UUID.randomUUID().toString(); // get uuid
 							JSONObject jsonObject2 = null;
 							String url = ServerURLs.URL + ServerURLs.COUNTER;
 //							String url = "http://192.168.102.110:3000/counters.json";
@@ -94,7 +99,7 @@ public class SchedulerCount extends TimerTask {
 							jsonObject2 = new JSONObject().put("counter",
 									jsonObject);
 
-							JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
+							jsonObjRequest = new JsonObjectRequest(
 									Method.POST, url, jsonObject2,
 									new Response.Listener<JSONObject>() {
 
@@ -104,6 +109,8 @@ public class SchedulerCount extends TimerTask {
 											try {
 												globalVariable.setTotalInDB(arg0
 														.getInt("total"));
+												jsonObjRequest = null;
+												isprocessing = false;
 											} catch (JSONException e) {
 												e.printStackTrace();
 											}
@@ -117,6 +124,8 @@ public class SchedulerCount extends TimerTask {
 
 											Intent nextIntent = new Intent(
 													"scheduler_response_message");
+											queue.add(jsonObjRequest);
+											isprocessing = false;
 
 											if (arg0 instanceof NoConnectionError) {
 												nextIntent
