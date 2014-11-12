@@ -70,7 +70,7 @@ public class SchedulerCount extends TimerTask {
 					sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
 							// SaveCountAsync async = new SaveCountAsync();
 							// async.execute(new String[] { "dfs" });
-							String uuid = imeiNo + UUID.randomUUID().toString(); // get uuid
+							String uuid = imeiNo + UUID.randomUUID().toString() + sdf.format(new Date()); // get uuid
 							JSONObject jsonObject2 = null;
 							String url = ServerURLs.URL + ServerURLs.COUNTER;
 //							String url = "http://192.168.102.110:3000/counters.json";
