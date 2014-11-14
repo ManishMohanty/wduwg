@@ -276,8 +276,8 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 								.getWomenOut())));
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		RelativeLayout menLayout = (RelativeLayout) findViewById(R.id.menLayout);
-		RelativeLayout womenLayout = (RelativeLayout) findViewById(R.id.womenLayout);
+		LinearLayout menLayout = (LinearLayout) findViewById(R.id.menLayout);
+		LinearLayout womenLayout = (LinearLayout) findViewById(R.id.womenLayout);
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
@@ -500,6 +500,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		customDialog.getWindow().setBackgroundDrawable(
 				new ColorDrawable(Color.WHITE));
 		customDialog.setTitle("Options");
+		customDialog.getWindow().getAttributes().verticalMargin = 0.2F;
 	}
 
 	@Override
@@ -534,6 +535,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 				});
 
 		alertDialog = alertDialogBuilder.create();
+		alertDialog.getWindow().getAttributes().verticalMargin = 0.2F;
 		alertDialog.show();
 	}
 

@@ -4,22 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical" >
-
-    <RelativeLayout
+     >
+	<LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:weightSum="10">
+    <LinearLayout
         android:id="@+id/womenLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="3px"
-        android:layout_marginRight="3px"
-        android:layout_marginTop="1px" >
+        android:weightSum="10"
+        >
 
         <RelativeLayout
             android:id="@+id/women_in"
-            android:layout_width="117px"
-            android:layout_height="110px"
-            android:layout_alignParentLeft="true"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="fill_parent"
             android:background="@drawable/women_plus"
             android:clickable="true"
             android:onClick="womenIn_watch" >
@@ -43,9 +46,9 @@
 
         <RelativeLayout
             android:id="@+id/women_out"
-            android:layout_width="117px"
-            android:layout_height="110px"
-            android:layout_alignParentRight="true"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+			android:layout_weight="5"
             android:background="@drawable/women_min"
             android:clickable="true"
             android:onClick="womenOut_watch" >
@@ -66,21 +69,21 @@
                 android:layout_marginTop="70px"
             -->
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/menLayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="3px"
-        android:layout_marginRight="3px"
+        android:layout_height="0dp"
+ 		android:layout_weight="5"
+ 		android:weightSum="10"
         android:clickable="true" >
 
         <RelativeLayout
             android:id="@+id/men_in"
-            android:layout_width="117px"
-            android:layout_height="110px"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+			android:layout_weight="5"
             android:layout_alignParentLeft="true"
             android:background="@drawable/men_plus"
             android:clickable="true"
@@ -105,8 +108,9 @@
 
         <RelativeLayout
             android:id="@+id/men_out"
-            android:layout_width="117px"
-            android:layout_height="110px"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
             android:layout_alignParentRight="true"
             android:background="@drawable/men_min"
             android:clickable="true"
@@ -128,7 +132,8 @@
                 android:layout_marginTop="70px"
             -->
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
 
     <RelativeLayout
         android:layout_width="100dp"
