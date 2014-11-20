@@ -1,9 +1,6 @@
 package com.mw.wduwg.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.graphics.Bitmap;
 
 import com.google.gson.annotations.SerializedName;
@@ -20,13 +17,7 @@ public class Business implements Serializable {
 	
 	String name;
 
-	@SerializedName("google_place_id")
-	String googlePlaceID;
-	
 	String address;
-	
-	@SerializedName("google_api_result")
-	String googleAPIResult;
 	
 	String imageUrl;
 	String imageEncoded;
@@ -34,13 +25,6 @@ public class Business implements Serializable {
 	
 	String face_book_page;
 	
-	public String getFace_book_page() {
-		return face_book_page;
-	}
-
-	public void setFace_book_page(String face_book_page) {
-		this.face_book_page = face_book_page;
-	}
 
 	public Bitmap getImage() {
 		return image;
@@ -94,15 +78,6 @@ public class Business implements Serializable {
 		this._id = _id;
 	}
 
-	public String getGooglePlaceID() {
-		return googlePlaceID;
-	}
-
-	public void setGooglePlaceID(String googlePlaceID) {
-		this.googlePlaceID = googlePlaceID;
-	}
-
-	
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -110,7 +85,6 @@ public class Business implements Serializable {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-	
 	
 	public void setName(String name) {
 		this.name = name;
@@ -126,14 +100,5 @@ public class Business implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getGoogleAPIResult() {
-		return googleAPIResult;
-	}
-
-	public void setGoogleAPIResult(String googleAPIResult) {
-		this.googleAPIResult = googleAPIResult;
-	}
-
+	}	
 }

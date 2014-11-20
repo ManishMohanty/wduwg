@@ -10,15 +10,14 @@ import java.util.Timer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
@@ -30,7 +29,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -43,7 +41,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -65,12 +62,6 @@ import com.mw.wduwg.services.ServerURLs;
 
 public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
-	private static final int SWIPE_MIN_DISTANCE = 20;
-	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-	private static final int FACEBOOK = 69;
-	private static final int SCANNER = 96;
-	private static final int SETTING = 93;
-	private static final int REPORT = 94;
 	public static final int MOVE_BACK = 100;
 	public static int MOVE_ANOTHER_STEP_BACK = 10;
 
@@ -129,114 +120,13 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
 	int men_in = 0, men_out = 0, women_in = 0, women_out = 0;
 
-//	private BroadcastReceiver myMessageReceiver = new BroadcastReceiver() {
-//		@Override
-//		public void onReceive(Context context, Intent intent) {
-//			// Extract data included in the Intent
-//
-//			String message = intent.getStringExtra("message");
-//			// message = message + "  Additional text after exception message";
-//
-//			// Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-//			alertDialogBuilder = createDialog.createAlertDialog("Error",
-//					message, false);
-//
-//			alertDialogBuilder.setPositiveButton("Yes",
-//					new DialogInterface.OnClickListener() {
-//						public void onClick(DialogInterface dialog, int id) {
-//							dialog.dismiss();
-//						}
-//
-//					});
-//			alertDialog = alertDialogBuilder.create();
-//			alertDialog.show();
-//
-//		}
-//	};
-
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		globalVariable.saveSharedPreferences();
-//		LocalBroadcastManager.getInstance(this).unregisterReceiver(
-//				myMessageReceiver);
 	}
 
-	private void findThings() {
-
-		// inMaleTV = (TextView) findViewById(R.id.male_in);
-		// inFemaleTV = (TextView) findViewById(R.id.female_in);
-		//
-		// outMaleTV = (TextView) findViewById(R.id.male_out);
-		// outFemaleTV = (TextView) findViewById(R.id.female_out);
-		// currentMaleTV = (TextView) findViewById(R.id.total_male);
-		// currentFemaleTV = (TextView) findViewById(R.id.total_female);
-		//
-		// totalHeaderTV = (TextView) findViewById(R.id.total_header);
-		//
-		//
-		// femaleLayout = (LinearLayout) findViewById(R.id.female_counter);
-		// maleLayout = (LinearLayout) findViewById(R.id.male_counter);
-		// countPageEntireLL = (LinearLayout)
-		// findViewById(R.id.count_entire_page_LL);
-
-	}
-
-	private void initializeThings() {
-		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-		typeface = Typeface.createFromAsset(getAssets(),
-				"Fonts/OpenSans-Bold.ttf");
-		inflater = (LayoutInflater) this
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		createDialog = new CreateDialog(this);
-		businessName = getIntent().getStringExtra("business_name");
-		mPlayerIn = MediaPlayer.create(this, R.raw.in_sound);
-		mPlayerOut = MediaPlayer.create(this, R.raw.out_sound);
-
-		sharedPreference = PreferenceManager.getDefaultSharedPreferences(this
-				.getApplicationContext());
-		editor = sharedPreference.edit();
-
-		globalVariable = (GlobalVariable) getApplicationContext();
-
-		ab = getActionBar();
-		customActionBarView = inflater
-				.inflate(R.layout.custom_action_bar, null);
-		actionBarTextView = (TextView) customActionBarView
-				.findViewById(R.id.action_bar_TV);
-
-		inMaleTV.setTypeface(typeface);
-		inFemaleTV.setTypeface(typeface);
-		outMaleTV.setTypeface(typeface);
-		outFemaleTV.setTypeface(typeface);
-		currentMaleTV.setTypeface(typeface);
-		currentFemaleTV.setTypeface(typeface);
-		totalHeaderTV.setTypeface(typeface);
-		updateCounts();
-	}
-
-	private void updateCounts() {
-		inMaleTV.setText("" + globalVariable.getMenIn());
-		inFemaleTV.setText("" + globalVariable.getWomenIn());
-		outMaleTV.setText("" + globalVariable.getMenOut());
-		outFemaleTV.setText("" + globalVariable.getWomenOut());
-
-		currentMaleTV.setText(""
-				+ (globalVariable.getMenIn() - globalVariable.getMenOut()));
-		currentFemaleTV.setText(""
-				+ (globalVariable.getWomenIn() - globalVariable.getWomenOut()));
-
-		actionBarTextView
-				.setText("Total Count : "
-						+ ((globalVariable.getMenIn() - globalVariable
-								.getMenOut()) + (globalVariable.getWomenIn() - globalVariable
-								.getWomenOut())));
-		actionBarTextView.setTypeface(typeface);
-	}
-
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -276,14 +166,10 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 								.getWomenOut())));
 		inflater = (LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		LinearLayout menLayout = (LinearLayout) findViewById(R.id.menLayout);
-		LinearLayout womenLayout = (LinearLayout) findViewById(R.id.womenLayout);
 		Display display = getWindowManager().getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
-		int width = size.x;
-		int height = size.y;
-
+		
 		createDialog = new CreateDialog(this);
 
 		womenIn.setOnLongClickListener(new OnLongClickListener() {
@@ -354,13 +240,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		});
 	}
 
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		return false;
-	}
-
-	// ******************************************
-
 	public void menIn_watch(View v) {
 		// mPlayerIn.start();
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
@@ -415,60 +294,24 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		}
 	}
 
-	boolean ignoreOnRestart = false;
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == SETTING) {
-			if (resultCode == RESULT_OK)
-				ignoreOnRestart = true;
-			return;
-		}
-		if (requestCode == FACEBOOK) {
-			adapter.swapData(contextMenuItems, true);
-			adapter.notifyDataSetChanged();
-			listView.invalidateViews();
-			ignoreOnRestart = true;
-			restartSaving();
-		}
-		if (requestCode == REPORT) {
-			if (resultCode == RESULT_OK)
-				ignoreOnRestart = true;
-			return;
-		}
-		if (requestCode == SCANNER) {
-			if (resultCode == RESULT_OK) {
-				ignoreOnRestart = true;
-			} else if (resultCode == RESULT_CANCELED) {
-			}
-		}
-	}
-
 	@Override
 	protected void onRestart() {
 		super.onRestart();
 	}
 
-	private void restartSaving() {
-	}
-
+	@SuppressLint("InflateParams")
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// queue = Volley.newRequestQueue(this);
-
-//		LocalBroadcastManager.getInstance(this).registerReceiver(
-//				myMessageReceiver,
-//				new IntentFilter("scheduler_response_message"));
-
 		try {
 			if (timer != null) {
 				timer.cancel();
 				timer.purge();
 				scheduledTask.cancel();
 			}
-			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
+			TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 			String imeiNo = telephonyManager.getDeviceId();
+			
 			scheduledTask = new SchedulerCount(this , imeiNo);
 			timer = new Timer();
 			timer.scheduleAtFixedRate(scheduledTask, 1000, 60000);
@@ -630,5 +473,11 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@SuppressLint("ClickableViewAccessibility")
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		return false;
 	}
 }

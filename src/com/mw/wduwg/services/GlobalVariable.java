@@ -58,20 +58,14 @@ public class GlobalVariable extends Application {
 	}
 
 	public boolean isInternet() {
-		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		if (connection != null) {
-			NetworkInfo[] info = connection.getAllNetworkInfo();
-			if (info != null) {
-				for (int i = 0; i < info.length; i++) {
-					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-						return true;
-					}
-				}
-
-			}
-		}
-		return false;
+		return true;
+//		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
+//				.getSystemService(Context.CONNECTIVITY_SERVICE);
+//		if (connection != null) {
+//			NetworkInfo info = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+//			return (info != null && info.getState() == NetworkInfo.State.CONNECTED);
+//		}
+//		return false;
 	}
 
 	public int getMenIn() {
@@ -224,7 +218,6 @@ public class GlobalVariable extends Application {
 		editor.putInt("intervalWomenOut", intervalWomenOut);
 		editor.putInt("totalInDB", totalInDB);
 		editor.putBoolean("isreset", this.isReset);
-		// editor.putString("resetdate", this.resetDate.toString());
 		editor.commit();
 	}
 

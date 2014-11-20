@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,8 +30,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
 import com.mw.wduwg.services.CreateDialog;
@@ -52,7 +50,6 @@ public class SpalshFirstActivity extends Activity {
 	ProgressDialog progressDialgog;
 	AlertDialog.Builder alertdialogbuilder;
 	AlertDialog alertDialog;
-	RequestQueue queue;
 
 	private void findThings() {
 		appNameTextView = (TextView) findViewById(R.id.app_name_text);
@@ -66,39 +63,35 @@ public class SpalshFirstActivity extends Activity {
 				"Fonts/OpenSans-Light.ttf");
 		appNameTextView.setTypeface(typeface);
 		welcomeTextView.setTypeface(typeface);
-		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
-		imeiNo = telephonyManager.getDeviceId();
-		queue = Volley.newRequestQueue(this);
+		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		if(null != telephonyManager){
+			imeiNo = telephonyManager.getDeviceId();
+		}
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.splash_first);
 		createDialog = new CreateDialog(SpalshFirstActivity.this);
 		globalVariable = (GlobalVariable) getApplicationContext();
 		if (!globalVariable.isInternet()) {
-			if(globalVariable.getSelectedBusiness() != null)
-			alertdialogbuilder = createDialog
-					.createAlertDialog(
-							"Network Error",
+			if(globalVariable.getSelectedBusiness() != null){
+				alertdialogbuilder = createDialog.createAlertDialog("Network Error",
 							"You are not connected to the network. Counts will be synced once network is available. Press OK to start counting",
 							false);
-			else
-				alertdialogbuilder = createDialog
-				.createAlertDialog(
-						"Network Error",
+			}
+			else {
+				alertdialogbuilder = createDialog.createAlertDialog("Network Error",
 						"You are not connected to the network. Please establish a connection first for using WDUWG.",
 						false);
+			}
+			
 			alertdialogbuilder.setNegativeButton("OK",
 					new DialogInterface.OnClickListener() {
-
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
 							alertDialog.dismiss();
-							if(globalVariable.getSelectedBusiness()!= null)
-							{
+							if(globalVariable.getSelectedBusiness()!= null) {
 								Intent intent = new Intent(SpalshFirstActivity.this,
 										CountActivity.class);
 								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -109,15 +102,13 @@ public class SpalshFirstActivity extends Activity {
 							System.exit(0);
 						}
 					});
+			
 			alertDialog = alertdialogbuilder.create();
 			alertDialog.show();
 		} else {
-
 			if (globalVariable.getSelectedBusiness() != null) {
-				Intent intent = new Intent(SpalshFirstActivity.this,
-						CountActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				Intent intent = new Intent(SpalshFirstActivity.this, CountActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(intent);
 			} else {
 				setContentView(R.layout.splash_first);
@@ -126,14 +117,6 @@ public class SpalshFirstActivity extends Activity {
 
 				final ImageView logo1 = (ImageView) findViewById(R.id.splash_logo);
 				final LinearLayout textLayout1 = (LinearLayout) findViewById(R.id.textLayout);
-
-				// int titleId =
-				// getResources().getIdentifier("action_bar_title",
-				// "id", "android");
-				// TextView yourTextView = (TextView) findViewById(titleId);
-				// yourTextView.setTextColor(Color.parseColor("#016AB2"));
-				// yourTextView.setTextSize(19);
-				// yourTextView.setTypeface(typeface);
 
 				new Handler().postDelayed(new Runnable() {
 
@@ -219,7 +202,6 @@ public class SpalshFirstActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
 	}
 
@@ -233,6 +215,7 @@ public class SpalshFirstActivity extends Activity {
 		super.onPause();
 		globalVariable.saveSharedPreferences();
 	}
+	
 
 	public void connectFacebook(View v) {
 
@@ -265,10 +248,6 @@ public class SpalshFirstActivity extends Activity {
 						.getJSONObjectFromUrlAfterHttpGet(
 								"http://dcounter.herokuapp.com/businesses/imei_business.json",
 								param);
-//				JSONObject jsonobject = jsonparser
-//						.getJSONObjectFromUrlAfterHttpGet(
-//								"http://192.168.102.110:3000/businesses/imei_business.json",
-//								param);
 				if (jsonobject.getString("status").equals("ok")) {
 					Gson gson = new Gson();
 					String businessJsonString = jsonobject
@@ -305,7 +284,5 @@ public class SpalshFirstActivity extends Activity {
 						Toast.LENGTH_SHORT).show();
 			}
 		}
-
 	}
-
 }
