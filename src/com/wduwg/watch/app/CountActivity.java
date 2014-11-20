@@ -2,13 +2,8 @@ package com.wduwg.watch.app;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.Timer;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -42,23 +37,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.Request.Method;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.apphance.android.activity.ApphanceActivity;
 import com.mw.wduwg.adapter.ContextMenuAdapter;
 import com.mw.wduwg.model.ContextMenuItem;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.SchedulerCount;
-import com.mw.wduwg.services.ServerURLs;
 
 public class CountActivity extends ApphanceActivity implements OnTouchListener {
 
@@ -91,8 +75,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	ProgressDialog progressDialog;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog alertDialog;
-
-	RequestQueue queue;
 
 	boolean isFlashCompatible;
 
@@ -399,79 +381,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		customDialog.dismiss();
 		if (position == 0) {
 			onDone(null);
-		}
-	}
-
-	// count sending to db network call
-
-	public void sendToDB() {
-
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-			sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
-			women_in += globalVariable.getIntervalWomenIn();
-			women_out += globalVariable.getIntervalWomenOut();
-			men_in += globalVariable.getIntervalMenIn();
-			men_out += globalVariable.getIntervalMenOut();
-			JSONObject jsonObject2 = null;
-			String url = ServerURLs.URL + ServerURLs.COUNTER;
-			JSONObject jsonObject = new JSONObject();
-			jsonObject
-					.put("women_in", women_in)
-					.put("women_out", women_out)
-					.put("men_in", men_in)
-					.put("men_out", men_out)
-					.put("time", sdf.format(new Date()))
-					.put("business_id",
-							globalVariable.getSelectedBusiness().getId()
-									.get$oid());
-			globalVariable.setIntervalMenIn(0);
-			globalVariable.setIntervalMenOut(0);
-			globalVariable.setIntervalWomenIn(0);
-			globalVariable.setIntervalWomenOut(0);
-			globalVariable.saveSharedPreferences();
-			jsonObject2 = new JSONObject().put("counter", jsonObject);
-
-			JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
-					Method.POST, url, jsonObject2,
-					new Response.Listener<JSONObject>() {
-
-						@Override
-						public void onResponse(JSONObject arg0) {
-							// TODO Auto-generated method stub
-							men_in = 0;
-							men_out = 0;
-							women_in = 0;
-							women_out = 0;
-							try {
-								globalVariable.setTotalInDB(arg0
-										.getInt("total"));
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-						}
-					}, new Response.ErrorListener() {
-
-						@Override
-						public void onErrorResponse(VolleyError arg0) {
-							// TODO Auto-generated method stub
-							if (arg0 instanceof NetworkError) {
-							}
-							if (arg0 instanceof NoConnectionError) {
-							}
-							if (arg0 instanceof ServerError) {
-							}
-						}
-
-					});
-
-			RetryPolicy policy = new DefaultRetryPolicy(30000,
-					DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-			jsonObjRequest.setRetryPolicy(policy);
-			queue.add(jsonObjRequest);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
