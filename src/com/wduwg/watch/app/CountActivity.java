@@ -163,25 +163,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 //				myMessageReceiver);
 	}
 
-	private void findThings() {
-
-		// inMaleTV = (TextView) findViewById(R.id.male_in);
-		// inFemaleTV = (TextView) findViewById(R.id.female_in);
-		//
-		// outMaleTV = (TextView) findViewById(R.id.male_out);
-		// outFemaleTV = (TextView) findViewById(R.id.female_out);
-		// currentMaleTV = (TextView) findViewById(R.id.total_male);
-		// currentFemaleTV = (TextView) findViewById(R.id.total_female);
-		//
-		// totalHeaderTV = (TextView) findViewById(R.id.total_header);
-		//
-		//
-		// femaleLayout = (LinearLayout) findViewById(R.id.female_counter);
-		// maleLayout = (LinearLayout) findViewById(R.id.male_counter);
-		// countPageEntireLL = (LinearLayout)
-		// findViewById(R.id.count_entire_page_LL);
-
-	}
 
 	private void initializeThings() {
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -471,7 +452,7 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			String imeiNo = telephonyManager.getDeviceId();
 			scheduledTask = new SchedulerCount(this , imeiNo);
 			timer = new Timer();
-			timer.scheduleAtFixedRate(scheduledTask, 1000, 60000);
+			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
