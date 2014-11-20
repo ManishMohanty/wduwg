@@ -58,14 +58,13 @@ public class GlobalVariable extends Application {
 	}
 
 	public boolean isInternet() {
-		return true;
-//		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
-//				.getSystemService(Context.CONNECTIVITY_SERVICE);
-//		if (connection != null) {
-//			NetworkInfo info = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-//			return (info != null && info.getState() == NetworkInfo.State.CONNECTED);
-//		}
-//		return false;
+		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connection != null) {
+			NetworkInfo info = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+			return (info != null && info.getState() == NetworkInfo.State.CONNECTED);
+		}
+		return false;
 	}
 
 	public int getMenIn() {
