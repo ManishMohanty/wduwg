@@ -217,7 +217,7 @@ public class SpalshFirstActivity extends Activity {
 	}
 	
 
-	public void connectFacebook(View v) {
+	public void verifyImeiNo(View v) {
 
 		if (globalVariable.getSelectedBusiness() != null) {
 			Intent intent = new Intent(SpalshFirstActivity.this,

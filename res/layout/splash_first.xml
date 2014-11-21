@@ -66,7 +66,7 @@
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:clickable="true"
-            android:onClick="connectFacebook"
+            android:onClick="verifyImeiNo"
             android:visibility="gone" 
             android:src="@drawable/startcount"
             />

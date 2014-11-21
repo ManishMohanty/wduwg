@@ -8,10 +8,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
@@ -61,10 +57,12 @@ public class GlobalVariable extends Application {
 		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connection != null) {
-			NetworkInfo info = connection.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+			NetworkInfo info = connection
+					.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 			return (info != null && info.getState() == NetworkInfo.State.CONNECTED);
 		}
 		return false;
+
 	}
 
 	public int getMenIn() {
@@ -134,9 +132,6 @@ public class GlobalVariable extends Application {
 		this.intervalWomenOut = intervalWomenOut;
 	}
 
-	String fb_access_token;
-	long fb_access_expire;
-
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -153,10 +148,6 @@ public class GlobalVariable extends Application {
 			this.selectedBusiness = gson.fromJson(businessFromSP,
 					Business.class);
 		}
-		if (sharedPreferences.contains("fb_access_token")) {
-			this.fb_access_token = sharedPreferences.getString(
-					"fb_access_token", null);
-		}
 		this.menIn = sharedPreferences.getInt("menIn", 0);
 		this.menOut = sharedPreferences.getInt("menOut", 0);
 		this.womenIn = sharedPreferences.getInt("womenIn", 0);
@@ -167,23 +158,11 @@ public class GlobalVariable extends Application {
 		this.intervalWomenOut = sharedPreferences.getInt("intervalWomenOut", 0);
 		this.isReset = sharedPreferences.getBoolean("isreset", false);
 		this.totalInDB = sharedPreferences.getInt("totalInDB", 0);
-		// this.resetDate = new Date(sharedPreferences.getString("resetdate",
-		// null));
 	}
 
 	public void saveSharedPreferences() {
 		// FIXME:
 		Editor editor = sharedPreferences.edit();
-		if (this.fb_access_token != null)
-			editor.putString("fb_access_token", this.fb_access_token);
-		else if (sharedPreferences.contains("fb_access_token")) {
-			editor.remove("fb_access_token");
-		}
-		if (this.fb_access_expire != 0) {
-			editor.putLong("fb_access_expire", this.fb_access_expire);
-		} else if (sharedPreferences.contains("fb_access_expire")) {
-			editor.remove("fb_access_expire");
-		}
 
 		String customergsonToJSON = gson.toJson(this.customer);
 		editor.putString("customer", customergsonToJSON);
@@ -234,61 +213,6 @@ public class GlobalVariable extends Application {
 
 	public void setSelectedBusiness(Business selectedBusiness) {
 		this.selectedBusiness = selectedBusiness;
-	}
-
-	public static Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
-		int targetWidth = 150;
-		int targetHeight = 150;
-		Bitmap targetBitmap = Bitmap.createBitmap(targetWidth, targetHeight,
-				Bitmap.Config.ARGB_8888);
-
-		Canvas canvas = new Canvas(targetBitmap);
-		Path path = new Path();
-		path.addCircle(((float) targetWidth - 1) / 2,
-				((float) targetHeight - 1) / 2,
-				(Math.min(((float) targetWidth), ((float) targetHeight)) / 2),
-				Path.Direction.CCW);
-
-		canvas.clipPath(path);
-		Bitmap sourceBitmap = scaleBitmapImage;
-		canvas.drawBitmap(sourceBitmap, new Rect(0, 0, sourceBitmap.getWidth(),
-				sourceBitmap.getHeight()), new Rect(0, 0, targetWidth,
-				targetHeight), null);
-		return targetBitmap;
-	}
-
-	public boolean isfacebookOn() {
-		return sharedPreferences.getBoolean("facebookSwitch", false);
-	}
-
-	public int facebookFrequency() {
-		return Integer.parseInt(sharedPreferences.getString("prefFb_frequency",
-				"0"));
-	}
-
-	public boolean isNotificationOn() {
-		return sharedPreferences.getBoolean("prefMessageSwitch", false);
-	}
-
-	public int messageFrequency() {
-		return Integer.parseInt(sharedPreferences.getString(
-				"prefNotificationFrequency", "0"));
-	}
-
-	public long getFb_access_expire() {
-		return fb_access_expire;
-	}
-
-	public void setFb_access_expire(long fb_access_expire) {
-		this.fb_access_expire = fb_access_expire;
-	}
-
-	public String getFb_access_token() {
-		return fb_access_token;
-	}
-
-	public void setFb_access_token(String fb_access_token) {
-		this.fb_access_token = fb_access_token;
 	}
 
 	public String timeFormat(String datetime) {
