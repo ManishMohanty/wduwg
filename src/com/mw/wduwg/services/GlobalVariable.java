@@ -11,6 +11,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 import com.google.gson.Gson;
 import com.mw.wduwg.model.Business;
@@ -52,8 +53,19 @@ public class GlobalVariable extends Application {
 	public void setTotalInDB(int totalInDB) {
 		this.totalInDB = totalInDB;
 	}
+	
+	public String getIMEINo(){
+		String imeiNo = null;
+		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		if(null != telephonyManager){
+			imeiNo = telephonyManager.getDeviceId();			
+		}
+		//imeiNo = "12345678910";
+		return imeiNo;
+	}
 
 	public boolean isInternet() {
+		//return true;
 		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connection != null) {
@@ -62,7 +74,6 @@ public class GlobalVariable extends Application {
 			return (info != null && info.getState() == NetworkInfo.State.CONNECTED);
 		}
 		return false;
-
 	}
 
 	public int getMenIn() {
@@ -240,7 +251,7 @@ public class GlobalVariable extends Application {
 			date = date.substring(0, date.length() - 2) + day;
 			return time + df.format(sdf.parse(date));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
 	}

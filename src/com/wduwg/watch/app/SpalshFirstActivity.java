@@ -10,14 +10,12 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -62,11 +60,7 @@ public class SpalshFirstActivity extends Activity {
 		typeface2 = Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Light.ttf");
 		appNameTextView.setTypeface(typeface);
-		welcomeTextView.setTypeface(typeface);
-		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		if(null != telephonyManager){
-			imeiNo = telephonyManager.getDeviceId();
-		}
+		welcomeTextView.setTypeface(typeface);		
 	}
 
 	@Override
@@ -74,6 +68,7 @@ public class SpalshFirstActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		createDialog = new CreateDialog(SpalshFirstActivity.this);
 		globalVariable = (GlobalVariable) getApplicationContext();
+		imeiNo = globalVariable.getIMEINo();
 		if (!globalVariable.isInternet()) {
 			if(globalVariable.getSelectedBusiness() != null){
 				alertdialogbuilder = createDialog.createAlertDialog("Network Error",
@@ -264,7 +259,7 @@ public class SpalshFirstActivity extends Activity {
 					return false;
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			return false;
 		}
