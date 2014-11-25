@@ -168,7 +168,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 		
 		if(null == globalVariable.getTimer()){
 			globalVariable.setTimer(new Timer());
-			globalVariable.getTimer().scheduleAtFixedRate(new SchedulerCount(this , globalVariable.getIMEINo()), 0, 60000);
+			globalVariable.getTimer().scheduleAtFixedRate(new SchedulerCount(this , globalVariable.getIMEINo()), 0, 1000 * 30);
 		}
 	}
 
