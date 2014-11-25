@@ -117,7 +117,6 @@ public class SpalshFirstActivity extends Activity {
 
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						TranslateAnimation animation = new TranslateAnimation(
 								0, 0, 0, -165);
 						animation.setDuration(800);
@@ -125,18 +124,12 @@ public class SpalshFirstActivity extends Activity {
 						animation.setAnimationListener(new AnimationListener() {
 
 							public void onAnimationStart(Animation animation) {
-								// TODO Auto-generated method stub
-
 							}
 
 							public void onAnimationRepeat(Animation animation) {
-								// TODO Auto-generated method stub
-
 							}
 
 							public void onAnimationEnd(Animation animation) {
-								// TODO Auto-generated method stub
-
 								int[] location = new int[2];
 								logo1.getLocationInWindow(location);
 								logo1.clearAnimation();
@@ -163,21 +156,16 @@ public class SpalshFirstActivity extends Activity {
 									@Override
 									public void onAnimationStart(
 											Animation animation) {
-										// TODO Auto-generated method stub
-
 									}
 
 									@Override
 									public void onAnimationRepeat(
 											Animation animation) {
-										// TODO Auto-generated method stub
-
 									}
 
 									@Override
 									public void onAnimationEnd(
 											Animation animation) {
-										// TODO Auto-generated method stub
 										logo1.clearAnimation();
 										findViewById(R.id.buttonLayout)
 												.setVisibility(View.VISIBLE);
@@ -234,7 +222,6 @@ public class SpalshFirstActivity extends Activity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO Auto-generated method stub
 			try {
 				JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
 				List<NameValuePair> param = new ArrayList<NameValuePair>();
@@ -259,14 +246,12 @@ public class SpalshFirstActivity extends Activity {
 					return false;
 				}
 			} catch (Exception e) {
-				//e.printStackTrace();
 			}
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			// TODO Auto-generated method stub
 			progressDialgog.dismiss();
 			if (result) {
 				Intent intent = new Intent(SpalshFirstActivity.this,

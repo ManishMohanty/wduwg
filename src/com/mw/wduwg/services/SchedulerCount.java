@@ -11,56 +11,45 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.Request.Method;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import android.content.Context;
-import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 import android.os.Looper;
 
 public class SchedulerCount extends TimerTask {
 
 	Looper looper = Looper.getMainLooper();
-	private Handler mHandler = new Handler(looper);
-
-	Editor editor;
-	Context context;
-	JSONParser jParser;
-	JSONObject jsonFromServer;
+	Handler mHandler = new Handler(looper);
 	GlobalVariable globalVariable;
 	String imeiNo;
 	boolean isprocessing = false;
+	UUID currentUUID = UUID.randomUUID();
 	RequestQueue queue;
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-
-	public SchedulerCount(Context context, String imeiNo) {
+	public SchedulerCount(Context context, String incomingImeiNo) {
 		super();
 		sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
-		this.context = context;		
-		globalVariable = (GlobalVariable) context.getApplicationContext();		
-		this.imeiNo = globalVariable.getIMEINo();
+		imeiNo = incomingImeiNo;
 		queue = Volley.newRequestQueue(context);
+		globalVariable = (GlobalVariable) context.getApplicationContext();
 	}
 
 	public void run() {
-
 		mHandler.post(new Runnable() {
 			public void run() {
 				if (globalVariable.isInternet() == true
 						&& isprocessing == false) {
 					try {
 						isprocessing = true;
-						
-						String uuid = imeiNo + UUID.randomUUID().toString() + sdf.format(new Date());
+						currentUUID = UUID.randomUUID();
+						String uuid = imeiNo + "--" + currentUUID.toString() + "--" + sdf.format(new Date());
 						String url = ServerURLs.URL + ServerURLs.COUNTER;
 
 						JSONObject jsonObject = new JSONObject();
@@ -89,38 +78,25 @@ public class SchedulerCount extends TimerTask {
 								new Response.Listener<JSONObject>() {
 									@Override
 									public void onResponse(JSONObject arg0) {
-										// TODO Auto-generated method stub
 										try {
 											globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn() - intervalMenIn);
 											globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut() - intervalMenOut);
 											globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn() - intervalWomenIn);
-											globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut() - intervalWomenOut);
+											globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut() - intervalWomenOut);											
+											globalVariable.setTotalInDB(arg0.getInt("total"));											
 											globalVariable.saveSharedPreferences();
-
-											globalVariable.setTotalInDB(arg0
-													.getInt("total"));
 										} catch (JSONException e) {
 										}
 										isprocessing = false;
 									}
 								}, new Response.ErrorListener() {
-
 									@Override
 									public void onErrorResponse(VolleyError arg0) {
-										// TODO Auto-generated method stub
-										if (arg0 instanceof NetworkError) {
-										}
-										if (arg0 instanceof NoConnectionError) {
-										}
-										if (arg0 instanceof ServerError) {
-										}
-
 										isprocessing = false;
 									}									
 								});
-
+						
 						queue.add(jsonObjRequest);
-
 
 					} catch (Exception e) {
 						// Don't do anything -- Skip any error stuff
@@ -131,5 +107,4 @@ public class SchedulerCount extends TimerTask {
 			}
 		});
 	}
-
 }

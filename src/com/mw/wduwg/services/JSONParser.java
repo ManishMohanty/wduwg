@@ -1,12 +1,10 @@
 package com.mw.wduwg.services;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -25,12 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
-
-import com.parse.entity.mime.HttpMultipartMode;
-import com.parse.entity.mime.MultipartEntity;
-import com.parse.entity.mime.content.StringBody;
 
 public class JSONParser {
 
@@ -73,90 +66,6 @@ public class JSONParser {
 		}
 		return getJSONObjectFromInputStream(is);
 	}
-
-	public JSONObject getJSONFromUrlAfterHttpPost2(String url,
-			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-
-		try {
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
-
-			MultipartEntity multipartEntity = new MultipartEntity(
-					HttpMultipartMode.BROWSER_COMPATIBLE);
-
-			try {
-				multipartEntity.addPart("user[email]", new StringBody(
-						jsonObject.getString("email")));
-				multipartEntity.addPart("user[password]", new StringBody(
-						jsonObject.getString("password")));
-				multipartEntity.addPart(
-						"user[password_confirmation]",
-						new StringBody(jsonObject
-								.getString("password_confirmation")));
-
-				JSONObject jsonObject2 = jsonObject.getJSONObject(
-						"members_attributes").getJSONObject("0");
-				multipartEntity.addPart("user[members_attributes][0][name]",
-						new StringBody(jsonObject2.getString("name")));
-				multipartEntity.addPart(
-						"user[members_attributes][0][first_name]",
-						new StringBody(jsonObject2.getString("first_name")));
-				multipartEntity.addPart(
-						"user[members_attributes][0][relationship]",
-						new StringBody(jsonObject2.getString("relationship")));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			httpPost.setEntity(multipartEntity);
-
-			HttpResponse httpResponse = httpClient.execute(httpPost);
-			HttpEntity httpEntity = httpResponse.getEntity();
-			is = httpEntity.getContent();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return getJSONObjectFromInputStream(is);
-	}
-
-	public JSONObject getJSONFromUrlAfterHttpPost3(String url,
-			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-
-		try {
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
-
-			MultipartEntity multipartEntity = new MultipartEntity(
-					HttpMultipartMode.BROWSER_COMPATIBLE);
-			Iterator<?> jsonObjectKeys = jsonObject.keys();
-			while (jsonObjectKeys.hasNext()) {
-
-				String temp = (String) jsonObjectKeys.next();
-				try {
-					multipartEntity.addPart(temp,
-							new StringBody(jsonObject.getString(temp)));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-			httpPost.setEntity(multipartEntity);
-
-			HttpResponse httpResponse = httpClient.execute(httpPost);
-			HttpEntity httpEntity = httpResponse.getEntity();
-			is = httpEntity.getContent();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return getJSONObjectFromInputStream(is);
-	}
-
 	public JSONArray getJSONArrayFromUrlAfterHttpGet(String url) {
 
 		DefaultHttpClient httpClient = new DefaultHttpClient();

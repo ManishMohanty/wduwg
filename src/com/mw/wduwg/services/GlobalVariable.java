@@ -1,8 +1,7 @@
 package com.mw.wduwg.services;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
 
 import android.app.Application;
 import android.content.Context;
@@ -29,6 +28,7 @@ public class GlobalVariable extends Application {
 	int totalInDB;
 	Date resetDate;
 	boolean isReset;
+	Timer timer;
 
 	public Date getResetDate() {
 		return resetDate;
@@ -225,35 +225,12 @@ public class GlobalVariable extends Application {
 	public void setSelectedBusiness(Business selectedBusiness) {
 		this.selectedBusiness = selectedBusiness;
 	}
-
-	public String timeFormat(String datetime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		DateFormat df = new SimpleDateFormat("MMMM dd, yyyy");
-		String date = datetime.split(",")[0];
-		int day = Integer.parseInt(date.split("-")[2]);
-		String time = datetime.split(",")[1];
-		int hh = Integer.parseInt(time.split(":")[0]);
-		hh = hh - 5;
-		if (hh < 0) {
-
-			hh = hh + 24;
-			day = day - 1;
-		}
-		if ((hh) > 11) {
-			if (hh != 12)
-				time = (hh - 12) + ":" + time.split(":")[1] + " PM  ";
-			else
-				time = (hh) + ":" + time.split(":")[1] + " PM  ";
-		} else {
-			time = (hh) + ":" + time.split(":")[1] + " AM  ";
-		}
-		try {
-			date = date.substring(0, date.length() - 2) + day;
-			return time + df.format(sdf.parse(date));
-		} catch (Exception e) {
-			//e.printStackTrace();
-			return null;
-		}
+	
+	public Timer getTimer(){
+		return timer;
 	}
-
+	
+	public void setTimer(Timer createdTimer){
+		timer = createdTimer;
+	}
 }
