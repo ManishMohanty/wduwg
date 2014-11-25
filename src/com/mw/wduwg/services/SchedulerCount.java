@@ -48,7 +48,6 @@ public class SchedulerCount extends TimerTask {
 						&& isprocessing == false) {
 					try {
 						isprocessing = true;
-						currentUUID = UUID.randomUUID();
 						String uuid = imeiNo + "--" + currentUUID.toString() + "--" + sdf.format(new Date());
 						String url = ServerURLs.URL + ServerURLs.COUNTER;
 
@@ -78,13 +77,14 @@ public class SchedulerCount extends TimerTask {
 								new Response.Listener<JSONObject>() {
 									@Override
 									public void onResponse(JSONObject arg0) {
-										try {
+										try {											
 											globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn() - intervalMenIn);
 											globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut() - intervalMenOut);
 											globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn() - intervalWomenIn);
 											globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut() - intervalWomenOut);											
 											globalVariable.setTotalInDB(arg0.getInt("total"));											
 											globalVariable.saveSharedPreferences();
+											currentUUID = UUID.randomUUID();
 										} catch (JSONException e) {
 										}
 										isprocessing = false;
