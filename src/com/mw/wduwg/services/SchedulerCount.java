@@ -27,9 +27,8 @@ public class SchedulerCount extends TimerTask {
 	Looper looper = Looper.getMainLooper();
 	Handler mHandler = new Handler(looper);
 	GlobalVariable globalVariable;
-	String imeiNo;
+	String imeiNo, currentUUID;
 	boolean isprocessing = false;
-	UUID currentUUID = UUID.randomUUID();
 	RequestQueue queue;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
@@ -39,6 +38,7 @@ public class SchedulerCount extends TimerTask {
 		imeiNo = incomingImeiNo;
 		queue = Volley.newRequestQueue(context);
 		globalVariable = (GlobalVariable) context.getApplicationContext();
+		currentUUID = imeiNo + "--" + UUID.randomUUID().toString() + "--" + sdf.format(new Date());
 	}
 
 	public void run() {
@@ -48,11 +48,10 @@ public class SchedulerCount extends TimerTask {
 						&& isprocessing == false) {
 					try {
 						isprocessing = true;
-						String uuid = imeiNo + "--" + currentUUID.toString() + "--" + sdf.format(new Date());
 						String url = ServerURLs.URL + ServerURLs.COUNTER;
 
 						JSONObject jsonObject = new JSONObject();
-						jsonObject.put("uuid", uuid);
+						jsonObject.put("uuid", currentUUID);
 						jsonObject.put("women_in",
 								globalVariable.getIntervalWomenIn());
 						jsonObject.put("women_out",
@@ -84,7 +83,7 @@ public class SchedulerCount extends TimerTask {
 											globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut() - intervalWomenOut);											
 											globalVariable.setTotalInDB(arg0.getInt("total"));											
 											globalVariable.saveSharedPreferences();
-											currentUUID = UUID.randomUUID();
+											currentUUID = imeiNo + "--" + UUID.randomUUID().toString() + "--" + sdf.format(new Date());
 										} catch (JSONException e) {
 										}
 										isprocessing = false;
