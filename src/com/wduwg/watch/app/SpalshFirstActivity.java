@@ -60,7 +60,7 @@ public class SpalshFirstActivity extends Activity {
 		typeface2 = Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Light.ttf");
 		appNameTextView.setTypeface(typeface);
-		welcomeTextView.setTypeface(typeface);		
+		welcomeTextView.setTypeface(typeface);
 	}
 
 	@Override
@@ -70,40 +70,45 @@ public class SpalshFirstActivity extends Activity {
 		globalVariable = (GlobalVariable) getApplicationContext();
 		imeiNo = globalVariable.getIMEINo();
 		if (!globalVariable.isInternet()) {
-			if(globalVariable.getSelectedBusiness() != null){
-				alertdialogbuilder = createDialog.createAlertDialog("Network Error",
-							"You are not connected to the network. Counts will be synced once network is available. Press OK to start counting",
-							false);
+			if (globalVariable.getSelectedBusiness() != null) {
+				alertdialogbuilder = createDialog
+						.createAlertDialog(
+								"Network Error",
+								"You are not connected to the network. Counts will be synced once network is available. Press OK to start counting",
+								false);
+			} else {
+				alertdialogbuilder = createDialog
+						.createAlertDialog(
+								"Network Error",
+								"You are not connected to the network. Please establish a connection first for using WDUWG.",
+								false);
 			}
-			else {
-				alertdialogbuilder = createDialog.createAlertDialog("Network Error",
-						"You are not connected to the network. Please establish a connection first for using WDUWG.",
-						false);
-			}
-			
+
 			alertdialogbuilder.setNegativeButton("OK",
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							alertDialog.dismiss();
-							if(globalVariable.getSelectedBusiness()!= null) {
-								Intent intent = new Intent(SpalshFirstActivity.this,
+							if (globalVariable.getSelectedBusiness() != null) {
+								Intent intent = new Intent(
+										SpalshFirstActivity.this,
 										CountActivity.class);
 								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 										| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 								startActivity(intent);
-							}
-							else
-							System.exit(0);
+							} else
+								System.exit(0);
 						}
 					});
-			
+
 			alertDialog = alertdialogbuilder.create();
 			alertDialog.show();
 		} else {
 			if (globalVariable.getSelectedBusiness() != null) {
-				Intent intent = new Intent(SpalshFirstActivity.this, CountActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+				Intent intent = new Intent(SpalshFirstActivity.this,
+						CountActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+						| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				startActivity(intent);
 			} else {
 				setContentView(R.layout.splash_first);
@@ -198,7 +203,6 @@ public class SpalshFirstActivity extends Activity {
 		super.onPause();
 		globalVariable.saveSharedPreferences();
 	}
-	
 
 	public void verifyImeiNo(View v) {
 

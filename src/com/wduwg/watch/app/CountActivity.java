@@ -71,7 +71,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		globalVariable.saveSharedPreferences();
 	}
@@ -112,11 +111,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			public boolean onLongClick(View v) {
 				headerTV.setText(globalVariable.getSelectedBusiness().getName()
 						+ "\nTotal Attendance At server ->"
-						+ (globalVariable.getTotalInDB()
-								+ globalVariable.getIntervalMenIn()
-								+ globalVariable.getIntervalWomenIn()
-								- globalVariable.getIntervalMenOut() 
-								- globalVariable.getIntervalWomenOut()));
+						+ globalVariable.getTotalInDB());
 				customDialog.show();
 				return false;
 			}
@@ -126,11 +121,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			public boolean onLongClick(View v) {
 				headerTV.setText(globalVariable.getSelectedBusiness().getName()
 						+ "\nTotal Attendance At server -> "
-						+ (globalVariable.getTotalInDB()
-								+ globalVariable.getIntervalMenIn()
-								+ globalVariable.getIntervalWomenIn()
-								- globalVariable.getIntervalMenOut() 
-								- globalVariable.getIntervalWomenOut()));
+						+ globalVariable.getTotalInDB());
 				customDialog.show();
 				return false;
 			}
@@ -141,11 +132,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			public boolean onLongClick(View v) {
 				headerTV.setText(globalVariable.getSelectedBusiness().getName()
 						+ "\nTotal Attendance At server -> "
-						+ (globalVariable.getTotalInDB()
-								+ globalVariable.getIntervalMenIn()
-								+ globalVariable.getIntervalWomenIn()
-								- globalVariable.getIntervalMenOut() - globalVariable
-								.getIntervalWomenOut()));
+						+ globalVariable.getTotalInDB());
 				customDialog.show();
 				return false;
 			}
@@ -156,11 +143,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			public boolean onLongClick(View v) {
 				headerTV.setText(globalVariable.getSelectedBusiness().getName()
 						+ "\nTotal Attendance At server -> "
-						+ (globalVariable.getTotalInDB()
-								+ globalVariable.getIntervalMenIn()
-								+ globalVariable.getIntervalWomenIn()
-								- globalVariable.getIntervalMenOut() - globalVariable
-								.getIntervalWomenOut()));
+						+ globalVariable.getTotalInDB());
 				customDialog.show();
 				return false;
 			}
@@ -174,7 +157,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 
 	public void menIn_watch(View v) {
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
-		globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn() + 1);
 		globalVariable.saveSharedPreferences();
 		inMaleTV.setText("" + globalVariable.getMenIn());
 		int total = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
@@ -183,19 +165,15 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void menOut_watch(View v) {
-		if ((globalVariable.getMenIn() - globalVariable.getMenOut()) > 0) {
-			globalVariable.setMenOut(globalVariable.getMenOut() + 1);
-			globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut() + 1);
-			globalVariable.saveSharedPreferences();
-			outMaleTV.setText("" + globalVariable.getMenOut());
-			int total = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
-			total_attendance.setText("" + total);
-		}
+		globalVariable.setMenOut(globalVariable.getMenOut() + 1);
+		globalVariable.saveSharedPreferences();
+		outMaleTV.setText("" + globalVariable.getMenOut());
+		int total = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+		total_attendance.setText("" + total);
 	}
 
 	public void womenIn_watch(View v) {
 		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
-		globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn() + 1);
 		globalVariable.saveSharedPreferences();
 		inFemaleTV.setText("" + globalVariable.getWomenIn());
 		int total1 = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
@@ -203,14 +181,11 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void womenOut_watch(View v) {
-		if ((globalVariable.getWomenIn() - globalVariable.getWomenOut()) > 0) {
-			globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
-			globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut() + 1);
-			globalVariable.saveSharedPreferences();
-			outFemaleTV.setText("" + globalVariable.getWomenOut());
-			int total = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
-			total_attendance.setText("" + total);
-		}
+		globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
+		globalVariable.saveSharedPreferences();
+		outFemaleTV.setText("" + globalVariable.getWomenOut());
+		int total = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+		total_attendance.setText("" + total);
 	}
 
 	@Override

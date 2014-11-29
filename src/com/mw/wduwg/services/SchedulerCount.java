@@ -45,42 +45,34 @@ public class SchedulerCount extends TimerTask {
 		mHandler.post(new Runnable() {
 			public void run() {
 				if (globalVariable.isInternet() == true
-						&& isprocessing == false) {
+						&& isprocessing == false && globalVariable.hasCountChanged()) {
 					try {
+						globalVariable.resetCountChanged();
+						
 						isprocessing = true;
 						String url = ServerURLs.URL + ServerURLs.COUNTER;
 
 						JSONObject jsonObject = new JSONObject();
 						jsonObject.put("uuid", currentUUID);
-						jsonObject.put("women_in",
-								globalVariable.getIntervalWomenIn());
-						jsonObject.put("women_out",
-								globalVariable.getIntervalWomenOut());
-						jsonObject.put("men_in",
-								globalVariable.getIntervalMenIn());
-						jsonObject.put("men_out",
-								globalVariable.getIntervalMenOut());
+						jsonObject.put("device_id", imeiNo);
+						jsonObject.put("womenin",
+								globalVariable.getWomenIn());
+						jsonObject.put("womenout",
+								globalVariable.getWomenOut());
+						jsonObject.put("menin",
+								globalVariable.getMenIn());
+						jsonObject.put("menout",
+								globalVariable.getMenOut());
 						jsonObject.put("time", sdf.format(new Date()));
 						jsonObject.put("business_id", globalVariable
 								.getSelectedBusiness().getId().get$oid());
 
-						final int intervalMenIn = globalVariable.getIntervalMenIn();
-						final int intervalWomenIn = globalVariable.getIntervalWomenIn();
-						final int intervalMenOut = globalVariable.getIntervalMenOut();
-						final int intervalWomenOut = globalVariable.getIntervalWomenOut();
-
-						JSONObject jsonObject2 = new JSONObject().put("counter", jsonObject);
-
 						JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
-								Method.POST, url, jsonObject2,
+								Method.POST, url, jsonObject,
 								new Response.Listener<JSONObject>() {
 									@Override
 									public void onResponse(JSONObject arg0) {
 										try {											
-											globalVariable.setIntervalMenIn(globalVariable.getIntervalMenIn() - intervalMenIn);
-											globalVariable.setIntervalMenOut(globalVariable.getIntervalMenOut() - intervalMenOut);
-											globalVariable.setIntervalWomenIn(globalVariable.getIntervalWomenIn() - intervalWomenIn);
-											globalVariable.setIntervalWomenOut(globalVariable.getIntervalWomenOut() - intervalWomenOut);											
 											globalVariable.setTotalInDB(arg0.getInt("total"));											
 											globalVariable.saveSharedPreferences();
 											currentUUID = imeiNo + "--" + UUID.randomUUID().toString() + "--" + sdf.format(new Date());

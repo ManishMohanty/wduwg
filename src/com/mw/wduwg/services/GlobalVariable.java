@@ -18,17 +18,15 @@ import com.mw.wduwg.model.Customer;
 
 public class GlobalVariable extends Application {
 
-	// FIXME: shared preferences should be read from here ONLY
-
 	SharedPreferences sharedPreferences;
 
 	Gson gson;
 	int menIn, menOut, womenIn, womenOut;
-	int intervalMenIn, intervalWomenIn, intervalMenOut, intervalWomenOut;
-	int totalInDB;
+	int totalInDB, timerRetryCountSinceLastPost;
 	Date resetDate;
-	boolean isReset;
+	boolean isReset, countChanged;
 	Timer timer;
+	
 
 	public Date getResetDate() {
 		return resetDate;
@@ -82,6 +80,7 @@ public class GlobalVariable extends Application {
 
 	public void setMenIn(int menIn) {
 		this.menIn = menIn;
+		this.countChanged = true;
 	}
 
 	public int getMenOut() {
@@ -90,6 +89,7 @@ public class GlobalVariable extends Application {
 
 	public void setMenOut(int menOut) {
 		this.menOut = menOut;
+		this.countChanged = true;
 	}
 
 	public int getWomenIn() {
@@ -98,6 +98,7 @@ public class GlobalVariable extends Application {
 
 	public void setWomenIn(int womenIn) {
 		this.womenIn = womenIn;
+		this.countChanged = true;
 	}
 
 	public int getWomenOut() {
@@ -106,42 +107,11 @@ public class GlobalVariable extends Application {
 
 	public void setWomenOut(int womenOut) {
 		this.womenOut = womenOut;
+		this.countChanged = true;
 	}
 
 	Customer customer;
 	Business selectedBusiness;
-
-	public int getIntervalMenIn() {
-		return intervalMenIn;
-	}
-
-	public void setIntervalMenIn(int intervalMenIn) {
-		this.intervalMenIn = intervalMenIn;
-	}
-
-	public int getIntervalWomenIn() {
-		return intervalWomenIn;
-	}
-
-	public void setIntervalWomenIn(int intervalWomenIn) {
-		this.intervalWomenIn = intervalWomenIn;
-	}
-
-	public int getIntervalMenOut() {
-		return intervalMenOut;
-	}
-
-	public void setIntervalMenOut(int intervalMenOut) {
-		this.intervalMenOut = intervalMenOut;
-	}
-
-	public int getIntervalWomenOut() {
-		return intervalWomenOut;
-	}
-
-	public void setIntervalWomenOut(int intervalWomenOut) {
-		this.intervalWomenOut = intervalWomenOut;
-	}
 
 	@Override
 	public void onCreate() {
@@ -163,18 +133,14 @@ public class GlobalVariable extends Application {
 		this.menOut = sharedPreferences.getInt("menOut", 0);
 		this.womenIn = sharedPreferences.getInt("womenIn", 0);
 		this.womenOut = sharedPreferences.getInt("womenOut", 0);
-		this.intervalMenIn = sharedPreferences.getInt("intervalMenIn", 0);
-		this.intervalMenOut = sharedPreferences.getInt("intervalMenOut", 0);
-		this.intervalWomenIn = sharedPreferences.getInt("intervalWomenIn", 0);
-		this.intervalWomenOut = sharedPreferences.getInt("intervalWomenOut", 0);
 		this.isReset = sharedPreferences.getBoolean("isreset", false);
 		this.totalInDB = sharedPreferences.getInt("totalInDB", 0);
+		this.countChanged = true;
+		this.timerRetryCountSinceLastPost = 0;
 	}
 
 	public void saveSharedPreferences() {
-		// FIXME:
 		Editor editor = sharedPreferences.edit();
-
 		String customergsonToJSON = gson.toJson(this.customer);
 		editor.putString("customer", customergsonToJSON);
 		if (this.selectedBusiness != null) {
@@ -192,21 +158,17 @@ public class GlobalVariable extends Application {
 		} else if (sharedPreferences.contains("isEventThere")) {
 			editor.remove("isEventThere");
 		}
-
 		if (this.selectedBusiness != null) {
 			editor.putBoolean("isDeviceRegistered", true);
 		}
-
 		editor.putInt("menIn", menIn);
 		editor.putInt("womenIn", womenIn);
 		editor.putInt("menOut", menOut);
 		editor.putInt("womenOut", womenOut);
-		editor.putInt("intervalMenIn", intervalMenIn);
-		editor.putInt("intervalMenOut", intervalMenOut);
-		editor.putInt("intervalWomenIn", intervalWomenIn);
-		editor.putInt("intervalWomenOut", intervalWomenOut);
 		editor.putInt("totalInDB", totalInDB);
+		editor.putInt("timerRetryCountSinceLastPost", timerRetryCountSinceLastPost);
 		editor.putBoolean("isreset", this.isReset);
+		editor.putBoolean("countChanged", this.countChanged);
 		editor.commit();
 	}
 
@@ -232,5 +194,20 @@ public class GlobalVariable extends Application {
 	
 	public void setTimer(Timer createdTimer){
 		timer = createdTimer;
+	}
+	
+	public Boolean hasCountChanged()
+	{
+		if( countChanged || timerRetryCountSinceLastPost == 12 ){
+			timerRetryCountSinceLastPost = 0;
+			return true;
+		}		
+		timerRetryCountSinceLastPost = timerRetryCountSinceLastPost + 1;
+		return false;
+	}
+	
+	public void resetCountChanged()
+	{
+		countChanged = false;
 	}
 }
