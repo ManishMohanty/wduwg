@@ -22,7 +22,7 @@ public class GlobalVariable extends Application {
 
 	Gson gson;
 	int menIn, menOut, womenIn, womenOut;
-	int totalInDB, timerRetryCountSinceLastPost;
+	int totalInDB;
 	Date resetDate;
 	boolean isReset, countChanged;
 	Timer timer;
@@ -42,6 +42,7 @@ public class GlobalVariable extends Application {
 
 	public void setReset(boolean isReset) {
 		this.isReset = isReset;
+		this.countChanged = isReset;
 	}
 
 	public int getTotalInDB() {
@@ -136,7 +137,6 @@ public class GlobalVariable extends Application {
 		this.isReset = sharedPreferences.getBoolean("isreset", false);
 		this.totalInDB = sharedPreferences.getInt("totalInDB", 0);
 		this.countChanged = true;
-		this.timerRetryCountSinceLastPost = 0;
 	}
 
 	public void saveSharedPreferences() {
@@ -166,7 +166,6 @@ public class GlobalVariable extends Application {
 		editor.putInt("menOut", menOut);
 		editor.putInt("womenOut", womenOut);
 		editor.putInt("totalInDB", totalInDB);
-		editor.putInt("timerRetryCountSinceLastPost", timerRetryCountSinceLastPost);
 		editor.putBoolean("isreset", this.isReset);
 		editor.putBoolean("countChanged", this.countChanged);
 		editor.commit();
@@ -198,12 +197,7 @@ public class GlobalVariable extends Application {
 	
 	public Boolean hasCountChanged()
 	{
-		if( countChanged || timerRetryCountSinceLastPost == 12 ){
-			timerRetryCountSinceLastPost = 0;
-			return true;
-		}		
-		timerRetryCountSinceLastPost = timerRetryCountSinceLastPost + 1;
-		return false;
+		return countChanged;
 	}
 	
 	public void resetCountChanged()
