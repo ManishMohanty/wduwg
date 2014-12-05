@@ -414,9 +414,12 @@ public class BusinessDashboardActivity extends Activity {
 				JSONParser jsonparser = new JSONParser(BusinessDashboardActivity.this);
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
-				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/counters/today_counter.json",params);
+				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/count_totals.json",params);
 				if(specialsjsonarr.length()>0)
 				{
+					System.out.println(">>>>>> today count response length:"+specialsjsonarr.length());
+					System.out.println(">>>>>> response [0]:"+specialsjsonarr.getJSONObject(0));
+					System.out.println(">>>>>> response [1]:"+specialsjsonarr.getJSONObject(1));
 					int visitors_total = 0;
 					men_in = 0;
 					men_out = 0;
@@ -425,10 +428,10 @@ public class BusinessDashboardActivity extends Activity {
 					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
-						men_in += Integer.parseInt(jsonobject.getString("men_in"));
-						men_out += Integer.parseInt(jsonobject.getString("men_out"));
-						women_in += Integer.parseInt(jsonobject.getString("women_in"));
-						women_out += Integer.parseInt(jsonobject.getString("women_out"));
+						men_in += Integer.parseInt(jsonobject.getString("menin"));
+						men_out += Integer.parseInt(jsonobject.getString("menout"));
+						women_in += Integer.parseInt(jsonobject.getString("womenin"));
+						women_out += Integer.parseInt(jsonobject.getString("womenout"));
 					}
 					visitors_total = men_in + women_in;
 					System.out.println(">>>>>>> visitors_total:"+visitors_total);
