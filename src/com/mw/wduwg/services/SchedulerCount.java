@@ -45,10 +45,8 @@ public class SchedulerCount extends TimerTask {
 		mHandler.post(new Runnable() {
 			public void run() {
 				if (globalVariable.isInternet() == true
-						&& isprocessing == false && globalVariable.hasCountChanged()) {
+						&& isprocessing == false) {
 					try {
-						globalVariable.resetCountChanged();
-						
 						isprocessing = true;
 						String url = ServerURLs.URL + ServerURLs.COUNTER;
 

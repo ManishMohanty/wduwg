@@ -24,7 +24,7 @@ public class GlobalVariable extends Application {
 	int menIn, menOut, womenIn, womenOut;
 	int totalInDB;
 	Date resetDate;
-	boolean isReset, countChanged;
+	boolean isReset;
 	Timer timer;
 	
 
@@ -42,7 +42,6 @@ public class GlobalVariable extends Application {
 
 	public void setReset(boolean isReset) {
 		this.isReset = isReset;
-		this.countChanged = isReset;
 	}
 
 	public int getTotalInDB() {
@@ -81,7 +80,6 @@ public class GlobalVariable extends Application {
 
 	public void setMenIn(int menIn) {
 		this.menIn = menIn;
-		this.countChanged = true;
 	}
 
 	public int getMenOut() {
@@ -90,7 +88,6 @@ public class GlobalVariable extends Application {
 
 	public void setMenOut(int menOut) {
 		this.menOut = menOut;
-		this.countChanged = true;
 	}
 
 	public int getWomenIn() {
@@ -99,7 +96,6 @@ public class GlobalVariable extends Application {
 
 	public void setWomenIn(int womenIn) {
 		this.womenIn = womenIn;
-		this.countChanged = true;
 	}
 
 	public int getWomenOut() {
@@ -108,7 +104,6 @@ public class GlobalVariable extends Application {
 
 	public void setWomenOut(int womenOut) {
 		this.womenOut = womenOut;
-		this.countChanged = true;
 	}
 
 	Customer customer;
@@ -136,7 +131,6 @@ public class GlobalVariable extends Application {
 		this.womenOut = sharedPreferences.getInt("womenOut", 0);
 		this.isReset = sharedPreferences.getBoolean("isreset", false);
 		this.totalInDB = sharedPreferences.getInt("totalInDB", 0);
-		this.countChanged = true;
 	}
 
 	public void saveSharedPreferences() {
@@ -167,7 +161,6 @@ public class GlobalVariable extends Application {
 		editor.putInt("womenOut", womenOut);
 		editor.putInt("totalInDB", totalInDB);
 		editor.putBoolean("isreset", this.isReset);
-		editor.putBoolean("countChanged", this.countChanged);
 		editor.commit();
 	}
 
@@ -193,15 +186,5 @@ public class GlobalVariable extends Application {
 	
 	public void setTimer(Timer createdTimer){
 		timer = createdTimer;
-	}
-	
-	public Boolean hasCountChanged()
-	{
-		return countChanged;
-	}
-	
-	public void resetCountChanged()
-	{
-		countChanged = false;
-	}
+	}	
 }
