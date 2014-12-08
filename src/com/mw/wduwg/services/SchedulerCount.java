@@ -74,6 +74,7 @@ public class SchedulerCount extends TimerTask {
 											globalVariable.setTotalInDB(arg0.getInt("total"));											
 											globalVariable.saveSharedPreferences();
 											currentUUID = imeiNo + "--" + UUID.randomUUID().toString() + "--" + sdf.format(new Date());
+											System.out.println(">>>>> response:"+arg0.toString());
 										} catch (JSONException e) {
 										}
 										isprocessing = false;
@@ -81,6 +82,7 @@ public class SchedulerCount extends TimerTask {
 								}, new Response.ErrorListener() {
 									@Override
 									public void onErrorResponse(VolleyError arg0) {
+										System.out.println(">>>>Networks error");
 										isprocessing = false;
 									}									
 								});
