@@ -79,8 +79,8 @@ public class SchedulerCount extends TimerTask {
 							// SaveCountAsync async = new SaveCountAsync();
 							// async.execute(new String[] { "dfs" });
 							JSONObject jsonObject2 = null;
-//							String url = ServerURLs.URL + ServerURLs.COUNTER;
-							String url = "http://192.168.102.110:3000/counters.json";
+							String url = "http://dcounter.herokuapp.com/count_totals_histories.json";
+//							String url = "http://192.168.102.110:3000/counters.json";
 							JSONObject jsonObject = new JSONObject();
 							jsonObject
 									.put("women_in", women_in)
