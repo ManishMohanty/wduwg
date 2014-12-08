@@ -77,7 +77,7 @@ public class GraphActivity extends Activity {
     static final int END_DATE_PICKER_ID = 2222; 
     double min =0 ,max= 0;
     
-    private final static String[] mLabels = { "03", "04", "05","06", "07", "08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","01", "02"};
+    private final static String[] mLabels = { "3\nam", "4\nam", "5\nam","6\nam", "7\nam", "8\nam","9\nam","10\nam","11\nam","12\nam","1\npm","2\npm","3\npm","4\npm","5\npm","6\npm","7\npm","8\npm","9\npm","10\npm","11\npm","12\npm","1\nam", "2\nam"};
 //	Integer womenValues[] = new Integer[]{25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25,25};
 //	Integer menValues[] = new Integer[]{17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17};
     Integer[] womenValues;
@@ -365,40 +365,17 @@ public class GraphActivity extends Activity {
 			System.out.println(">>>>>>> inside counter postexecute");
 			progressDialog.dismiss();
 			System.out.println(">>>>>>> progress dialog dismiss");
-			shinobiChart.getCrosshair().enableTooltip(true);
 			CategoryAxis categoryAxis = new CategoryAxis();
-			categoryAxis.getStyle().getGridlineStyle().setGridlinesShown(true);
-			categoryAxis.setRangePaddingHigh(0.5);
-			categoryAxis.setRangePaddingLow(0.5);
+//			categoryAxis.setRangePaddingHigh(0.5);
+//			categoryAxis.setRangePaddingLow(0.5);
 	        shinobiChart.setXAxis(categoryAxis);
 	        shinobiChart.getStyle().setPlotAreaBackgroundColor(Color.WHITE);
 	        AnnotationsManager annotationsManager = shinobiChart.getAnnotationsManager();
 	        
 	        
-	        shinobiChart.setOnCrosshairActivationStateChangedListener(new ShinobiChart.OnCrosshairActivationStateChangedListener() {
-				
-				@Override
-				public void onCrosshairActivationStateChanged(ShinobiChart chart) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-	        shinobiChart.setOnTrackingInfoChangedForTooltipListener (new ShinobiChart.OnTrackingInfoChangedForTooltipListener() {
-
-				@Override
-				public void onTrackingInfoChanged(Tooltip arg0,
-						DataPoint<?, ?> arg1, DataPoint<?, ?> arg2,
-						DataPoint<?, ?> arg3) {
-					// TODO Auto-generated method stub
-					arg0.setCenter(arg3);
-					DefaultTooltipView tooltipView = (DefaultTooltipView) arg0.getView();
-					CartesianSeries<?> trackedSeries = arg0.getTrackedSeries();
-					NumberAxis yAxis = (NumberAxis)trackedSeries.getYAxis();
-					tooltipView.setText("men:"+yAxis.getFormattedString((Double) arg3.getY()));
-				} } );
 	        NumberAxis yAxis = new NumberAxis() ;
-//	        yAxis.setDefaultRange(new NumberRange(min, max));
-	        yAxis.getStyle().getGridlineStyle().setGridlinesShown(true);
+	        yAxis.setDefaultRange(new NumberRange(0.0, 180.0));
+	        yAxis.getStyle().getGridlineStyle().setGridlinesShown(false);
 	        shinobiChart.setYAxis(yAxis);
 	        SimpleDataAdapter<String, Integer> dataAdapter1 = new SimpleDataAdapter<String, Integer>();
 	        SimpleDataAdapter<String, Integer> dataAdapter2 = new SimpleDataAdapter<String, Integer>();
@@ -408,24 +385,24 @@ public class GraphActivity extends Activity {
 	        for(int i=0; i<menValues.length;i++)
 	        {
 	        	dataAdapter1.add(new DataPoint<String, Integer>(mLabels[i], menValues[i]));
+	        
 	        	dataAdapter2.add(new DataPoint<String, Integer>(mLabels[i], womenValues[i]));
 	        	dataAdapter3.add(new DataPoint<String, Integer>(mLabels[i], (menValues[i]+womenValues[i])));
-	        	AnnotationStyle annotationstyleForMen = annotationsManager.addTextAnnotation(""+menValues[i], i, dataAdapter1.get(i).getY()/2, shinobiChart.getXAxis(), shinobiChart.getYAxis()).getStyle();
+	        	AnnotationStyle annotationstyleForMen = annotationsManager.addTextAnnotation(""+menValues[i], i, dataAdapter1.get(i).getY()+5, shinobiChart.getXAxis(), shinobiChart.getYAxis()).getStyle();
 	        	annotationstyleForMen.setBackgroundColor(Color.TRANSPARENT);
-	        	annotationstyleForMen.setTextColor(Color.WHITE);
-	        	AnnotationStyle annotationstyleForWomen = annotationsManager.addTextAnnotation(""+womenValues[i], i, (dataAdapter1.get(i).getY()+dataAdapter2.get(i).getY() / 2), shinobiChart.getXAxis(), shinobiChart.getYAxis()).getStyle();
+	        	annotationstyleForMen.setTextColor(Color.parseColor("#3366cc"));
+	        	AnnotationStyle annotationstyleForWomen = annotationsManager.addTextAnnotation(""+womenValues[i], i, (dataAdapter1.get(i).getY()+5), shinobiChart.getXAxis(), shinobiChart.getYAxis()).getStyle();
 	        	annotationstyleForWomen.setBackgroundColor(Color.TRANSPARENT);
-	        	annotationstyleForWomen.setTextColor(Color.WHITE);
-	        	AnnotationStyle annotationstyleForTotal = annotationsManager.addTextAnnotation(""+(menValues[i]+womenValues[i]), i, dataAdapter1.get(i).getY()+dataAdapter2.get(i).getY() + (dataAdapter3.get(i).getY()/2), shinobiChart.getXAxis(), shinobiChart.getYAxis()).getStyle();
+	        	annotationstyleForWomen.setTextColor(Color.parseColor("#109618"));
+	        	AnnotationStyle annotationstyleForTotal = annotationsManager.addTextAnnotation(""+(menValues[i]+womenValues[i]), i, dataAdapter1.get(i).getY()+5, shinobiChart.getXAxis(), shinobiChart.getYAxis()).getStyle();
 	        	annotationstyleForTotal.setBackgroundColor(Color.TRANSPARENT);
-	        	annotationstyleForTotal.setTextColor(Color.WHITE);
+	        	annotationstyleForTotal.setTextColor(Color.parseColor("#dc3912"));
 	        }
 	        
 	        if(getIntent().hasExtra("case") && getIntent().getIntExtra("case", 0) == 5)
 	        {
 	        	shinobiChart.setTitle("Today");
 	        	LineSeries series_shinobiLineSeries1 = new LineSeries();
-		        series_shinobiLineSeries1.setCrosshairEnabled(true);
 		        series_shinobiLineSeries1.setTitle("Men");
 		        series_shinobiLineSeries1.setDataAdapter(dataAdapter1);
 		        
@@ -443,11 +420,10 @@ public class GraphActivity extends Activity {
 		        
 		        
 		        LineSeriesStyle style1 = series_shinobiLineSeries1.getStyle();
-		        style1.setFillStyle(FillStyle.GRADIENT);
+		        style1.setFillStyle(FillStyle.NONE);
 		        PointStyle pointStyle1 = new PointStyle();
 		        pointStyle1.setPointsShown(true);
 		        pointStyle1.setColor(Color.parseColor("#3366cc"));
-		        pointStyle1.setInnerColor(Color.WHITE);
 		        style1.setPointStyle(pointStyle1);
 		        style1.setLineColor(Color.parseColor("#3366cc"));
 		        style1.setLineWidth(2.0f);
@@ -501,9 +477,9 @@ public class GraphActivity extends Activity {
 	        barSeries3.setTitle("Total");
 	        barSeries3.setShownInLegend(true);
 	        
-	        barSeries1.setStackId(1);
-	        barSeries2.setStackId(1);
-	        barSeries3.setStackId(1);
+//	        barSeries1.setStackId(1);
+//	        barSeries2.setStackId(1);
+//	        barSeries3.setStackId(1);
 	        
 	        shinobiChart.addSeries(barSeries1);
 	        shinobiChart.addSeries(barSeries2);
