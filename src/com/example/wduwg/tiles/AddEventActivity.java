@@ -621,7 +621,7 @@ public class AddEventActivity extends Activity {
 		String dateTime = dateFormat.format(date) + " " + time;
 		System.out.println(">>>>>>> middle  : " + dateTime);
 		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-		formatter.setTimeZone(TimeZone.getTimeZone("US/Central"));
+//		formatter.setTimeZone(TimeZone.getTimeZone("US/Central")); 	
 		try {
 			finalDate = new Date(formatter.format(new Date(dateTime)));
 			// finalDate = formatter.parse(dateTime);
@@ -789,13 +789,17 @@ public class AddEventActivity extends Activity {
 			boolean returnBool = false;
 			String postMessage = "";
 			try {
-			SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, h:mm a");
-			Date startDate = sdf.parse(globalVariable.getSelectedEvent().getStartDate());
-			Date endDate = sdf.parse(globalVariable.getSelectedEvent().getEndDate());
+//			SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, h:mm a");
+//			Date startDate = sdf.parse(globalVariable.getSelectedEvent().getStartDate());
+//			Date endDate = sdf.parse(globalVariable.getSelectedEvent().getEndDate());
 			String eventName = "\n\t  "+ globalVariable.getSelectedEvent().getName();
-			SimpleDateFormat sdf2=new SimpleDateFormat("EEE, d MMM, h:mm a");
-			String startDateTime = sdf2.format(startDate);
-			String endDateTime = sdf2.format(endDate);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("EEE, d MMM, HH:mm a");
+			Date startDate = sdf2.parse(globalVariable.getSelectedEvent().getStartDate());
+			Date endDate = sdf2.parse(globalVariable.getSelectedEvent().getEndDate());
+//			SimpleDateFormat sdf2=new SimpleDateFormat("EEE, d MMM, h:mm a");
+			
+//			String startDateTime = sdf2.format(startDate);
+//			String endDateTime = sdf2.format(endDate);
 			System.out.println(">>>>>>>> startDatetime***"+startDateTime);
 			System.out.println(">>>>>>> endDate.getDate"+endDate.getDate());
 			System.out.println(">>>>>>> startDate.getDate"+startDate.getDate());
@@ -818,14 +822,14 @@ public class AddEventActivity extends Activity {
 			{
 			 postMessage = postMessage
 			 + "\t "
-			 +startDateTime
+			 +globalVariable.getSelectedEvent().getStartDate()
 			 +"\t-\t " 
-			 +endDateTime+"\n";
+			 +globalVariable.getSelectedEvent().getEndDate()+"\n";
 			}else
 			{
 				postMessage = postMessage
 						 + "\t "
-						 +startDateTime.substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+startDateTime.substring(12,startDateTime.length())+"-"+endDateTime.substring(12, endDateTime.length())+"\n";
+						 +globalVariable.getSelectedEvent().getStartDate().substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+globalVariable.getSelectedEvent().getStartDate().substring(12,globalVariable.getSelectedEvent().getStartDate().length())+"-"+globalVariable.getSelectedEvent().getEndDate().substring(12, globalVariable.getSelectedEvent().getEndDate().length())+"\n";
 			}
 
 			System.out.println(">>>>>>> Message11" + postMessage);

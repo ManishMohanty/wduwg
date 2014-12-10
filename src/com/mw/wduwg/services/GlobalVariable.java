@@ -3,6 +3,7 @@ package com.mw.wduwg.services;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.Timer;
 
@@ -342,148 +343,19 @@ public class GlobalVariable extends Application {
 
 	public String convertDate(String datestr) {
 		System.out.println(">>>>>>> while posting date:" + datestr);
-		int hour = Integer.parseInt(datestr.split("T")[1].split(":")[0]) - 5;
-		int minutes = Integer.parseInt(datestr.split("T")[1].split(":")[1]);
-		NumberFormat formatter = new DecimalFormat("00");
-		int date = Integer.parseInt(datestr.split("T")[0].split("-")[2]);
-		int month = Integer.parseInt(datestr.split("T")[0].split("-")[1]);
-		int year = Integer.parseInt(datestr.split("T")[0].split("-")[0]);
-		boolean isLeapyear =(year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-		if (hour < 0) {
-			date = date - 1;
-			hour = 24 + hour;
-			if(date == 0)
-			{
-				if(isLeapyear == true && month == 3)
-				{
-					month = month -1;
-					date = 29;
-				}else if(month == 3)
-				{
-					date = 28;
-					month = month -1;
-				}else if(month == 2 || month == 4 || month == 6 || month == 9 || month == 11|| month == 8)
-				{
-					date = 31;
-					month = month -1;
-				}else
-				{
-					month = month -1;
-					date = 30;
-				}
-			}
-			if(date == 31 && month == 12)
-			{
-				year = year -1;
-			}
-		}
-		
-		
 		String formatedDate = "";
-		if(hour == 12 )
+		try{
+			SimpleDateFormat utcFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			utcFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+		    Date convdate = utcFormatter.parse(datestr);
+		    SimpleDateFormat cstformat = new SimpleDateFormat("EEE, d MMM, HH:mm a");
+//		    cstformat.setTimeZone(TimeZone.getTimeZone("US/Central"));
+		    cstformat.setTimeZone(TimeZone.getDefault());
+		     formatedDate  = cstformat.format(convdate);
+		}catch(Exception e)
 		{
-			hour = 24;
+			e.printStackTrace();
 		}
-		switch (month) {
-		case 1:
-			if (hour < 12)
-				formatedDate = date + " " + "Jan" + " " + year + ", " + formatter.format(hour) 
-						+ ":" + formatter.format(minutes) + " am";
-			else
-				formatedDate = date + " " + "Jan" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 2:
-			if (hour < 12)
-				formatedDate = date + " " + "Feb" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Feb" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 3:
-			if (hour < 12)
-				formatedDate = date + " " + "Mar" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Mar" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 4:
-			if (hour < 12)
-				formatedDate = date + " " + "Apr" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Apr" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 5:
-			if (hour < 12)
-				formatedDate = date + " " + "May" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "May" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 6:
-			if (hour < 12)
-				formatedDate = date + " " + "Jun" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Jun" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 7:
-			if (hour < 12)
-				formatedDate = date + " " + "Jul" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Jul" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 8:
-			if (hour < 12)
-				formatedDate = date + " " + "Aug" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Aug" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 9:
-			if (hour < 12)
-				formatedDate = date + " " + "Sep" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Sep" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 10:
-			if (hour < 12)
-				formatedDate = date + " " + "Oct" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Oct" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 11:
-			if (hour < 12)
-				formatedDate = date + " " + "Nov" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Nov" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-		case 12:
-			if (hour < 12)
-				formatedDate = date + " " + "Dec" + " " + year + ", " + formatter.format(hour)
-						+ ":" + formatter.format(minutes)  + " am";
-			else
-				formatedDate = date + " " + "Dec" + " " + year + ", "
-						+ formatter.format(hour-12) + ":" + formatter.format(minutes)  + " pm";
-			break;
-
-		}
-
 		System.out.println(">>>> converted date" + formatedDate);
 		return formatedDate;
 	}

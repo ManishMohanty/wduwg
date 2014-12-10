@@ -7,12 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-     <fragment
-    class="com.shinobicontrols.charts.ChartFragment"
-    android:id="@+id/chart"
-    android:layout_width="match_parent"
-    android:layout_height="500dp" 
-    />
     <WebView android:layout_width="fill_parent"
                  android:layout_height="fill_parent"
                  android:layout_weight="1"
