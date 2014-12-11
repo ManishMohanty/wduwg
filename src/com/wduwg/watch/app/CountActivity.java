@@ -1,6 +1,5 @@
 package com.wduwg.watch.app;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -11,7 +10,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -207,10 +205,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 				+ "Total Attendance -> "
 				+ (globalVariable.getTotalInDB() + globalVariable.getMenIn() + globalVariable.getWomenIn() - globalVariable.getWomenOut() - globalVariable.getMenOut()));
 
-		contextMenuItems = new ArrayList<ContextMenuItem>();
-		contextMenuItems.add(new ContextMenuItem("Reset Counting"));
-		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems, false);// isFlashCompatible
-		listView.setAdapter(adapter);
 		customDialog = new Dialog(CountActivity.this);
 		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		customDialog.setContentView(child);
@@ -223,53 +217,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 	public void onBackPressed() {
 		super.onBackPressed();
 	}
-
-	public void onDone(View view) {
-
-		alertDialogBuilder = createDialog.createAlertDialog("Alert",
-				"Do you wish to reset Count?", false);
-
-		alertDialogBuilder.setPositiveButton("Yes",
-				new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.dismiss();
-				saveLastCount();
-				inMaleTV.setText("" + 0);
-				outMaleTV.setText("" + 0);
-				inFemaleTV.setText("" + 0);
-				outFemaleTV.setText("" + 0);
-				total_attendance.setText("" + 0);
-			}
-		});
-
-		alertDialogBuilder.setNegativeButton("No",
-				new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.dismiss();
-			}
-		});
-
-		alertDialog = alertDialogBuilder.create();
-		alertDialog.getWindow().getAttributes().verticalMargin = 0.2F;
-		alertDialog.show();
-	}
-
-	void saveLastCount() {
-		globalVariable.setMenIn(0);
-		globalVariable.setMenOut(0);
-		globalVariable.setWomenIn(0);
-		globalVariable.setWomenOut(0);
-		globalVariable.saveSharedPreferences();
-	}
-
-	public void onMenuItemSelected(View view) {
-		int position = listView.getPositionForView(view);
-		customDialog.dismiss();
-		if (position == 0) {
-			onDone(null);
-		}
-	}
-
+	
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {

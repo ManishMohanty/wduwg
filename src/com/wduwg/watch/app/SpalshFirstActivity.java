@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -90,12 +92,7 @@ public class SpalshFirstActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							alertDialog.dismiss();
 							if (globalVariable.getSelectedBusiness() != null) {
-								Intent intent = new Intent(
-										SpalshFirstActivity.this,
-										CountActivity.class);
-								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-										| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-								startActivity(intent);
+								startCounter();
 							} else
 								System.exit(0);
 						}
@@ -105,11 +102,7 @@ public class SpalshFirstActivity extends Activity {
 			alertDialog.show();
 		} else {
 			if (globalVariable.getSelectedBusiness() != null) {
-				Intent intent = new Intent(SpalshFirstActivity.this,
-						CountActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				startActivity(intent);
+				startCounter();
 			} else {
 				setContentView(R.layout.splash_first);
 				findThings();
@@ -187,6 +180,12 @@ public class SpalshFirstActivity extends Activity {
 			}
 		}
 	}
+	
+	public void startCounter(){
+		progressDialgog = createDialog.createProgressDialog("Loading...", "Please wait while we initialize the watch", true, null);
+		progressDialgog.show();
+		new CountAsyncTask().execute();
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -205,51 +204,147 @@ public class SpalshFirstActivity extends Activity {
 	}
 
 	public void verifyImeiNo(View v) {
-
-		if (globalVariable.getSelectedBusiness() != null) {
-			Intent intent = new Intent(SpalshFirstActivity.this,
-					CountActivity.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
-		} else {
-
-			progressDialgog = createDialog.createProgressDialog("Loading...",
-					"Please wait while we initialize the watch", true, null);
-			progressDialgog.show();
-			BusinessAsyncTask asynctask = new BusinessAsyncTask();
-			asynctask.execute();
-		}
-
+		progressDialgog = createDialog.createProgressDialog("Loading...", "Please wait while we initialize the watch", true, null);
+		progressDialgog.show();
+	 	BusinessAsyncTask asynctask = new BusinessAsyncTask();
+		asynctask.execute();
 	}
 
 	private class BusinessAsyncTask extends AsyncTask<Void, Void, Boolean> {
-
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
-				List<NameValuePair> param = new ArrayList<NameValuePair>();
-				param.add(new BasicNameValuePair("imei_no", imeiNo));
-				JSONObject jsonobject = jsonparser
-						.getJSONObjectFromUrlAfterHttpGet(
-								"http://dcounter.herokuapp.com/businesses/imei_business.json",
-								param);
-				if (jsonobject.getString("status").equals("ok")) {
-					Gson gson = new Gson();
-					String businessJsonString = jsonobject
-							.getString("business");
-					Business B = gson.fromJson(businessJsonString,
-							Business.class);
+				if (globalVariable.getSelectedBusiness() == null) {
+					JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
+					List<NameValuePair> param = new ArrayList<NameValuePair>();
+					param.add(new BasicNameValuePair("imei_no", imeiNo));
+					JSONObject jsonobject = jsonparser
+							.getJSONObjectFromUrlAfterHttpGet(
+									"http://dcounter.herokuapp.com/businesses/imei_business.json",
+									param);
+					if (jsonobject.getString("status").equals("ok")) {
+						Gson gson = new Gson();
+						String businessJsonString = jsonobject
+								.getString("business");
+						Business B = gson.fromJson(businessJsonString,
+								Business.class);
+						globalVariable.setMenIn(0);
+						globalVariable.setMenOut(0);
+						globalVariable.setWomenIn(0);
+						globalVariable.setWomenOut(0);
+						globalVariable.setSelectedBusiness(B);
+						return true;
+					} else {
+						return false;
+					}
+				} else{
+					return checkForServerCount();	
+				}
+			} catch (Exception e) {
+			}
+			return false;
+		}
+
+		private Boolean checkForServerCount() throws JSONException {
+			
+			JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
+			List<NameValuePair> param = new ArrayList<NameValuePair>();
+			param.add(new BasicNameValuePair("business_id", globalVariable.getSelectedBusiness().getId().get$oid()));
+			JSONArray jsonArray = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/count_totals.json",param);
+			
+			JSONObject jsonObject = null;
+			if(jsonArray.length() > 0)
+			{	
+				for(int i=0; i < jsonArray.length(); i++)
+				{
+					if(jsonArray.getJSONObject(i).getString("device_id").toLowerCase().equals(globalVariable.getIMEINo().toLowerCase())){
+						jsonObject = jsonArray.getJSONObject(i);
+						break;
+					}
+				}
+			}
+			
+			// In App Launch Task
+			
+			if (jsonObject != null && globalVariable.getSessionId() != jsonObject.getString("session_id")) {
+				globalVariable.setSessionId(jsonObject.getString("session_id"));
+				int menIn = jsonObject.getInt("menin");
+				int womenIn = jsonObject.getInt("menout");
+				int menOut = jsonObject.getInt("womenin");
+				int womenOut = jsonObject.getInt("womenout");
+				if(menIn == 0 && menOut == 0 && womenIn == 0 & womenOut == 0){
 					globalVariable.setMenIn(0);
 					globalVariable.setMenOut(0);
 					globalVariable.setWomenIn(0);
 					globalVariable.setWomenOut(0);
-					globalVariable.setSelectedBusiness(B);
+					globalVariable.setTotalInDB(0);
+					globalVariable.saveSharedPreferences();
+				}
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			progressDialgog.dismiss();
+			if (result) {
+				Intent intent = new Intent(SpalshFirstActivity.this,
+						CountActivity.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
+			} else {
+				Toast.makeText(SpalshFirstActivity.this,
+						"Business for current Device does not exist",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+	
+	private class CountAsyncTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				JSONParser jsonparser = new JSONParser(SpalshFirstActivity.this);
+				
+				List<NameValuePair> param = new ArrayList<NameValuePair>();
+				param.add(new BasicNameValuePair("business_id", globalVariable.getSelectedBusiness().getId().get$oid()));
+				JSONArray jsonArray = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/count_totals.json",param);
+				
+				JSONObject jsonObject = null;
+				if(jsonArray.length() > 0)
+				{	
+					for(int i=0; i < jsonArray.length(); i++)
+					{
+						if(jsonArray.getJSONObject(i).getString("device_id").toLowerCase().equals(globalVariable.getIMEINo().toLowerCase())){
+							jsonObject = jsonArray.getJSONObject(i);
+							break;
+						}
+					}
+				}
+				
+				// In Re Launch Task
+				if (jsonObject != null && globalVariable.getSessionId() != jsonObject.getString("session_id")) {
+					globalVariable.setSessionId(jsonObject.getString("session_id"));
+					int menIn = jsonObject.getInt("menin");
+					int womenIn = jsonObject.getInt("menout");
+					int menOut = jsonObject.getInt("womenin");
+					int womenOut = jsonObject.getInt("womenout");
+					if(menIn == 0 && menOut == 0 && womenIn == 0 & womenOut == 0){
+						globalVariable.setMenIn(0);
+						globalVariable.setMenOut(0);
+						globalVariable.setWomenIn(0);
+						globalVariable.setWomenOut(0);
+						globalVariable.setTotalInDB(0);
+						globalVariable.saveSharedPreferences();
+					}
 					return true;
 				} else {
 					return false;
 				}
 			} catch (Exception e) {
+				e.getMessage();
 			}
 			return false;
 		}

@@ -64,14 +64,26 @@ public class SchedulerCount extends TimerTask {
 						jsonObject.put("time", sdf.format(new Date()));
 						jsonObject.put("business_id", globalVariable
 								.getSelectedBusiness().getId().get$oid());
+						jsonObject.put("session_id", globalVariable.getSessionId());
 
 						JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
 								Method.POST, url, jsonObject,
 								new Response.Listener<JSONObject>() {
 									@Override
 									public void onResponse(JSONObject arg0) {
-										try {											
-											globalVariable.setTotalInDB(arg0.getInt("total"));											
+										try {							
+											int serverTotal = arg0.getInt("total");
+											String sessionId = arg0.getString("session_id");
+											if (!globalVariable.getSessionId().equals(sessionId)) {
+												globalVariable.setSessionId(sessionId);
+												globalVariable.setMenIn(0);
+												globalVariable.setMenOut(0);
+												globalVariable.setWomenIn(0);
+												globalVariable.setWomenOut(0);
+												globalVariable.setTotalInDB(0);
+											} else {
+												globalVariable.setTotalInDB(serverTotal);
+											}											
 											globalVariable.saveSharedPreferences();
 											currentUUID = imeiNo + "--" + UUID.randomUUID().toString() + "--" + sdf.format(new Date());
 											System.out.println(">>>>> response:"+arg0.toString());
