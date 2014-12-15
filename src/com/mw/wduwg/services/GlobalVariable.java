@@ -58,17 +58,17 @@ public class GlobalVariable extends Application {
 		if(null != telephonyManager){
 			imeiNo = telephonyManager.getDeviceId();			
 		}
-		//imeiNo = "12345678910";
+//		imeiNo = "12345678910";
 		return imeiNo;
 	}
 
 	public boolean isInternet() {
-		//return true;
+//		return true;
 		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connection != null) {
 			NetworkInfo info = connection
-					.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+					.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 			return (info != null && info.getState() == NetworkInfo.State.CONNECTED);
 		}
 		return false;

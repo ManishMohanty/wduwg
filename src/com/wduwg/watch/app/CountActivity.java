@@ -10,11 +10,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,6 +33,7 @@ import com.mw.wduwg.model.ContextMenuItem;
 import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.SchedulerCount;
+import com.mw.wduwg.services.UpdateService;
 
 public class CountActivity extends Activity implements OnTouchListener {
 
@@ -39,6 +42,8 @@ public class CountActivity extends Activity implements OnTouchListener {
 
 	Typeface typeface;
 	Typeface typeface2;
+	
+	Vibrator myVibrator;
 
 	SharedPreferences sharedPreference;
 	GlobalVariable globalVariable;
@@ -154,6 +159,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void menIn_watch(View v) {
+		myVibrator.vibrate(300);
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
 		globalVariable.saveSharedPreferences();
 		inMaleTV.setText("" + globalVariable.getMenIn());
@@ -163,6 +169,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void menOut_watch(View v) {
+		myVibrator.vibrate(300);
 		globalVariable.setMenOut(globalVariable.getMenOut() + 1);
 		globalVariable.saveSharedPreferences();
 		outMaleTV.setText("" + globalVariable.getMenOut());
@@ -171,6 +178,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void womenIn_watch(View v) {
+		myVibrator.vibrate(300);
 		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
 		globalVariable.saveSharedPreferences();
 		inFemaleTV.setText("" + globalVariable.getWomenIn());
@@ -179,6 +187,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void womenOut_watch(View v) {
+		myVibrator.vibrate(300);
 		globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
 		globalVariable.saveSharedPreferences();
 		outFemaleTV.setText("" + globalVariable.getWomenOut());
@@ -195,6 +204,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		myVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		child = inflater.inflate(R.layout.listview_context_menu, null);
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
 		headerTV = (TextView) child.findViewById(R.id.header_TV);
@@ -211,6 +221,9 @@ public class CountActivity extends Activity implements OnTouchListener {
 		customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 		customDialog.setTitle("Options");
 		customDialog.getWindow().getAttributes().verticalMargin = 0.2F;
+		
+		CountActivity.this.startService(new Intent(
+				CountActivity.this, UpdateService.class));
 	}
 
 	@Override

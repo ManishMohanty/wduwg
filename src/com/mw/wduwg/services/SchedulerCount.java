@@ -65,18 +65,26 @@ public class SchedulerCount extends TimerTask {
 						jsonObject.put("business_id", globalVariable
 								.getSelectedBusiness().getId().get$oid());
 						jsonObject.put("session_id", globalVariable.getSessionId());
+						
+					   System.out.println(">>>>>> session_id:"+globalVariable.getSessionId());
 
 						JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
 								Method.POST, url, jsonObject,
 								new Response.Listener<JSONObject>() {
 									@Override
 									public void onResponse(JSONObject arg0) {
-										try {							
+										try {			
+											System.out.println(">>>>> response:"+arg0.toString());
+											
 											int serverTotal = arg0.getInt("total");
 											try {
 												String sessionId = arg0.getString("session_id");
-												if (!globalVariable.getSessionId().equals(sessionId)) {
+												System.out
+														.println(">>>> response session id:"+sessionId);
+												if (globalVariable.getSessionId() == null || !globalVariable.getSessionId().equals(sessionId) ) {
 													globalVariable.setSessionId(sessionId);
+													System.out
+															.println(">>>> after set session id"+globalVariable.getSessionId());
 													globalVariable.setMenIn(0);
 													globalVariable.setMenOut(0);
 													globalVariable.setWomenIn(0);
@@ -90,7 +98,7 @@ public class SchedulerCount extends TimerTask {
 											globalVariable.setTotalInDB(serverTotal);
 											globalVariable.saveSharedPreferences();
 											currentUUID = imeiNo + "--" + UUID.randomUUID().toString() + "--" + sdf.format(new Date());
-											System.out.println(">>>>> response:"+arg0.toString());
+											
 										} catch (JSONException e) {
 										}
 										isprocessing = false;
