@@ -11,16 +11,18 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.v4.content.LocalBroadcastManager;
+
+import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 
 public class SchedulerCount extends TimerTask {
 
@@ -31,9 +33,10 @@ public class SchedulerCount extends TimerTask {
 	boolean isprocessing = false;
 	RequestQueue queue;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-
+    Context context;
 	public SchedulerCount(Context context, String incomingImeiNo) {
 		super();
+		this.context = context;
 		sdf.setTimeZone(TimeZone.getTimeZone("gmt"));
 		imeiNo = incomingImeiNo;
 		queue = Volley.newRequestQueue(context);
@@ -66,7 +69,6 @@ public class SchedulerCount extends TimerTask {
 								.getSelectedBusiness().getId().get$oid());
 						jsonObject.put("session_id", globalVariable.getSessionId());
 						
-					   System.out.println(">>>>>> session_id:"+globalVariable.getSessionId());
 
 						JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
 								Method.POST, url, jsonObject,
@@ -74,22 +76,26 @@ public class SchedulerCount extends TimerTask {
 									@Override
 									public void onResponse(JSONObject arg0) {
 										try {			
-											System.out.println(">>>>> response:"+arg0.toString());
 											
 											int serverTotal = arg0.getInt("total");
 											try {
 												String sessionId = arg0.getString("session_id");
-												System.out
-														.println(">>>> response session id:"+sessionId);
 												if (globalVariable.getSessionId() == null || !globalVariable.getSessionId().equals(sessionId) ) {
+													
+													if(!globalVariable.getSessionId().equals(sessionId))
+													{
+														globalVariable.setMenIn(0);
+														globalVariable.setMenOut(0);
+														globalVariable.setWomenIn(0);
+														globalVariable.setWomenOut(0);
+														globalVariable.setTotalInDB(0);
+														Intent nextIntent = new Intent(
+																"Reset_count");
+														LocalBroadcastManager.getInstance(
+																context).sendBroadcast(
+																nextIntent);
+													}
 													globalVariable.setSessionId(sessionId);
-													System.out
-															.println(">>>> after set session id"+globalVariable.getSessionId());
-													globalVariable.setMenIn(0);
-													globalVariable.setMenOut(0);
-													globalVariable.setWomenIn(0);
-													globalVariable.setWomenOut(0);
-													globalVariable.setTotalInDB(0);
 												} 
 											}
 											catch(Exception e) {
@@ -106,7 +112,6 @@ public class SchedulerCount extends TimerTask {
 								}, new Response.ErrorListener() {
 									@Override
 									public void onErrorResponse(VolleyError arg0) {
-										System.out.println(">>>>Networks error");
 										isprocessing = false;
 									}									
 								});

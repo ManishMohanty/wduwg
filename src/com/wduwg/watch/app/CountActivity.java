@@ -9,8 +9,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -18,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,11 +74,32 @@ public class CountActivity extends Activity implements OnTouchListener {
 	SharedPreferences sharedPref;
 
 	int men_in = 0, men_out = 0, women_in = 0, women_out = 0;
+	
+	
+	// BroadcastReceiver to update count once it got reset 
+	private BroadcastReceiver myMessageReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			inMaleTV.setText("" + globalVariable.getMenIn());
+			outMaleTV.setText("" + globalVariable.getMenOut());
+			inFemaleTV.setText("" + globalVariable.getWomenIn());
+			outFemaleTV.setText("" + globalVariable.getWomenOut());
+			int total = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
+			total_attendance.setText("" + total);
+		}
+		
+	};
+	
+	
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		globalVariable.saveSharedPreferences();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(
+				myMessageReceiver);
 	}
 
 	@Override
@@ -204,6 +228,13 @@ public class CountActivity extends Activity implements OnTouchListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		// register receiver
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				myMessageReceiver,
+				new IntentFilter("Reset_count"));
+		
+		
 		myVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		child = inflater.inflate(R.layout.listview_context_menu, null);
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
