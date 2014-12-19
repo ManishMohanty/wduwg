@@ -76,7 +76,7 @@ public class SpalshFirstActivity extends Activity {
 				alertdialogbuilder = createDialog
 						.createAlertDialog(
 								"Network Error",
-								"You are not connected to the network. Counts will be synced once network is available. Press OK to start counting",
+								"No Network Found. Please try again",
 								false);
 			} else {
 				alertdialogbuilder = createDialog
@@ -92,7 +92,8 @@ public class SpalshFirstActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							alertDialog.dismiss();
 							if (globalVariable.getSelectedBusiness() != null) {
-								startCounter();
+//								startCounter();
+								System.exit(0);
 							} else
 								System.exit(0);
 						}

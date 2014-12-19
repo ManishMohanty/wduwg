@@ -69,33 +69,37 @@ public class SchedulerCount extends TimerTask {
 								.getSelectedBusiness().getId().get$oid());
 						jsonObject.put("session_id", globalVariable.getSessionId());
 						
-
+						
 						JsonObjectRequest jsonObjRequest = new JsonObjectRequest(
 								Method.POST, url, jsonObject,
 								new Response.Listener<JSONObject>() {
 									@Override
 									public void onResponse(JSONObject arg0) {
+										System.out.println(">>>> response:"+arg0.toString());
 										try {			
-											
-											int serverTotal = arg0.getInt("total");
+											 int serverTotal = arg0.getInt("total");
 											try {
+												SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+												globalVariable.setLastUpdatedDate(formatter.parse(arg0.getString("last_updated_time")));
 												String sessionId = arg0.getString("session_id");
 												if (globalVariable.getSessionId() == null || !globalVariable.getSessionId().equals(sessionId) ) {
 													
-													if(!globalVariable.getSessionId().equals(sessionId))
+													if(globalVariable.getSessionId()!= null && !globalVariable.getSessionId().equals(sessionId))
 													{
 														globalVariable.setMenIn(0);
 														globalVariable.setMenOut(0);
 														globalVariable.setWomenIn(0);
 														globalVariable.setWomenOut(0);
 														globalVariable.setTotalInDB(0);
+														globalVariable.setSessionId(sessionId);
 														Intent nextIntent = new Intent(
 																"Reset_count");
 														LocalBroadcastManager.getInstance(
 																context).sendBroadcast(
 																nextIntent);
-													}
+													}else{
 													globalVariable.setSessionId(sessionId);
+													}
 												} 
 											}
 											catch(Exception e) {
@@ -120,10 +124,10 @@ public class SchedulerCount extends TimerTask {
 
 					} catch (Exception e) {
 						// Don't do anything -- Skip any error stuff
-
 						isprocessing = false;
 					}
 				}
+				
 			}
 		});
 	}

@@ -23,6 +23,15 @@ public class GlobalVariable extends Application {
 	Gson gson;
 	int menIn, menOut, womenIn, womenOut;
 	int totalInDB;
+	Date lastUpdatedDate;
+	public Date getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(Date lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
 	Date resetDate;
 	boolean isReset;
 	Timer timer;

@@ -1,5 +1,6 @@
 package com.wduwg.watch.app;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Timer;
 
@@ -30,6 +31,7 @@ import android.view.Window;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mw.wduwg.adapter.ContextMenuAdapter;
 import com.mw.wduwg.model.ContextMenuItem;
@@ -88,11 +90,12 @@ public class CountActivity extends Activity implements OnTouchListener {
 			outFemaleTV.setText("" + globalVariable.getWomenOut());
 			int total = (globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut());
 			total_attendance.setText("" + total);
+			
 		}
 		
 	};
 	
-	
+	SimpleDateFormat newformat = new SimpleDateFormat("MMM d, HH:mm a");
 
 	@Override
 	protected void onPause() {
@@ -125,20 +128,15 @@ public class CountActivity extends Activity implements OnTouchListener {
 		outMaleTV.setTypeface(typeface);
 		inFemaleTV.setTypeface(typeface);
 		outFemaleTV.setTypeface(typeface);
-		inMaleTV.setText("" + globalVariable.getMenIn());
-		outMaleTV.setText("" + globalVariable.getMenOut());
-		inFemaleTV.setText("" + globalVariable.getWomenIn());
-		outFemaleTV.setText("" + globalVariable.getWomenOut());
-		total_attendance.setText("" + ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())));
+		
 		inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		createDialog = new CreateDialog(this);
 
 		womenIn.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				headerTV.setText(globalVariable.getSelectedBusiness().getName()
-						+ "\nTotal Attendance At server ->"
-						+ globalVariable.getTotalInDB());
+				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
+						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -146,9 +144,8 @@ public class CountActivity extends Activity implements OnTouchListener {
 		womenOut.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				headerTV.setText(globalVariable.getSelectedBusiness().getName()
-						+ "\nTotal Attendance At server -> "
-						+ globalVariable.getTotalInDB());
+				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
+						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -157,9 +154,8 @@ public class CountActivity extends Activity implements OnTouchListener {
 		menIn.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				headerTV.setText(globalVariable.getSelectedBusiness().getName()
-						+ "\nTotal Attendance At server -> "
-						+ globalVariable.getTotalInDB());
+				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
+						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -168,9 +164,8 @@ public class CountActivity extends Activity implements OnTouchListener {
 		menOut.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				headerTV.setText(globalVariable.getSelectedBusiness().getName()
-						+ "\nTotal Attendance At server -> "
-						+ globalVariable.getTotalInDB());
+				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
+						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -183,7 +178,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void menIn_watch(View v) {
-		myVibrator.vibrate(300);
 		globalVariable.setMenIn(globalVariable.getMenIn() + 1);
 		globalVariable.saveSharedPreferences();
 		inMaleTV.setText("" + globalVariable.getMenIn());
@@ -193,7 +187,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void menOut_watch(View v) {
-		myVibrator.vibrate(300);
 		globalVariable.setMenOut(globalVariable.getMenOut() + 1);
 		globalVariable.saveSharedPreferences();
 		outMaleTV.setText("" + globalVariable.getMenOut());
@@ -202,7 +195,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void womenIn_watch(View v) {
-		myVibrator.vibrate(300);
 		globalVariable.setWomenIn(globalVariable.getWomenIn() + 1);
 		globalVariable.saveSharedPreferences();
 		inFemaleTV.setText("" + globalVariable.getWomenIn());
@@ -211,7 +203,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 	}
 
 	public void womenOut_watch(View v) {
-		myVibrator.vibrate(300);
 		globalVariable.setWomenOut(globalVariable.getWomenOut() + 1);
 		globalVariable.saveSharedPreferences();
 		outFemaleTV.setText("" + globalVariable.getWomenOut());
@@ -233,18 +224,19 @@ public class CountActivity extends Activity implements OnTouchListener {
 		LocalBroadcastManager.getInstance(this).registerReceiver(
 				myMessageReceiver,
 				new IntentFilter("Reset_count"));
+		inMaleTV.setText("" + globalVariable.getMenIn());
+		outMaleTV.setText("" + globalVariable.getMenOut());
+		inFemaleTV.setText("" + globalVariable.getWomenIn());
+		outFemaleTV.setText("" + globalVariable.getWomenOut());
+		total_attendance.setText("" + ((globalVariable.getMenIn() - globalVariable.getMenOut()) + (globalVariable.getWomenIn() - globalVariable.getWomenOut())));
 		
-		
-		myVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		child = inflater.inflate(R.layout.listview_context_menu, null);
 		listView = (ListView) child.findViewById(R.id.listView_context_menu);
 		headerTV = (TextView) child.findViewById(R.id.header_TV);
 		headerTV.setTypeface(typeface);
 
-		headerTV.setText(globalVariable.getSelectedBusiness().getName()
-				+ "\n"
-				+ "Total Attendance -> "
-				+ (globalVariable.getTotalInDB() + globalVariable.getMenIn() + globalVariable.getWomenIn() - globalVariable.getWomenOut() - globalVariable.getMenOut()));
+//		headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
+//				+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 
 		customDialog = new Dialog(CountActivity.this);
 		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

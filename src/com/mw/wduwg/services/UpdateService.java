@@ -18,7 +18,7 @@ import com.wduwg.receiver.MyReceiver;
 public class UpdateService extends Service {
 
     BroadcastReceiver mReceiver;
-
+    WakeLock wakeLock;
 @Override
 public void onCreate() {
     super.onCreate();
@@ -48,9 +48,8 @@ public void onStart(Intent intent, int startId) {
     	kl.disableKeyguard(); 
 
     	PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE); 
-    	WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
-    	                                 | PowerManager.ACQUIRE_CAUSES_WAKEUP
-    	                                 | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
+    	wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE
+    	                                , "MyWakeLock");
     	wakeLock.acquire();
     } else {
         Log.i("screenOFF", "Called");
