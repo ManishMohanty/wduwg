@@ -175,7 +175,6 @@ public class BusinessDashboardActivity extends Activity {
 			}
            SpecialApater adapter = new SpecialApater(BusinessDashboardActivity.this, specials);
            specialgridView.setAdapter(adapter);
-           System.out.println(">>>>>>> specials size:"+globalVariable.getSelectedBusiness().getSpecials().size());
            specialgridView.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
@@ -228,7 +227,6 @@ public class BusinessDashboardActivity extends Activity {
 							autoUpdate.cancel();
 						intent.putExtra("addNew", true);
 						globalVariable.getSelectedBusiness().getEventList().remove(position);
-						System.out.println(">>>>> ******************************************");
 					}
 					intent.putExtra("event",event1);
 					startActivity(intent);
@@ -287,8 +285,6 @@ public class BusinessDashboardActivity extends Activity {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
 				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/events.json",params);
-				System.out.println(">>>>>>> inside background for event");
-				System.out.println(">>>>>>> response length:"+specialsjsonarr.length());
 				if(specialsjsonarr.length()>0)
 				{
 					
@@ -296,15 +292,12 @@ public class BusinessDashboardActivity extends Activity {
 					{
 						Event event ;
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
-							System.out.println(">>>>>>> json:"+jsonobject.toString());
 						 event = gson.fromJson(jsonobject.toString(), Event.class);
 		     			event.setName(jsonobject.getString("name"));
-		     			System.out.println(">>>>>>> event id:"+event.getId().get$oid());
 						String startTime = globalVariable.convertDate(jsonobject.getString("start_date_time").substring(0, 16));
 						event.setStartDate(startTime);
 						if(!event.getName().equalsIgnoreCase("defaultEvent"))
 						{
-							System.out.println(">>>>>>> endDate"+jsonobject.getString("end_date_time"));
 						    String endTime =  globalVariable.convertDate(jsonobject.getString("end_date_time").substring(0, 16));
 							event.setDescription("Start @ "+startTime+"\nEnd @ "+ endTime);
 							event.setEndDate(endTime);
@@ -323,14 +316,12 @@ public class BusinessDashboardActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println(">>> event list size:"+eventList.size());
 			return eventList;
 		}
 
 		@Override
 		protected void onPostExecute(final List<Event> events) {
 //			progressDialog.dismiss();
-			System.out.println(">>>>>>> inside event postexecute");
             System.out.print(">>>>>>> list-size:"+events.size());
 			globalVariable.getSelectedBusiness().setEventList(events);
 			LoadStringsAsync1 asyncTask = new LoadStringsAsync1();
@@ -390,7 +381,6 @@ public class BusinessDashboardActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(final List<Special> specials) {
-			System.out.println(">>>>>>> inside special postexecute");
 			globalVariable.getSelectedBusiness().setSpecials(specials);
 			globalVariable.saveSharedPreferences();
 			LoadStringsAsync2 asyncTask = new LoadStringsAsync2();
@@ -417,9 +407,7 @@ public class BusinessDashboardActivity extends Activity {
 				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/count_totals.json",params);
 				if(specialsjsonarr.length()>0)
 				{
-					System.out.println(">>>>>> today count response length:"+specialsjsonarr.length());
-					System.out.println(">>>>>> response [0]:"+specialsjsonarr.getJSONObject(0));
-					System.out.println(">>>>>> response [1]:"+specialsjsonarr.getJSONObject(1));
+					
 					int visitors_total = 0;
 					men_in = 0;
 					men_out = 0;
@@ -434,7 +422,6 @@ public class BusinessDashboardActivity extends Activity {
 						women_out += Integer.parseInt(jsonobject.getString("womenout"));
 					}
 					visitors_total = men_in + women_in;
-					System.out.println(">>>>>>> visitors_total:"+visitors_total);
 					globalVariable.getSelectedBusiness().setMenIn(men_in);
 					globalVariable.getSelectedBusiness().setMenOut(men_out);
 					globalVariable.getSelectedBusiness().setWomenIn(women_in);
@@ -480,9 +467,7 @@ public class BusinessDashboardActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Void arg) {
-			System.out.println(">>>>>>> inside counter postexecute");
 			progressDialog.dismiss();
-			System.out.println(">>>>>>> progress dialog dismiss");
 			totalCount.setText("Total :"+((globalVariable.getSelectedBusiness().getMenIn()+globalVariable.getSelectedBusiness().getWomenIn())-(globalVariable.getSelectedBusiness().getMenOut()+globalVariable.getSelectedBusiness().getWomenOut())));
 			menCount.setText("Men :"+(globalVariable.getSelectedBusiness().getMenIn()-globalVariable.getSelectedBusiness().getMenOut()));
 			womenCount.setText("Women :"+(globalVariable.getSelectedBusiness().getWomenIn()-globalVariable.getSelectedBusiness().getWomenOut()));
@@ -595,7 +580,6 @@ public class BusinessDashboardActivity extends Activity {
 			startActivity(nextIntent);
 			return true;
 //		case R.id.menu_delete:
-//			System.out.println(">>>>>>> dlete option");
 //			if(autoUpdate != null)
 //			autoUpdate.cancel();
 //			alertDialogBuilder = createDialog
@@ -639,7 +623,6 @@ public class BusinessDashboardActivity extends Activity {
 //	alertDialog.show();     
 //	return true;
 		case R.id.menu_delink:
-			System.out.println(">>>>>>> delink option");
 			AlertDialog.Builder alertDialogBuilder1 = createDialog
 			.createAlertDialog(
 					"Delink",
@@ -687,7 +670,6 @@ public class BusinessDashboardActivity extends Activity {
 	});
 	 alertDialog1 = alertDialogBuilder1.create();
 	 alertDialog1.show();
-	 System.out.println(">>>>>>> last line delnk");
 	 return true;
 		
 	
