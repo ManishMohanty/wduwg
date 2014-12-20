@@ -77,7 +77,7 @@ public class GlobalVariable extends Application {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connection != null) {
 			NetworkInfo info = connection
-					.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+					.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 			return (info != null && info.getState() == NetworkInfo.State.CONNECTED);
 		}
 		return false;

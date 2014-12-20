@@ -122,7 +122,6 @@ public class JSONParser {
 			url += paramString;
 		}
 		HttpGet httpGet = new HttpGet(url);
-
 		HttpResponse httpResponse;
 		try {
 			httpResponse = httpClient.execute(httpGet);

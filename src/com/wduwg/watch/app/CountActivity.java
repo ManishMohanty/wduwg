@@ -245,8 +245,8 @@ public class CountActivity extends Activity implements OnTouchListener {
 		customDialog.setTitle("Options");
 		customDialog.getWindow().getAttributes().verticalMargin = 0.2F;
 		
-		CountActivity.this.startService(new Intent(
-				CountActivity.this, UpdateService.class));
+//		CountActivity.this.startService(new Intent(
+//				CountActivity.this, UpdateService.class));
 	}
 
 	@Override
