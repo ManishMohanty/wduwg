@@ -1,8 +1,6 @@
 package com.wduwg.receiver;
 
-import com.mw.wduwg.services.UpdateService;
-import com.wduwg.watch.app.CountActivity;
-
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +16,9 @@ public class MyReceiver extends BroadcastReceiver {
 	        screenOff = true;
 	    } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 	        screenOff = false;
+	        KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE); 
+	    	final KeyguardManager.KeyguardLock kl = km .newKeyguardLock("MyKeyguardLock"); 
+	    	kl.disableKeyguard(); 
 	    }
 //	    Intent i = new Intent(context, UpdateService.class);
 //	    i.putExtra("screen_state", screenOff);

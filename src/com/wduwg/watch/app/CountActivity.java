@@ -39,6 +39,7 @@ import com.mw.wduwg.services.CreateDialog;
 import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.SchedulerCount;
 import com.mw.wduwg.services.UpdateService;
+import com.wduwg.receiver.MyReceiver;
 
 public class CountActivity extends Activity implements OnTouchListener {
 
@@ -221,6 +222,11 @@ public class CountActivity extends Activity implements OnTouchListener {
 		super.onResume();
 		
 		// register receiver
+		IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+//	    filter.addAction(Intent.ACTION_SCREEN_OFF);
+	    MyReceiver mReceiver = new MyReceiver();
+	    registerReceiver(mReceiver, filter);
+		
 		LocalBroadcastManager.getInstance(this).registerReceiver(
 				myMessageReceiver,
 				new IntentFilter("Reset_count"));
