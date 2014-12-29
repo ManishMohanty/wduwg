@@ -121,14 +121,12 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 	TextView actionBarTextView;
 	CreateDialog createDialog;
 	ProgressDialog progressDialgog;
-	private static String APP_ID = "743382039036135"; // Replace your facebook
-														// app ID here
+	private static String APP_ID = "743382039036135"; 
 
 	boolean fromContext;
 	boolean isCustomer;
 	GlobalVariable globalVariable;
 
-	// Instance of Facebook Class
 	private Facebook facebook;
 
 	private AsyncFacebookRunner mAsyncRunner;
@@ -231,17 +229,14 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 	public void loginToFacebook() {
 
 		if (globalVariable.getFb_access_token() != null) {
-			System.out.println(">>>> access token is not null");
 			facebook.setAccessToken(globalVariable.getFb_access_token());
 		}
 
 		if (globalVariable.getFb_access_expire() != 0) {
-			System.out.println("if2");
 			facebook.setAccessExpires(globalVariable.getFb_access_expire());
 		}
 
 		if (!facebook.isSessionValid()) {
-			System.out.println("if3");
 			facebook.authorize(this, new String[] { "email", "publish_stream",
 					"manage_pages", "publish_actions", "status_update",
 					"photo_upload", "offline_access" },
@@ -249,8 +244,6 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 
 						@Override
 						public void onCancel() {
-
-							// Function to handle cancel event
 							LoginFacebookActivity.this.setResult(RESULT_OK);
 							finish();
 						}
@@ -258,8 +251,6 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 						@Override
 						public void onComplete(Bundle values) {
 
-							System.out.println(">>>>>>> Access expiry:"
-									+ facebook.getAccessExpires());
 							globalVariable.setFb_access_expire(facebook
 									.getAccessExpires());
 							globalVariable.setFb_access_token(facebook
@@ -287,19 +278,15 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 										"------------");
 							}
 							postButton.setEnabled(true);
-							// profileButton.setEnabled(true);
-							// logoutButton.setEnabled(true);
 						}
 
 						@Override
 						public void onError(DialogError error) {
-							// Function to handle error
 
 						}
 
 						@Override
 						public void onFacebookError(FacebookError fberror) {
-							// Function to handle Facebook errors
 						}
 
 					});
@@ -334,8 +321,6 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 			men = four_digit(men);
 			women = four_digit(women);
 			total = four_digit(total);
-			System.out.println(">>>>>>new time:" + datetime);
-			System.out.println(">>>>datetiime length" + datetime.length());
 			String postName = "\n\t\t\t "
 					+ datetime.substring(0, 11)
 					+ "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
@@ -350,9 +335,7 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 				postMessage = "\t\t\t\t\t\t\t  " + "                 " + total;
 				attendanceLabel = "\t\t\t      \t\t\t\t\t\t\t\t\t\t\t\tCurrent Attendance\t\t\t\t\t\t\t\t\t\t        \t\n";
 			}
-			// ********************************Convert String to Image
 			try {
-				// =================== image append ===================
 				int lower = 0;
 				int upper = 8;
 				Bitmap myBitmap;
@@ -373,9 +356,7 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 				}
 				int width = myBitmap.getWidth();
 				int height = myBitmap.getHeight();
-				System.out.println(">>>>>> height =" + height);
 				height = (int) (height * 850) / width;
-				System.out.println(">>>>>> new height =" + height);
 				myBitmap = Bitmap.createScaledBitmap(myBitmap, 850, height,
 						true);
 
@@ -404,8 +385,7 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 				final Bitmap bmp = Bitmap.createBitmap(850,
 						mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
 
-				bmp.eraseColor(Color.parseColor("#ffffff"));// just adding white
-															// background
+				bmp.eraseColor(Color.parseColor("#ffffff"));
 				final Canvas canvas = new Canvas(bmp);
 				mTextLayout.draw(canvas);
 
@@ -434,9 +414,7 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 				final Bitmap bmp1 = Bitmap.createBitmap(850,
 						mTextLayout1.getHeight(), Bitmap.Config.ARGB_8888);
 
-				bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding
-																// white
-																// background
+				bmp1.eraseColor(Color.parseColor("#ffffff"));
 				final Canvas canvas1 = new Canvas(bmp1);
 				mTextLayout1.draw(canvas1);
 
@@ -465,9 +443,7 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 				final Bitmap bmp2 = Bitmap.createBitmap(850,
 						mTextLayout2.getHeight(), Bitmap.Config.ARGB_8888);
 
-				bmp2.eraseColor(Color.parseColor("#ffffff"));// just adding
-																// white
-																// background
+				bmp2.eraseColor(Color.parseColor("#ffffff"));
 				final Canvas canvas2 = new Canvas(bmp2);
 				mTextLayout2.draw(canvas2);
 
@@ -509,15 +485,9 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 				bmp.recycle();
 				bmOverlay.compress(CompressFormat.JPEG, 100, baos);
 				data = baos.toByteArray();
-				// *********************************end conversion
-				// ***********************
-				// posting to page wall
+				
 				ByteArrayBody bab = new ByteArrayBody(data, "test.png");
 				try {
-					System.out.println(">>>>>>> string after conversion");
-					System.out.println(">>>>>>> page token:"
-							+ params[0].getSelectedFBPage().getAccess_token());
-					// create new Session with page access_token
 					Session.openActiveSessionWithAccessToken(
 							LoginFacebookActivity.this,
 							AccessToken
@@ -536,23 +506,14 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 								@Override
 								public void call(Session session,
 										SessionState state, Exception exception) {
-									System.out
-											.println(">>>>>>> session status callback");
-									// TODO Auto-generated method stub
 									if (session != null && session.isOpened()) {
 										Session.setActiveSession(session);
 										Session session1 = Session
 												.getActiveSession();
-										System.out.println(">>>>>>> is Manage"
-												+ session1
-														.isPublishPermission("manage_pages"));
 									}
 								}
-							});// session open closed
-					System.out.println(">>>>>>> new session open");
+							});
 
-					// String url =
-					// "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
 					String url = "https://graph.facebook.com/"
 							+ params[0].getSelectedFBPage().getId() + "/photos";
 					HttpPost postRequest = new HttpPost(url);
@@ -562,35 +523,23 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 					HttpClient httpClient = new DefaultHttpClient();
 					MultipartEntity reqEntity = new MultipartEntity(
 							HttpMultipartMode.BROWSER_COMPATIBLE);
-					System.out.println(">>>>>>> Start post");
 					reqEntity.addPart("access_token", new StringBody(params[0]
 							.getSelectedFBPage().getAccess_token()));
 					EditText message_box = (EditText) findViewById(R.id.message_fb_ET);
 					String message = message_box.getText().toString();
-					System.out.println(">>>>>>> under  post1");
 					reqEntity.addPart("message", new StringBody(message));
-					System.out.println(">>>>>>> under  post2");
 					reqEntity.addPart("picture", bab);
-					System.out.println(">>>>>>> under  post3");
 					postRequest.setEntity(reqEntity);
-					System.out.println(">>>>>>> under  post4");
 					HttpResponse response1 = httpClient.execute(postRequest);
-					System.out.println(">>>>>>> under  post5");
-					System.out.println(">>>>>>> response" + response1);
 					if (response1 == null || response1.equals("")
 							|| response1.equals("false")) {
-						System.out.println(">>>>>>> Blank response.");
 					} else {
-						System.out
-								.println(">>>>>>> Message posted to your facebook wall! -->"
-										+ url);
 						returnBool = true;
 					}
 				} catch (Exception e) {
 
 				}
 			} catch (Exception e) {
-				System.out.println("Failed to post to wall!");
 				e.printStackTrace();
 			}
 
@@ -647,20 +596,12 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 		mAsyncRunner.request("me", new RequestListener() {
 			@Override
 			public void onComplete(String response, Object state) {
-				System.out.println(">>>>>>> Profile" + response);
 				String json = response;
 
 				try {
 					JSONObject profile = new JSONObject(json);
-					// getting name of the user
-					// final String name = profile.getString("name");
-					// getting email of the user
 					final String email = profile.getString("email");
-					System.out.println(">>>>>>> email:" + email);
 					userID = profile.getString("id");
-					System.out.println(">>>>>>> User id:" + userID);
-					System.out.println(">>>>>>> access Token while login:"
-							+ facebook.getAccessToken());
 					user_access_token = facebook.getAccessToken();
 					JSONParser jsonparser = new JSONParser(
 							LoginFacebookActivity.this);
@@ -670,13 +611,10 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 							.getJSONObjectFromUrlAfterHttpGet(
 									"http://dcounter.herokuapp.com/customers.json",
 									params);
-					Log.d(">>>>>>> user validation json=======", "jsonobject"
-							+ jsonobject);
 					if (jsonobject.getString("status").equals("ok")) {
 						Gson gson = new Gson();
 						String customerJsonString = jsonobject
 								.getString("customer");
-						System.out.println("json customr" + customerJsonString);
 						Customer customer = gson.fromJson(
 								customerJsonString.toString(), Customer.class);
 						String businesses = jsonobject.getString("businesses");
@@ -691,18 +629,10 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 						}
 
 						customer.setBusinesses(businessList);
-						System.out.println("customer business"
-								+ customer.getBusinesses().size());
 						List<Business> bnessList = customer.getBusinesses();
-						System.out.println(">>>>>>> Businesses :"
-								+ bnessList.size());
 						isCustomer = true;
 						globalVariable.setCustomer(customer);
-						System.out.println("global customer's id:"
-								+ globalVariable.getCustomer().getId()
-										.get$oid());
 
-						// ************ pages
 						mAsyncRunner.request("me/accounts",
 								new RequestListener() {
 
@@ -772,8 +702,6 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 											}
 											globalVariable.getCustomer()
 													.setPages(pages);
-											System.out
-													.println(">>>>>>> get pageAccessToken complete");
 											page_access_token = globalVariable
 													.getCustomer().getPages()
 													.get(0).getAccess_token();
@@ -820,7 +748,7 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-			} // oncomplete callback of /me end
+			} 
 
 			@Override
 			public void onIOException(IOException e, Object state) {
@@ -983,9 +911,7 @@ public class LoginFacebookActivity extends PreferenceActivity implements
 		// TODO Auto-generated method stub
 		super.onStop();
 		getPreferenceScreen().getSharedPreferences()
-				.unregisterOnSharedPreferenceChangeListener(this); // unregister
-																	// change
-																	// listener
+				.unregisterOnSharedPreferenceChangeListener(this); 
 	}
 
 }

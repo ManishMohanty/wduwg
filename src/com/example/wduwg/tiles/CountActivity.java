@@ -165,35 +165,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		outFemaleTV.setTypeface(typeface);
 		currentMaleTV.setTypeface(typeface);
 		currentFemaleTV.setTypeface(typeface);
-//		Event tempEvent = globalVariable.getSelectedEvent();
-//		System.out.println(">>>>>>> " + tempEvent.getName());
-//		totalHeaderTV.setTypeface(typeface);
-//		System.out.println(">>>>>>> startDate:" + tempEvent.getStartDate());
-//		if (tempEvent.getName().equals("defaultEvent"))
-//			totalHeaderTV.setText("No event information.\nCount started at: "
-//					+ globalVariable.timeFormat(tempEvent
-//							.getStartDate()
-//							.replace('T', ',')
-//							.substring(0,
-//									(tempEvent.getStartDate().length() - 8))));
-//		else {
-			// if we dont use dateFormat it will show time in IST
-
-//			totalHeaderTV.setText("You are counting for "
-//					+ tempEvent.getName()
-//					+ "\nEvent started at: "
-//					+ globalVariable.timeFormat(tempEvent
-//							.getStartDate()
-//							.replace('T', ',')
-//							.substring(0,
-//									(tempEvent.getStartDate().length() - 8)))
-//					+ "\nEvent ends at:  "
-//					+ globalVariable.timeFormat(tempEvent
-//							.getEndDate()
-//							.replace('T', ',')
-//							.substring(0,
-//									(tempEvent.getEndDate().length() - 8))));
-//		}
 		updateCounts();
 	}
 
@@ -227,7 +198,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		registerForContextMenu(maleLayout);
 		registerForContextMenu(femaleLayout);
 
-		// schedule task
 		timer = new Timer();
 		timer.scheduleAtFixedRate(scheduledTask, 1000, 120000);
 		for (int i = 0; i < 5; i++)
@@ -259,13 +229,12 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		boolean isLogoutVisisble = false;
 		if (globalVariable.getFb_access_token() != null) {
 			isLogoutVisisble = true;
-			System.out.println(">>>>>>> true");
 		}
 		isFlashCompatible = this.getPackageManager().hasSystemFeature(
 				PackageManager.FEATURE_CAMERA_FLASH);
 
 		adapter = new ContextMenuAdapter(CountActivity.this, contextMenuItems,
-				isLogoutVisisble, false);// isFlashCompatible
+				isLogoutVisisble, false);
 
 		listView.setAdapter(adapter);
 
@@ -303,15 +272,13 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				womenIn();
-				return false; // Right to left
+				return false; 
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				womenOut();
-				return false; // Left to right
+				return false;
 			}
 			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
-				System.out.println(">>>>>>> swipe down");
-				// openContextMenu(femaleLayout);
 				customDialog.show();
 				return false;
 			}
@@ -327,15 +294,13 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				menIn();
-				return false; // Right to left
+				return false; 
 			} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 					&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				menOut();
-				return false; // Left to right
+				return false; 
 			}
 			if (e2.getY() - e1.getY() > 100 && Math.abs(velocityY) > 800) {
-				System.out.println(">>>>>>> swipe down");
-				// openContextMenu(maleLayout);
 				customDialog.show();
 				return false;
 			}
@@ -368,7 +333,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			if (total > 0
 					&& total % message_frequency == 0
 					&& sharedPref.getBoolean("prefMessageSwitch", false) == true) {
-				System.out.println(">>>>>>> inside men in");
 				sendNotification();
 			}
 		}
@@ -413,7 +377,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			if (total > 0
 					&& total % message_frequency == 0
 					&& sharedPref.getBoolean("prefMessageSwitch", false) == true) {
-				System.out.println(">>>>>>> inside women in");
 				sendNotification();
 			}
 		}
@@ -461,7 +424,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		}
 		if (requestCode == SCANNER) {
 			if (resultCode == RESULT_OK) {
-				System.out.println(">>>>>>> scaner result ok");
 				updateCounts();
 				restartSaving();
 				ignoreOnRestart = true;
@@ -500,7 +462,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		// Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
 
 		if (!ignoreOnRestart) {
 			alertDialogBuilder = createDialog
@@ -622,7 +583,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 		globalVariable.setFb_access_expire(0);
 		globalVariable.setFb_access_token(null);
 		globalVariable.saveSharedPreferences();
-//		globalVariable.clearSP();
 		Toast.makeText(this, "Logged out from FB.", Toast.LENGTH_SHORT).show();
 		customDialog.dismiss();
 		nextIntent = new Intent(this,SpalshFirstActivity.class);
@@ -646,7 +606,6 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 			startActivityForResult(nextIntent, SCANNER);
 		} else if (position == 2) {
 			if (isFlashCompatible) {
-				// Switch dsa = (Switch) view.findViewById(R.id.switchB);
 
 				if (!isFlashOn) {
 					cam = Camera.open();
@@ -659,12 +618,11 @@ public class CountActivity extends ApphanceActivity implements OnTouchListener {
 					cam.release();
 				}
 				isFlashOn = !isFlashOn;
-				// dsa.setChecked(isFlashOn);
 			} else {
 				Toast.makeText(this, "Flash not available", Toast.LENGTH_SHORT)
 						.show();
 			}
-		}// if (position == 2)
+		}
 		else if (position == 3) {
 			nextIntent = new Intent(CountActivity.this,
 					AppSettingsActivity.class);

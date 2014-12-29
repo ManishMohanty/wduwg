@@ -33,7 +33,6 @@ import android.app.Activity;
  */
 final class InactivityTimer {
 
-//  private static final int INACTIVITY_DELAY_SECONDS = 5 * 60;
   private static final int INACTIVITY_DELAY_SECONDS =  10;
   
  

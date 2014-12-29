@@ -79,7 +79,6 @@ public class SpecialActivity extends Activity {
 		actionBar = getActionBar();
 		
 		globalVariable = (GlobalVariable)getApplicationContext();
-//		specialLV = (ListView)findViewById(R.id.specialList);
 		specialGV = (GridView)findViewById(R.id.specialsGV);
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we load your specials.", true, null);
@@ -110,7 +109,6 @@ public class SpecialActivity extends Activity {
 
 	public class LoadStringsAsync extends AsyncTask<Void, Void, List<Special>> {
 
-		// new thread for imagedownloading res
 		Bitmap bitmap;
 		JSONArray photos, array;
 		JSONObject photo;
@@ -133,7 +131,6 @@ public class SpecialActivity extends Activity {
 				{
 					for(int i = 0; i< specialsjsonarr.length(); i++)
 					{
-//						Special special = new Special();
 						JSONObject jsonobject = specialsjsonarr.getJSONObject(i);
 						Special special = gson.fromJson(jsonobject.toString(), Special.class);
 						special.setName(jsonobject.getString("name"));
@@ -149,7 +146,6 @@ public class SpecialActivity extends Activity {
 				
 				
 			} catch (Exception e) {
-				Log.d("Response========", "inside catch");
 				e.printStackTrace();
 			}
 			globalVariable.getSelectedBusiness().setSpecials(specialList);
@@ -166,7 +162,6 @@ public class SpecialActivity extends Activity {
             special.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTkopjYDLX80cyPjXWkx8Cb0eoKyW_N6rGn7p6JlhYYghXhV_ot");
             specials.add(special);
             SpecialApater adapter = new SpecialApater(SpecialActivity.this, specials);
-//            specialLV.setAdapter(adapter);
             specialGV.setAdapter(adapter);
             specialGV.setOnItemClickListener(new OnItemClickListener() {
 

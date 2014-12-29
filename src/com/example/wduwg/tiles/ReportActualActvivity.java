@@ -44,14 +44,12 @@ public class ReportActualActvivity extends FragmentActivity implements
 	private ViewPager viewPager;
 	private TabsPagerAdapter adapter;
 	private ActionBar actionBar;
-//	String eventName;
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reports);
-//		Typeface typeface = Typeface.createFromAsset(getAssets(), "Fonts/ufonts.com_segoe_ui_semibold.ttf");
 		Typeface typeface = Typeface.createFromAsset(getAssets(), "Fonts/OpenSans-Light.ttf");
 		
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -128,7 +126,6 @@ public class ReportActualActvivity extends FragmentActivity implements
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-//		this.setResult(RESULT_OK);
 		finish();
 	}
 }

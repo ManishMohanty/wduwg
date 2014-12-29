@@ -115,7 +115,6 @@ public class BusinessOfUserActivity extends Activity{
 		// TODO Auto-generated method stub
 		MenuItem logouItem = menu.findItem(R.id.menu_logout);
 		MenuItem delinkItem = menu.findItem(R.id.menu_delink);
-//		MenuItem deleteItem = menu.findItem(R.id.menu_delete);
 		MenuItem settingsItem = menu.findItem(R.id.menu_settings);
 		if(globalVariable.getFb_access_token() !=null)
 		{
@@ -127,12 +126,10 @@ public class BusinessOfUserActivity extends Activity{
 		if(globalVariable.getSelectedBusiness() != null)
 		{
 			delinkItem.setEnabled(true);
-//			deleteItem.setEnabled(true);
 			settingsItem.setEnabled(true);
 		}else
 		{
 			delinkItem.setEnabled(false);
-//			deleteItem.setEnabled(false);
 			settingsItem.setEnabled(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -173,7 +170,6 @@ public class BusinessOfUserActivity extends Activity{
 		if(globalVariable.getCustomer().getBusinesses().size()>0 && !globalVariable.getCustomer().getBusinesses().get(globalVariable.getCustomer().getBusinesses().size()-1).getName().equalsIgnoreCase("Add Business"))
 		{
 		businessList = globalVariable.getCustomer().getBusinesses();
-		System.out.println(">>>>>>>before new business list size :"+businessList.size());
 		Business newBusiness = new Business();
 		newBusiness.setName("Add Business");
 		newBusiness.setImageUrl("http://us.123rf.com/400wm/400/400/nicemonkey/nicemonkey0703/nicemonkey070300014/782266-8-silhouette-business-people-in-line-in-black-and-white.jpg");
@@ -190,12 +186,10 @@ public class BusinessOfUserActivity extends Activity{
 		{
 			businessList = globalVariable.getCustomer().getBusinesses();
 		}
-		System.out.println(">>>>>>>After new business list size :"+businessList.size());
 		GridAdapter adapter = new GridAdapter(BusinessOfUserActivity.this, businessList,true);
 		gridView.setAdapter(adapter);
 		
 		
-		// listener for gridView
 				gridView.setOnItemClickListener(new OnItemClickListener() {
 
 					@Override
@@ -203,21 +197,10 @@ public class BusinessOfUserActivity extends Activity{
 							int position, long id) {
 						// TODO Auto-generated method stub
 						final int positionFinal = position;
-//						int fbpageSize = globalVariable.getCustomer().getPages().size();
-//						Business business = globalVariable.getCustomer().getBusinesses().get(positionFinal);
-//
-//						for(int i=0;i<fbpageSize;i++)
-//						{
-//							if(globalVariable.getCustomer().getPages().get(i).getId().equals(business.getFace_book_page()))
-//							{
-//								globalVariable.setSelectedFBPage(globalVariable.getCustomer().getPages().get(i));
-//							}
-//						}
 						
 						
 						if(globalVariable.getCustomer().getBusinesses().size() == 0 || position == globalVariable.getCustomer().getBusinesses().size() - 1)
 						{
-							System.out.println(">>>>>>> sending to ident");
 					        if(globalVariable.getCustomer().getBusinesses().size() > 0)
 							globalVariable.getCustomer().getBusinesses().remove(position);
 							Intent intent = new Intent(BusinessOfUserActivity.this,IdentifyingBusinessActivity.class);
@@ -239,16 +222,13 @@ public class BusinessOfUserActivity extends Activity{
 										globalVariable.fbPostOff();
 												Gson gson = new Gson();
 												String json = gson.toJson(business);
-												System.out.println(">>>>>>> business existing"
-														+ json);
 												Intent nextIntent = new Intent(BusinessOfUserActivity.this,BusinessDashboardActivity.class);
-												System.out.println(">>>>>>> start new Activity");
 												startActivity(nextIntent);
 												overridePendingTransition(R.anim.anim_out,
 														R.anim.anim_in);
 												
 					} 
-						}// end else
+						}
 					
 				});
 	}

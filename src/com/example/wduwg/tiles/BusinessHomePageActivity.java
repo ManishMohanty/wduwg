@@ -56,7 +56,6 @@ import com.mw.wduwg.services.ServerURLs;
 
 public class BusinessHomePageActivity extends Activity {
 
-	// TextView specialTv;
 	EditText businessNameET;
 	EditText businessAddressET;
     Bitmap bitmap;
@@ -98,16 +97,10 @@ public class BusinessHomePageActivity extends Activity {
 		yourTextView.setTextColor(Color.parseColor("#016AB2"));
 		yourTextView.setTypeface(typeface);
 		final BitmapFactory.Options options = new BitmapFactory.Options();
-//			if (previousIntent.getBooleanExtra("defaultImage", false)) {
-//				roundPhotoIV.setImageBitmap(globalVariable.getRoundedShape(BitmapFactory.decodeResource(getResources(), R.drawable.wduwg_logo2223)));
-//				businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
-//			} else {
 		             if(previousIntent.getStringExtra("imageUrl") != null)
 				     roundPhotoIV.setImageUrl(previousIntent.getStringExtra("imageUrl"));
 				     businessAddressET.setText(previousIntent.getStringExtra("complete_address"));
 				     businessNameET.setText(previousIntent.getStringExtra("business_name"));
-//			}
-//		}
 		
 	}
 
@@ -149,30 +142,6 @@ public class BusinessHomePageActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
-//		case R.id.menu_delink:
-//			SchedulerCount scheduledTask = new SchedulerCount(this);
-//			Timer timer = new Timer();
-//			timer.scheduleAtFixedRate(scheduledTask, 1000, 10000);
-//			scheduledTask.run();
-//			SchedulerCount.event = globalVariable.getSelectedEvent();
-//			timer.cancel();
-//			globalVariable.setSelectedBusiness(null);
-//			globalVariable.setSelectedEvent(null);
-//			globalVariable.setMenIn(0);
-//			globalVariable.setMenOut(0);
-//			globalVariable.setWomenIn(0);
-//			globalVariable.setWomenOut(0);
-//			globalVariable.saveSharedPreferences();
-//
-//			alertDialogBuilder = createDialog
-//					.createAlertDialog(
-//							"Delink Successful",
-//							"Your device has been delinked. Redirecting search as per current location.",
-//							false);
-//			singleOKButton(alertDialogBuilder);
-//			alertDialog = alertDialogBuilder.create();
-//			alertDialog.show();
-//			return true;
 		case R.id.menu_logout:
 			if (LoginFacebookActivity.timer != null)
 				LoginFacebookActivity.timer.cancel();
@@ -204,7 +173,6 @@ public class BusinessHomePageActivity extends Activity {
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
-		System.out.println(">>>>>>> BusinessHomePage::onPause");
 		super.onPause();
 		globalVariable.saveSharedPreferences();
 	}
@@ -237,8 +205,6 @@ public class BusinessHomePageActivity extends Activity {
 		link.setTypeface(typeface);
 		createDialog = new CreateDialog(this);
 		Pagelist = new ArrayList<String>();
-		System.out.println(">>>>>>> customer Name:"+globalVariable.getCustomer().getName());
-		System.out.println(">>>>>>> Page size:"+globalVariable.getCustomer().getPages().size());
 			for (int i = 0; i < globalVariable.getCustomer().getPages().size(); i++) {
 				Pagelist.add(globalVariable.getCustomer().getPages().get(i)
 						.getName());
@@ -255,7 +221,6 @@ public class BusinessHomePageActivity extends Activity {
 		@Override
 		protected Business doInBackground(String... params) {
 			jParser = new JSONParser();
-			System.out.println(">>>>>>> inside save business");
 			if (previousIntent != null) {
 				businessAddress = previousIntent
 						.getStringExtra("complete_address");
@@ -267,13 +232,9 @@ public class BusinessHomePageActivity extends Activity {
 				businessID = "custom_id";
 				completeResult = "custom_result";
 			}
-			System.out.println(">>>>>>> business id " + businessID);
-			System.out.println(">>>>>>> selected customer id:"
-					+ globalVariable.getCustomer().getId().get$oid());
 
 			try {
 				String url = ServerURLs.URL + ServerURLs.BUSINESS;
-				System.out.println(">>>>>>> url is   : " + url);
 				JSONObject jsonObject2 = null;
 				try {
 
@@ -296,16 +257,11 @@ public class BusinessHomePageActivity extends Activity {
 
 				jsonFromServer = jParser.getJSONFromUrlAfterHttpPost(url,
 						jsonObject2);
-				System.out.println(">>>>>>> json from server for post business"
-						+ jsonFromServer);
 				if (!jsonFromServer.has("status")) {
 					Gson gson = new Gson();
 					String businessJson = jsonFromServer.toString();
-					System.out.println(businessJson);
 					selectedBusiness = gson.fromJson(businessJson.toString(),
 							Business.class);
-					System.out.println(">>>>>>> is null"
-							+ (selectedBusiness == null));
 					 ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					 ((BitmapDrawable)roundPhotoIV.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, baos);
 					 byte[] b = baos.toByteArray();
@@ -326,11 +282,6 @@ public class BusinessHomePageActivity extends Activity {
 		@Override
 		protected void onPostExecute(Business selectedBusiness) {
 			progressDialog.dismiss();
-//			businessNameET.setFocusable(false);
-//			businessNameET.setFocusableInTouchMode(false);
-//			businessAddressET.setFocusable(false);
-//			businessAddressET.setFocusableInTouchMode(false);
-//			link.setVisibility(View.GONE);
 			alertDialogBuilder = createDialog.createAlertDialog(
 					"Business added successfully", null, false);
 			alertDialogBuilder.setCancelable(false);
@@ -371,7 +322,6 @@ public class BusinessHomePageActivity extends Activity {
 						startActivity(nextIntent);
 						overridePendingTransition(R.anim.anim_out,
 								R.anim.anim_in);
-						System.out.println("hello");
 					}
 				});
 	}
@@ -398,7 +348,6 @@ public class BusinessHomePageActivity extends Activity {
 	public void onReports(View view) {
 		if (!validate())
 			return;
-		// nextIntent = new Intent(this, ReportEventActivity.class);
 		if (globalVariable.getSelectedBusiness() == null) {
 			Toast.makeText(getApplicationContext(),
 					"business is not registered with device",
@@ -414,7 +363,6 @@ public class BusinessHomePageActivity extends Activity {
 	private boolean validate() {
 		boolean bool = true;
 		if (businessNameET.getText().toString().trim().length() == 0) {
-			System.out.println(">>>>>>> You must enter business name.");
 			if (!businessNameET.isFocused())
 				businessNameET.requestFocus();
 			businessNameET.setError("You must enter business name.");
@@ -422,7 +370,6 @@ public class BusinessHomePageActivity extends Activity {
 			return bool;
 		}
 		if (businessAddressET.getText().toString().trim().length() == 0) {
-			System.out.println(">>>>>>> you must enter address");
 			businessAddressET.requestFocus();
 			businessAddressET.setError("You must enter Address.");
 			bool = false;
@@ -474,10 +421,6 @@ public class BusinessHomePageActivity extends Activity {
 						globalVariable.saveSharedPreferences();
 						List<Business> businessList = globalVariable
 								.getCustomer().getBusinesses();
-						System.out.println(">>>>>>> business list size:"
-								+ businessList.size());
-						System.out.println(">>>>>>> business to be added:"
-								+ businessNameET.getText().toString());
 						boolean isExist = false;
 						for (int i = 0; i < businessList.size(); i++) {
 							if (businessList
@@ -495,8 +438,6 @@ public class BusinessHomePageActivity extends Activity {
 
 								Gson gson = new Gson();
 								String json = gson.toJson(business);
-								System.out.println(">>>>>>> business existing"
-										+ json);
 								ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 								((BitmapDrawable)roundPhotoIV.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG,
@@ -514,14 +455,6 @@ public class BusinessHomePageActivity extends Activity {
 														.getSelectedBusiness()
 														.getId().get$oid());
 								isExist = true;
-//								link.setVisibility(View.GONE);
-//								businessNameET.setFocusable(false);
-//								alertDialog.dismiss();
-//								businessNameET.setFocusable(false);
-//								businessAddressET.setFocusable(false);
-//								businessNameET.setFocusableInTouchMode(false);
-//								businessAddressET
-//										.setFocusableInTouchMode(false);
 								break;
 							}
 						}
@@ -572,6 +505,6 @@ public class BusinessHomePageActivity extends Activity {
 				});
 		alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
-	} // end of Link
+	} 
 
 }

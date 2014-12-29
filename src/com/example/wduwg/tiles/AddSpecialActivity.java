@@ -103,7 +103,6 @@ public class AddSpecialActivity extends Activity {
 	private int hour;
 	private int minute;
 
-	// Date startDate;
 	Date startDateTime = new Date();
 
 	Date endDate;
@@ -145,7 +144,6 @@ public class AddSpecialActivity extends Activity {
 		progressDialog = createDialog.createProgressDialog("Loading",
 				"Please wait while we register your special.", true, null);
 
-		// nameET.setText(dateFormat3.format(startDateTime));
 		startDateET.setText(dateFormat.format(startDateTime));
 		startTimeET.setText(dateFormat2.format(startDateTime));
 		startDateET.setFocusable(false);
@@ -210,7 +208,6 @@ public class AddSpecialActivity extends Activity {
 		deleteSpecial.setVisibility(View.GONE);
 		Calendar calendar = Calendar.getInstance();
 		year = calendar.get(Calendar.YEAR);
-		// year = Calendar.YEAR;
 
 		month = calendar.get(Calendar.MONTH);
 		day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -287,7 +284,6 @@ public class AddSpecialActivity extends Activity {
 
 	public class LoadStringsAsync extends AsyncTask<Void, Void, Void> {
 
-		// new thread for imagedownloading res
 		List<String> specialList = new ArrayList<String>();
 		boolean isAdded = false;
 
@@ -462,10 +458,8 @@ public class AddSpecialActivity extends Activity {
 		return cal.getTime();
 	}
 
-	// date and time listener
 	private DatePickerDialog.OnDateSetListener startDatePickerListener = new DatePickerDialog.OnDateSetListener() {
 
-		// when dialog box is closed, below method will be called.
 		@Override
 		public void onDateSet(DatePicker view, int selectedYear,
 				int selectedMonth, int selectedDay) {
@@ -475,7 +469,6 @@ public class AddSpecialActivity extends Activity {
 			day = selectedDay;
 			startDateTime = getDateFromCalendar(year, month, day);
 
-			System.out.println("start date  :  " + startDateTime);
 
 			startDateET.setText(dateFormat.format(startDateTime));
 			startDateET.setVisibility(View.VISIBLE);
@@ -493,7 +486,6 @@ public class AddSpecialActivity extends Activity {
 			day = selectedDay;
 			endDate = getDateFromCalendar(year, month, day);
 
-			System.out.println("end date  :  " + endDate);
 
 			endDateET.setText(dateFormat.format(endDate));
 			endDateET.setVisibility(View.VISIBLE);
@@ -571,12 +563,10 @@ public class AddSpecialActivity extends Activity {
 				&& startTimeET.getText().toString().trim().length() > 0) {
 			startDateTime = createDate(startDateTime, startTimeET.getText()
 					.toString());
-			System.out.println(startDateTime);
 		}
 		if (endDateET.getText().toString().trim().length() > 0
 				&& endTimeET.getText().toString().trim().length() > 0) {
 			endDateTime = createDate(endDate, endTimeET.getText().toString());
-			System.out.println(endDateTime);
 		}
 		Date d = new Date();
 		String time = d.getHours() + ":"+d.getMinutes()+":"+d.getSeconds();
@@ -614,11 +604,9 @@ public class AddSpecialActivity extends Activity {
 		Date finalDate = null;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		String dateTime = dateFormat.format(date) + " " + time;
-		System.out.println(dateTime);
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 		try {
 			finalDate = formatter.parse(dateTime);
-			System.out.println("date is  :  " + finalDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -631,25 +619,22 @@ public class AddSpecialActivity extends Activity {
 		@SuppressWarnings("deprecation")
 		@Override
 		protected Boolean doInBackground(String... params) {
-//			System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage="";
 			String specialName = "";
 			try {
 			specialName = "\n\t  "+ selectedSpecial.getName();
-			SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, h:mm a");
-			Date startDate = sdf.parse(selectedSpecial.getStartDate());
-			Date endDate = sdf.parse(selectedSpecial.getEndDate());
+			
 			SimpleDateFormat sdf2=new SimpleDateFormat("EEE, d MMM, h:mm a");
+			Date startDate = sdf2.parse(selectedSpecial.getStartDate());
+			Date endDate = sdf2.parse(selectedSpecial.getEndDate());
 			String startDateTime = sdf2.format(startDate);
 			String endDateTime = sdf2.format(endDate);
-			
 			Field[] drawables = R.drawable.class.getFields();
 			for (Field f : drawables) {
 			    try {
 			        if(f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().toUpperCase()) || f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().replaceAll("\\s","").toUpperCase()))
 			        {
-			        	System.out.println(">>>****R.drawable." + f.getName());
 			        	drawableList.add(f.getInt(null));
 			        }
 			    } catch (Exception e) {
@@ -671,8 +656,7 @@ public class AddSpecialActivity extends Activity {
 						 + "\t "
 						 +startDateTime.substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+startDateTime.substring(12,startDateTime.length())+"-"+endDateTime.substring(12, endDateTime.length())+"\n";
 			}
-			// ********************************Convert String to Image **************************
-		// =================== image append ===================	
+			
 			int lower = 0;
 			int upper = 8;
 			Bitmap myBitmap;
@@ -694,9 +678,7 @@ public class AddSpecialActivity extends Activity {
 			}
 			int width = myBitmap.getWidth();
 			int height = myBitmap.getHeight();
-			System.out.println(">>>>>> height =" + height);
 			height = (int) (height * 850) / width;
-			System.out.println(">>>>>> new height =" + height);
 			myBitmap = Bitmap.createScaledBitmap(myBitmap, 850, height,
 					true);
 
@@ -724,8 +706,7 @@ public class AddSpecialActivity extends Activity {
 			final Bitmap bmp = Bitmap.createBitmap(850,
 					mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
 
-			bmp.eraseColor(Color.parseColor("#ffffff"));// just adding white
-														// background
+			bmp.eraseColor(Color.parseColor("#ffffff"));
 			final Canvas canvas = new Canvas(bmp);
 			mTextLayout.draw(canvas);
 			
@@ -754,9 +735,7 @@ public class AddSpecialActivity extends Activity {
 			final Bitmap bmp1 = Bitmap.createBitmap(850,
 					mTextLayout1.getHeight(), Bitmap.Config.ARGB_8888);
 
-			bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding
-															// white
-															// background
+			bmp1.eraseColor(Color.parseColor("#ffffff"));
 			final Canvas canvas1 = new Canvas(bmp1);
 			mTextLayout1.draw(canvas1);
 
@@ -792,24 +771,18 @@ public class AddSpecialActivity extends Activity {
 			bmOverlay.compress(CompressFormat.JPEG, 100, baos);
 			data = baos.toByteArray();
 				      Facebook facebook = new Facebook("743382039036135");
-				   // *********************************end conversion ***********************
-				      // posting to page wall
 				      ByteArrayBody bab = new ByteArrayBody(data, "test.png");
 					 try{
-						 // create new Session with page access_token
 						 Session.openActiveSessionWithAccessToken(getApplicationContext(),AccessToken.createFromExistingAccessToken(globalVariable.getSelectedBusiness().getSelectedFBPage().getAccess_token(), new Date(facebook.getAccessExpires()), new Date( facebook.getLastAccessUpdate()), AccessTokenSource.FACEBOOK_APPLICATION_NATIVE, Arrays.asList("manage_pages","publish_stream","photo_upload")) , new Session.StatusCallback() {
 								@Override
 								public void call(Session session, SessionState state, Exception exception) {
-									System.out.println(">>>>>>> session status callback");
 									// TODO Auto-generated method stub
 									if(session != null && session.isOpened()) {
 						                Session.setActiveSession(session);
 						                Session session1  = Session.getActiveSession();
-						                System.out.println(">>>>>>> is Manage"+session1.isPublishPermission("manage_pages"));
 						            }
 								}
-							});// session open closed
-							System.out.println(">>>>>>> new session open");
+							});
 					
 						 
 					String url = "https://graph.facebook.com/"+globalVariable.getSelectedBusiness().getSelectedFBPage().getId()+"/photos";
@@ -819,16 +792,12 @@ public class AddSpecialActivity extends Activity {
 				    HttpClient httpClient = new DefaultHttpClient();
 				    MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 				    reqEntity.addPart("access_token", new StringBody(Session.getActiveSession().getAccessToken()));
-//				    reqEntity.addPart("message", new StringBody(postMessage));
 				    reqEntity.addPart("picture", bab);
 				    postRequest.setEntity(reqEntity);
 				    HttpResponse response1 = httpClient.execute(postRequest);
-				    System.out.println(">>>>>>> response"+response1);
 				    if (response1 == null || response1.equals("")
 							|| response1.equals("false")) {
-						System.out.println(">>>>>>> Blank response.");
 					} else {
-						System.out.println(">>>>>>> Message posted to your facebook wall!");
 						returnBool = true;
 					}
 					 }catch(Exception e)
@@ -837,7 +806,6 @@ public class AddSpecialActivity extends Activity {
 					 }
 				
 			} catch (Exception e) {
-				System.out.println("Failed to post to wall!");
 				e.printStackTrace();
 			}
 			

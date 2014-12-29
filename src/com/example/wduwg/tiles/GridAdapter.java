@@ -73,7 +73,6 @@ public class GridAdapter extends BaseAdapter {
 		final ViewHolder viewHolder;
 		System.out.println(">>>>>>> position :"+position);
 		Business tempPlace = (Business)businessList.get(position);
-//			View convertView;
 			if (convertView == null) {
 				 
 				inflater = (LayoutInflater) context
@@ -81,10 +80,8 @@ public class GridAdapter extends BaseAdapter {
 				viewHolder = new ViewHolder();
 				
 				
-				// get layout from mobile.xml
 				convertView = inflater.inflate(R.layout.singlegrid, null);
 	 
-				// set value into textview
 				viewHolder.businessName = (TextView) convertView
 						.findViewById(R.id.businessName);
 				
@@ -120,23 +117,14 @@ public class GridAdapter extends BaseAdapter {
 			if(businessList.get(position).getName().equalsIgnoreCase("Add Business"))
 			{
 				viewHolder.imageView.setImageUrl("http://us.123rf.com/400wm/400/400/nicemonkey/nicemonkey0703/nicemonkey070300014/782266-8-silhouette-business-people-in-line-in-black-and-white.jpg");
-//				viewHolder.imageView.setImageUrl(businessList.get(position).getImageUrl());
 			}else
 			{
 				try{
-//					System.out.println(">>>>>>> position: "+position);
-//					String googleApiResults = tempPlace.getGoogleAPIResult();
-//					JSONObject json = new JSONObject(googleApiResults);
-//					JSONObject photoJsonObject  = new JSONObject(json.getString("photos").substring(1, json.getString("photos").length()-1).toString());
-//					tempPlace.setImageUrl(photoJsonObject.getString("photo_reference"));
 					viewHolder.imageView.setImageUrl(businessList.get(position).getImageUrl());
 				}catch(Exception e)
 				{
 					e.printStackTrace();
 				}
-//				String temp = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=60&photoreference="
-//						+ tempPlace.getImageUrl()
-//						+ "&sensor=true&key=AIzaSyBqZ6BBh8eRHgI245VV27XPEMHJAVlDk6Q";
 				viewHolder.imageView.setImageUrl(businessList.get(position).getImageUrl());
 			}
 			return convertView;

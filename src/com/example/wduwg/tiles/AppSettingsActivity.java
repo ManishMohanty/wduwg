@@ -70,36 +70,18 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
     protected void onResume() {
         super.onResume();
         
-        System.out.println(">>>>>>> onresume mEntryCount:"+mEntryCount);
         for (int i = 0; i < mEntryCount; i++) {
         	if(mPreferenceEntries[i] instanceof EditTextPreference)
         	{
-//        		EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
-//                if(mAutoSummaryFields[i].equals("prefPhone"))
-//                {
-//                	if(currentPreference.getText() != null)
-//                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+"   Click to change");	
-//                	else
-//                		mPreferenceEntries[i].setSummary("click to enter phone number");
-//                } commented on 10 september to remove sms
-//                else
-//                {
-//                	if(currentPreference.getText() != null)
-//                	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
-//                	else
-//                		mPreferenceEntries[i].setSummary("click to enter Age");	
-//                }
         	}else if (mPreferenceEntries[i] instanceof ListPreference) {
                   ListPreference currentPreference = (ListPreference) mPreferenceEntries[i];
                 if(currentPreference.getEntry()!=null)
                 {
                 mPreferenceEntries[i].setSummary(currentPreference.getEntry()+"   Click to change");
-                System.out.println(">>>>>>> drop down value:"+currentPreference.getEntry());
                 }
                 else
                 {
                 	mPreferenceEntries[i].setSummary("Click to select value");
-                	System.out.println(">>>>>>> else of drop down");
                 }
             }else if(mPreferenceEntries[i] instanceof SwitchPreference)
             {
@@ -123,20 +105,6 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
             if (key.equals(mAutoSummaryFields[i])) {
                 if (mPreferenceEntries[i] instanceof EditTextPreference) {
                      EditTextPreference currentPreference = (EditTextPreference) mPreferenceEntries[i];
-//                    if(key.equals("prefPhone"))
-//                    {
-//                    	if(currentPreference.getText() != null)
-//                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+"   Click to change");	
-//                    	else
-//                    		mPreferenceEntries[i].setSummary("click to enter phone number");
-//                    } commented on 10th september to remove sms
-//                    else
-//                    {
-//                    	if(currentPreference.getText() != null)
-//                    	    mPreferenceEntries[i].setSummary(currentPreference.getText()+" Years"+"   Click to change");	
-//                    	else
-//                    		mPreferenceEntries[i].setSummary("click to enter Age");	
-//                    }
                 }
                 else if (mPreferenceEntries[i] instanceof ListPreference) {
                     final ListPreference currentPreference = (ListPreference) mPreferenceEntries[i];
@@ -145,48 +113,35 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                     else
                     	mPreferenceEntries[i].setSummary("Click to select value");	
                     
-//                    if(key.equals("prefFb_frequency") && preferences.getBoolean("facebookSwitch", false) == true && currentPreference.getEntry() != null)
                     if(key.equals("prefFb_frequency")  && currentPreference.getEntry() != null)
                     {
                     	String  postcontent = preferences.getString("prefFb_frequency", "");
                     	if(postcontent.equalsIgnoreCase("Men and Women"))
                     	{
-//                    		globalVariable.fbPostOn(true);
                     		globalVariable.setMenWomen(true);
                     	}
                     	else{
                     		globalVariable.setMenWomen(false);
-//                    		globalVariable.fbPostOn(false);
                     	}
                     }
                     else 
                     {
-//                    	if(key.equals("prefNotificationFrequency"))
-//                    	{
-//                    		globalVariable.setMessage_frequency(Integer.parseInt(preferences.getString("prefNotificationFrequency", "0")));
-//                    	}
                     }
                 }
                 else if(mPreferenceEntries[i] instanceof SwitchPreference)
                 {
-                	System.out.println(">>>>>> key:"+key);
                 	final SwitchPreference currentPrefrence = (SwitchPreference) mPreferenceEntries[i];
                 	if(key.equals("prefMessageSwitch") )
                 	{
                 	 status = (boolean) mPreferenceEntries[i].getSharedPreferences().getBoolean("prefMessageSwitch", false);
-                	System.out.println(">>>>>> status of key:"+ status);
                 	}
                 	 else
                 		status = (boolean)mPreferenceEntries[i].getSharedPreferences().getBoolean("facebookSwitch", false);
                 	    mPreferenceEntries[i].setSummary(status?"On":"Off");
                 	if(key.equalsIgnoreCase("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == true && preferences.contains("prefFb_frequency"))
                     {
-                		System.out.println(">>>>>> key:"+key);
                 		boolean  flag = preferences.getBoolean("facebookSwitch", false);
-                		System.out.println(">>>>>>> facebook status:"+flag);
                     	String postcontent = preferences.getString("prefFb_frequency", "0");
-                    	System.out.println(">>>>>> facebook posting on");
-                    	System.out.println(">>>>>> post content"+postcontent);
                     	globalVariable.fbPostOff();
                 		if(postcontent.equalsIgnoreCase("Men and Women"))
                         	{
@@ -196,7 +151,7 @@ public class AppSettingsActivity extends PreferenceActivity implements OnSharedP
                 		{
                 			globalVariable.fbPostOn(false);
                 		}
-                    } // else for facebook off.
+                    } 
                 	else if(key.equals("facebookSwitch") && preferences.getBoolean("facebookSwitch", false) == false && scheduleTask != null && timer != null )
                 	{
                 		globalVariable.fbPostOff();

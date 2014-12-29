@@ -23,7 +23,6 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 	LayoutInflater inflater;
 	private TempFilter filter;
 
-	// Constructor
 	public AutoCompleteAdapter(Context context, List<ParseObject> tempList) {
 		this.context = context;
 		this.mainList = tempList;
@@ -72,7 +71,6 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 
 	@Override
 	public long getItemId(int position) {
-		// return tempList.get(arg0).getID();
 		return 0;
 	}
 
@@ -88,7 +86,6 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 			FilterResults oReturn = new FilterResults();
 			ArrayList<ParseObject> results = new ArrayList<ParseObject>();
 
-			// next 2 lines are probably not important
 			if (origList == null)
 				origList = mainList;
 
@@ -101,7 +98,6 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
 				}
 				oReturn.values = results;
 			}
-			// the return is sent to next function as argument
 			return oReturn;
 		}
 

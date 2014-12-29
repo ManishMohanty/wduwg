@@ -146,7 +146,6 @@ public class BusinessDashboardActivity extends Activity {
        ActionBar ab = getActionBar();
        ab.setDisplayShowCustomEnabled(true);
        ab.setCustomView(v);
-//       commomMethod();
         createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we fetch your data.", true, null);
 		progressDialog.show();
@@ -257,7 +256,6 @@ public class BusinessDashboardActivity extends Activity {
 	{
 		if(autoUpdate != null)
 		autoUpdate.cancel();
-//		Intent nextIntent = new Intent(this,ReportActualActvivity.class);
 		Intent nextIntent = new Intent(this,ReportActivity.class);
 		startActivity(nextIntent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
@@ -266,7 +264,6 @@ public class BusinessDashboardActivity extends Activity {
 	
 	public class LoadStringsAsync extends AsyncTask<Void, Void, List<Event>> {
 
-		// new thread for imagedownloading res
 		Bitmap bitmap;
 		JSONArray photos, array;
 		JSONObject photo;
@@ -310,8 +307,8 @@ public class BusinessDashboardActivity extends Activity {
 						
 						event.setImageUrl("http://fifthgroup.com/boldamericancatering/wp-content/uploads/sites/10/2014/02/boldamerican-053.jpg");
 						eventList.add(event);
-					} // end of for
-				} // end of if
+					} 
+				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -321,8 +318,6 @@ public class BusinessDashboardActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(final List<Event> events) {
-//			progressDialog.dismiss();
-            System.out.print(">>>>>>> list-size:"+events.size());
 			globalVariable.getSelectedBusiness().setEventList(events);
 			LoadStringsAsync1 asyncTask = new LoadStringsAsync1();
 			asyncTask.execute();
@@ -336,7 +331,6 @@ public class BusinessDashboardActivity extends Activity {
 	// special 
 	public class LoadStringsAsync1 extends AsyncTask<Void, Void, List<Special>> {
 
-		// new thread for imagedownloading res
 		Bitmap bitmap;
 		JSONArray photos, array;
 		JSONObject photo;
@@ -392,8 +386,7 @@ public class BusinessDashboardActivity extends Activity {
 	
 	//counter
 	public class LoadStringsAsync2 extends AsyncTask<Void, Void, Void> {
-
-		// new thread for imagedownloading res
+		JSONArray specialsjsonarr;
 		public LoadStringsAsync2() {
 
 		}
@@ -404,7 +397,7 @@ public class BusinessDashboardActivity extends Activity {
 				JSONParser jsonparser = new JSONParser(BusinessDashboardActivity.this);
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
-				JSONArray specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/count_totals.json",params);
+				specialsjsonarr = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/count_totals.json",params);
 				if(specialsjsonarr.length()>0)
 				{
 					
@@ -501,24 +494,19 @@ public class BusinessDashboardActivity extends Activity {
 		getMenuInflater().inflate(R.menu.overflow_options_menu, menu);
 		CharSequence rawTitle = "Logout";
 		CharSequence delink = "Delink";
-//		CharSequence delete = "Delete";
 		CharSequence setting = "Share";
 		
 		menu.findItem(R.id.menu_logout).setTitleCondensed(rawTitle);
 		menu.findItem(R.id.menu_delink).setTitleCondensed(delink);
-//		menu.findItem(R.id.menu_delete).setTitleCondensed(delete);
 		menu.findItem(R.id.menu_settings).setTitleCondensed(setting);
 
 		SpannableString logoutstr = new SpannableString(rawTitle);
 		SpannableString delinkstr = new SpannableString(delink);
-//		SpannableString deletestr = new SpannableString(delete);
 		SpannableString settingstr = new SpannableString(setting);
 		delinkstr.setSpan(typefaceBold, 0, delinkstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_delink).setTitle(delinkstr);
 		logoutstr.setSpan(typefaceBold, 0, logoutstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_logout).setTitle(logoutstr);
-//		deletestr.setSpan(typefaceBold, 0, deletestr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//		menu.findItem(R.id.menu_delete).setTitle(deletestr);
 		settingstr.setSpan(typefaceBold, 0, settingstr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_settings).setTitle(settingstr);
 		return true;
@@ -579,49 +567,6 @@ public class BusinessDashboardActivity extends Activity {
 			nextIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 			startActivity(nextIntent);
 			return true;
-//		case R.id.menu_delete:
-//			if(autoUpdate != null)
-//			autoUpdate.cancel();
-//			alertDialogBuilder = createDialog
-//			.createAlertDialog(
-//					"Delete",
-//					"Do you wish to delete business permanentaly ?",
-//					false);
-//	alertDialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//		
-//		@Override
-//		public void onClick(DialogInterface dialog, int which) {
-//			// TODO Auto-generated method stub
-//			
-//			
-//			// call async task to delete business
-//			if(autoUpdate != null){
-//				autoUpdate.cancel();
-//				autoUpdate.purge();
-//				autoUpdate = null;
-//				globalVariable.fbPostOff();
-//				change_setting_preference();
-//			}
-//			alertDialog.dismiss();
-//			progressDialog = createDialog.createProgressDialog("Deleting",
-//					"Please wait while we delete this business from your login.", true, null);
-//			progressDialog.show();
-//			DeleteAsyncTask asyncTask = new DeleteAsyncTask();
-//			asyncTask.execute();
-//			
-//		}
-//	});
-//	alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//		
-//		@Override
-//		public void onClick(DialogInterface dialog, int which) {
-//			// TODO Auto-generated method stub
-//			alertDialog.dismiss();
-//		}
-//	});
-//	alertDialog = alertDialogBuilder.create();
-//	alertDialog.show();     
-//	return true;
 		case R.id.menu_delink:
 			AlertDialog.Builder alertDialogBuilder1 = createDialog
 			.createAlertDialog(
@@ -633,12 +578,9 @@ public class BusinessDashboardActivity extends Activity {
 		public void onClick(DialogInterface dialog, int which) {
 			// TODO Auto-generated method stub
 			alertDialog1.dismiss();
-//			if(autoUpdate != null)
-//			{
 			autoUpdate.cancel();
 			autoUpdate.purge();
 			autoUpdate = null;
-//			}
 			if(globalVariable.getIntervalMenIn() > 0 || globalVariable.getIntervalMenOut() > 0 || globalVariable.getIntervalWomenIn() > 0 || globalVariable.getIntervalWomenOut() > 0)
 			{
 				SchedulerCount scheduledTask = new SchedulerCount(BusinessDashboardActivity.this);
@@ -676,9 +618,6 @@ public class BusinessDashboardActivity extends Activity {
 		case R.id.menu_settings:
 			if(autoUpdate != null)
 			autoUpdate.cancel();
-//			nextIntent = new Intent(BusinessDashboardActivity.this,
-//					AppSettingsActivity.class);
-//			startActivityForResult(nextIntent, SETTING);
 			nextIntent = new Intent(BusinessDashboardActivity.this,
 					LoginFacebookActivity.class);
 			startActivityForResult(nextIntent, SETTING);

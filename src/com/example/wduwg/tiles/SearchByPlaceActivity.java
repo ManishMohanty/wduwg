@@ -68,7 +68,6 @@ public class SearchByPlaceActivity extends ApphanceActivity {
 					}
 				});
 
-		// Action Bar font
 		int titleId = getResources().getIdentifier("action_bar_title", "id",
 				"android");
 		TextView yourTextView = (TextView) findViewById(titleId);

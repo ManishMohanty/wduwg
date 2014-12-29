@@ -51,8 +51,6 @@ public class JSONParser {
 
 	public JSONObject getJSONFromUrlAfterHttpPost(String url,
 			JSONObject jsonObject) {
-		System.out.println("url is   :  " + url);
-		System.out.println("json im sending   :  " + jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -64,13 +62,9 @@ public class JSONParser {
 						"application/json"));
 				httpPost.setEntity(stringEntity);
 			}
-			System.out.println("if complete");
 			HttpResponse httpResponse = httpClient.execute(httpPost);
-			System.out.println("1");
 			HttpEntity httpEntity = httpResponse.getEntity();
-			System.out.println("2");
 			is = httpEntity.getContent();
-			System.out.println("3");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -78,13 +72,11 @@ public class JSONParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-System.out.println("hello");
 		return getJSONObjectFromInputStream(is);
 	}
 
 	public JSONObject getJSONFromUrlAfterHttpPost2(String url,
 			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-		System.out.println("json im sending   :  " + jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -113,8 +105,6 @@ System.out.println("hello");
 				multipartEntity.addPart(
 						"user[members_attributes][0][relationship]",
 						new StringBody(jsonObject2.getString("relationship")));
-				System.out.println("checking name  "
-						+ jsonObject2.getString("name"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -123,7 +113,6 @@ System.out.println("hello");
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
-			System.out.println("check11");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -136,7 +125,6 @@ System.out.println("hello");
 
 	public JSONObject getJSONFromUrlAfterHttpPost3(String url,
 			JSONObject jsonObject, File file, String fileKey, Uri fileUri) {
-		System.out.println("json im sending   :  " + jsonObject.toString());
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -160,7 +148,6 @@ System.out.println("hello");
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
-			System.out.println("check11");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -199,7 +186,6 @@ System.out.println("hello");
 			String paramString = URLEncodedUtils.format(params, "utf-8");
 			url += paramString;
 		}
-		System.out.println("final uri :  " + url);
 		HttpGet httpGet = new HttpGet(url);
 
 		HttpResponse httpResponse;
@@ -229,7 +215,6 @@ System.out.println("hello");
 			String paramString = URLEncodedUtils.format(params, "utf-8");
 			url += paramString;
 		}
-		System.out.println("final uri :  " + url);
 		HttpGet httpGet = new HttpGet(url);
 
 		HttpResponse httpResponse;
@@ -259,16 +244,12 @@ System.out.println("hello");
 			}
 			is.close();
 			jsonString = sb.toString();
-			System.out.println("json string im getting  :  " + jsonString);
 		} catch (Exception e) {
-			Log.e("Buffer Error", "Error converting result " + e.toString());
 		}
 
-		// try parse the string to a JSON object
 		try {
 			jsonArray = new JSONArray(jsonString);
 		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
 		return jsonArray;
 	}
@@ -277,7 +258,6 @@ System.out.println("hello");
 		String jsonString = "";
 		JSONObject jsonObj = null;
 		try {
-			System.out.println("trying");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					is, "iso-8859-1"), 8);
 			StringBuilder sb = new StringBuilder();
@@ -287,15 +267,12 @@ System.out.println("hello");
 			}
 			is.close();
 			jsonString = sb.toString();
-			System.out.println("json string im getting  :  " + jsonString);
 		} catch (Exception e) {
-			Log.e("Buffer Error", "Error converting result " + e.toString());
 		}
 
 		try {
 			jsonObj = new JSONObject(jsonString);
 		} catch (JSONException e) {
-			Log.e("JSON Parser", "Error parsing data " + e.toString());
 		}
 
 		return jsonObj;
@@ -310,7 +287,6 @@ System.out.println("hello");
 		HttpResponse httpResponse = httpClient.execute(httpdelete);
         HttpEntity entity = httpResponse.getEntity();
         final String response = EntityUtils.toString(entity);
-        System.out.println(">>>>>>> response"+response);
 		}catch(Exception e)
 		{
 			e.printStackTrace();

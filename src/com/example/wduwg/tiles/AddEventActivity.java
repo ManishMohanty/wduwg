@@ -89,7 +89,6 @@ public class AddEventActivity extends Activity {
 	private int minute;
 	private List<Integer> drawableList = new ArrayList<Integer>();
 
-	// String name;
 	GlobalVariable globalVariable;
 	EditText startDateET, endDateET, startTimeET, endTimeET;
 	MyAutoCompleteTextView nameACTV;
@@ -109,7 +108,6 @@ public class AddEventActivity extends Activity {
 	Typeface typeface2;
 	Event event;
 
-	// Date startDate;
 	Date startDateTime = new Date();
 
 	Date endDate;
@@ -126,7 +124,6 @@ public class AddEventActivity extends Activity {
 	ParseObject parentBusinessPO;
 	List<ParseObject> eventsList;
 
-	// boolean status
 	boolean isAdded;
 	@Override
 	public void onBackPressed() {
@@ -142,13 +139,11 @@ public class AddEventActivity extends Activity {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d");
 	SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH:mm");
 
-	// SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm");
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_event);
-		System.out.println(">>>>>>> AddEvent:: onCreate");
 		findThings();
 		initializeThings();
 
@@ -164,15 +159,11 @@ public class AddEventActivity extends Activity {
 			startDateET.setFocusable(false);
 			startDateET.setFocusableInTouchMode(false);
 			startDateET.setClickable(false);
-			System.out.println(">>>>>>> satrt date:"
-					+ selectedEvent.getStartDate());
 			endDateET.setText(selectedEvent.getEndDate().split(",")[0]);
 			endDateET.setKeyListener(null);
 			endDateET.setFocusable(false);
 			endDateET.setFocusableInTouchMode(false);
 			endDateET.setClickable(false);
-			System.out
-					.println(">>>>>>> end date:" + selectedEvent.getEndDate());
 			startTimeET.setText(selectedEvent.getStartDate().split(",")[1]);
 			startTimeET.setKeyListener(null);
 			startTimeET.setFocusable(false);
@@ -202,7 +193,6 @@ public class AddEventActivity extends Activity {
 		} else {
 			deleteEvent.setVisibility(View.GONE);
 			actionBarAndKeyboardAndListener();
-			// checkPreferences();
 			Calendar calendar = Calendar.getInstance();
 			year = calendar.get(Calendar.YEAR);
 
@@ -269,7 +259,6 @@ public class AddEventActivity extends Activity {
 				"Fonts/OpenSans-Light.ttf");
 		typeface = Typeface.createFromAsset(getAssets(),
 				"Fonts/OpenSans-Bold.ttf");
-		// sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
 		nameACTV.setTypeface(typeface);
 		endDateET.setTypeface(typeface2);
 		startDateET.setTypeface(typeface2);
@@ -329,7 +318,6 @@ public class AddEventActivity extends Activity {
 			@SuppressWarnings("deprecation")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-//				((EditText) v).setVisibility(View.GONE);
 
 				showDialog(DATE_PICKER_ID_Start);
 				return false;
@@ -341,7 +329,6 @@ public class AddEventActivity extends Activity {
 			@Override
 			@SuppressWarnings("deprecation")
 			public boolean onTouch(View v, MotionEvent event) {
-//				((EditText) v).setVisibility(View.GONE);
 				showDialog(DATE_PICKER_ID_end);
 				return false;
 			}
@@ -371,8 +358,6 @@ public class AddEventActivity extends Activity {
 	private void checkPreferences() {
 		if (globalVariable.getSelectedEvent() != null
 				&& !getIntent().hasExtra("from_event")) {
-			System.out.println(">>>>>>> selected event"
-					+ globalVariable.getSelectedEvent().getName());
 			alertDialogBuilder = createDialog
 					.createAlertDialog(
 							"Event Exists",
@@ -415,16 +400,8 @@ public class AddEventActivity extends Activity {
 	}
 
 	private void nextActivity() {
-		// if(getIntent().hasExtra("from_event"))
-		// {
 		nextIntent = new Intent(AddEventActivity.this, EventActivity.class);
 		startActivityForResult(nextIntent, 100);
-		// }
-		// else
-		// {
-		// nextIntent = new Intent(AddEventActivity.this, CountActivity.class);
-		// startActivityForResult(nextIntent, RANDOM_NUMBER);
-		// }
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
 	}
 
@@ -437,7 +414,6 @@ public class AddEventActivity extends Activity {
 
 	private DatePickerDialog.OnDateSetListener startDatePickerListener = new DatePickerDialog.OnDateSetListener() {
 
-		// when dialog box is closed, below method will be called.
 		@Override
 		public void onDateSet(DatePicker view, int selectedYear,
 				int selectedMonth, int selectedDay) {
@@ -446,9 +422,6 @@ public class AddEventActivity extends Activity {
 			month = selectedMonth;
 			day = selectedDay;
 			startDateTime = getDateFromCalendar(year, month, day);
-
-			System.out.println(">>>>>>> start date  :  " + startDateTime);
-
 			startDateET.setText(dateFormat.format(startDateTime));
 			startDateET.setVisibility(View.VISIBLE);
 		}
@@ -465,7 +438,6 @@ public class AddEventActivity extends Activity {
 			day = selectedDay;
 			endDate = getDateFromCalendar(year, month, day);
 
-			System.out.println(">>>>>>> end date  :  " + endDate);
 
 			endDateET.setText(dateFormat.format(endDate));
 			endDateET.setVisibility(View.VISIBLE);
@@ -573,16 +545,12 @@ public class AddEventActivity extends Activity {
 		}
 		if (startDateET.getText().toString().trim().length() > 0
 				&& startTimeET.getText().toString().trim().length() > 0) {
-			System.out.println(">>>>>>> start date before:" + startDateTime);
 			startDateTime = createDate(startDateTime, startTimeET.getText()
 					.toString());
-			System.out.println(">>>>>>> start date after" + startDateTime);
 		}
 		if (endDateET.getText().toString().trim().length() > 0
 				&& endTimeET.getText().toString().trim().length() > 0) {
-			System.out.println(">>>>>>> end date before" + endDate);
 			endDateTime = createDate(endDate, endTimeET.getText().toString());
-			System.out.println(">>>>>>> end date after" + endDateTime);
 		}
 
 		Date d = new Date();
@@ -619,13 +587,9 @@ public class AddEventActivity extends Activity {
 		Date finalDate = null;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
 		String dateTime = dateFormat.format(date) + " " + time;
-		System.out.println(">>>>>>> middle  : " + dateTime);
 		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy HH:mm");
-//		formatter.setTimeZone(TimeZone.getTimeZone("US/Central")); 	
 		try {
 			finalDate = new Date(formatter.format(new Date(dateTime)));
-			// finalDate = formatter.parse(dateTime);
-			System.out.println(">>>>>>> US Central date is  :  " + finalDate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -639,23 +603,16 @@ public class AddEventActivity extends Activity {
 			AsyncTask<String, Void, Void> {
 		boolean isEventAlreadyThere = false;
 
-		// ParseObject eventPO;
 
 		@Override
 		protected Void doInBackground(String... params) {
 			jParser = new JSONParser();
 
 			if (globalVariable == null)
-				System.out.println(">>>>>>> global im  null");
 			if (globalVariable.getSelectedBusiness() == null)
-				System.out.println(">>>>>>> sel bus im null");
 			startDateTime = createDate(startDateTime, startTimeET.getText()
 					.toString());
-			System.out.println(">>>>>>>***"+startDateTime);
 			String url = ServerURLs.URL + ServerURLs.EVENTS;
-			System.out.println(">>>>>>> url is   : " + url);
-			System.out.println(">>>>>>> selectedBusinessId:"
-					+ globalVariable.getSelectedBusiness().getId().get$oid());
 			JSONObject jsonObject2 = null;
 			try {
 				JSONObject jsonObject;
@@ -688,8 +645,6 @@ public class AddEventActivity extends Activity {
 							"is already taken")) {
 					selectedEvent.setStartDate(globalVariable.convertDate(jsonFromServer.getString("start_date_time").substring(0, 16)));
 					selectedEvent.setEndDate(globalVariable.convertDate(jsonFromServer.getString("end_date_time").substring(0, 16)));
-					System.out.println(">>>>>>> Event start date: "
-							+ selectedEvent.getStartDate());
 						isAdded = true;
 						globalVariable.setSelectedEvent(selectedEvent);
 					} else {
@@ -785,31 +740,19 @@ public class AddEventActivity extends Activity {
 		@SuppressWarnings("deprecation")
 		@Override
 		protected Boolean doInBackground(String... params) {
-			// System.out.println(">>>>>>> in post async");
 			boolean returnBool = false;
 			String postMessage = "";
 			try {
-//			SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, h:mm a");
-//			Date startDate = sdf.parse(globalVariable.getSelectedEvent().getStartDate());
-//			Date endDate = sdf.parse(globalVariable.getSelectedEvent().getEndDate());
 			String eventName = "\n\t  "+ globalVariable.getSelectedEvent().getName();
 			SimpleDateFormat sdf2 = new SimpleDateFormat("EEE, d MMM, HH:mm a");
 			Date startDate = sdf2.parse(globalVariable.getSelectedEvent().getStartDate());
 			Date endDate = sdf2.parse(globalVariable.getSelectedEvent().getEndDate());
-//			SimpleDateFormat sdf2=new SimpleDateFormat("EEE, d MMM, h:mm a");
-			
-//			String startDateTime = sdf2.format(startDate);
-//			String endDateTime = sdf2.format(endDate);
-			System.out.println(">>>>>>>> startDatetime***"+startDateTime);
-			System.out.println(">>>>>>> endDate.getDate"+endDate.getDate());
-			System.out.println(">>>>>>> startDate.getDate"+startDate.getDate());
 			
 			Field[] drawables = R.drawable.class.getFields();
 			for (Field f : drawables) {
 			    try {
 			        if(f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().toUpperCase()) || f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().replaceAll("\\s","").toUpperCase()))
 			        {
-			        	System.out.println(">>>****R.drawable." + f.getName());
 			        	drawableList.add(f.getInt(null));
 			        }
 			    } catch (Exception e) {
@@ -832,10 +775,6 @@ public class AddEventActivity extends Activity {
 						 +globalVariable.getSelectedEvent().getStartDate().substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t"+globalVariable.getSelectedEvent().getStartDate().substring(12,globalVariable.getSelectedEvent().getStartDate().length())+"-"+globalVariable.getSelectedEvent().getEndDate().substring(12, globalVariable.getSelectedEvent().getEndDate().length())+"\n";
 			}
 
-			System.out.println(">>>>>>> Message11" + postMessage);
-			// ********************************Convert String to Image
-			// **************************
-				// =================== image append ===================
 			
 			int lower = 0;
 			int upper = 8;
@@ -858,9 +797,7 @@ public class AddEventActivity extends Activity {
 			}
 			int width = myBitmap.getWidth();
 			int height = myBitmap.getHeight();
-			System.out.println(">>>>>> height =" + height);
 			height = (int) (height * 850) / width;
-			System.out.println(">>>>>> new height =" + height);
 			myBitmap = Bitmap.createScaledBitmap(myBitmap, 850, height,
 					true);
 
@@ -888,8 +825,7 @@ public class AddEventActivity extends Activity {
 			final Bitmap bmp = Bitmap.createBitmap(850,
 					mTextLayout.getHeight(), Bitmap.Config.ARGB_8888);
 
-			bmp.eraseColor(Color.parseColor("#ffffff"));// just adding white
-														// background
+			bmp.eraseColor(Color.parseColor("#ffffff"));
 			final Canvas canvas = new Canvas(bmp);
 			mTextLayout.draw(canvas);
 			
@@ -918,9 +854,7 @@ public class AddEventActivity extends Activity {
 			final Bitmap bmp1 = Bitmap.createBitmap(850,
 					mTextLayout1.getHeight(), Bitmap.Config.ARGB_8888);
 
-			bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding
-															// white
-															// background
+			bmp1.eraseColor(Color.parseColor("#ffffff"));
 			final Canvas canvas1 = new Canvas(bmp1);
 			mTextLayout1.draw(canvas1);
 
@@ -956,12 +890,8 @@ public class AddEventActivity extends Activity {
 			bmOverlay.compress(CompressFormat.JPEG, 100, baos);
 			data = baos.toByteArray();
 				Facebook facebook = new Facebook("743382039036135");
-				// *********************************end conversion
-				// ***********************
-				// posting to page wall
 				ByteArrayBody bab = new ByteArrayBody(data, "test.png");
 				try {
-					// create new Session with page access_token
 					Session.openActiveSessionWithAccessToken(
 							getApplicationContext(),
 							AccessToken
@@ -980,25 +910,18 @@ public class AddEventActivity extends Activity {
 								@Override
 								public void call(Session session,
 										SessionState state, Exception exception) {
-									System.out
-											.println(">>>>>>> session status callback");
 									// TODO Auto-generated method stub
 									if (session != null && session.isOpened()) {
 										Session.setActiveSession(session);
 										Session session1 = Session
 												.getActiveSession();
-										System.out.println(">>>>>>> is Manage"
-												+ session1
-														.isPublishPermission("manage_pages"));
 									}
 								}
-							});// session open closed
-					System.out.println(">>>>>>> new session open");
+							});
 
 					String url = "https://graph.facebook.com/"
 							+ globalVariable.getSelectedBusiness().getSelectedFBPage().getId()
 							+ "/photos";
-					System.out.println(">>>>>>> Url fb:" + url);
 					HttpPost postRequest = new HttpPost(url);
 					HttpParams http_parameters = new BasicHttpParams();
 					HttpConnectionParams.setConnectionTimeout(http_parameters,
@@ -1008,17 +931,12 @@ public class AddEventActivity extends Activity {
 							HttpMultipartMode.BROWSER_COMPATIBLE);
 					reqEntity.addPart("access_token", new StringBody(Session
 							.getActiveSession().getAccessToken()));
-//					reqEntity.addPart("message", new StringBody(postMessage));
 					reqEntity.addPart("picture", bab);
 					postRequest.setEntity(reqEntity);
 					HttpResponse response1 = httpClient.execute(postRequest);
-					System.out.println(">>>>>>> response" + response1);
 					if (response1 == null || response1.equals("")
 							|| response1.equals("false")) {
-						System.out.println(">>>>>>> Blank response.");
 					} else {
-						System.out
-								.println(">>>>>>> Message posted to your facebook wall!");
 						returnBool = true;
 					}
 				} catch (Exception e) {
@@ -1026,7 +944,6 @@ public class AddEventActivity extends Activity {
 				}
 
 			} catch (Exception e) {
-				System.out.println("Failed to post to wall!");
 				e.printStackTrace();
 			}
 
@@ -1038,28 +955,22 @@ public class AddEventActivity extends Activity {
 		}
 
 		public String convertDate(String datestr) {
-			System.out.println(">>>>>>> event date input came for conversion:"+datestr);
 
 			String formatedDate = "";
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			try {
-				System.out.println(">>>>>>> param :" + datestr);
 				int hh = Integer.parseInt(datestr.split("T")[1].split(":")[0]);
 				DateFormat df = new SimpleDateFormat("dd MMM yyyy");
 				if (hh < 13) {
 					formatedDate = formatedDate
 							+ df.format(sdf.parse(datestr.split("T")[0]))
-							+ " ,  " + datestr.split("T")[1] + "  am";
-					System.out.println(">>>>>>> formated date:" + formatedDate);
+							+ " ,  " + datestr.split("T")[1] + " am";
 				} else {
-					System.out.println(">>>>>>> param :" + datestr);
 					formatedDate = formatedDate
 							+ df.format(sdf.parse(datestr.split("T")[0]))
-							+ " ,  " + datestr.split("T")[1] + "  pm";
-					System.out.println(">>>>>>> formated date:" + formatedDate);
+							+ " ,  " + datestr.split("T")[1] + " pm";
 				}
 			} catch (Exception e) {
-				System.out.println(">>>>error:" + e.getMessage());
 				e.printStackTrace();
 
 			}

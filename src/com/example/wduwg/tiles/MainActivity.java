@@ -36,11 +36,10 @@ import com.mw.wduwg.services.GlobalVariable;
 import com.mw.wduwg.services.SchedulerCount;
 
 public class MainActivity extends Activity
-// implements OnClickListener
+
 {
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		globalVariable.saveSharedPreferences();
 	}
@@ -89,35 +88,16 @@ public class MainActivity extends Activity
 		setContentView(R.layout.splash_main);
 		DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
 		int density= getResources().getDisplayMetrics().densityDpi;
-//		switch(density)
-//		  {
-//		  case DisplayMetrics.DENSITY_LOW:
-//		     Toast.makeText(this, "LDPI", Toast.LENGTH_SHORT).show();
-//		      break;
-//		  case DisplayMetrics.DENSITY_MEDIUM:
-//		       Toast.makeText(this, "MDPI", Toast.LENGTH_SHORT).show();
-//		      break;
-//		  case DisplayMetrics.DENSITY_HIGH:
-//		      Toast.makeText(this, "HDPI", Toast.LENGTH_SHORT).show();
-//		      break;
-//		  case DisplayMetrics.DENSITY_XHIGH:
-//		       Toast.makeText(this, "XHDPI", Toast.LENGTH_SHORT).show();
-//		      break;
-//		  }
-//		Toast.makeText(this, "density:"+displayMetrics.density, Toast.LENGTH_LONG).show();
 
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-//        Toast.makeText(this, "height:"+dpHeight+"dp\n Width:"+dpWidth+"dp", Toast.LENGTH_LONG).show();
 		findThings();
 		initializeThings();
 
-		// IBM MQA
 		Configuration configuration = new Configuration.Builder(this)
-				.withAPIKey(MQA_APP_KEY) // Provides IBM Mobile Quality
-											// Assurance
-				.withMode(Mode.QA) // Selects IBM Mobile Quality Assurance mode
-				.withReportOnShakeEnabled(true) // Enables shake report trigger
+				.withAPIKey(MQA_APP_KEY) 
+				.withMode(Mode.QA) 
+				.withReportOnShakeEnabled(true) 
 				.build();
 
 		Apphance.startNewSession(MainActivity.this, configuration);
@@ -129,13 +109,6 @@ public class MainActivity extends Activity
 	{
 		final ImageView logo = (ImageView) findViewById(R.id.splash_logo);
 
-//		int titleId = getResources().getIdentifier("action_bar_title", "id",
-//				"android");
-//		TextView yourTextView = (TextView) findViewById(titleId);
-//		yourTextView.setTextColor(Color.parseColor("#016AB2"));
-//		yourTextView.setTextSize(19);
-//		yourTextView.setTypeface(Typeface.createFromAsset(getAssets(),
-//				"Fonts/OpenSans-Bold.ttf"));
 
 		fadeIn = new AlphaAnimation(0.0f, 1.0f);
 		fadeIn.setDuration(3000);
@@ -185,7 +158,6 @@ public class MainActivity extends Activity
 						-165);
 				animation.setDuration(800);
 				animation.setFillAfter(true);
-				// animation.setFillEnabled(true);
 				animation.setAnimationListener(new AnimationListener() {
 
 					@Override
@@ -309,8 +281,6 @@ public class MainActivity extends Activity
 															.setVisibility(View.VISIBLE);
 													continueText
 															.startAnimation(fadeIn);
-													System.out
-															.println(">>>>>>>>> hi");
 												}
 
 											}
@@ -333,11 +303,9 @@ public class MainActivity extends Activity
 	public void oncontinue(View v) {
 		Intent nextIntent = null;
 		if (globalVariable.getSelectedBusiness()!= null) {
-//			nextIntent = new Intent(this, BusinessHomePageActivity.class);
 			nextIntent = new Intent(this, BusinessDashboardActivity.class);
 			nextIntent.putExtra("isFromMain", true);
 		} else {
-//			nextIntent = new Intent(this, IdentifyingBusinessActivity.class);
 			nextIntent = new Intent(this, BusinessOfUserActivity.class);
 		}
 		startActivity(nextIntent);
@@ -395,14 +363,11 @@ public void onDelink(View v) {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
-//						Intent nextIntent = new Intent(MainActivity.this,
-//								IdentifyingBusinessActivity.class);
 						Intent nextIntent = new Intent(MainActivity.this,
 								BusinessOfUserActivity.class);
 						startActivity(nextIntent);
 						overridePendingTransition(R.anim.anim_out,
 								R.anim.anim_in);
-						System.out.println("hello");
 					}
 				});
 	}

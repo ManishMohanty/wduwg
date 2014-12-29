@@ -34,14 +34,12 @@ public class EventAdapter2 extends BaseAdapter {
 
 	static class ViewHolder {
 		protected TextView nameTV;
-//		protected TextView descTV;
 		protected SmartImageView iconIV;
 
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		System.out.println("getView" + position);
 		ViewHolder viewHolder;
 		if (convertView == null) {
 			inflater = (LayoutInflater) context
@@ -49,7 +47,6 @@ public class EventAdapter2 extends BaseAdapter {
 			viewHolder = new ViewHolder();
 			convertView = inflater.inflate(R.layout.griditem,null);
 			viewHolder.nameTV = (TextView) convertView.findViewById(R.id.businessName);
-//			viewHolder.descTV = (TextView) convertView.findViewById(R.id.address);
 			viewHolder.iconIV = (SmartImageView) convertView.findViewById(R.id.image);
 
 			convertView.setTag(viewHolder);
@@ -60,8 +57,6 @@ public class EventAdapter2 extends BaseAdapter {
 		Event tempEvent = listEvents.get(position);
 		viewHolder.nameTV.setTypeface(typeface);
 		viewHolder.nameTV.setText(tempEvent.getName());
-//		viewHolder.descTV.setTypeface(Typeface.createFromAsset(context.getAssets(), "Fonts/OpenSans-Light.ttf"));
-//		viewHolder.descTV.setText(tempEvent.getDescription());
 		viewHolder.iconIV.setImageUrl(tempEvent.getImageUrl());
 
 		return convertView;

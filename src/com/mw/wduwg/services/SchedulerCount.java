@@ -57,9 +57,7 @@ public class SchedulerCount extends TimerTask {
 		protected Void doInBackground(String... params) {
 			jParser = new JSONParser();
 			String url = ServerURLs.URL + ServerURLs.COUNTER;
-			System.out.println("url is   : " + url);
 			JSONObject jsonObject2 = null;
-			System.out.println(">>>>>>> time:"+sdf.format(new Date()));
 			try {
 				JSONObject jsonObject;
 				jsonObject = new JSONObject()
@@ -70,10 +68,6 @@ public class SchedulerCount extends TimerTask {
 						.put("time", sdf.format(new Date()))
 						.put("business_id",
 								globalVariable.getSelectedBusiness().getId().get$oid());
-				System.out.println(">>>>>>> MenIn:"+globalVariable.getIntervalMenIn());
-				System.out.println(">>>>>>> Menout:"+globalVariable.getIntervalMenOut());
-				System.out.println(">>>>>>> womenIn:"+globalVariable.getIntervalWomenIn());
-				System.out.println(">>>>>>> womenout:"+globalVariable.getIntervalWomenOut());
 				jsonObject2 = new JSONObject().put("counter", jsonObject);
 				globalVariable.setIntervalMenIn(0);
 				globalVariable.setIntervalMenOut(0);
@@ -94,6 +88,6 @@ public class SchedulerCount extends TimerTask {
 
 		@Override
 		protected void onPostExecute(Void result) {
-		}// onPostExecute
-	}// Async Task
+		}
+	}
 }

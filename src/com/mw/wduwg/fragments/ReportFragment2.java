@@ -44,9 +44,6 @@ public class ReportFragment2 extends Fragment {
 		context = getActivity();
 		globalVariable = (GlobalVariable) context.getApplicationContext();
 
-
-		// ************ code for WebView **********
-
 		WebView webView1 = (WebView) rootView.findViewById(R.id.webView1);
 		webView1.getSettings().setLoadWithOverviewMode(true);
 		webView1.getSettings().setUseWideViewPort(true);

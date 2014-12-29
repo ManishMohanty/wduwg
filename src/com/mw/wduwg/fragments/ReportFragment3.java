@@ -32,7 +32,6 @@ public class ReportFragment3 extends Fragment {
         webview1.getSettings().setUseWideViewPort(true);
         webview1.getSettings().setJavaScriptEnabled(true);
         String url = "http://dcounter.herokuapp.com/counters/weekly_graph?business_id="+globalVariable.getSelectedBusiness().getId().get$oid();
-        System.out.println("URL:" +url);
         webview1.loadUrl(url);
 		return rootView;
 	}

@@ -127,7 +127,6 @@ public class IdentifyingBusinessActivity extends Activity {
 
 		findThings();
 		initializeThings();
-		// action bar font
 		int titleId = getResources().getIdentifier("action_bar_title", "id",
 				"android");
 		TextView actionBarTextView = (TextView) findViewById(titleId);
@@ -135,7 +134,6 @@ public class IdentifyingBusinessActivity extends Activity {
 		actionBarTextView.setTextSize(19);
 		actionBarTextView.setTypeface(typefaceBold);
 		if (previousIntent.hasExtra("place")) {
-			// search by keyword
 			place = previousIntent.getStringExtra("place");
 			Toast.makeText(this, "Searching for: " + place, Toast.LENGTH_SHORT)
 					.show();
@@ -155,10 +153,8 @@ public class IdentifyingBusinessActivity extends Activity {
 		}
 	}
 
-	// async task
 	public class LoadStringsAsync extends AsyncTask<Void, Void, List<Business>> {
 
-		// new thread for imagedownloading res
 		Bitmap bitmap;
 		JSONArray photos, array;
 		JSONObject photo;
@@ -190,7 +186,6 @@ public class IdentifyingBusinessActivity extends Activity {
 							+ lon
 							+ "&radius=500&sensor=false&key=AIzaSyDWngmH16EcyItOCncqQmyZGNZDA8AFuGs";
 
-					System.out.println(">>>>>>>> Url:" + new_url);
 				} else {
 
 					place = place.replace(" ", "+");
@@ -207,14 +202,12 @@ public class IdentifyingBusinessActivity extends Activity {
 				String data = EntityUtils.toString(response.getEntity());
 				JSONObject json = new JSONObject(data);
 				array = json.getJSONArray("results");
-				System.out.println(">>>>>>> reponse length:" + array.length());
 				Log.d("results length:===", "^^^^^^^^^^^^^^^^^^^length:"
 						+ array.length());
 
 				for (int i = 0; i < array.length(); i++) {
 					Business tempBusiness = null;
 					JSONObject result = (JSONObject) array.get(i);
-					// name = result.getString("name");
 					tempBusiness = new Business();
 					try {
 						if (result.has("photos")) {
@@ -243,10 +236,8 @@ public class IdentifyingBusinessActivity extends Activity {
 						ex.printStackTrace();
 					}
 					if (tempBusiness != null) {
-						System.out.println("if");
 						businessList.add(tempBusiness);
-					} else
-						System.out.println("else");
+					} 
 				}
 			} catch (Exception e) {
 				Log.d("Response========", "inside catch");
@@ -259,8 +250,6 @@ public class IdentifyingBusinessActivity extends Activity {
 		protected void onPostExecute(final List<Business> businesses) {
 
 			showProgress(false, "");
-			System.out.println(">>>>>>> post business Size:"
-					+ businesses.size());
 
 			if (businesses.size() == 0) {
 				if (place == null)
@@ -280,11 +269,6 @@ public class IdentifyingBusinessActivity extends Activity {
 								lat1 = tracker.getLatitude();
 								lon1 = tracker.getLongitude();
 								latLongAddress = getAddress(lat1, lon1);
-								// showProgress(true, "You are at \n" +
-								// latLongAddress);
-								// new LoadStringsAsync(lat1, lon1,
-								// IdentifyingBusinessActivity.this,
-								// null).execute();
 							}
 						});
 
@@ -305,18 +289,6 @@ public class IdentifyingBusinessActivity extends Activity {
 							int position, long id) {
 						// TODO Auto-generated method stub
 						Business selectedPlace = businesses.get(position);
-						System.out.println(">>>>>>> on click business");
-						// final SmartImageView image_view = (SmartImageView)
-						// view
-						// .findViewById(R.id.icon);
-						// final BitmapDrawable bitmapDrawable =
-						// (BitmapDrawable) image_view
-						// .getDrawable();
-						// final Bitmap bitmap = bitmapDrawable.getBitmap();
-						// ByteArrayOutputStream bs = new
-						// ByteArrayOutputStream();
-						// bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-						// Customer customer = globalVariable.getCustomer();
 						nextIntent = new Intent(
 								IdentifyingBusinessActivity.this,
 								BusinessHomePageActivity.class);
@@ -336,39 +308,7 @@ public class IdentifyingBusinessActivity extends Activity {
 					}
 
 				});
-				// listview.setOnItemClickListener(new OnItemClickListener() {
-				//
-				// public void onItemClick(AdapterView<?> parent, View view,
-				// int position, long id) {
-				// Business selectedPlace = businesses.get(position);
-				// System.out.println(">>>>>>> on click business");
-				// final ImageView image_view = (ImageView) view
-				// .findViewById(R.id.icon);
-				// final BitmapDrawable bitmapDrawable = (BitmapDrawable)
-				// image_view
-				// .getDrawable();
-				// final Bitmap bitmap = bitmapDrawable.getBitmap();
-				// ByteArrayOutputStream bs = new ByteArrayOutputStream();
-				// bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-				// // Customer customer = globalVariable.getCustomer();
-				// nextIntent = new Intent(
-				// IdentifyingBusinessActivity.this,
-				// BusinessHomePageActivity.class);
-				// nextIntent.putExtra("business_name",
-				// selectedPlace.getName());
-				// nextIntent.putExtra("business_id",
-				// selectedPlace.getGooglePlaceID());
-				// nextIntent.putExtra("complete_address",
-				// selectedPlace.getAddress()); // new
-				// nextIntent.putExtra("complete_result",
-				// selectedPlace.getGoogleAPIResult());
-				// nextIntent.putExtra("byteArray", bs.toByteArray());
-				// startActivity(nextIntent);
-				// overridePendingTransition(R.anim.anim_out,
-				// R.anim.anim_in);
-				//
-				// }
-				// });
+				
 			} else {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						activity);
@@ -397,13 +337,9 @@ public class IdentifyingBusinessActivity extends Activity {
 
 	}
 
-	// **** async task end
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show, String msg) {
-		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-		// for very easy animations. If available, use these APIs to fade-in
-		// the progress spinner.
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(
@@ -435,10 +371,6 @@ public class IdentifyingBusinessActivity extends Activity {
 					});
 
 		} else {
-			// The ViewPropertyAnimator APIs are not available, so simply show
-			// and hide the relevant UI components.
-			// mLoadingStatusView.setVisibility(show ? View.VISIBLE :
-			// View.GONE);
 			mLoadingStatusView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
@@ -470,8 +402,6 @@ public class IdentifyingBusinessActivity extends Activity {
 			Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 			List<Address> addresses = geocoder.getFromLocation(latitude,
 					longitude, 1);
-			System.out.println(">>>>>>> Complte Address:"
-					+ addresses.toString());
 			String str = addresses.get(0).getAddressLine(0)
 					+ addresses.get(0).getAddressLine(1);
 			String address = str.split(",")[0] + str.split(",")[1];
@@ -491,7 +421,6 @@ public class IdentifyingBusinessActivity extends Activity {
 				BusinessHomePageActivity.class);
 
 		nextIntent.putExtra("complete_address", latLongAddress);
-		System.out.println(">>>>>>> address:" + latLongAddress);
 		nextIntent.putExtra("defaultImage", true);
 		nextIntent.putExtra("business_id", "custom Id");
 		nextIntent.putExtra("complete_result", "custom business");

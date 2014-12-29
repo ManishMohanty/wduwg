@@ -187,79 +187,6 @@ public final class ActivityCapture extends Activity implements
 
 		}
 
-		// But for better performance, only activate the symbologies your
-		// application requires...
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_25 );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_39 );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_93 );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_128 );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_AZTEC
-		// );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_DM );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_EANUPC
-		// );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_PDF );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_QR );
-		// BarcodeScanner.MWBsetActiveCodes( BarcodeScanner.MWB_CODE_MASK_RSS );
-		// BarcodeScanner.MWBsetActiveCodes(
-		// BarcodeScanner.MWB_CODE_MASK_CODABAR );
-
-		// But for better performance, set like this for PORTRAIT scanning...
-		// BarcodeScanner.MWBsetDirection(BarcodeScanner.MWB_SCANDIRECTION_VERTICAL);
-		// set the scanning rectangle based on scan direction(format in pct: x,
-		// y, width, height)
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_25,
-		// RECT_PORTRAIT_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_39,
-		// RECT_PORTRAIT_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_93,
-		// RECT_PORTRAIT_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_128,
-		// RECT_PORTRAIT_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_AZTEC,
-		// RECT_PORTRAIT_2D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_DM,
-		// RECT_PORTRAIT_2D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_EANUPC,
-		// RECT_PORTRAIT_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_PDF,
-		// RECT_PORTRAIT_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_QR,
-		// RECT_PORTRAIT_2D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_RSS,
-		// RECT_PORTRAIT_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_CODABAR,RECT_PORTRAIT_1D);
-
-		// or like this for LANDSCAPE scanning - Preferred for dense or wide
-		// codes...
-		// BarcodeScanner.MWBsetDirection(BarcodeScanner.MWB_SCANDIRECTION_HORIZONTAL);
-		// set the scanning rectangle based on scan direction(format in pct: x,
-		// y, width, height)
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_25,
-		// RECT_LANDSCAPE_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_39,
-		// RECT_LANDSCAPE_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_93,
-		// RECT_LANDSCAPE_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_128,
-		// RECT_LANDSCAPE_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_AZTEC,
-		// RECT_LANDSCAPE_2D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_DM,
-		// RECT_LANDSCAPE_2D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_EANUPC,
-		// RECT_LANDSCAPE_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_PDF,
-		// RECT_LANDSCAPE_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_QR,
-		// RECT_LANDSCAPE_2D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_RSS,
-		// RECT_LANDSCAPE_1D);
-		// BarcodeScanner.MWBsetScanningRect(BarcodeScanner.MWB_CODE_MASK_CODABAR,RECT_LANDSCAPE_1D);
-
-		// set decoder effort level (1 - 5)
-		// for live scanning scenarios, a setting between 1 to 3 will suffice
-		// levels 4 and 5 are typically reserved for batch scanning
 		BarcodeScanner.MWBsetLevel(2);
 
 		CameraManager.init(getApplication());
@@ -329,7 +256,6 @@ public final class ActivityCapture extends Activity implements
 			}
 		} else if (keyCode == KeyEvent.KEYCODE_FOCUS
 				|| keyCode == KeyEvent.KEYCODE_CAMERA) {
-			// Handle these events so they don't launch the Camera app
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -394,8 +320,6 @@ public final class ActivityCapture extends Activity implements
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
-		// Do nothing, this is to prevent the activity from being restarted when
-		// the keyboard opens.
 		super.onConfigurationChanged(config);
 	}
 
@@ -502,25 +426,10 @@ public final class ActivityCapture extends Activity implements
 		}
 		if (bcType >= 0)
 
-		// new AlertDialog.Builder(this)
-		// .setTitle(typeName)
-		// .setMessage(s)
-		// .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog, int which) {
-		// if (handler != null)
-		// {
-		// lastResult = null;
-		// handler.sendEmptyMessage(R.id.restart_preview);
-		// }
-		//
-		// }
-		// })
-		// .show();
 		{
 			Intent intent1 = new Intent(ActivityCapture.this,
 					ScanerDetailActivity.class);
 			intent1.putExtra("rawData", s);
-			// startActivity(intent1);
 			startActivityForResult(intent1, 1);
 		}
 
@@ -538,12 +447,6 @@ public final class ActivityCapture extends Activity implements
 
 	private void initCamera(SurfaceHolder surfaceHolder) {
 		try {
-			// Select desired camera resoloution. Not all devices supports all
-			// resolutions, closest available will be chosen
-			// If not selected, closest match to screen resolution will be
-			// chosen
-			// High resolutions will slow down scanning proccess on slower
-			// devices
 
 			if (PDF_OPTIMIZED) {
 				CameraManager.setDesiredPreviewSize(1280, 720);
@@ -560,8 +463,6 @@ public final class ActivityCapture extends Activity implements
 			displayFrameworkBugMessageAndExit();
 			return;
 		} catch (RuntimeException e) {
-			// Barcode Scanner has seen crashes in the wild of this variety:
-			// java.?lang.?RuntimeException: Fail to connect to camera service
 			displayFrameworkBugMessageAndExit();
 			return;
 		}

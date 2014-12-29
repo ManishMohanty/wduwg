@@ -83,35 +83,26 @@ public class SchedulerFBPosts extends TimerTask {
 		long expires = preferences.getLong("fb_access_expire", 0);
 
 		if (access_token != null) {
-			System.out.println("scheduler  if1");
 			facebook.setAccessToken(access_token);
 		} else
-			System.out.println("scheduler  else1");
 		if (expires != 0) {
-			System.out.println("scheduler  if2");
 			facebook.setAccessExpires(expires);
-		} else
-			System.out.println("scheduler  else2");
+		} 
 	}
 
 	public void run() {
-		System.out.println(">>>>>>> Scheduler");
 		
-//		Field[] drawables = android.R.drawable.class.getFields();
 		Field[] drawables = R.drawable.class.getFields();
-		System.out.println(">>>>>>> business name::"+globalVariable.getSelectedBusiness().getName()+"::::");
 		for (Field f : drawables) {
 		    try {
 		        if(f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().toUpperCase()) || f.getName().toUpperCase().contains(globalVariable.getSelectedBusiness().getName().replaceAll("\\s","").toUpperCase()))
 		        {
-		        	System.out.println(">>>****R.drawable." + f.getName());
 		        	drawableList.add(f.getInt(null));
 		        }
 		    } catch (Exception e) {
 		        e.printStackTrace();
 		    }
 		}
-		System.out.println(">>>>>> dwable matched:"+drawableList.size());
 		
 		
 		Business currentBusiness = (Business) globalVariable
@@ -122,7 +113,6 @@ public class SchedulerFBPosts extends TimerTask {
 
 	public void postToWall() {
 		FacebookPostAsyncExample asyncExample = new FacebookPostAsyncExample();
-		// asyncExample.execute(new String[] { "Helllo Worls" });
 		asyncExample.execute(globalVariable.getSelectedBusiness());
 	}
 
@@ -135,21 +125,6 @@ public class SchedulerFBPosts extends TimerTask {
 			boolean returnBool = false;
 			SimpleDateFormat df = new SimpleDateFormat("EEE, d MMM, h:mm a");
 			df.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-//			String postName = " Current Attendance:\t\t\t"
-//					+ (params[0].getMenIn() + params[0].getWomenIn() - (params[0]
-//							.getMenOut() + params[0].getWomenOut()));
-//			if (menwomen == true) {
-//				postMessage = " Men: \t\t\t\t\t\t\t\t\t\t\t\t\t"
-//						+ (params[0].getMenIn() - params[0].getMenOut())
-//						+ "\n Women: \t\t\t\t\t\t\t\t\t\t\t"
-//						+ (params[0].getWomenIn() - params[0].getWomenOut())
-//						+ "\n Time: \t\t\t\t\t\t\t\t\t\t\t\t\t"
-//						+ df.format(new Date()) + "\n";
-//			} else {
-//				postMessage = " Time: \t\t\t\t\t\t\t\t\t\t\t\t\t"
-//						+ df.format(new Date()) + "\n";
-//			}
-//			System.out.println(">>>>>>> Message" + postMessage);
 			String datetime = df.format(new Date());
 			
 			String men = (params[0].getMenIn() - params[0].getMenOut())+"";
@@ -159,8 +134,6 @@ public class SchedulerFBPosts extends TimerTask {
             men = four_digit(men);
             women = four_digit(women);
             total = four_digit(total);
-			System.out.println(">>>>>>new time:"+datetime);
-			System.out.println(">>>>datetiime length"+datetime.length());
 			String postName = "\n\t\t\t "+datetime.substring(0, 11)+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"+datetime.substring(13, datetime.length());
 			String postMessage;
 			String attendanceLabel;
@@ -174,9 +147,7 @@ public class SchedulerFBPosts extends TimerTask {
 				postMessage = "\t\t\t\t\t\t\t  "+"                 "+total;
 				attendanceLabel = "\t\t\t      \t\t\t\t\t\t\t\t\t\t\t\tCurrent Attendance\t\t\t\t\t\t\t\t\t\t        \t\n";
 			}
-			// ********************************Convert String to Image
 			try {
-				// =================== image append ===================
 				int lower = 0;
 				int upper = 8;
 				Bitmap myBitmap;
@@ -198,9 +169,7 @@ public class SchedulerFBPosts extends TimerTask {
 				}
 				int width = myBitmap.getWidth();
 				int height = myBitmap.getHeight();
-				System.out.println(">>>>>> height =" + height);
 				height = (int) (height * 850) / width;
-				System.out.println(">>>>>> new height =" + height);
 				myBitmap = Bitmap.createScaledBitmap(myBitmap, 850, height,
 						true);
 
@@ -258,9 +227,7 @@ public class SchedulerFBPosts extends TimerTask {
 				final Bitmap bmp1 = Bitmap.createBitmap(850,
 						mTextLayout1.getHeight(), Bitmap.Config.ARGB_8888);
 
-				bmp1.eraseColor(Color.parseColor("#ffffff"));// just adding
-																// white
-																// background
+				bmp1.eraseColor(Color.parseColor("#ffffff"));
 				final Canvas canvas1 = new Canvas(bmp1);
 				mTextLayout1.draw(canvas1);
 				
@@ -289,9 +256,7 @@ public class SchedulerFBPosts extends TimerTask {
 				final Bitmap bmp2 = Bitmap.createBitmap(850,
 						mTextLayout2.getHeight(), Bitmap.Config.ARGB_8888);
 
-				bmp2.eraseColor(Color.parseColor("#ffffff"));// just adding
-																// white
-																// background
+				bmp2.eraseColor(Color.parseColor("#ffffff"));
 				final Canvas canvas2 = new Canvas(bmp2);
 				mTextLayout2.draw(canvas2);
 				
@@ -329,15 +294,10 @@ public class SchedulerFBPosts extends TimerTask {
 				bmp.recycle();
 				bmOverlay.compress(CompressFormat.JPEG, 100, baos);
 				data = baos.toByteArray();
-				// *********************************end conversion
-				// ***********************
-				// posting to page wall
+				
 				ByteArrayBody bab = new ByteArrayBody(data, "test.png");
 				try {
-					System.out.println(">>>>>>> string after conversion");
-					System.out.println(">>>>>>> page token:"
-							+ params[0].getSelectedFBPage().getAccess_token());
-					// create new Session with page access_token
+					
 					Session.openActiveSessionWithAccessToken(
 							context,
 							AccessToken
@@ -356,23 +316,16 @@ public class SchedulerFBPosts extends TimerTask {
 								@Override
 								public void call(Session session,
 										SessionState state, Exception exception) {
-									System.out
-											.println(">>>>>>> session status callback");
 									// TODO Auto-generated method stub
 									if (session != null && session.isOpened()) {
 										Session.setActiveSession(session);
 										Session session1 = Session
 												.getActiveSession();
-										System.out.println(">>>>>>> is Manage"
-												+ session1
-														.isPublishPermission("manage_pages"));
 									}
 								}
-							});// session open closed
-					System.out.println(">>>>>>> new session open");
+							});
 
-					// String url =
-					// "https://graph.facebook.com/"+globalVariable.getSelectedFBPage().getId()+"/photos";
+					
 					String url = "https://graph.facebook.com/"
 							+ params[0].getSelectedFBPage().getId() + "/photos";
 					HttpPost postRequest = new HttpPost(url);
@@ -382,33 +335,20 @@ public class SchedulerFBPosts extends TimerTask {
 					HttpClient httpClient = new DefaultHttpClient();
 					MultipartEntity reqEntity = new MultipartEntity(
 							HttpMultipartMode.BROWSER_COMPATIBLE);
-					System.out.println(">>>>>>> Start post");
 					reqEntity.addPart("access_token", new StringBody(params[0]
 							.getSelectedFBPage().getAccess_token()));
-					System.out.println(">>>>>>> under  post1");
-					// reqEntity.addPart("message", new StringBody(""));
-					System.out.println(">>>>>>> under  post2");
 					reqEntity.addPart("picture", bab);
-					System.out.println(">>>>>>> under  post3");
 					postRequest.setEntity(reqEntity);
-					System.out.println(">>>>>>> under  post4");
 					HttpResponse response1 = httpClient.execute(postRequest);
-					System.out.println(">>>>>>> under  post5");
-					System.out.println(">>>>>>> response" + response1);
 					if (response1 == null || response1.equals("")
 							|| response1.equals("false")) {
-						System.out.println(">>>>>>> Blank response.");
 					} else {
-						System.out
-								.println(">>>>>>> Message posted to your facebook wall! -->"
-										+ url);
 						returnBool = true;
 					}
 				} catch (Exception e) {
 
 				}
 			} catch (Exception e) {
-				System.out.println("Failed to post to wall!");
 				e.printStackTrace();
 			}
 

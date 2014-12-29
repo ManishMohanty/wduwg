@@ -27,7 +27,6 @@ public class SpecialApater extends BaseAdapter {
 		super();
 		this.context = context;
 		this.specialList = items;
-		Log.d("== special size:", "" + this.specialList.size());
 		typeface = Typeface.createFromAsset(context.getAssets(),
 				"Fonts/OpenSans-Bold.ttf");
 	}
@@ -51,7 +50,6 @@ public class SpecialApater extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 
-		System.out.println(">>>>>>> position:"+position);
 		Special special = specialList.get(position);
 		ViewHolder viewHolder;
 		if (convertView == null) {
@@ -60,8 +58,6 @@ public class SpecialApater extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.griditem, null);
 			viewHolder = new ViewHolder();
 			viewHolder.name = (TextView) convertView.findViewById(R.id.businessName);
-//			viewHolder.description = (TextView) convertView
-//					.findViewById(R.id.address);
 			viewHolder.image = (SmartImageView) convertView
 					.findViewById(R.id.image);
 
@@ -73,10 +69,6 @@ public class SpecialApater extends BaseAdapter {
 
 		viewHolder.name.setTypeface(typeface);
 		viewHolder.name.setText(special.getName());
-         System.out.println(">>>>>>> Sp name:"+special.getName());
-//		viewHolder.description.setTypeface(Typeface.createFromAsset(
-//				context.getAssets(), "Fonts/OpenSans-Light.ttf"));
-//		viewHolder.description.setText(special.getDescription());
 		viewHolder.image.setImageUrl(special.getImageUrl());
 
 		return convertView;
@@ -85,7 +77,6 @@ public class SpecialApater extends BaseAdapter {
 	private class ViewHolder {
 		protected SmartImageView image;
 		protected TextView name;
-		/*protected TextView description;*/
 	}
 
 }

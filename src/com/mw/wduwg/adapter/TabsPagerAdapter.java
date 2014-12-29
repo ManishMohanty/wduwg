@@ -27,16 +27,13 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
             
         case 1:
         	Log.d("case 1","index: "+index);
-//            return new ReportFragment2(ReportActualActvivity.tabs[index]);
         	return new ReportFragment2();
         case 2:
         	Log.d("case 2","index: "+index);
-//        	return new ReportFragment2(ReportActualActvivity.tabs[index]);
         	return new ReportFragment3();
         	
         case 3:
         	Log.d("case 3","index: "+index);
-//        	return new ReportFragment2(ReportActualActvivity.tabs[index]);
         	return new ReportFragment4();
         }
     	
@@ -47,7 +44,6 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
  
     @Override
     public int getCount() {
-        // get item count - equal to number of tabs
         return ReportActualActvivity.tabs.length;
     }
 

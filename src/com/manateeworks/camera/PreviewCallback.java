@@ -55,7 +55,6 @@ public final class PreviewCallback implements Camera.PreviewCallback {
 
 		if (callback != null) {
 			if (frameBuffers == null) {
-				// add 10% additional space for any case
 				frameBuffers = new byte[2][width * height * 2 * 110 / 100];
 				fbCounter = 0;
 				Log.i("preview resolution", String.valueOf(width) + "x" + String.valueOf(height));
@@ -65,7 +64,6 @@ public final class PreviewCallback implements Camera.PreviewCallback {
 				camera.setPreviewCallbackWithBuffer(callback);
 				callbackActive = true;
 			}
-			// CameraDriver.bufferProccessed = -1;
 			camera.addCallbackBuffer(frameBuffers[fbCounter]);
 			fbCounter = 1 - fbCounter;
 		} else {
@@ -89,8 +87,6 @@ public final class PreviewCallback implements Camera.PreviewCallback {
 				if (AutoFocusCallback.takePicture)
 					return;
 				updateFps();
-				// camera.addCallbackBuffer(frameBuffers[fbCounter]);
-				// fbCounter = 1 - fbCounter;
 
 				Point cameraResolution = configManager.getCameraResolution();
 
@@ -100,26 +96,6 @@ public final class PreviewCallback implements Camera.PreviewCallback {
 					previewHandler = null;
 				}
 
-				// if (1==1)return;
-				/*
-				 * if (Preview.stillCapturing) { // return; if (fbCounter > 1)
-				 * fbCounter = 1; if (fbCounter < 0) fbCounter = 0;
-				 * camera.addCallbackBuffer(frameBuffers[fbCounter]);
-				 * 
-				 * // Preview.self.notify(); } else if
-				 * (CameraDriver.bufferProccessed >= 0) { fbCounter = 1 -
-				 * bufferProccessed; if (fbCounter > 1) fbCounter = 1; if
-				 * (fbCounter < 0) fbCounter = 0;
-				 * 
-				 * camera.addCallbackBuffer(frameBuffers[fbCounter]); } else {
-				 * fbCounter = 1 - fbCounter;
-				 * 
-				 * camera.addCallbackBuffer(frameBuffers[fbCounter]); if
-				 * (!preview.closingCamera) { CameraDriver.bufferProccessed = 1
-				 * - fbCounter; preview.SendMessage(Preview.MSG_ID,
-				 * Preview.MSG_PREVIEWREADY, CameraDriver.bufferProccessed,
-				 * data); } Preview.fCount++; }
-				 */
 
 			}
 		};

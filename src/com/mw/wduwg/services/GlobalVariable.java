@@ -190,7 +190,6 @@ public class GlobalVariable extends Application {
 		if(sharedPreferences.contains("message_frequency"))
 		{
 			this.message_frequency = sharedPreferences.getInt("message_frequency", 0);
-			System.out.println("<<<<<msg fre:"+this.message_frequency);
 		}
 		this.menIn = sharedPreferences.getInt("menIn", 0);
 		this.menOut = sharedPreferences.getInt("menOut", 0);
@@ -342,21 +341,18 @@ public class GlobalVariable extends Application {
 	}
 
 	public String convertDate(String datestr) {
-		System.out.println(">>>>>>> while posting date:" + datestr);
 		String formatedDate = "";
 		try{
 			SimpleDateFormat utcFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 			utcFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 		    Date convdate = utcFormatter.parse(datestr);
 		    SimpleDateFormat cstformat = new SimpleDateFormat("EEE, d MMM, HH:mm a");
-//		    cstformat.setTimeZone(TimeZone.getTimeZone("US/Central"));
 		    cstformat.setTimeZone(TimeZone.getDefault());
 		     formatedDate  = cstformat.format(convdate);
 		}catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		System.out.println(">>>> converted date" + formatedDate);
 		return formatedDate;
 	}
 	

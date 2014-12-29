@@ -52,7 +52,6 @@ public class SpalshFirstActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.splash_first);
 		globalVariable = (GlobalVariable) getApplicationContext();
 		if (globalVariable.getFb_access_token() != null) {
 			Intent intent = new Intent(SpalshFirstActivity.this,
@@ -66,12 +65,6 @@ public class SpalshFirstActivity extends Activity {
 			final ImageView logo1 = (ImageView) findViewById(R.id.splash_logo);
 			final LinearLayout textLayout1 = (LinearLayout) findViewById(R.id.textLayout);
 
-//			int titleId = getResources().getIdentifier("action_bar_title",
-//					"id", "android");
-//			TextView yourTextView = (TextView) findViewById(titleId);
-//			yourTextView.setTextColor(Color.parseColor("#016AB2"));
-//            yourTextView.setTextSize(19);
-//			yourTextView.setTypeface(typeface);
 
 			new Handler().postDelayed(new Runnable() {
 

@@ -17,7 +17,6 @@ public class ReportActivity extends Activity {
 	ArrayAdapter adapter;
 	GlobalVariable globalVariable;
 	public static String[] listitems = new String[]{"Today", "Day of Week", "Last Week", "Last Month","Custom Graph"};
-//	public static String[] listitems = new String[]{"Today", "Day of Week", "Last Week", "Last Month","Custom Graph", "Today *", "Day of Week *", "Last Week *", "Last Month *"};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -41,7 +40,6 @@ public class ReportActivity extends Activity {
 		      public void onItemClick(AdapterView<?> parent, final View view,
 		          int position, long id) {
 		        final String item = (String) parent.getItemAtPosition(position);
-//		        Toast.makeText(ReportActivity.this, item+" clicked", Toast.LENGTH_SHORT).show();
 		        
 				
 				Intent intent = new Intent(ReportActivity.this,GraphActivity.class);
@@ -51,28 +49,24 @@ public class ReportActivity extends Activity {
 				{
 				case 0 :
 					    url = " http://dcounter.herokuapp.com/count_totals_histories/daily_graph_with_webview?business_id=" + globalVariable.getSelectedBusiness().getId().get$oid();
-//					    webView.loadUrl(url);
 					    intent.putExtra("url", url);
 					    intent.putExtra("Webview", true);
 					    startActivity(intent);
 					    break;
 				case 1: 
 					   url = " http://dcounter.herokuapp.com/count_totals_histories/day_of_week_with_webview?business_id=" + globalVariable.getSelectedBusiness().getId().get$oid();
-//					    webView.loadUrl(url);
 					    intent.putExtra("url", url);
 					    intent.putExtra("Webview", true);
 					    startActivity(intent);
 					    break;
 				case 2:
 					  url = " http://dcounter.herokuapp.com/count_totals_histories/weekly_graph_with_webview?business_id=" + globalVariable.getSelectedBusiness().getId().get$oid();
-//					    webView.loadUrl(url);
 					     intent.putExtra("url", url);
 					     intent.putExtra("Webview", true);
 					    startActivity(intent);
 					    break;
 				case 3: 
 					   url = " http://dcounter.herokuapp.com/count_totals_histories/monthly_graph_with_webview?business_id=" + globalVariable.getSelectedBusiness().getId().get$oid();
-//					    webView.loadUrl(url);
 					    intent.putExtra("url", url);
 					    intent.putExtra("Webview", true);
 					    startActivity(intent);

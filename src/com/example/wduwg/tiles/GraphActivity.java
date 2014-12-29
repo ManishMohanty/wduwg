@@ -127,9 +127,6 @@ public class GraphActivity extends Activity {
 	        switch (id) {
 	        case START_DATE_PICKER_ID:
 	             
-	            // open datepicker dialog. 
-	            // set date picker for current date 
-	            // add pickerListener listner to date picker
 	            return new DatePickerDialog(this, startDPListener, year, month,day);
 	        case END_DATE_PICKER_ID:
 	        	return new DatePickerDialog(this, endDPListener, year, month,day);
@@ -140,7 +137,6 @@ public class GraphActivity extends Activity {
 	 
 	 private DatePickerDialog.OnDateSetListener startDPListener = new DatePickerDialog.OnDateSetListener() {
 		 
-	        // when dialog box is closed, below method will be called.
 	        @Override
 	        public void onDateSet(DatePicker view, int selectedYear,
 	                int selectedMonth, int selectedDay) {
@@ -149,7 +145,6 @@ public class GraphActivity extends Activity {
 	            month = selectedMonth;
 	            day   = selectedDay;
 	 
-	            // Show selected date 
 	            startsDate.setText(new StringBuilder().append(month + 1)
 	                    .append("/").append(day).append("/").append(year)
 	                    .append(" "));
@@ -159,7 +154,6 @@ public class GraphActivity extends Activity {
 	
 	        private DatePickerDialog.OnDateSetListener endDPListener = new DatePickerDialog.OnDateSetListener() {
 	   		 
-		        // when dialog box is closed, below method will be called.
 		        @Override
 		        public void onDateSet(DatePicker view, int selectedYear,
 		                int selectedMonth, int selectedDay) {
@@ -168,7 +162,6 @@ public class GraphActivity extends Activity {
 		            month = selectedMonth;
 		            day   = selectedDay;
 		 
-		            // Show selected date 
 		            endsDate.setText(new StringBuilder().append(month + 1)
 		                    .append("/").append(day).append("/").append(year)
 		                    .append(" "));
@@ -235,7 +228,6 @@ public class GraphActivity extends Activity {
 				webview.setVisibility(View.VISIBLE);
 				url = " http://dcounter.herokuapp.com/count_totals_histories/custom_graph_with_webview?from="+startDate+"&to="+endDate+"&business_id="+globalVariable.getSelectedBusiness().getId().get$oid();
 				webview.setWebViewClient(new myWebClient());
-				System.out.println(">>>>>new url:"+url);
 				webview.loadUrl(url);
 			}
 			else

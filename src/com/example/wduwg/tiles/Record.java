@@ -49,11 +49,9 @@ public class Record {
 							r[c].totalMale += Integer.parseInt(counterM
 									.getString("MenIn"));
 						} catch (Exception ex) {
-							Log.d("Err Male:===", ex.getMessage());
 						}
 
 					}
-					Log.d("record Male:===", "" + r[c].totalMale);
 					r[c].totalFemale = 0;
 					ParseQuery<ParseObject> counterQuery1 = ParseQuery
 							.getQuery("Counter");
@@ -68,10 +66,8 @@ public class Record {
 							r[c].totalFemale += Integer.parseInt(counterF
 									.getString("WomenIn"));
 						} catch (Exception ex) {
-							Log.d("Err feMale:===", ex.getMessage());
 						}
 					}
-					Log.d("Record Female===", "" + r[c].totalFemale);
 					c = c + 1;
 
 				}

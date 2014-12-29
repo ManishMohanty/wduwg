@@ -62,7 +62,6 @@ Event selectedEvent;
 		actionBar = getActionBar();
 		
 		globalVariable = (GlobalVariable)getApplicationContext();
-//		eventLV = (ListView)findViewById(R.id.eventList);
 		eventsGV = (GridView)findViewById(R.id.eventsGV);
 		createDialog = new CreateDialog(this);
 		progressDialog = createDialog.createProgressDialog("Loading", "Please wait while we load your events.", true, null);
@@ -114,13 +113,10 @@ Event selectedEvent;
 		intent.putExtra("isFromMain", true);
 		startActivity(intent);
 		overridePendingTransition(R.anim.anim_out, R.anim.anim_in);
-//		LoadStringsAsync asyncTask = new LoadStringsAsync();
-//		asyncTask.execute();
 	}
 	
 	public class LoadStringsAsync extends AsyncTask<Void, Void, List<Event>> {
 
-		// new thread for imagedownloading res
 		Bitmap bitmap;
 		JSONArray photos, array;
 		JSONObject photo;
@@ -135,7 +131,6 @@ Event selectedEvent;
 		@Override
 		protected List<Event> doInBackground(Void... arg0) {
 			try {
-				System.out.println(">>>>>>> inside backgound");
 				JSONParser jsonparser = new JSONParser(EventActivity.this);
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("business_id",globalVariable.getSelectedBusiness().getId().get$oid() ));
@@ -185,7 +180,6 @@ Event selectedEvent;
             events.add(newEvent);
 			
             EventAdapter2 adapter = new EventAdapter2(EventActivity.this, events);
-//            eventLV.setAdapter(adapter);
             eventsGV.setAdapter(adapter);
             eventsGV.setOnItemClickListener(new OnItemClickListener() {
 
@@ -194,7 +188,6 @@ Event selectedEvent;
 						int position, long id) {
 					// TODO Auto-generated method stub
 					Event selectedEvent = events.get(position);
-//						newEvent(null);
 					Intent intent = new Intent(EventActivity.this,AddEventActivity.class);
 					if(selectedEvent.getName().equalsIgnoreCase("Add an Event"))
 					{
