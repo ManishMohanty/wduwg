@@ -312,7 +312,6 @@ public class SpalshFirstActivity extends Activity {
 				List<NameValuePair> param = new ArrayList<NameValuePair>();
 				param.add(new BasicNameValuePair("business_id", globalVariable.getSelectedBusiness().getId().get$oid()));
 				JSONArray jsonArray = jsonparser.getJSONArrayFromUrlAfterHttpGet("http://dcounter.herokuapp.com/count_totals.json",param);
-				System.out.println(">>>>>> response counte_totals"+jsonArray.toString());
 				JSONObject jsonObject = null;
 				if(jsonArray.length() > 0)
 				{	

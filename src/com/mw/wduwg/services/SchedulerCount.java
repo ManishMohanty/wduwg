@@ -75,7 +75,6 @@ public class SchedulerCount extends TimerTask {
 								new Response.Listener<JSONObject>() {
 									@Override
 									public void onResponse(JSONObject arg0) {
-										System.out.println(">>>> response:"+arg0.toString());
 										try {			
 											 int serverTotal = arg0.getInt("total");
 											try {
