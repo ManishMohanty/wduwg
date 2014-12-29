@@ -77,7 +77,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 	int men_in = 0, men_out = 0, women_in = 0, women_out = 0;
 	
 	
-	// BroadcastReceiver to update count once it got reset 
 	private BroadcastReceiver myMessageReceiver = new BroadcastReceiver() {
 
 		@Override
@@ -135,7 +134,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			@Override
 			public boolean onLongClick(View v) {
 				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
-						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
+						+ globalVariable.getTotalInDB()+"\nLast updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -144,7 +143,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			@Override
 			public boolean onLongClick(View v) {
 				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
-						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
+						+ globalVariable.getTotalInDB()+"\nLast updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -154,7 +153,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			@Override
 			public boolean onLongClick(View v) {
 				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
-						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
+						+ globalVariable.getTotalInDB()+"\nLast updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -164,7 +163,7 @@ public class CountActivity extends Activity implements OnTouchListener {
 			@Override
 			public boolean onLongClick(View v) {
 				headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
-						+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
+						+ globalVariable.getTotalInDB()+"\nLast updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
 				customDialog.show();
 				return false;
 			}
@@ -219,9 +218,6 @@ public class CountActivity extends Activity implements OnTouchListener {
 	protected void onResume() {
 		super.onResume();
 		
-		// register receiver
-		
-		
 		LocalBroadcastManager.getInstance(this).registerReceiver(
 				myMessageReceiver,
 				new IntentFilter("Reset_count"));
@@ -236,18 +232,12 @@ public class CountActivity extends Activity implements OnTouchListener {
 		headerTV = (TextView) child.findViewById(R.id.header_TV);
 		headerTV.setTypeface(typeface);
 
-//		headerTV.setText( "Total Count At "+globalVariable.getSelectedBusiness().getName()+": "
-//				+ globalVariable.getTotalInDB()+"\n Last updated: "+newformat.format(globalVariable.getLastUpdatedDate()));
-
 		customDialog = new Dialog(CountActivity.this);
 		customDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		customDialog.setContentView(child);
 		customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 		customDialog.setTitle("Options");
 		customDialog.getWindow().getAttributes().verticalMargin = 0.2F;
-		
-//		CountActivity.this.startService(new Intent(
-//				CountActivity.this, UpdateService.class));
 	}
 
 	@Override

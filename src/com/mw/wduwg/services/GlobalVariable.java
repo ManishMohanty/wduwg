@@ -67,12 +67,10 @@ public class GlobalVariable extends Application {
 		if(null != telephonyManager){
 			imeiNo = telephonyManager.getDeviceId();			
 		}
-//		imeiNo = "12345678910";
 		return imeiNo;
 	}
 
 	public boolean isInternet() {
-//		return true;
 		ConnectivityManager connection = (ConnectivityManager) getApplicationContext()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connection != null) {

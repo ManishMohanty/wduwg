@@ -1,4 +1,3 @@
-// SchedulerCountActivity.java
 
 package com.mw.wduwg.services;
 
@@ -102,7 +101,6 @@ public class SchedulerCount extends TimerTask {
 												} 
 											}
 											catch(Exception e) {
-												//ignore session exceptions
 											}
 											globalVariable.setTotalInDB(serverTotal);
 											globalVariable.saveSharedPreferences();
@@ -122,7 +120,6 @@ public class SchedulerCount extends TimerTask {
 						queue.add(jsonObjRequest);
 
 					} catch (Exception e) {
-						// Don't do anything -- Skip any error stuff
 						isprocessing = false;
 					}
 				}

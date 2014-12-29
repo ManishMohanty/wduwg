@@ -50,7 +50,6 @@ public class CreateDialog {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.dismiss();
-						// finish();
 					}
 				});
 	}

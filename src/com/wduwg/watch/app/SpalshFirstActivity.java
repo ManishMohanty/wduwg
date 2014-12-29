@@ -92,7 +92,6 @@ public class SpalshFirstActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							alertDialog.dismiss();
 							if (globalVariable.getSelectedBusiness() != null) {
-//								startCounter();
 								System.exit(0);
 							} else
 								System.exit(0);
@@ -265,7 +264,6 @@ public class SpalshFirstActivity extends Activity {
 				}
 			}
 			
-			// In App Launch Task
 			
 			if (jsonObject != null && globalVariable.getSessionId() != jsonObject.getString("session_id")) {
 				globalVariable.setSessionId(jsonObject.getString("session_id"));
@@ -324,7 +322,6 @@ public class SpalshFirstActivity extends Activity {
 					}
 				}
 				
-				// In Re Launch Task
 				if (jsonObject != null && globalVariable.getSessionId() != jsonObject.getString("session_id")) {
 					globalVariable.setSessionId(jsonObject.getString("session_id"));
 					int menIn = jsonObject.getInt("menin");

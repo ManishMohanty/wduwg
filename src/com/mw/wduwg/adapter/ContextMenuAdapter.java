@@ -29,10 +29,7 @@ public class ContextMenuAdapter extends BaseAdapter {
 		super();
 		this.context = context;
 		this.listContextMenuItems = listContextMenuItems;
-//		this.isLogoutVisisble = isLogoutVisisble;
 		this.isFlashCompatible = isFlashCompatible;
-		// typeface = Typeface.createFromAsset(context.getAssets(),
-		// "Fonts/ufonts.com_segoe_ui_semibold.ttf");
 		typeface = Typeface.createFromAsset(context.getAssets(),
 				"Fonts/OpenSans-Light.ttf");
 
